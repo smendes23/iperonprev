@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="convocacaoPensionista" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="786dc829-c6f9-4632-8b01-a26d02ad077d">
+	<property name="ireport.zoom" value="1.7715610000000013"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="cpf" class="java.lang.String"/>
+	<field name="cabecalho" class="java.lang.String"/>
+	<field name="rodape" class="java.lang.String"/>
+	<field name="decricaoCenso" class="java.lang.String"/>
+	<field name="matricula" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="570" splitType="Stretch">
+			<textField>
+				<reportElement x="20" y="107" width="534" height="20" uuid="d72597a2-3a68-46e7-b73c-f0a1ea33aa6f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{decricaoCenso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="128" width="275" height="20" uuid="fe3222f6-99c8-4033-9489-7ee098042856"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="128" width="129" height="20" uuid="16495200-11d1-47c7-83ce-38de991e3617"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="20" y="19" width="532" height="20" uuid="1156fcac-7506-4db4-84a8-f7ea562927ba"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Governo do Estado de Rondônia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="87" width="534" height="20" uuid="2cb88d62-a0fd-456f-945c-3cb30372e779"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Carta de Convocação - Pensionista]]></text>
+			</staticText>
+			<line>
+				<reportElement x="20" y="86" width="533" height="1" forecolor="#006600" uuid="0e2a0e17-1f62-430f-90d7-38cd829e7225"/>
+			</line>
+			<staticText>
+				<reportElement x="20" y="55" width="534" height="20" uuid="6731193e-da0a-4580-b366-d362ede6c437"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IPERON]]></text>
+			</staticText>
+			<image>
+				<reportElement x="23" y="2" width="61" height="67" uuid="406ae4ef-8fc0-4496-9e64-87b834226f42"/>
+				<imageExpression><![CDATA["C:\\tomcat8\\webapps\\ROOT\\resources\\image\\rondonia.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="493" y="11" width="78" height="54" uuid="b82b1861-31f4-4090-8e22-2341b3c09bfd"/>
+				<imageExpression><![CDATA["C:\\tomcat8\\webapps\\ROOT\\resources\\image\\iperon.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="70" y="39" width="441" height="20" uuid="88992158-6499-4e81-81a4-e25a75d96bca"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[INSTITUTO DE PREVIDÊNCIA DOS SERVIDORES PÚBLICOS DO ESTADO DE RONDÔNIA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="20" y="151" width="534" height="42" uuid="2f72f0e1-7c46-4a6e-af19-ff7aa97021d6"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{cabecalho}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="20" y="80" width="533" height="1" forecolor="#006600" uuid="82e4bec4-bb61-4f62-ba19-70dd315a263b"/>
+				<graphicElement>
+					<pen lineWidth="2.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="23" y="412" width="531" height="20" uuid="87bfad72-24bc-483d-9ae3-3404c9a30029"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[-Documento de curatela, tutela ou guarda judicial;]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="375" width="532" height="20" uuid="01f86f8a-9b5b-4924-b337-c8e3031528c6"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[-Documento de identificação com foto;]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="450" width="533" height="20" uuid="b5bb3521-0acf-4be8-b246-f78a6c284668"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Atenciosamente,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="219" width="531" height="20" uuid="497fc4a1-5bd5-4325-a52a-6839d5f0fd06"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[-CPF;]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="276" width="532" height="25" uuid="42e7c110-25e3-4bd9-969b-19e1725a85d8"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[-Certidao de Nascimento ou Certidao de Casamento ou Escritura Publica de Uniao Estavel emitida em cartório;]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="238" width="532" height="20" uuid="87bb582b-d19f-46c0-bef7-0f284d49bb06"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[-Comprovante de residencia atualizado ou declaração de endereço registrado em cartório;]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="356" width="533" height="20" uuid="e6776718-fbee-42a3-bb96-bec49d97fa20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Caso haja um representante legal, deverá apresentar os respectivos documentos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="394" width="533" height="19" uuid="96e6b07b-b86c-4638-ac93-13c90d7788cd"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[-CPF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="200" width="532" height="20" uuid="0146a5ab-41c8-459a-a58d-b514f1678e4d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[-Documento de identificação com foto;]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="257" width="532" height="20" uuid="dae8a4e2-18eb-4257-a066-dc8fe3c01729"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[-Contra cheque atualizado;]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="23" y="431" width="531" height="20" uuid="e691c07c-907f-49c8-8d97-efad7025916c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{rodape}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="23" y="301" width="532" height="56" uuid="d776ec40-248d-4f38-96f0-4c9260da2338"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Obs: Comparecer em dia útil das 07:30 as 13:30, portando original dos documentos citados. A atualização cadastral poderá ser realizada presencialmente como também online de forma  individual e pelo CPF de cada beneficiário, mesmo quando menor de idade. Para maiores esclarecimentos, favor entrar em contato, pelos telefones: (69) 3216-9418 e 3216-9431.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="424" y="128" width="128" height="20" uuid="b8c8c90d-143a-4dc0-aa64-7b7c49019aa4"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{matricula}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="14" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="11" splitType="Stretch"/>
+	</summary>
+</jasperReport>

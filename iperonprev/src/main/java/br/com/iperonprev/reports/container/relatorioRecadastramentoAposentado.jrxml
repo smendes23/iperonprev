@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recadastramentoRealizado" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="18643ef5-631e-4ea2-9a58-3fa8f04d6968">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="54"/>
+	<property name="ireport.y" value="0"/>
+	<import value="org.joda.time.DateTime"/>
+	<import value="org.joda.time.Period"/>
+	<import value="org.joda.time.PeriodType"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="cpf" class="java.lang.String"/>
+	<field name="matricula" class="java.lang.String"/>
+	<field name="dataRecadastramento" class="java.lang.String"/>
+	<field name="totalRecadastrados" class="java.lang.String"/>
+	<field name="nascimento" class="java.lang.String"/>
+	<field name="titulo" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="109" splitType="Stretch">
+			<image>
+				<reportElement x="2" y="6" width="61" height="67" uuid="de391b62-cf11-4592-9117-2c85e6637829"/>
+				<imageExpression><![CDATA["C:\\tomcat8\\webapps\\ROOT\\resources\\image\\rondonia.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="495" y="15" width="78" height="54" uuid="83a3a912-c0da-40cf-8939-7d0908aa626f"/>
+				<imageExpression><![CDATA["C:\\tomcat8\\webapps\\ROOT\\resources\\image\\iperon.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="165" y="23" width="428" height="20" uuid="195d2cf8-6662-4d50-9f9a-cb1903274018"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Governo do Estado de Rondônia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="55" y="43" width="428" height="20" uuid="7d2ce3f1-c509-4501-bc5b-f49b6d24345a"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[INSTITUTO DE PREVIDÊNCIA DOS SERVIDORES PÚBLICOS DO ESTADO DE RONDÔNIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="222" y="58" width="100" height="20" uuid="54b97b12-9618-4185-a247-aaf784a53c0f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IPERON]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="84" width="553" height="1" forecolor="#006600" uuid="d566601a-dc5a-4164-9b17-410756a7d1bb"/>
+				<graphicElement>
+					<pen lineWidth="2.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="2" y="90" width="553" height="1" forecolor="#006600" uuid="f9eb4c26-c412-43cc-8010-d77a22bb3949"/>
+			</line>
+			<textField>
+				<reportElement x="2" y="91" width="552" height="16" uuid="09112bf6-eef6-417b-9413-178e0b3b9cd2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="23">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="3" width="86" height="20" forecolor="#FFFFFF" backcolor="#006600" uuid="810618a7-70aa-4bc1-996d-b993942c589e"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75" lineColor="#000000"/>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[CPF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="86" y="3" width="186" height="20" forecolor="#FFFFFF" backcolor="#006600" uuid="86c2ac90-6a52-4d88-99cf-6b12462113d4"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[NOME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="358" y="3" width="72" height="20" forecolor="#FFFFFF" backcolor="#006600" uuid="f26ddf52-63fc-4fb5-93bc-6191985a0405"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[MATRÍCULA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="430" y="3" width="125" height="20" forecolor="#FFFFFF" backcolor="#006600" uuid="770b36ed-7551-44b6-b21a-9d04d2e14ae8"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DT. RECADASTRAMENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="272" y="3" width="86" height="20" forecolor="#FFFFFF" backcolor="#006600" uuid="aea46bc4-e30e-48dc-abc5-50964336e675"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[DT.NASCIMENTO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14">
+			<textField>
+				<reportElement x="0" y="0" width="86" height="14" uuid="9d9e36d3-4c54-4c47-9fd6-0b47108de9f3"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="86" y="0" width="186" height="14" uuid="13e95049-7f4d-495a-8ff0-58267cf87cee"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="358" y="0" width="72" height="14" uuid="5d5fe4f5-b929-41d0-b4f8-4a634bfcaf81"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{matricula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="0" width="124" height="14" uuid="e01474f0-c77d-4857-9d57-98fd3e545348"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataRecadastramento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="272" y="0" width="86" height="14" uuid="9d472f9a-63f3-420a-9d23-c0f967ee6eb5"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nascimento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="17">
+			<staticText>
+				<reportElement x="0" y="2" width="272" height="14" uuid="563f7361-514c-40c2-ba80-4c6f2fc86323"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="272" y="2" width="282" height="14" uuid="4968349d-6cde-4573-9a9d-8fa4f1a7386b"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalRecadastrados}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

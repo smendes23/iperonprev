@@ -1,0 +1,76 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<h:head>
+	<title>::Lista de Usuários::</title>
+		<style>
+
+.ui-shadow {
+   box-shadow: 0px 5px 10px transparent;
+}
+.ui-widget {
+    font-family: segoe ui, Arial, sans-serif;
+    font-size: 16px;
+}
+	</style>
+</h:head>
+<h:body style="background-color:#FFF">
+<h:form>
+		<div>
+			<p:commandButton icon="fa fa-close" style="float: right;top: 0px;position:relative;" id="fechaFuncional"
+				action="#{cadastroUsuarioBean.fechaListaUsuario}">
+			</p:commandButton>
+		</div>
+		<br/>
+	</h:form>
+	<div>
+		<br />
+	</div>
+	<h:form>
+	<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:dataTable var="listaUsuarios" widgetVar="usuarioTable"
+			value="#{cadastroUsuarioBean.listaDeUsuarios}" paginator="true"
+			paginatorAlwaysVisible="false" rows="5" paginatorPosition="bottom"
+			style="heigth:480px;width:880" id="tbUsuarios" rowsPerPageTemplate="5,10"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			filteredValue="#{cadastroUsuarioBean.filtroDeUsuarios}">
+			<f:facet name="header">
+				<p:outputPanel style="margin-left: 615px;">
+					<h:outputText value="Pesquisar:" />
+					<p:inputText id="globalFilter" styleClass="form-control input-sm" onkeyup="PF('usuarioTable').filter()"
+						style="width:150px" placeholder="Digite aqui..." />
+				</p:outputPanel>
+
+			</f:facet>
+			<p:column headerText="Matrícula" filterBy="#{listaUsuarios.matricula}"
+				filterMatchMode="contains" filterStyle="display:none">
+				<p:outputLabel value="#{listaUsuarios.matricula}"/>
+			</p:column>
+			<p:column headerText="Nome do Usuário" filterBy="#{listaUsuarios.nome}"
+				filterMatchMode="contains" filterStyle="display:none">
+				<p:outputLabel value="#{listaUsuarios.nome}"/>
+			</p:column>
+			<p:column headerText="Perfil" filterBy="#{listaUsuarios.perfil.nomePerfil}"
+				filterMatchMode="contains" filterStyle="display:none">
+				<p:outputLabel value="#{listaUsuarios.perfil.nomePerfil}"/>
+			</p:column>
+			<p:column headerText="Editar" width="50">
+				<p:commandLink
+					action="#{cadastroUsuarioBean.pegaInstanciaDialogo(listaUsuarios)}">
+					<p:graphicImage name="/image/editar.png" style="margin-left: 15;"></p:graphicImage>
+				</p:commandLink>
+			</p:column>
+			<p:column headerText="Excluir" width="50">
+				<p:commandLink 
+					action="#{cadastroUsuarioBean.removeUsuario(listaUsuarios.matricula)}" ajax="true" update="@form">
+					<p:graphicImage name="/image/excluir.png" style="margin-left: 15;"></p:graphicImage>
+				</p:commandLink>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

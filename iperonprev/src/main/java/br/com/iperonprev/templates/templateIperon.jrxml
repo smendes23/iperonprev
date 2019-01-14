@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="averbacao" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="18643ef5-631e-4ea2-9a58-3fa8f04d6968">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="81"/>
+	<property name="ireport.y" value="0"/>
+	<import value="org.joda.time.DateTime"/>
+	<import value="org.joda.time.Period"/>
+	<import value="org.joda.time.PeriodType"/>
+	<parameter name="cpf" class="java.lang.String"/>
+	<parameter name="tempoDeContribuicao" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tempoCargo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="contribuicaoPublica" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="contribuicaoPrivada" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tempoConcomitante" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="diasContribuicao" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tempoTotalAproveitado" class="java.lang.String"/>
+	<parameter name="diasTotaisAproveitados" class="java.lang.Integer"/>
+	<parameter name="outrasDeducoes" class="java.lang.String"/>
+	<parameter name="nome" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="matricula" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dtNascimento" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sexo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="estadoCivil" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgao" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cargo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dtAdmissao" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select a.* from Averbacao a, Pessoa p where
+	p.id = a.pessoa_id and
+	p.numCpf = $P{cpf}]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="EmpresaOrgao" class="java.lang.String"/>
+	<field name="cnpj" class="java.lang.String"/>
+	<field name="dataAdmissao" class="java.sql.Timestamp"/>
+	<field name="dataDemissao" class="java.sql.Timestamp"/>
+	<field name="deducaoFinal" class="java.sql.Timestamp"/>
+	<field name="deducaoInicial" class="java.sql.Timestamp"/>
+	<field name="diasContribuicao" class="java.lang.Integer"/>
+	<field name="diasDeduzido" class="java.lang.Integer"/>
+	<field name="funcao" class="java.lang.String"/>
+	<field name="iniciativa" class="java.lang.String"/>
+	<field name="numProcesso" class="java.lang.String"/>
+	<field name="orgaoPrevidenciario" class="java.lang.String"/>
+	<field name="tempoAproveitado" class="java.lang.String"/>
+	<field name="tempoContribuicao" class="java.lang.String"/>
+	<field name="tipoAverbacao" class="java.lang.String"/>
+	<field name="pessoa_id" class="java.lang.Integer"/>
+	<field name="pessoaFuncional_id" class="java.lang.Integer"/>
+	<field name="tipoDeducao_id" class="java.lang.Integer"/>
+	<variable name="Periodos" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{id}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="245" splitType="Stretch">
+			<image>
+				<reportElement x="25" y="6" width="61" height="67" uuid="de391b62-cf11-4592-9117-2c85e6637829"/>
+				<imageExpression><![CDATA["/var/lib/tomcat7/webapps/IPERONPREVIDENCIA/resources/img/estado.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="495" y="15" width="78" height="54" uuid="83a3a912-c0da-40cf-8939-7d0908aa626f"/>
+				<imageExpression><![CDATA["/var/lib/tomcat7/webapps/IPERONPREVIDENCIA/resources/img/iperon.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="177" y="23" width="231" height="20" uuid="195d2cf8-6662-4d50-9f9a-cb1903274018"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Governo do Estado de Rondônia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="43" width="428" height="20" uuid="7d2ce3f1-c509-4501-bc5b-f49b6d24345a"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[INSTITUTO DE PREVIDÊNCIA DOS SERVIDORES PÚBLICOS DO ESTADO DE RONDÔNIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="239" y="59" width="100" height="20" uuid="54b97b12-9618-4185-a247-aaf784a53c0f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IPERON]]></text>
+			</staticText>
+			<line>
+				<reportElement x="22" y="84" width="533" height="1" forecolor="#006600" uuid="d566601a-dc5a-4164-9b17-410756a7d1bb"/>
+				<graphicElement>
+					<pen lineWidth="2.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="22" y="90" width="533" height="1" forecolor="#006600" uuid="f9eb4c26-c412-43cc-8010-d77a22bb3949"/>
+			</line>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="25" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="96" splitType="Stretch"/>
+	</detail>
+	<pageFooter>
+		<band height="23" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="202" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,19 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<h:head>
+	<title>::Lista Atos Legais::</title>
+
+</h:head>
+<h:body>
+	<h:form enctype="multipart/form-data">
+	<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:fileUpload value="#{arquivo.file}" mode="simple" skinSimple="true"/>
+		<p:commandButton uploadLabel="Enviar" value="Enviar"  ajax="false" action="#{arquivo.upload}"></p:commandButton>
+	</h:form>
+</h:body>
+</html>

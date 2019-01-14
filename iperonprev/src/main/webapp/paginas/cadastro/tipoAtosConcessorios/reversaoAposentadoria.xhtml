@@ -1,0 +1,131 @@
+<ui:composition template="../../templates/master.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+	<ui:define name="content">
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+
+		<p:panel header="Ato Reversão de Aposentadoria" styleClass="col-lg-10">
+			<h:form id="formAtos">
+				<p:messages showDetail="true" closable="true"></p:messages>
+				<br />
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-sm-4">
+							<h:inputHidden value="#{atosLegais.atos.NUMG_idDoObjeto}"></h:inputHidden>
+							<p:outputLabel value="Tipo Ato:" />
+							<p:selectOneMenu effect="fade" filter="true" required="true"
+								filterMatchMode="startsWith" style="width:100%"
+								value="#{atosLegais.atos.NUMR_tipoAtos}"
+								converter="conversorDeEntidades">
+								<f:selectItem itemLabel="--Selecione--" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems value="#{atosLegais.tipoAtosLegais}"
+									var="tipoAtos" itemValue="#{tipoAtos}"
+									itemLabel="#{tipoAtos.DESC_descricao}" />
+							</p:selectOneMenu>
+						</div>
+						<div class="col-sm-4">
+							<p:outputLabel value="Número:" />
+							<p:inputText styleClass="form-control"
+								value="#{atosLegais.atos.NUMR_numeroAno}" required="true" />
+						</div>
+						<div class="col-sm-4">
+							<p:outputLabel value="Data da Publicação:" />
+							<p:inputMask mask="99/99/9999"
+								value="#{atosLegais.atos.DATA_publicacao}" required="true"
+								styleClass="form-control" converter="dateConverter"></p:inputMask>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-4">
+					<p:outputLabel value="Data da Vigência:" />
+					<p:inputMask mask="99/99/9999"
+						value="#{atosLegais.atos.DATA_vigencia}" required="true"
+						styleClass="form-control" converter="dateConverter"></p:inputMask>
+				</div>
+				<div class="col-sm-4">
+					<p:outputLabel value="Data da Revogação:" />
+					<p:inputMask mask="99/99/9999"
+						value="#{atosLegais.atos.DATA_revogacao}"
+						styleClass="form-control" converter="dateConverter"></p:inputMask>
+				</div>
+				<div class="col-sm-4">
+					<p:outputLabel value="Endereço do DOE:" />
+					<p:inputText styleClass="form-control"
+						value="#{atosLegais.atos.DESC_doe}" />
+				</div>
+					</div>
+					
+					<div class="ui-grid-row">
+					<div class="col-sm-6">
+						<p:outputLabel value="Tipo de Benefício:"></p:outputLabel>
+						<p:selectOneMenu effect="fade" filter="true" value="#{atosLegais.atos.ENUM_tipoBeneficio}"
+							filterMatchMode="startsWith" style="width:100%">
+							<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+							<f:selectItems value="#{atosLegais.listaDeBeneficio}" var="beneficio" itemValue="#{beneficio}" itemLabel="#{beneficio.nome}" ></f:selectItems>
+						</p:selectOneMenu>
+					</div>
+						<div class="col-sm-6">
+							<p:outputLabel value="Título da Ementa:" />
+							<p:inputText styleClass="form-control"
+								value="#{atosLegais.atos.DESC_tituloEmenta}"></p:inputText>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p:outputLabel value="Ementa:" />
+							<p:inputTextarea value="#{atosLegais.atos.DESC_ementa}"
+								styleClass="col-sm-12"></p:inputTextarea>
+						</div>
+					</div>
+				</div>
+
+				
+				<div class="col-sm-12">
+					<br />
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Salvar" icon="fa fa-save">
+						<p:ajax listener="#{atosLegais.salvarAto}" process="@form"
+							update="@form" />
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Novo" icon="fa fa-file-o">
+						<p:ajax listener="#{atosLegais.novoRegistro}" process="@form"
+							update="@form"></p:ajax>
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Listar"
+						action="#{atosLegais.listaAtosLegais}" process="@this"
+						update="@none" icon="fa fa-list">
+						<p:ajax event="dialogReturn"
+							listener="#{atosLegais.selecionaAtoDialogo}" process="@this"
+							update="@form" />
+						<p:resetInput target="formAtos" />
+					</p:commandButton>
+				</div>
+
+			</h:form>
+			<br />
+			<br />
+		</p:panel>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<h:head>
+	<title>::Lista de Licenças::</title>
+		<style>
+
+.ui-shadow {
+   box-shadow: 0px 5px 10px transparent;
+}
+.ui-widget {
+    font-family: segoe ui, Arial, sans-serif;
+    font-size: 16px;
+}
+	</style>
+</h:head>
+<h:body>
+	<h:form>
+		<div>
+			<p:commandButton icon="fa fa-close" style="float: right;top: 0px;position:relative;" id="fechaFuncional"
+			action="#{funcionalBean.fechaLicencas}" actionListener="#{funcionalBean.actionCloseLicencas}">
+			</p:commandButton>
+		</div>
+	</h:form>
+	<div class="col-sm-12">
+		<br/>
+	</div>
+	<div class="ui-grid ui-grid-responsive">
+		<div class="ui-grid-row">
+			<div class="col-sm-12">
+			<p></p>
+			<h:form>
+			<sa:ajaxStatus />
+				<sa:loading imgDir="/image/loading.gif"></sa:loading>
+				<p:dataTable var="listaLicencas" widgetVar="licencasTable"
+					value="#{funcionalBean.listaDeLicencas}" paginator="true"
+					paginatorAlwaysVisible="false" rows="5" paginatorPosition="bottom"
+					style="heigth:480px;width:880" id="tbFuncionais" rowsPerPageTemplate="5,10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					filteredValue="#{licencaBean.filtroDeLicenca}">
+		
+					<p:column headerText="Tipo de Licença">
+						<p:outputLabel value="#{listaLicencas.NUMR_tipoLicenca.DESC_nome}"/>
+					</p:column>
+					<p:column headerText="N° Documento">
+						<p:outputLabel value="#{listaLicencas.NUMR_processo}">
+						</p:outputLabel>
+					</p:column>
+					<p:column headerText="Data início">
+						<p:outputLabel value="#{listaLicencas.DATA_inicioLicenca}">
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+						</p:outputLabel>
+					</p:column>
+					<p:column headerText="Data fim">
+						<p:outputLabel value="#{listaLicencas.DATA_fimLicenca}">
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+						</p:outputLabel>
+					</p:column>
+					<p:column headerText="Editar" width="50">
+						<p:commandLink
+							action="#{funcionalBean.pegaInstanciaDialogoLicenca(listaLicencas)}">
+							<p:graphicImage name="/image/editar.png" style="margin-left: 15;"></p:graphicImage>
+						</p:commandLink>
+					</p:column>
+					<p:column headerText="Excluir" width="50">
+						<p:commandLink
+							action="#{funcionalBean.removeLicenca(listaLicencas.NUMG_idDoObjeto)}" ajax="true" update="@form"
+							actionListener="#{funcionalBean.actionEditLicencas}">
+							<p:graphicImage name="/image/excluir.png" style="margin-left: 15;"></p:graphicImage>
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+	</div>
+		</div>
+			</div>
+</h:body>
+</html>

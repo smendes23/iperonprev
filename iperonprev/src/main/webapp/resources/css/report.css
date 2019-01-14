@@ -1,0 +1,133 @@
+body {
+  background: rgb(204,204,204); 
+}
+page {
+  background: white;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 0.5cm;
+  /*box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);*/
+}
+page[size="A4"] {  
+  width: 21cm;
+  height: 29.7cm; 
+}
+page[size="A4"][layout="portrait"] {
+  width: 29.7cm;
+  height: 21cm;  
+}
+page[size="A3"] {
+  width: 29.7cm;
+  height: 42cm;
+}
+page[size="A3"][layout="portrait"] {
+  width: 42cm;
+  height: 29.7cm;  
+}
+page[size="A5"] {
+  width: 14.8cm;
+  height: 21cm;
+}
+page[size="A5"][layout="portrait"] {
+  width: 21cm;
+  height: 14.8cm;  
+}
+@media print {
+  body, page {
+    margin: 0;
+    box-shadow: 0;
+  }
+   .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}
+
+.corDiv {
+    			background-color:lightgray;
+    			-webkit-print-color-adjust: exact;
+				color-adjust: exact;
+   		}
+		.tabe{
+				padding-right: 1px !important;
+				padding-left: 5px !important;
+		}
+.col1{
+			width: 10%; 
+			float: left;
+		}
+		.textCenterHead{
+			width: 80%;
+    		float: left;
+    		margin-top: -20px;
+		}
+		.textHeadTable{
+			/* background-color: green;
+			color: white; */
+			text-align: justify;
+		}
+		
+		.textAlignCenter{
+			/* background-color: green;
+			color: white; */
+			text-align: center;
+		}
+
+		.linhaPrimaria{
+			width: 98%;
+			border:
+			2px solid #006600;
+		}
+
+		.linhaSecundaria{
+			width: 100%;border:1px solid #006600;margin-top: 5px;
+		}
+		
+		@media print {.linhaSecundaria {
+    			width: 100%;border:1px solid #006600;margin-top: 5px !important;
+				color-adjust: exact;
+   		}}
+
+   		@media print {.linhaPrimaria {
+    			width: 100%;
+			border: 2px solid #006600 !important;
+			color-adjust: exact;
+   		}}
+
+		@media print {tr.textHeadTable {
+                background-color: green !important;
+                color: #ffffff !important;
+                border-color: white;
+                -webkit-print-color-adjust: exact; 
+				color-adjust: exact;
+   		 }}
+		
+   		 @media print {table, td {
+          		border: 1px solid white;
+          		padding-right: 1px !important;
+				padding-left: 1px !important;
+          		border-collapse: collapse;
+				color-adjust: exact;
+   		 }}
+   		 
+   		 @media print {.corDiv {
+    			background-color:lightgray !important;
+    			-webkit-print-color-adjust: exact;
+				color-adjust: exact;
+   		}}
+   		
+   		@media print {.tabe{
+				padding-right: 1px !important;
+				padding-left: 5px !important;
+				
+		}}
+		
+		@media print {.textAlignCenter{
+			/* background-color: green;
+			color: white; */
+			text-align: center;
+		}}
+   		/*  table, td {
+ 		  border: 1px solid white;
+ 		  border-collapse: collapse;
+		} */

@@ -1,0 +1,68 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+
+		<div class="col-lg-10 panel panel-default"
+			style="background-color: #EFF6E7;">
+			<div class="panel-heading" style="background-color: #459E00;">
+				<h3 class="panel-title" style="color: #FFF;">Limites
+					Remuneratórios</h3>
+			</div>
+			<h:form>
+				<br />
+				<div class="col-sm-12">
+					<p:outputLabel value="Poder:"></p:outputLabel>
+					<p:selectOneMenu effect="fade" filter="true"
+						filterMatchMode="startsWith" style="width:100%">
+						<f:selectItem itemValue="0" itemLabel="Executivo" />
+						<f:selectItem itemValue="1" itemLabel="Legislativo" />
+						<f:selectItem itemValue="2" itemLabel="Judiciário" />
+					</p:selectOneMenu>
+				</div>
+				<div class="col-sm-4">
+					<p:outputLabel value="Valor teto geral:"></p:outputLabel>
+					<p:inputText value="26.723,13" styleClass="form-control "
+						disabled="true" />
+				</div>
+				<div class="col-sm-4">
+					<p:outputLabel value="Valor do Subteto:"></p:outputLabel>
+					<p:inputText styleClass="form-control " />
+				</div>
+				<div class="col-sm-4">
+					<p:outputLabel value="Valor do Piso:"></p:outputLabel>
+					<p:inputText styleClass="form-control " />
+				</div>
+				<div class="col-sm-6 ">
+					<p:outputLabel value="Data da Vigência:"></p:outputLabel>
+					<p:inputMask mask="99/99/9999" styleClass="form-control ">
+					</p:inputMask>
+				</div>
+				<div class="col-sm-6 ">
+					<p:outputLabel value="Data da Revogação:"></p:outputLabel>
+					<p:inputMask mask="99/99/9999" styleClass="form-control ">
+					</p:inputMask>
+				</div>
+				<div class="col-sm-12">
+					<p:outputLabel value="Ato legal:"></p:outputLabel>
+					<p:selectOneMenu effect="fade" filter="true"
+						filterMatchMode="startsWith" style="width:100%">
+						<f:selectItem itemValue="0"
+							itemLabel="IN/1234 de 20 de Julho de 2015" />
+					</p:selectOneMenu>
+				</div>
+				<div class="col-sm-12"></div>
+				<div class="col-sm-2">
+					<p:commandButton value="Salvar"></p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Listar"></p:commandButton>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,77 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<h:head>
+	<title>::Lista de Deduções::</title>
+		<style>
+
+.ui-shadow {
+   box-shadow: 0px 5px 10px transparent;
+}
+.ui-widget {
+    font-family: segoe ui, Arial, sans-serif;
+    font-size: 16px;
+}
+	</style>
+</h:head>
+<h:body>
+	<h:form>
+		<div>
+			<p:commandButton icon="fa fa-close" style="float: right;top: 0px;position:relative;" id="fechaFuncional"
+			action="#{funcionalBean.fechaDeducoes}" actionListener="#{funcionalBean.actionCloseDeducao}">
+			</p:commandButton>
+		</div>
+	</h:form>
+	<div class="col-sm-12">
+		<br/>
+	</div>
+	<div class="ui-grid ui-grid-responsive">
+		<div class="ui-grid-row">
+			<div class="col-sm-12">
+			<p></p>
+				<h:form>
+				<sa:ajaxStatus />
+					<sa:loading imgDir="/image/loading.gif"></sa:loading>
+					<p:dataTable var="listaDedu" widgetVar="deducoesTable"
+						value="#{funcionalBean.listaDeDeducoes}" paginator="true"
+						paginatorAlwaysVisible="false" rows="5" paginatorPosition="bottom"
+						style="heigth:480px;width:880" id="tbFuncionais" rowsPerPageTemplate="5,10"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						filteredValue="#{deducaoBean.filtroDeDeducao}">
+						
+						<p:column headerText="Tipo">
+							<p:outputLabel value="#{listaDedu.ENUM_tipoDeducao}"/>
+						</p:column>
+						<p:column headerText="Data Início">
+							<p:outputLabel value="#{listaDedu.DATA_inicio}">
+								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+							</p:outputLabel>
+						</p:column>
+						<p:column headerText="Data Fim">
+							<p:outputLabel value="#{listaDedu.DATA_fim}">
+								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+							</p:outputLabel>
+						</p:column>
+						<p:column headerText="Editar" width="90">
+							<p:commandLink
+								action="#{funcionalBean.pegaInstanciaDialogoDeducao(listaDedu)}">
+								<p:graphicImage name="/image/editar.png" style="margin-left: 15;"></p:graphicImage>
+							</p:commandLink>
+						</p:column>
+						<p:column headerText="Excluir" width="90">
+							<p:commandLink
+								action="#{funcionalBean.removerDeducao(listaDedu.NUMG_idDoObjeto)}" ajax="true" update="@form"
+								actionListener="#{funcionalBean.actionEditDeducao}">
+								<p:graphicImage name="/image/excluir.png" style="margin-left: 15;"></p:graphicImage>
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+		</div>
+	</div>
+</h:body>
+</html>

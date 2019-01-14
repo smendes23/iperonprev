@@ -1,0 +1,140 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+		<f:metadata>
+			<f:viewAction action="#{censoPrevidenciarioBean.recarregaPagina}"
+				onPostBack="true" />
+			
+		</f:metadata>
+			<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel header="Atualização de Dados do Censo Previdenciário" styleClass="col-lg-10">
+			<h:form id="formCenso" prependId="false">
+				<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+				<br />
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-lg-5">
+							 <p:outputLabel value="Censo Previdenciário:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true" required="true" converter="conversorDeEntidades"
+								filterMatchMode="startsWith" style="width:100%" styleClass="selectalt" value="#{censoPrevidenciarioBean.dadosCenso}">
+								<f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true"/>
+								<f:selectItems value="#{censoPrevidenciarioBean.listaDeCenso}" var="censo"
+								itemLabel="#{censo.DESC_descricao}" itemValue="#{censo}"></f:selectItems>
+							</p:selectOneMenu>
+						</div>
+						
+						<div class="col-sm-3">
+							<p:outputLabel value="CPF:"></p:outputLabel>
+							<p:inputMask mask="999.999.999-99" styleClass="form-control" required="true" value="#{censoPrevidenciarioBean.cpf}" converter="cpfConverter"></p:inputMask>
+						</div>
+						<div class="col-sm-2">
+							<p:commandButton value="Consultar" style="margin-top:20px;" icon="fa fa-search">
+								<p:ajax listener="#{censoPrevidenciarioBean.buscaConvocacao}"  process="@form" update="formTable  msg"></p:ajax>
+							</p:commandButton>
+						</div>
+						<div class="col-sm-2">
+							<p:commandButton value="Novo" style="margin-top:20px;" icon="fa fa-plus">
+								<p:ajax listener="#{censoPrevidenciarioBean.recarregaPagina()}" update="@form formTable"></p:ajax>
+							</p:commandButton>
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+					</div>
+				</div>
+				</h:form>
+				<h:form id="formTable" prependId="false">
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<p:dataTable  var="listaConvocacao" value="#{censoPrevidenciarioBean.listaDeConvocacoes}" styleClass="col-sm-12" emptyMessage="Registro não encontrado.">
+							
+							<h:inputHidden value="#{listaConvocacao.NUMR_idPessoasFuncionais.NUMR_idDoObjetoPessoas}"></h:inputHidden>
+							<p:column headerText="Nome">
+								<p:outputLabel value="#{listaConvocacao.NUMR_idPessoasFuncionais.NUMR_idDoObjetoPessoas.DESC_nome}"></p:outputLabel>
+							</p:column>
+							<p:column headerText="Matrícula" style="width:130px">
+								<p:outputLabel value="#{listaConvocacao.NUMR_idPessoasFuncionais.DESC_matricula}"></p:outputLabel>
+							</p:column>
+							<p:column headerText="Tipo" style="width:130px">
+								<p:outputLabel value="#{listaConvocacao.NUMR_tipoBeneficiario  eq 1 ? 'Aposentado' : 'Pensionista'}"></p:outputLabel>
+							</p:column>
+							<p:column headerText="Pendente" style="width:130px">
+								<p:selectBooleanCheckbox value="#{listaConvocacao.FLAG_pendente}" style="margin-left: 50px;">
+									<p:ajax process="@form" update="formTable" listener="#{censoPrevidenciarioBean.atualizaStatusRecadastramento(listaConvocacao.FLAG_pendente,listaConvocacao.NUMR_idPessoasFuncionais.NUMG_idDoObjeto)}"></p:ajax>
+								</p:selectBooleanCheckbox>
+							</p:column>
+							<p:column headerText="Comprovante" style="width:120px">
+								<p:commandLink disabled="#{censoPrevidenciarioBean.comprovanteRecadastramento eq false or listaConvocacao.FLAG_pendente eq true}"  action="#{censoPrevidenciarioBean.geraComprovante(listaConvocacao)}" target="_blank" ajax="false">
+									<p:graphicImage name="/image/Print.png" style="margin-left: 40px;"></p:graphicImage>
+								</p:commandLink>
+							</p:column>
+							<p:column headerText="Atualizar" style="width:85px">
+								<p:commandLink action="#{censoPrevidenciarioBean.redirecionaCadastro(listaConvocacao)}" ajax="false" disabled="#{censoPrevidenciarioBean.recadastramento eq false}">
+									<p:graphicImage name="/image/update.png" style="margin-left: 20px;"></p:graphicImage>
+								</p:commandLink>
+							</p:column>
+						</p:dataTable>
+					</div>
+					
+					
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<h3 class="fieldalt">Atestado de Vida e Residência</h3>
+						<hr />
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p:fileUpload
+								fileUploadListener="#{censoPrevidenciarioBean.handleFileUpload}"
+								mode="advanced" dragDropSupport="false" update="@form"
+								allowTypes="/(\.|\/)(pdf|jpe?g|png)$/" uploadLabel="Enviar"
+								label="Selecionar" cancelLabel="Cancelar">
+								<f:param name="noValidate" value="1"></f:param>
+							</p:fileUpload>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<p></p>
+					</div>
+
+					<div class="ui-grid-row">
+						<p:dataTable value="#{censoPrevidenciarioBean.listaVidaResidencia}"
+							var="arq" styleClass="col-sm-12" id="tabDoc"
+							emptyMessage="Registro não encontrado.">
+							<p:column headerText="Nome do Arquivo">
+								<h:outputLink target="_blank"  value="#{request.contextPath}/file/#{arq.DESC_caminhoRelativo}/#{arq.DESC_nome}">#{arq.DESC_nome}</h:outputLink>
+							</p:column>
+							<p:column style="width:130px;text-align: center"
+								headerText="Remover">
+								<p:commandButton icon="ui-icon-trash"
+									update=":formTable:tabDoc" process=":formTable:tabDoc"
+									action="#{censoPrevidenciarioBean.removeArquivo(arq)}">
+									<f:param name="noValidate" value="1"></f:param>
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</div>
+				</div>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,91 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<h:head>
+	<title>::Lista de Averbações::</title>
+		<style>
+
+.ui-shadow {
+   box-shadow: 0px 5px 10px transparent;
+}
+.ui-widget {
+    font-family: segoe ui, Arial, sans-serif;
+    font-size: 16px;
+}
+	</style>
+</h:head>
+<h:body>
+	<h:form>
+		<div>
+			<p:commandButton icon="fa fa-close" style="float: right;top: 0px;position:relative;" id="fechaFuncional"
+			action="#{funcionalBean.fechaFuncional}" actionListener="#{funcionalBean.actionCloseAverbacao}">
+			</p:commandButton>
+		</div>
+	</h:form>
+	<div class="col-sm-12">
+		<br/>
+	</div>
+	<div class="ui-grid ui-grid-responsive">
+		<div class="ui-grid-row">
+			<div class="col-sm-12">
+			<p></p>
+		<h:form>
+		<sa:ajaxStatus />
+			<sa:loading imgDir="/image/loading.gif"></sa:loading>
+			<p:dataTable var="listaAverbacoes" widgetVar="averbacaoTable"
+				value="#{funcionalBean.listaDeAverbacoes}" paginator="true"
+				paginatorAlwaysVisible="false" rows="5" paginatorPosition="bottom"
+				style="heigth:480px;width:880" id="tbAverbacoes" rowsPerPageTemplate="5,10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				filteredValue="#{averbacaoBean.filtroDeAverbacao}">
+				
+				<p:column headerText="Empresa" filterBy="#{listaAverbacoes.DESC_empregador}"
+					filterMatchMode="contains" filterStyle="display:none">
+					<p:outputLabel value="#{listaAverbacoes.DESC_empregador}"/>
+				</p:column>
+				<p:column headerText="CNPJ" filterBy="#{listaAverbacoes.NUMR_cnpj}"
+					filterMatchMode="contains" filterStyle="display:none">
+					<p:outputLabel value="#{listaAverbacoes.NUMR_cnpj}"/>
+				</p:column>
+				<p:column headerText="Data Admissão" filterBy="#{listaAverbacoes.DATA_admissao}" width="115"
+					filterMatchMode="contains" filterStyle="display:none">
+					<p:outputLabel value="#{listaAverbacoes.DATA_admissao}">
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="Data Demissão" width="115"
+					filterBy="#{listaAverbacoes.DATA_demissao}" filterMatchMode="contains"
+					filterStyle="display:none">
+					<p:outputLabel value="#{listaAverbacoes.DATA_demissao}">
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="Editar" width="50">
+					<p:commandLink
+						action="#{funcionalBean.pegaInstanciaDialogoAverbacao(listaAverbacoes)}">
+						<p:graphicImage name="/image/editar.png" style="margin-left: 15;"></p:graphicImage>
+					</p:commandLink>
+					
+				</p:column>
+				<p:column headerText="Excluir" width="50">
+					<p:commandLink
+						action="#{funcionalBean.removeAverbacao(listaAverbacoes)}" update="@form" actionListener="#{funcionalBean.actionEditAverbacao}">
+						<p:confirm header="Confirmação" message="Deseja excluir?" icon="ui-icon-alert"></p:confirm>
+						<p:graphicImage name="/image/excluir.png" style="margin-left: 15;"></p:graphicImage>
+					</p:commandLink>
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" closeOnEscape="true">
+	        			<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        			<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	    			</p:confirmDialog>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		</div>
+	</div>
+</div>
+
+</h:body>
+</html>

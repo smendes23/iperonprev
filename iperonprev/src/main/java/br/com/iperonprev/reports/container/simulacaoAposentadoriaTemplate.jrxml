@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="simulacaoAposentadoria" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="731ba4ef-1a40-49c3-b148-fa9f6eb0a688">
+	<property name="ireport.zoom" value="1.4641000000000015"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="blue" forecolor="#1956BA" fill="Solid"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="cpf" class="java.lang.String"/>
+	<field name="matricula" class="java.lang.String"/>
+	<field name="situacaoPrev" class="java.lang.String"/>
+	<field name="dtNascimento" class="java.lang.String"/>
+	<field name="sexo" class="java.lang.String"/>
+	<field name="vinculo" class="java.lang.String"/>
+	<field name="orgao" class="java.lang.String"/>
+	<field name="regime" class="java.lang.String"/>
+	<field name="plano" class="java.lang.String"/>
+	<field name="professor" class="java.lang.String"/>
+	<field name="policial" class="java.lang.String"/>
+	<field name="situacaoFunc" class="java.lang.String"/>
+	<field name="dtEnte" class="java.lang.String"/>
+	<field name="dtCarreira" class="java.lang.String"/>
+	<field name="dtPosse" class="java.lang.String"/>
+	<field name="cargoEspecial" class="java.lang.String"/>
+	<field name="licencaNaoGozada" class="java.lang.String"/>
+	<field name="licencaEmDobro" class="java.lang.String"/>
+	<field name="dataCompulsoria" class="java.lang.String"/>
+	<background>
+		<band height="802" splitType="Stretch">
+			<image>
+				<reportElement x="14" y="184" width="555" height="364" uuid="cf8a5ef9-4b7e-4c1d-8af0-47f239e3d621"/>
+				<imageExpression><![CDATA["C:\\tomcat8\\webapps\\iperonprev\\resources\\image\\simulacao.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="377" splitType="Stretch">
+			<staticText>
+				<reportElement x="227" y="63" width="100" height="20" uuid="811b386e-1811-4824-89fc-d7d765937215"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IPERON]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="69" y="47" width="428" height="20" uuid="8bab6f4b-c1c1-4dfc-8440-78e7f1970386"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[INSTITUTO DE PREVIDÊNCIA DOS SERVIDORES PÚBLICOS DO ESTADO DE RONDÔNIA]]></text>
+			</staticText>
+			<line>
+				<reportElement x="10" y="88" width="533" height="1" forecolor="#006600" uuid="6c656ebe-eab4-4575-8953-446bcb559e43"/>
+				<graphicElement>
+					<pen lineWidth="2.5"/>
+				</graphicElement>
+			</line>
+			<image>
+				<reportElement x="13" y="10" width="61" height="67" uuid="0696dd56-f74b-49b0-a8be-e6c2c85644f4"/>
+				<imageExpression><![CDATA["C:\\tomcat8\\webapps\\ROOT\\resources\\image\\rondonia.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="74" y="27" width="422" height="20" uuid="a786bc74-ee1e-4b36-8597-e701a18250e1"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Governo do Estado de Rondônia]]></text>
+			</staticText>
+			<line>
+				<reportElement x="10" y="94" width="533" height="1" forecolor="#006600" uuid="062e45c4-a6af-4766-98ce-fb81f11028c7"/>
+			</line>
+			<image>
+				<reportElement x="483" y="19" width="78" height="54" uuid="3b5b9d1d-5491-4bd5-8444-dff4b76f2b0e"/>
+				<imageExpression><![CDATA["C:\\tomcat8\\webapps\\ROOT\\resources\\image\\iperon.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="98" width="555" height="20" uuid="babf1136-6cbd-48fb-8ddd-8d89154817ad"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Simulação de Aposentadoria]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="316" width="179" height="15" uuid="6fa4c7b3-8258-4aac-8c57-de3b77a85b7e"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Data de Ingresso na Carreira:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="189" y="204" width="354" height="15" uuid="64a73cd9-09d1-4b17-880d-90b7b74b877e"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vinculo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="190" width="179" height="15" uuid="46de7afd-499c-441c-bde0-ab3028b29bdb"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Sexo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="288" width="167" height="15" uuid="dfc32a6e-f2bc-4685-bb6e-104f954cddce"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Situação Funcional:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="189" y="302" width="354" height="15" uuid="15201f9b-3c05-43a0-8d49-d59dd6b80968"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dtEnte}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="204" width="179" height="15" uuid="5f98d41b-b0aa-41c5-b9dd-d230a5eed497"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Vínculo com a Entidade:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="162" width="179" height="15" uuid="b41441b1-e0b0-48cc-9249-29fdf28844b2"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Situaçao Previdenciaria:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="189" y="260" width="138" height="15" uuid="0814c7fc-058d-4dd0-bdf4-baebb39871c8"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{professor}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="383" y="260" width="160" height="15" uuid="18828be8-d98f-4a7b-b14f-274e4460e66c"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{policial}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="120" width="179" height="15" uuid="021a7404-f683-473a-9c78-403593c69127"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="330" width="179" height="15" uuid="dd9ff6e9-23f1-4f2d-afcb-e137be8e25df"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Data da Posse:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="189" y="120" width="354" height="15" uuid="c2640ecd-4eb5-431d-92b8-3827b93ee165"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="176" width="179" height="15" uuid="67777587-26b4-49c2-922a-8143fad4612f"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Data de Nascimento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="274" width="179" height="15" uuid="2ad6cb52-9f8d-47a2-a704-1b3373d7ff51"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Cargo Especial:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="189" y="246" width="354" height="15" uuid="862cedc8-1d4b-4aef-9d73-6b6ddc259adb"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{plano}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="218" width="179" height="15" uuid="d646bdb3-6ec6-4618-bd08-0ba1242edc84"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Orgao:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="134" width="179" height="15" uuid="aa434050-5e3b-4029-b6d7-081c393efda7"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[CPF:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="189" y="190" width="354" height="15" uuid="195ca298-c91b-4ce4-b878-487ac8671395"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sexo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="189" y="176" width="354" height="15" uuid="46bf3d37-0c5c-4b71-9950-529b3e6453d0"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dtNascimento}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="189" y="288" width="354" height="15" uuid="6df7436e-91af-4d73-b178-837eacd46901"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{situacaoFunc}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="189" y="162" width="354" height="15" uuid="aca0be6d-5877-4751-8bcb-05e5499a339e"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{situacaoPrev}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="260" width="179" height="15" uuid="500e6b17-224c-40b5-9833-ccd3665d5952"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Professor:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="302" width="179" height="15" uuid="cc88e595-0ddc-48b3-a21f-c15e1ae68d0b"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Data de Ingresso no Ente:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="189" y="330" width="354" height="15" uuid="82667aac-4d83-4a23-98b9-6f48094567a9"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dtPosse}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="189" y="134" width="354" height="15" uuid="194fde1a-7a70-4c23-a6aa-469438c0193e"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="189" y="232" width="354" height="15" uuid="d983984d-4552-469e-83ec-8fb511511025"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{regime}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="148" width="179" height="15" uuid="d5123672-0c0a-4e57-aa14-554da9e66534"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Matrícula:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="337" y="260" width="46" height="15" uuid="b1414dc8-4f70-4302-87c5-807e447c5444"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Policial:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="246" width="179" height="15" uuid="e906af1b-8468-481c-9aaa-ee1862f869bc"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Plano:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="232" width="179" height="15" uuid="d4778032-b23f-4704-aeb0-33b078a584d8"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Regime:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="189" y="316" width="354" height="15" uuid="78165d9c-1a72-4da6-925b-73edf8f3b7aa"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dtCarreira}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="189" y="274" width="354" height="15" uuid="3c608773-1b81-4df1-baf4-c8b03653ff0f"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cargoEspecial}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="189" y="148" width="354" height="15" uuid="0899c8dc-2f5a-4536-aff0-86c2990197bf"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{matricula}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="189" y="218" width="354" height="15" uuid="bf7e0be2-c77b-46cb-abe5-c6cb071b057b"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orgao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="345" width="141" height="15" uuid="0ba59ba5-f9ea-4209-9a6f-0c63034deb4e"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Licença-prêmio não gozada:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="258" y="345" width="58" height="15" uuid="0faea3e9-f215-4517-94dc-02b3ad921e5b"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Em dobro:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="151" y="345" width="107" height="15" uuid="12a23121-7ee2-44e5-86be-cb778480295a"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{licencaNaoGozada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="316" y="345" width="227" height="15" uuid="db5adcde-6cee-41d6-9a7e-a3b162dca1dc"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{licencaEmDobro}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="360" width="167" height="15" uuid="e7ab71ab-1eb4-41a7-949d-a53d8695b847"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Aposentadoria Compulsória em:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="177" y="360" width="366" height="15" uuid="eb065f9f-678f-4209-9885-38b3844ac2fe"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataCompulsoria}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="6" splitType="Stretch"/>
+	</detail>
+</jasperReport>

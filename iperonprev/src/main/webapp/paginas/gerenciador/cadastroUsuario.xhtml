@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+			<style>
+			.ui-shadow {
+				box-shadow: 0px 5px 10px transparent;
+			}
+			</style>
+			<sa:ajaxStatus />
+			<sa:loading imgDir="/image/loading.gif"></sa:loading>
+			<p:panel styleClass="col-lg-10" header="Cadastro de Usuários">
+			<h:form id="formCadUsuario">
+			<p:messages showDetail="true" id="msg" closable="true"></p:messages>
+				<br />
+				<div class="col-lg-3">
+					<p:outputLabel value="CPF/Matrícula"></p:outputLabel>
+					<div class="input-group">
+						<p:inputText  styleClass="form-control" value="#{cadastroUsuarioBean.numeroIdentificador}" id="cpf"></p:inputText>
+						<span class="input-group-btn"> 
+							<p:commandButton icon="fa fa-search" styleClass="btn-input" process="cpf @this" update="@form" action="#{cadastroUsuarioBean.buscaUsuario()}"></p:commandButton>
+						</span>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<p:outputLabel value="Nome:"></p:outputLabel>
+					<p:inputText styleClass="form-control" value="#{cadastroUsuarioBean.users.nome}"/>
+				</div>
+				<div class="col-sm-3 ">
+					<p:outputLabel value="Perfil de Acesso:"></p:outputLabel>
+					<p:selectOneMenu effect="fade" filter="true" converter="conversorDeEntidades"
+						filterMatchMode="startsWith" style="width:100%" value="#{cadastroUsuarioBean.users.perfil}" >
+						<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+						<f:selectItems value="#{cadastroUsuarioBean.listaDePerfis}" var="perfil" itemValue="#{perfil}" itemLabel="#{perfil.nomePerfil}"></f:selectItems>
+					</p:selectOneMenu>
+				</div>
+				<div class="col-sm-3 ">
+					<p:outputLabel value="Senha:"></p:outputLabel>
+					<p:password styleClass="form-control" feedback="true" promptLabel="Digite sua senha" weakLabel="Fraca" goodLabel="Aceitavel" strongLabel="Forte" required="true" match="senha2" value="#{cadastroUsuarioBean.proximaSenha}" id="senha1" validatorMessage="Senhas não conferem" redisplay="true"></p:password>
+				</div>
+				<div class="col-sm-3 ">
+					<p:outputLabel value="Confirmar Senha:"></p:outputLabel>
+					<p:password styleClass="form-control" feedback="true" promptLabel="Repita a senha" weakLabel="Fraca" goodLabel="Aceitavel" strongLabel="Forte"  
+					   required="true" value="#{cadastroUsuarioBean.proximaSenha}" id="senha2" redisplay="true">
+					</p:password>
+				</div>
+				<div class="col-sm-3" style="top:25px;">
+					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+						<p:outputLabel value="Conta Bloqueada: " />
+					    <p:selectBooleanCheckbox  value="#{cadastroUsuarioBean.contaBloqueada}"/>
+	   				</h:panelGrid>
+				</div>
+				<div class="col-sm-3" style="top:25px;">
+					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+						<p:outputLabel value="Alterar a Senha no Próximo Logon : " />
+					    <p:selectBooleanCheckbox  value="#{cadastroUsuarioBean.redefineSenha}"/>
+	   				</h:panelGrid>
+				</div>
+				<div class="col-sm-12">
+					<p></p>
+				</div>
+				
+				<div class="col-sm-2">
+					<p:commandButton value="Salvar" icon="fa fa-save">
+						<p:ajax update="@form" process="@form"  listener="#{cadastroUsuarioBean.salvarObjeto}"></p:ajax>
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Novo" icon="fa fa-plus">
+						<p:ajax update="@form" process="@this" listener="#{cadastroUsuarioBean.novoObjeto}"></p:ajax>
+					</p:commandButton>
+				</div>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

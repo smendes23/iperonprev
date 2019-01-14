@@ -1,0 +1,318 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+	<f:metadata>
+			<f:viewAction action="#{aposentadoriaIdadeBean.recarregaPagina}"
+				onPostBack="true" />
+		</f:metadata>
+		
+		<style>
+.ui-autocomplete-multiple-container {
+	clear: left;
+	cursor: text;
+	list-style-type: none;
+	margin: 0px;
+	min-height: 1px;
+	overflow: hidden;
+	width: 100%;
+}
+
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel styleClass="col-lg-10"
+			header="Aposentadoria Voluntária por Idade">
+			<h:form id="formIdade">
+				<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+
+				<br />
+				<div class="col-lg-12">
+					<h3 class="fieldalt">Dados do Servidor</h3>
+					<hr />
+				</div>
+				<h:inputHidden
+					value="#{aposentadoriaIdadeBean.funcionais.NUMG_idDoObjeto}"></h:inputHidden>
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-lg-2">
+							<p:outputLabel value="Matricula: "></p:outputLabel>
+							<p:outputLabel styleClass="form-control "
+								value="#{aposentadoriaIdadeBean.funcionais.DESC_matricula}" />
+						</div>
+						<div class="col-lg-5">
+							<p:outputLabel value="Nome: "></p:outputLabel>
+							<p:outputLabel styleClass="form-control "
+								value="#{aposentadoriaIdadeBean.funcionais.NUMR_idDoObjetoPessoas.DESC_nome}" />
+						</div>
+						<div class="col-lg-5 ">
+							<p:outputLabel value="Órgão: "></p:outputLabel>
+							<p:outputLabel styleClass=" form-control "
+								value="#{aposentadoriaIdadeBean.funcionais.NUMR_idDoObjetoCargo.NUMR_idDoObjetoOrgaos.DESC_nome}" />
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<h3 class="fieldalt">Dados do Benefício</h3>
+						<hr />
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-lg-4">
+							<p:outputLabel value="N° Processo:"></p:outputLabel>
+							<p:inputMask mask="99-9999.99999-9999/9999" styleClass="form-control " disabled="true" required="#{param['noValidate']==null}" requiredMessage="Número do processo é obrigatório"
+								value="#{aposentadoriaIdadeBean.idade.NUMR_processo}" />
+						</div>
+						<div class="col-lg-4">
+							<p:outputLabel value="Proventos:" />
+							<p:selectOneMenu effect="fade" filter="true" required="#{param['noValidate']==null}" requiredMessage="Tipo de Provento é obrigatório"
+								filterMatchMode="startsWith" style="width:100%"
+								value="#{aposentadoriaIdadeBean.idade.ENUM_proventos}"
+								id="proventos">
+								<f:selectItem itemLabel="--Selecione--" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems
+									value="#{aposentadoriaIdadeBean.listaDeProventos}"
+									var="proventos" itemValue="#{proventos}"
+									itemLabel="#{proventos.nome}"></f:selectItems>
+							</p:selectOneMenu>
+						</div>
+						<div class="col-lg-4">
+							<p:outputLabel value="Reajuste"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true"
+								value="#{aposentadoriaIdadeBean.idade.ENUM_reajuste}" required="#{param['noValidate']==null}" requiredMessage="Tipo de Reajuste é obrigatório"
+								filterMatchMode="startsWith" style="width:100%" id="reajustes">
+								<f:selectItem itemLabel="--Selecione--" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems
+									value="#{aposentadoriaIdadeBean.listaDeReajustes}"
+									var="reajustes" itemValue="#{reajustes}"
+									itemLabel="#{reajustes.nome}"></f:selectItems>
+							</p:selectOneMenu>
+						</div>
+					</div>
+
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+
+					<div class="ui-grid-row">
+						<div class="col-lg-4">
+							<p:outputLabel value="N° Ato Concessório:"></p:outputLabel>
+							<p:inputText styleClass="form-control" disabled="true"
+								value="#{aposentadoriaIdadeBean.idade.NUMR_atoConcessorio}" />
+						</div>
+						<div class="col-lg-8">
+							<p:outputLabel value="Motivo Fim do Benefício:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true"
+								filterMatchMode="startsWith" style="width:100%"
+								value="#{aposentadoriaIdadeBean.idade.NUMR_motivoFimBeneficio}"
+								converter="conversorDeEntidades">
+								<f:selectItem itemLabel="--Selecione--" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems
+									value="#{aposentadoriaIdadeBean.listaMotivoCessacaoBeneficio}"
+									var="cessacao" itemValue="#{cessacao}"
+									itemLabel="#{cessacao.DESC_nome}" />
+							</p:selectOneMenu>
+						</div>
+						
+					</div>
+
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+
+					<div class="ui-grid-row">
+						<div class="col-lg-3 ">
+							<p:outputLabel value="Fim do Benefício:"></p:outputLabel>
+							<p:inputMask mask="99/99/9999" styleClass=" form-control "
+								value="#{aposentadoriaIdadeBean.idade.DATA_fimDoBeneficio}"
+								converter="dateConverter">
+							</p:inputMask>
+						</div>
+						<div class="col-lg-3 ">
+							<p:outputLabel value="Idade:"></p:outputLabel>
+							<p:inputText styleClass="form-control" disabled="true"
+								value="#{aposentadoriaIdadeBean.idade.NUMR_idade}"></p:inputText>
+						</div>
+						<div class="col-lg-6 ">
+							<p:outputLabel value="Tempo de Contribuição:"></p:outputLabel>
+							<p:inputText styleClass="form-control" disabled="true"
+								value="#{aposentadoriaIdadeBean.idade.DESC_tempoDeContruibuicao}"></p:inputText>
+						</div>
+					</div>
+					
+					<div class="col-sm-12">
+						<hr />
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+					</div>
+					
+					<div class="col-sm-12">
+						<h3 class="fieldalt">Atos Legais</h3>
+						<hr />
+					</div>
+						<div class="ui-grid-row">
+							<div class="col-sm-11">
+								<p:outputLabel value="Fundamentação:"></p:outputLabel>
+								<p:selectOneMenu effect="fade" filter="true"
+									value="#{aposentadoriaIdadeBean.atoLegal}"
+									id="fundamento" converter="conversorDeEntidades"
+									filterMatchMode="startsWith" style="width:100%">
+									<f:selectItem itemLabel="--Selecione--" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems
+										value="#{aposentadoriaIdadeBean.listaFundamentacao}"
+										var="atos" itemLabel="#{atos.DESC_tituloEmenta}"
+										itemValue="#{atos}" />
+								</p:selectOneMenu>
+							</div>
+							<div class="col-sm-1">
+								<p:commandButton icon="ui-icon-plus" style="top:23px"  disabled="#{aposentadoriaIdadeBean.funcionais.NUMG_idDoObjeto == 0}"
+									process="fundamento @this " update="fundamento tabelaAtos"
+									action="#{aposentadoriaIdadeBean.reinit()}">
+									<p:collector value="#{aposentadoriaIdadeBean.atoLegal}" addTo="#{aposentadoriaIdadeBean.listaAtosLegaisCollection}" unique="true" />
+									<f:param name="noValidate" value="1"></f:param>
+								</p:commandButton>
+							</div>
+
+						</div>
+						<div class="ui-grid-row">
+							<div class="col-sm-12">
+								<p></p>
+							</div>
+						</div>
+						<div class="ui-grid-row">
+							<div class="col-sm-12">
+								<p:outputPanel id="tabelaAtos">
+									<p:dataTable value="#{aposentadoriaIdadeBean.listaAtosLegaisCollection}"
+										var="tbAtos"
+										emptyMessage="Registro não encontrado.">
+										<p:column headerText="Titulo">
+											<h:outputText value="#{tbAtos.DESC_ementa}" />
+										</p:column>
+
+										<p:column headerText="Ação"
+											style="width:130px;text-align: center">
+											<p:commandLink value="Remove"  disabled="#{aposentadoriaIdadeBean.funcionais.NUMG_idDoObjeto == 0}"
+												update=":formIdade:tabelaAtos"
+												process=":formIdade:tabelaAtos">
+												<p:collector value="#{tbAtos}"
+													removeFrom="#{aposentadoriaIdadeBean.listaAtosLegaisCollection}"
+													unique="true" />
+												<f:param name="noValidate" value="1"></f:param>
+											</p:commandLink>
+										</p:column>
+
+									</p:dataTable>
+								</p:outputPanel>
+							</div>
+						</div>
+					<div class="col-sm-12">
+						<hr />
+					</div>
+					<div class="col-sm-12">
+						<h3 class="fieldalt">Decisão Judicial</h3>
+						<hr />
+					</div>
+						<div class="ui-grid-row">
+							<div class="col-sm-12">
+								<p:fileUpload  disabled="#{aposentadoriaIdadeBean.funcionais.NUMG_idDoObjeto == 0}"
+									fileUploadListener="#{aposentadoriaIdadeBean.handleFileUpload}"
+									mode="advanced" dragDropSupport="false" update="msg tabDoc"
+									allowTypes="/(\.|\/)(pdf|jpe?g|png)$/" uploadLabel="Enviar"
+									label="Selecionar" cancelLabel="Cancelar">
+									<f:param name="noValidate" value="1"></f:param>
+								</p:fileUpload>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+
+						<div class="ui-grid-row">
+							<p:dataTable
+								value="#{aposentadoriaIdadeBean.listaDeDecisoesJudiciais}" var="arq"
+								styleClass="col-sm-12" id="tabDoc"
+								emptyMessage="Registro não encontrado.">
+								<p:column headerText="Nome do Arquivo">
+									<h:outputLink target="_blank"  value="#{request.contextPath}/file/#{arq.DESC_caminhoRelativo}/#{arq.DESC_nome}">#{arq.DESC_nome}</h:outputLink>
+								</p:column>
+								<p:column style="width:130px;text-align: center"
+									headerText="Remover">
+									<p:commandButton icon="ui-icon-trash" disabled="#{aposentadoriaIdadeBean.funcionais.NUMG_idDoObjeto == 0}"
+										update=":formIdade:tabDoc" process=":formIdade:tabDoc"
+										action="#{aposentadoriaIdadeBean.removeArquivo(arq)}">
+										<f:param name="noValidate" value="1"></f:param>
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</div>
+						
+						<div class="ui-grid-row">
+							<p:dialog widgetVar="reqDialog" width="860" height="460" resizable="false" modal="true" id="modalRequisito">
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<div class="pull-right">
+										<p:commandButton icon="fa fa-close" action="#{aposentadoriaIdadeBean.fechaRequisito()}" process="@this" update="@none"></p:commandButton>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<h3 class="fieldalt" style="margin-top: 3px;">Documentos requeridos</h3>
+								<hr />
+							</div>
+								<p:dataTable styleClass="col-lg-12 col-sm-12" value="#{aposentadoriaIdadeBean.listaDeRequisitos}" var="regras" id="tbRequisitos"
+									paginator="true" paginatorAlwaysVisible="false" rows="9" paginatorPosition="bottom" rowsPerPageTemplate="9,18"
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									emptyMessage="Registro não encontrado.">
+									
+							        <p:column headerText="Requisito">
+							            <h:outputText value="#{regras.DESC_requisito}"/>
+							        </p:column>
+							        <p:column headerText="Arquivo" style="width:100px;text-align: center">
+							            <h:outputLink target="_blank"   value="#{request.contextPath}/file/#{aposentadoriaIdadeBean.devolveDocumento(regras.NUMG_idDoObjeto)}" disabled="#{regras.FLAG_arquivo eq false}">
+							            	<p:graphicImage name="/image/#{regras.FLAG_arquivo eq false ? 'folderdisabled' :'openfile'}.png" style="margin-left: 15;" ></p:graphicImage>
+							            </h:outputLink>
+							        </p:column>
+							         <p:column headerText="Status" style="width:100px;text-align: center;">
+							            <h:outputText value="#{regras.FLAG_arquivo eq false ? 'Ausente' : 'Presente'}" style="#{regras.FLAG_arquivo eq false ? 'color:red;' : 'color:green;'}"/>
+							        </p:column>
+							   </p:dataTable>
+							</p:dialog>
+						</div>
+					<div class="col-lg-12">
+						<p></p>
+					</div>
+						
+												
+				</div>
+
+
+				<div class="col-sm-2">
+					<p:commandButton icon="fa fa-save" value="Salvar" action="#{aposentadoriaIdadeBean.salvarObjeto()}" update="@form" disabled="#{aposentadoriaIdadeBean.funcionais.NUMG_idDoObjeto == 0}">
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton icon="fa fa-print" value="Imprimir" disabled="#{aposentadoriaIdadeBean.funcionais.NUMG_idDoObjeto == 0}"></p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton icon="fa fa-check" value="Requisitos" onclick="PF('reqDialog').show();" ></p:commandButton>
+				</div>
+			</h:form>
+			<br />
+			<br />
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

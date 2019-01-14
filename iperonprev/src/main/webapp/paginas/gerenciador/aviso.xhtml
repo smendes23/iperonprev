@@ -1,0 +1,52 @@
+<ui:composition template="../templates/master.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+	<ui:define name="content">
+	<style>
+			
+		.ui-shadow {
+			box-shadow: 0px 5px 10px transparent;
+		}
+	</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel header="Avisos" styleClass="col-lg-10">
+			<h:form id="formAviso">
+			<p:messages showDetail="true" closable="true"></p:messages>
+				<br />
+				
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p:outputLabel value="Título:"></p:outputLabel>
+							<p:inputText styleClass="form-control" value="#{avisosBean.aviso.titulo}" required="true"></p:inputText>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p:outputLabel value="Observações:" styleClass="control-label" style="width:100%"></p:outputLabel>
+							<p:inputTextarea styleClass="col-sm-12" value="#{avisosBean.aviso.mensagem}"></p:inputTextarea>
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-2">
+							<p:commandButton value="Salvar" icon="fa fa-save" action="#{avisosBean.enviar()}">
+							</p:commandButton>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-12"><p></p></div>
+			</h:form>
+		</p:panel>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+	</ui:define>
+</ui:composition>

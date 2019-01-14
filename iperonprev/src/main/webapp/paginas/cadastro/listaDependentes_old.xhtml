@@ -1,0 +1,70 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<h:head>
+	<title>::Lista de Dependentes::</title>
+		<style>
+
+.ui-shadow {
+   box-shadow: 0px 5px 10px transparent;
+}
+.ui-widget {
+    font-family: segoe ui, Arial, sans-serif;
+    font-size: 16px;
+}
+	</style>
+</h:head>
+<h:body>
+	<div>
+		<br />
+	</div>
+	<h:form>
+	<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:dataTable var="listaDependentes" widgetVar="dependenteTable"
+			value="#{dependentesPensionistasBean.listaDeDependentes}" paginator="true"
+			paginatorAlwaysVisible="false" rows="5" paginatorPosition="bottom"
+			style="heigth:480px;width:880" id="tbDependentes" rowsPerPageTemplate="5,10"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			filteredValue="#{dependentesPensionistasBean.filtroDependentes}">
+			<f:facet name="header">
+				<p:outputPanel style="margin-left: 615px;">
+					<h:outputText value="Pesquisar:" />
+					<p:inputText id="globalFilter" styleClass="form-control input-sm" onkeyup="PF('dependenteTable').filter()"
+						style="width:130px" placeholder="Digite aqui..." />
+				</p:outputPanel>
+
+			</f:facet>
+			<p:column headerText="Servidor:" filterBy="#{listaDependentes.NUMR_idDoObjetoPessoas.DESC_nome}"
+				filterMatchMode="contains" filterStyle="display:none">
+				<p:outputLabel value="#{listaDependentes.NUMR_idDoObjetoPessoas.DESC_nome}"/>
+			</p:column>
+			<p:column headerText="Dependente:" filterBy="#{listaDependentes.DESC_nome}"
+				filterMatchMode="contains" filterStyle="display:none">
+				<p:outputLabel value="#{listaDependentes.DESC_nome}"/>
+			</p:column>
+			<p:column headerText="CPF:" filterBy="#{listaDependentes.NUMR_cpf}"
+				filterMatchMode="contains" filterStyle="display:none">
+				<p:outputLabel value="#{listaDependentes.NUMR_cpf}">
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Data Nascimento"
+				filterBy="#{listaDependentes.DATA_nascimento}" filterMatchMode="contains"
+				filterStyle="display:none">
+				<p:outputLabel value="#{listaDependentes.DATA_nascimento}">
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Editar" width="50">
+				<p:commandLink
+					action="#{dependentesPensionistasBean.pegaInstanciaDialogo(listaDependentes)}">
+					<p:graphicImage name="/image/editar.png" style="margin-left: 15;"></p:graphicImage>
+				</p:commandLink>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

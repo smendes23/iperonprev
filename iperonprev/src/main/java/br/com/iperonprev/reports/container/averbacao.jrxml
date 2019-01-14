@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="averbacao" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="18643ef5-631e-4ea2-9a58-3fa8f04d6968">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="140"/>
+	<import value="org.joda.time.DateTime"/>
+	<import value="org.joda.time.Period"/>
+	<import value="org.joda.time.PeriodType"/>
+	<field name="empresaOrgao" class="java.lang.String"/>
+	<field name="cnpj" class="java.lang.String"/>
+	<field name="funcao" class="java.lang.String"/>
+	<field name="iniciativa" class="java.lang.String"/>
+	<field name="numProcesso" class="java.lang.String"/>
+	<field name="orgaoPrevidenciario" class="java.lang.String"/>
+	<field name="tempoAproveitado" class="java.lang.String"/>
+	<field name="tempoContribuicao" class="java.lang.String"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="matricula" class="java.lang.String"/>
+	<field name="cpf" class="java.lang.String"/>
+	<field name="dataNascimento" class="java.lang.String"/>
+	<field name="sexo" class="java.lang.String"/>
+	<field name="estadoCivil" class="java.lang.String"/>
+	<field name="orgao" class="java.lang.String"/>
+	<field name="tempoCargo" class="java.lang.String"/>
+	<field name="periodos" class="java.lang.String"/>
+	<field name="contribuicaoPrivada" class="java.lang.String"/>
+	<field name="contribuicaoPublica" class="java.lang.String"/>
+	<field name="tempoConcomitante" class="java.lang.String"/>
+	<field name="outrasDeducoes" class="java.lang.String"/>
+	<field name="certificamos" class="java.lang.String"/>
+	<field name="cargo" class="java.lang.String"/>
+	<field name="dataAdmissaoEDemissao" class="java.lang.String"/>
+	<field name="dataPosse" class="java.lang.String"/>
+	<field name="certificamos2" class="java.lang.String"/>
+	<field name="localData" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="92" splitType="Stretch">
+			<image>
+				<reportElement x="25" y="6" width="61" height="67" uuid="de391b62-cf11-4592-9117-2c85e6637829"/>
+				<imageExpression><![CDATA["C:\\tomcat8\\webapps\\ROOT\\resources\\image\\rondonia.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="495" y="15" width="78" height="54" uuid="83a3a912-c0da-40cf-8939-7d0908aa626f"/>
+				<imageExpression><![CDATA["C:\\tomcat8\\webapps\\ROOT\\resources\\image\\iperon.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="22" y="23" width="532" height="20" uuid="195d2cf8-6662-4d50-9f9a-cb1903274018"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Governo do Estado de Rondônia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="72" y="43" width="441" height="20" uuid="7d2ce3f1-c509-4501-bc5b-f49b6d24345a"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[INSTITUTO DE PREVIDÊNCIA DOS SERVIDORES PÚBLICOS DO ESTADO DE RONDÔNIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="59" width="534" height="20" uuid="54b97b12-9618-4185-a247-aaf784a53c0f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IPERON]]></text>
+			</staticText>
+			<line>
+				<reportElement x="22" y="84" width="533" height="1" forecolor="#006600" uuid="d566601a-dc5a-4164-9b17-410756a7d1bb"/>
+				<graphicElement>
+					<pen lineWidth="2.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="22" y="90" width="533" height="1" forecolor="#006600" uuid="f9eb4c26-c412-43cc-8010-d77a22bb3949"/>
+			</line>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="176" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="22" y="155" width="533" height="20" forecolor="#FFFFFF" backcolor="#006600" uuid="dc00ff23-76c0-4748-b338-dfddce4a90cf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TEMPO DE CONTRIBUIÇÃO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="23" y="74" width="271" height="14" backcolor="#CCCCCC" uuid="aee3017e-602d-4e33-83be-fb537dab6f7e"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA DE NASCIMENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="3" width="340" height="20" uuid="b209732a-6386-4afa-87b0-c54bd7cc2703"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório de Períodos Anteriores Averbados]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="23" y="22" width="533" height="14" backcolor="#CCCCCC" uuid="68167405-2bdf-4034-b5fb-6e79629ede69"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="23" y="100" width="533" height="14" backcolor="#CCCCCC" uuid="b2414c62-efd8-4e97-8610-597135bf605e"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ENTIDADE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="23" y="48" width="381" height="14" backcolor="#CCCCCC" uuid="62e3692d-ba18-479c-8a04-1734254956fd"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MATRICULA]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="405" y="140" width="152" height="14" uuid="455948f4-3ad9-47e9-ad22-8b5036e7f1c3"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tempoCargo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="23" y="35" width="534" height="14" uuid="3a817d14-f86a-4cc9-ad98-44577cc5c88b"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="23" y="61" width="381" height="14" uuid="13a7d210-cf9b-446e-bd77-a98a24b33d93"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{matricula}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="405" y="61" width="151" height="14" uuid="552aa7e6-0c83-47b3-92b0-0f8ec6ad0dc7"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="23" y="86" width="185" height="14" uuid="b62ef37c-9b15-458c-b9c1-7d4c80a5470b"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dataNascimento}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="294" y="87" width="110" height="14" uuid="e151e939-1238-445d-b6a7-d9181ce3ac9e"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{sexo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="405" y="87" width="151" height="14" uuid="b7b57d13-201a-4f2a-82da-ecf346e0935c"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{estadoCivil}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="23" y="113" width="533" height="14" uuid="6284f17d-14af-4141-a58d-eba5cc149a73"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{orgao}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="23" y="140" width="271" height="14" uuid="bb4a6be0-5ed8-4fa6-89ac-81cb9a6cbb8e"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cargo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="294" y="140" width="110" height="14" uuid="15cebe42-b7ae-4a45-9f3e-3a8859bf3228"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dataPosse}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="294" y="74" width="111" height="14" backcolor="#CCCCCC" uuid="4b76fa9c-a222-41f5-bf4d-a90766e5caf3"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SEXO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="405" y="74" width="151" height="14" backcolor="#CCCCCC" uuid="4b6127c8-e731-4815-9747-986260eb632c"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ESTADO CIVIL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="404" y="48" width="153" height="14" backcolor="#CCCCCC" uuid="4fc02efb-b2ce-41f7-80b9-74d2c1d908b2"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CPF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="23" y="126" width="271" height="14" backcolor="#CCCCCC" uuid="c28ce8ec-efc1-45bc-afe8-4860ef421a34"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CARGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="294" y="126" width="111" height="14" backcolor="#CCCCCC" uuid="20f4ce1a-5be3-4396-bf31-5007c47e040f"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA DE ADMISSÃO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="405" y="126" width="151" height="14" backcolor="#CCCCCC" uuid="e401cf2e-a96c-4f8d-9fa4-3c4debbeeae9"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TEMPO NO CARGO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="94" splitType="Stretch">
+			<staticText>
+				<reportElement x="23" y="1" width="62" height="14" uuid="047c0736-c596-4884-9ec2-a9a7aa142c93"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Iniciativa:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="16" width="62" height="14" uuid="12228b60-ebfa-4fae-88f0-b0403a0c155f"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Empregador:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="31" width="118" height="14" uuid="ad5b9fff-c533-44ae-ace8-d8c66c9082d7"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Orgão Previdenciário:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="46" width="62" height="14" uuid="bc9b201b-206a-4861-ad61-27bc9c91b34e"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Processo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="61" width="118" height="14" uuid="44eef924-246e-485d-bc10-61c6b7c20b8a"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Período Contribuição:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="23" y="92" width="532" height="1" uuid="925d05f0-1803-4016-9020-912a57787475"/>
+			</line>
+			<staticText>
+				<reportElement x="385" y="31" width="59" height="14" uuid="357198e5-93a0-4478-92d6-f328fb2380ed"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Documento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="383" y="16" width="65" height="14" uuid="2a6049ff-1664-43fc-aff6-3bba2de5cdb8"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Função:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="276" y="61" width="127" height="14" uuid="83cfc7db-0e16-47be-ae27-3052ddfdc155"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Tempo de Contribuição:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="86" y="1" width="100" height="14" uuid="5bf6e078-a31e-411d-b167-ac1c3a19f335"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{iniciativa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="85" y="16" width="295" height="14" uuid="465ab648-5b45-489b-87d5-fb8b90892e99"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{empresaOrgao}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="123" y="31" width="257" height="14" uuid="b407c5e3-f1e3-4744-84f9-cbb392e055ed"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{orgaoPrevidenciario}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="82" y="46" width="340" height="14" uuid="a00090dd-dac0-408b-ba90-18ccaf928c35"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{numProcesso}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="122" y="61" width="148" height="14" uuid="648f3ace-d965-4782-ab3d-ab69e0c4a998"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dataAdmissaoEDemissao}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="422" y="16" width="133" height="14" uuid="66ba966e-6cb7-468b-90c1-d34f771c9e79"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{funcao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="23" y="77" width="105" height="14" uuid="247a890b-4fa0-47b3-8264-7132b9e15b58"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Período Aproveitado:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="121" y="77" width="149" height="14" uuid="16c1f281-d697-4082-b48a-f6cb66a4ac74"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dataAdmissaoEDemissao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="276" y="77" width="127" height="14" uuid="4a363242-3a54-474c-821a-fb2f331860fb"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Tempo de Aproveitado:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="386" y="61" width="170" height="14" uuid="221ef36c-90c7-4e11-b393-ec3b67354eef"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tempoContribuicao}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="386" y="77" width="170" height="14" uuid="44bb10e8-f5b4-4d20-9827-ce7fc59cbe23"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tempoAproveitado}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="441" y="31" width="114" height="14" uuid="de66c0b1-2a8e-434a-a822-53f93b21f803"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cnpj}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="262" splitType="Stretch">
+			<staticText>
+				<reportElement x="23" y="1" width="532" height="20" uuid="b8fee6a4-bbc3-46c9-8043-4cfb59d216d6"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Extrato dos períodos do segurado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="22" width="266" height="20" uuid="eb438453-8d9a-4b53-8bbd-fa7d1a7d445c"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Períodos averbados:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="42" width="266" height="20" uuid="8caa4861-97c8-4c0d-a4b7-8634209c11e1"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Contribuição na Iniciativa Privada:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="62" width="266" height="20" uuid="ba9518f3-2227-4885-8469-ed656b8ac899"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Contribuição na Iniciativa Pública:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="82" width="266" height="20" uuid="c09cfea4-3ec3-44b3-98bf-234d44ff5b7f"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Concomitância:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="289" y="22" width="266" height="20" uuid="81d2f03c-8ce1-46d8-b129-e4a1266831d2"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{periodos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="23" y="102" width="266" height="20" uuid="6c470800-8e97-4eb8-a5ae-acee666bf262"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Outros:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="22" y="164" width="532" height="35" uuid="5f4a340d-5ac9-4698-a238-8795cab2e87b"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{certificamos2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="289" y="42" width="266" height="20" uuid="d8802f39-e2c5-4d08-a06a-a42a6662beec"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contribuicaoPrivada}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="289" y="62" width="266" height="20" uuid="9ec4f68a-841f-44d5-8ae2-e1e17bf659cc"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contribuicaoPublica}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="289" y="82" width="267" height="20" uuid="7e9ea117-a41e-4479-b798-ea1e4a59cfda"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tempoConcomitante}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="289" y="102" width="267" height="20" uuid="c06b1695-6eed-4495-9627-52359ffdaa6a"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{outrasDeducoes}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="22" y="122" width="533" height="35" uuid="f3912045-3201-4856-b56c-6a678e99f869"/>
+				<box>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{certificamos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="22" y="242" width="230" height="20" uuid="9f8e9148-0741-435c-bfe7-c926ecea39c8"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Localidade e Data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="324" y="242" width="230" height="20" uuid="77af083c-4848-4bb9-8da4-44d358d4f206"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Assinatura e carimbo do Servidor]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="22" y="224" width="230" height="17" uuid="ee4c520a-854f-4432-a3a8-d0d0abfe432e"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{localData}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,261 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+		
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+.EXPIRADO {
+	background-color: red;
+	color: white;
+}
+
+.EXPIRANDO {
+	background-color: yellow;
+	color: inherit;
+}
+
+.ANDAMENTO {
+	background-color: green;
+	color: white;
+}
+
+.NAOPERICIA {
+	background-color: #FFFFFF;
+	color: black;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel header="Perícia" styleClass="col-lg-10">
+		
+			<h:form id="formPericia">
+				<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<h3 class="fieldalt">Dados do Beneficiário</h3>
+									<hr />
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-3">
+									<p:outputLabel value="CPF: "></p:outputLabel>
+									<p:outputLabel styleClass="form-control " value="#{periciaBean.pessoa.NUMR_cpf}" />
+								</div>
+								<div class="col-sm-6">
+									<p:outputLabel value="Nome: "></p:outputLabel>
+									<p:outputLabel styleClass="form-control" value="#{periciaBean.pessoa.DESC_nome}"/>
+								</div>
+								<div class="col-sm-3 ">
+									<p:outputLabel value="Data Nascimento: "></p:outputLabel>
+									<p:outputLabel styleClass=" form-control " value="#{periciaBean.pessoa.DATA_nascimento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+									</p:outputLabel>
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<h3 class="fieldalt">Dados Funcionais</h3>
+									<hr />
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-2">
+									<p:outputLabel value="Matrícula:"></p:outputLabel>
+									<p:outputLabel styleClass="form-control " value="#{periciaBean.funcional.DESC_matricula}"/>
+								</div>
+								<div class="col-sm-4">
+									<p:outputLabel value="Órgão:"></p:outputLabel>
+									<p:outputLabel styleClass="form-control " value="#{periciaBean.orgao.DESC_nome}" />
+								</div>
+								<div class="col-sm-4">
+									<p:outputLabel value="Cargo:"></p:outputLabel>
+									<p:outputLabel styleClass="form-control " value="#{periciaBean.cargo.DESC_nome}"/>
+								</div>
+								<div class="col-sm-2">
+									<p:outputLabel value="Status:"></p:outputLabel>
+									<p:outputLabel styleClass="form-control #{periciaBean.pericia.ENUM_statusPericia}" value="#{periciaBean.pericia.ENUM_statusPericia.nome}"/>
+								</div>
+		
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<p></p>
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<h3 class="fieldalt">Informações da Perícia</h3>
+									<hr />
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-4">
+									<p:outputLabel value="Data da Perícia Realizada:"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control" value="#{periciaBean.pericia.DATA_pericia}" converter="dateConverter">
+									</p:inputMask>
+								</div>
+								<div class="col-sm-4">
+									<p:outputLabel value="Data da Próxima Perícia:"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control" value="#{periciaBean.pericia.DATA_proximaPericia}" converter="dateConverter">
+									</p:inputMask>
+								</div>
+								<div class="col-sm-4" style="color: #000; top: 25px;">
+									<p:selectBooleanCheckbox value="#{periciaBean.pericia.FLAG_naoPericia}"></p:selectBooleanCheckbox>
+									<p:outputLabel value=" Não periciar"></p:outputLabel>
+								</div>
+								
+							</div>
+
+							<div class="col-sm-12">
+						<h3 class="fieldalt">CID 10</h3>
+						<hr />
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-11">
+							<p:outputLabel value="Cid:"></p:outputLabel>
+							<p:autoComplete 
+								value="#{periciaBean.cid}" id="cid"
+								completeMethod="#{periciaBean.listaDeCids}"
+								style="width:100%;" inputStyleClass="form-control" var="cids" 
+								itemLabel="#{cids.NUMR_numCid}"
+								itemValue="#{cids}" converter="conversorDeEntidades"
+								forceSelection="true">
+							</p:autoComplete>
+						</div>
+						<div class="col-sm-1">
+							<p:commandButton icon="ui-icon-plus" style="top:23px"
+								process="cid @this " disabled="#{periciaBean.funcional.NUMG_idDoObjeto == 0}"
+								update="cid tabelaCids"
+								action="#{periciaBean.reinitCid}">
+								<p:collector value="#{periciaBean.cid}"
+									addTo="#{periciaBean.listaCid}" unique="true" />
+								<f:param name="noValidate" value="1"></f:param>
+							</p:commandButton>
+						</div>
+
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p:outputPanel id="tabelaCids">
+								<p:dataTable value="#{periciaBean.listaCid}"
+									var="tbCids" id="idTbCid"
+									emptyMessage="Registro não encontrado.">
+									<p:column headerText="Descrição">
+										<h:outputText value="#{tbCids.NUMR_numCid} - #{tbCids.DESC_nome}" />
+									</p:column>
+
+									<p:column headerText="Remover"
+										style="width:130px;text-align: center">
+										<p:commandButton icon="ui-icon-trash"
+											update=":formPericia:idTbCid"
+											process=":formPericia:idTbCid">
+											<p:collector value="#{tbCids}"
+												removeFrom="#{periciaBean.listaCid}"
+												unique="true" />
+											<f:param name="noValidate" value="1"></f:param>
+										</p:commandButton>
+									</p:column>
+
+								</p:dataTable>
+							</p:outputPanel>
+						</div>
+					</div>
+					
+					<div class="col-sm-12">
+						<h3 class="fieldalt">Relatórios médicos:</h3>
+						<hr />
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p:fileUpload disabled="#{periciaBean.funcional.NUMG_idDoObjeto == 0}"
+								fileUploadListener="#{periciaBean.handleFileUpload}"
+								mode="advanced" dragDropSupport="false" update="msg tabDoc"
+								allowTypes="/(\.|\/)(pdf|jpe?g|png)$/" uploadLabel="Enviar"
+								label="Selecionar" cancelLabel="Cancelar">
+								<f:param name="noValidate" value="1"></f:param>
+							</p:fileUpload>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<p></p>
+					</div>
+
+					<div class="ui-grid-row">
+						<p:dataTable
+							value="#{periciaBean.listaDeAtestados}" var="arq"
+							styleClass="col-sm-12" id="tabDoc"
+							emptyMessage="Registro não encontrado.">
+							<p:column headerText="Nome do Arquivo">
+								<h:outputLink target="_blank"  value="#{request.contextPath}/file/#{arq.DESC_caminhoRelativo}/#{arq.DESC_nome}">#{arq.DESC_nome}</h:outputLink>
+							</p:column>
+							<p:column style="width:130px;text-align: center"
+								headerText="Remover">
+								<p:commandButton icon="ui-icon-trash"
+									update=":formPericia:tabDoc"
+									process=":formPericia:tabDoc"
+									action="#{periciaBean.removeArquivo(arq)}">
+									<f:param name="noValidate" value="1"></f:param>
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</div>
+				
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p:outputLabel value="Observação:"></p:outputLabel>
+							<p:inputTextarea styleClass="col-sm-12"
+								value="#{periciaBean.pericia.DESC_observacao}">
+							</p:inputTextarea>
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-2">
+							<p:commandButton icon="fa fa-save"  value="Salvar" required="#{param['noValidate']==null}" action="#{periciaBean.salvarObjeto}" update="@form">
+							</p:commandButton>
+						</div>
+						<div class="col-sm-2">
+							<p:commandButton icon="fa fa-plus" process="@form" value="Novo" required="#{param['noValidate']==null}" action="#{periciaBean.novoObjeto()}" update="@form msg">
+							</p:commandButton>
+						</div>
+						<div class="col-sm-2">
+							<p:commandButton icon="fa fa-search" value="Pesquisar" action="#{periciaBean.exibeListaDeObjetos}" process="@this" update="@none">
+								<p:ajax event="dialogReturn" listener="#{periciaBean.selecionaObjetoDialogo}" process="@this" update="@form"></p:ajax>
+								<p:resetInput target="formPericia" />
+							</p:commandButton>
+						</div>
+					</div>
+
+							
+				</div>
+						
+			</h:form>
+		</p:panel>
+			<br />
+			<br />
+	</ui:define>
+</ui:composition>
+</html>

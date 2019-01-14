@@ -1,0 +1,142 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+	<f:metadata>
+		<f:viewAction action="#{unidadeBean.recarregaPagina}" onPostBack="true"/>
+	</f:metadata>
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel header="Unidades do Censo" styleClass="col-sm-10">
+			<h:form id="formUnidade">
+				<p:messages showDetail="true" closable="true"></p:messages>
+				<br />
+				<h:inputHidden value="#{unidadeBean.unidade.NUMG_idDoObjeto}"></h:inputHidden>
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p:outputLabel value="Nome da Unidade:"></p:outputLabel>
+							<p:inputText styleClass="form-control" value="#{unidadeBean.unidade.DESC_nome}" required="true"/>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-2">
+							<p:outputLabel value="CEP:"></p:outputLabel>
+							<h:inputHidden value="#{unidadeBean.endereco.NUMG_idDoObjeto}"></h:inputHidden>
+							<p:inputText styleClass="form-control" value="#{unidadeBean.endereco.NUMR_cep}"></p:inputText>
+						</div>
+						<div class="col-sm-4">
+							<p:outputLabel value="Tipo Logradouro:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true" converter="conversorDeEntidades"
+								filterMatchMode="startsWith" style="width:100%" styleClass="selectalt" value="#{unidadeBean.endereco.NUMR_tipoLogradouro}">
+								<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+								<f:selectItems value="#{unidadeBean.listaTipoLogradouro}" var="tipoLogradouro" itemValue="#{tipoLogradouro}" itemLabel="#{tipoLogradouro.DESC_nome}" />
+							</p:selectOneMenu>
+						</div>
+						<div class="col-sm-4">
+							<p:outputLabel value="Logradouro:"></p:outputLabel>
+							<p:inputText styleClass="form-control" value="#{unidadeBean.endereco.DESC_logradouro}"></p:inputText>
+						</div>
+						<div class="col-sm-2">
+							<p:outputLabel value="Nº:"></p:outputLabel>
+							<p:inputText styleClass="form-control" value="#{unidadeBean.endereco.DESC_numero}"></p:inputText>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-3">
+							<p:outputLabel value="UF:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true" converter="conversorDeEntidades"
+								filterMatchMode="startsWith" style="width:100%" styleClass="selectalt" value="#{unidadeBean.estados}">
+								
+								<p:ajax event="change" update="munic" listener="#{unidadeBean.populaMunicipios}" process="@this"></p:ajax>
+								
+								<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+								<f:selectItems value="#{unidadeBean.listaEstados}" var="estado" itemValue="#{estado}" itemLabel="#{estado.DESC_nome}" />
+							</p:selectOneMenu>
+						</div>
+						<div class="col-sm-4">
+							<p:outputLabel value="Município:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true" converter="conversorDeEntidades" id="munic"
+								filterMatchMode="startsWith" style="width:100%" styleClass="selectalt" value="#{unidadeBean.endereco.NUMR_idDoObjetoMunicipio}">
+								<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+								<f:selectItems value="#{unidadeBean.listaDeMunicipios}" var="municipio" itemValue="#{municipio}" itemLabel="#{municipio.DESC_nome}" />
+							</p:selectOneMenu>
+						</div>
+						<div class="col-sm-5">
+							<p:outputLabel value="Bairro:"></p:outputLabel>
+							<p:inputText styleClass="form-control" value="#{unidadeBean.endereco.DESC_bairro}"></p:inputText>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-3">
+							<p:outputLabel value="Telefone:"></p:outputLabel>
+							<p:inputMask mask="(99)9999-9999" styleClass="form-control" value="#{unidadeBean.unidade.NUMR_telefone}"/>
+						</div>
+						<div class="col-sm-4">
+							<p:outputLabel value="E-mail:"></p:outputLabel>
+							<p:inputText styleClass="form-control" value="#{unidadeBean.unidade.DESC_email}"></p:inputText>
+						</div>
+						
+						<div class="col-sm-5">
+						<h:inputHidden value="#{unidadeBean.pessoa.NUMG_idDoObjeto}" id="idPessoa"></h:inputHidden>
+							<p:commandLink value="Responsável pelo Recadastramento" action="#{unidadeBean.exibeListaDePessoas}" process="@this nomePessoa" update="@none">
+								<p:ajax event="dialogReturn" listener="#{unidadeBean.selecionaDialogoPessoa}" process="@this" update="nomePessoa idPessoa" />
+								<p:resetInput target="formUnidade" />
+							</p:commandLink><i class="fa fa-search"></i>
+							<p:inputText styleClass="form-control" id="nomePessoa" value="#{unidadeBean.pessoa.DESC_nome}" valueChangeListener="#{unidadeBean.pegaListaPessoas}"></p:inputText>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-sm-12"><p></p></div>
+				<div class="col-sm-2">
+					<p:commandButton value="Salvar" icon="fa fa-save">
+						<p:ajax listener="#{unidadeBean.salvarObjeto}" process="@form"
+							update="@form" />
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Novo"  icon="fa fa-file-o" immediate="true">
+						<p:ajax listener="#{unidadeBean.novoObjeto}" process="@this"
+							update="@form" />
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Pesquisar" icon="fa fa-search"
+						action="#{unidadeBean.exibeListaDeObjetos}"
+						process="@this" update="@none">
+						<p:ajax event="dialogReturn"
+							listener="#{unidadeBean.selecionaObjetoDialogo}"
+							process="@this" update="@form" />
+						<p:resetInput target="formUnidade" />
+					</p:commandButton>
+				</div>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

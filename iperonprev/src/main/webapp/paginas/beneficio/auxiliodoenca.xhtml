@@ -1,0 +1,254 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+		<f:metadata>
+		<f:event type="preRenderView" rendered="#{facesContext.postBack}" listener="#{auxilioDoencaBean.recarregaPagina}"/>
+	</f:metadata>
+		<style>
+.ui-autocomplete-multiple-container {
+	clear: left;
+	cursor: text;
+	list-style-type: none;
+	margin: 0px;
+	min-height: 1px;
+	overflow: hidden;
+	width: 100%;
+}
+
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel styleClass="col-lg-10" header="Auxílio Doença">
+			<h:form id="formAuxilio">
+				<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+				<br />
+				<div class="col-sm-12">
+					<h3 class="fieldalt">Dados do Servidor</h3>
+					<hr />
+				</div>
+				<div class="ui-grid ui-grid-responsive">
+						<h:inputHidden
+							value="#{auxilioDoencaBean.funcionais.NUMG_idDoObjeto}"></h:inputHidden>
+						<div class="ui-grid-row">
+							<div class="col-sm-2">
+								<p:outputLabel value="Matricula:"></p:outputLabel>
+								<p:outputLabel styleClass="form-control"
+									value="#{auxilioDoencaBean.funcionais.DESC_matricula}"></p:outputLabel>
+							</div>
+							<div class="col-sm-4">
+								<p:outputLabel value="Nome:"></p:outputLabel>
+								<p:outputLabel styleClass="form-control"
+									value="#{auxilioDoencaBean.funcionais.NUMR_idDoObjetoPessoas.DESC_nome}"></p:outputLabel>
+							</div>
+							<div class="col-sm-6 ">
+								<p:outputLabel value="Órgão:"></p:outputLabel>
+								<p:outputLabel styleClass="form-control"
+									value="#{auxilioDoencaBean.funcionais.NUMR_idDoObjetoCargo.NUMR_idDoObjetoOrgaos.DESC_nome}" />
+							</div>
+						</div>
+						<div class="ui-grid-row">
+							<div class="col-sm-12">
+								<p></p>
+							</div>
+						</div>
+						<div class="ui-grid-row">
+							<div class="col-sm-12">
+								<p></p>
+							</div>
+						</div>
+						<div class="ui-grid-row">
+
+							<div class="col-sm-6 ">
+								<p:outputLabel value="Tempo de licenças prorrogadas:"></p:outputLabel>
+								<p:inputText styleClass="form-control" disabled="true" />
+							</div>
+							<div class="col-sm-6 ">
+								<p:outputLabel value="Tempo total de Licenças:"></p:outputLabel>
+								<p:inputText id="totaLicenca" styleClass="form-control" disabled="true" value="#{auxilioDoencaBean.tempoTotalAuxilio}" />
+							</div>
+						</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<h3 class="fieldalt">Dados do Beneficio</h3>
+						<hr />
+					</div>
+						<h:inputHidden
+							value="#{auxilioDoencaBean.auxilio.NUMG_idDoObjeto}"></h:inputHidden>
+						<div class="ui-grid-row">
+							<div class="col-sm-4">
+								<p:outputLabel value="N° Documento:"></p:outputLabel>
+								<p:inputText styleClass="form-control " id="documento"
+									required="#{param['noValidate']==null}"
+									requiredMessage="Número do Documento é obrigatório"
+									value="#{auxilioDoencaBean.auxilio.NUMR_documento}" />
+							</div>
+							<div class="col-sm-4">
+								<p:outputLabel value="Inicio do Benefício:"></p:outputLabel>
+								<p:inputMask mask="99/99/9999" styleClass="form-control " id="dataInicio"
+									required="#{param['noValidate']==null}"
+									requiredMessage="Data Início do Benefício obrigatória"
+									value="#{auxilioDoencaBean.auxilio.DATA_inicioBeneficio}"
+									converter="dateConverter">
+								</p:inputMask>
+							</div>
+
+							<div class="col-sm-4">
+								<p:outputLabel value="Fim do Benefício:"></p:outputLabel>
+								<p:inputMask mask="99/99/9999" styleClass="form-control "
+									required="#{param['noValidate']==null}" id="dataFim"
+									requiredMessage="Data fim do Benefício obrigatória"
+									value="#{auxilioDoencaBean.auxilio.DATA_fimBeneficio}"
+									converter="dateConverter">
+								</p:inputMask>
+							</div>
+							
+						</div>
+
+						<div class="ui-grid-row">
+							<div class="col-sm-12"></div>
+						</div>
+					<div class="col-sm-12">
+						<h3 class="fieldalt">CID 10</h3>
+						<hr />
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-11">
+							<p:outputLabel value="Cid:"></p:outputLabel>
+							<p:autoComplete 
+								value="#{auxilioDoencaBean.cid}" id="cid"
+								completeMethod="#{auxilioDoencaBean.listaDeCids}"
+								style="width:100%;" inputStyleClass="form-control" var="cids" 
+								itemLabel="#{cids.NUMR_numCid}"
+								itemValue="#{cids}" converter="conversorDeEntidades"
+								forceSelection="true">
+							</p:autoComplete>
+						</div>
+						<div class="col-sm-1">
+							<p:commandButton icon="ui-icon-plus" style="top:23px" id="insertCid"
+								process="cid @this " disabled="#{auxilioDoencaBean.funcionais.NUMG_idDoObjeto == 0}"
+								update="cid tabelaCids"
+								action="#{auxilioDoencaBean.reinitCid}">
+								<p:collector value="#{auxilioDoencaBean.cid}"
+									addTo="#{auxilioDoencaBean.listaCid}" unique="true" />
+								<f:param name="noValidate" value="1"></f:param>
+							</p:commandButton>
+						</div>
+
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p:outputPanel id="tabelaCids">
+								<p:dataTable value="#{auxilioDoencaBean.listaCid}"
+									var="tbCids" id="idTbCid"
+									emptyMessage="Registro não encontrado.">
+									<p:column headerText="Descrição">
+										<h:outputText value="#{tbCids.NUMR_numCid} - #{tbCids.DESC_nome}" />
+									</p:column>
+
+									<p:column headerText="Remover"
+										style="width:130px;text-align: center">
+										<p:commandButton icon="ui-icon-trash"
+											update=":formAuxilio:idTbCid"
+											process=":formAuxilio:idTbCid">
+											<p:collector value="#{tbCids}"
+												removeFrom="#{auxilioDoencaBean.listaCid}"
+												unique="true" />
+											<f:param name="noValidate" value="1"></f:param>
+										</p:commandButton>
+									</p:column>
+
+								</p:dataTable>
+							</p:outputPanel>
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+					<div class="col-sm-12">
+						<h3 class="fieldalt">Atestado/Ata Médica</h3>
+						<hr />
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p:fileUpload
+								fileUploadListener="#{auxilioDoencaBean.handleFileUpload}"
+								mode="advanced" dragDropSupport="false" update="msg tabDoc"
+								allowTypes="/(\.|\/)(pdf|jpe?g|png)$/" uploadLabel="Enviar"
+								label="Selecionar" cancelLabel="Cancelar">
+								<f:param name="noValidate" value="1"></f:param>
+							</p:fileUpload>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<p></p>
+					</div>
+
+					<div class="ui-grid-row">
+						<p:dataTable value="#{auxilioDoencaBean.listaDeAtestados}"
+							var="arq" styleClass="col-sm-12" id="tabDoc"
+							emptyMessage="Registro não encontrado.">
+							<p:column headerText="Nome do Arquivo">
+								<h:outputLink target="_blank"  value="#{request.contextPath}/file/#{arq.DESC_caminhoRelativo}/#{arq.DESC_nome}">#{arq.DESC_nome}</h:outputLink>
+							</p:column>
+							<p:column style="width:130px;text-align: center"
+								headerText="Remover">
+								<p:commandButton icon="ui-icon-trash"
+									update=":formAuxilio:tabDoc" process=":formAuxilio:tabDoc"
+									action="#{auxilioDoencaBean.removeArquivo(arq)}">
+									<f:param name="noValidate" value="1"></f:param>
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</div>
+				</div>
+
+				<div class="col-sm-12">
+					<p></p>
+				</div>
+
+				<div class="col-sm-2">
+					<p:commandButton value="Salvar" icon="fa fa-save"
+						action="#{auxilioDoencaBean.salvarObjeto}" process="@form" update="@form">
+
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Novo" icon="fa fa-file-o"
+						action="#{auxilioDoencaBean.novoObjeto}" update="@form">
+						<f:param name="noValidate" value="1"></f:param>
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Pesquisar" icon="fa fa-search"
+						action="#{auxilioDoencaBean.exibeListaDeObjetos}"
+						process="@this" update="@none">
+						<p:ajax event="dialogReturn"
+							listener="#{auxilioDoencaBean.selecionaObjetoDialogo}"
+							process="@this" update="@form"></p:ajax>
+						<p:resetInput target="formAuxilio" />
+					</p:commandButton>
+				</div>
+			</h:form>
+			<br />
+			<br />
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

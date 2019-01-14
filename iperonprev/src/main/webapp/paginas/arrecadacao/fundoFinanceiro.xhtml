@@ -1,0 +1,123 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+	<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+
+			<p:panel styleClass="col-lg-10" header="Arrecadação Fundo Previdenciário Financeiro">
+			<h:form>
+			<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+				<br />
+				<h:inputHidden value="#{arrecadacaoPfBean.pessoas.NUMG_idDoObjeto}"></h:inputHidden>
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-sm-4">
+							<p:outputLabel value="CNPJ:"/>
+							<p:inputMask mask="99.999.999/9999-99" converter="cnpjConverter" styleClass="form-control" value="#{arrecadacaoPjBean.cnpj}">
+								<p:ajax event="blur" update="@form" process="@this" listener="#{arrecadacaoPjBean.buscaOrgaoEServidores}"></p:ajax>
+							</p:inputMask>
+						</div>
+						<div class="col-sm-8" >
+							<p:outputLabel value="Órgão:"/>
+							<p:inputText styleClass="form-control" id="orgao" disabled="true" value="#{arrecadacaoPjBean.orgao.DESC_nome}"></p:inputText>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<h3 class="fieldalt">Dados da Guia de Recolhimento</h3>
+							<hr />
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-8">
+							<p:outputLabel value="Contribuição:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true"  value="#{arrecadacaoPjBean.receita}"
+								filterMatchMode="startsWith" style="width:100%" converter="conversorDeEntidades">
+								<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+								<f:selectItems  value="#{arrecadacaoPjBean.listaDeContribuicao}" var="contribuicao" itemLabel="#{contribuicao.DESC_descricao}" itemValue="#{contribuicao}"/>
+							</p:selectOneMenu>
+						</div>
+						<div class="col-sm-4 ">
+							<p:outputLabel value="Competência:"></p:outputLabel>
+							<p:inputMask mask="99/9999" styleClass="form-control" value="#{arrecadacaoPjBean.competencia}" id="competencia">
+								<p:ajax  event="blur" update="@this msg vlSegurado vlJurosSegurado vlMultaSegurado vlPatronal vlJurosPatronal vlMultaPatronal" process="@form" listener="#{arrecadacaoPjBean.buscaContribuicao}"></p:ajax>
+							</p:inputMask>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<h3 class="fieldalt">Contribuição Segurado</h3>
+							<hr />
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-4">
+							<p:outputLabel value="Valor Segurado:"></p:outputLabel>
+							<p:inputText styleClass="form-control"  value="#{arrecadacaoPjBean.financeiro.VALR_contribSegurado}" id="vlSegurado"></p:inputText>
+						</div>
+						<div class="col-sm-4">
+							<p:outputLabel value="Juros:"></p:outputLabel>
+							<p:inputText styleClass="form-control"  value="#{arrecadacaoPjBean.financeiro.VALR_jurosSegurado}" id="vlJurosSegurado"></p:inputText>
+						</div>
+						<div class="col-sm-4">
+							<p:outputLabel value="Multa:"></p:outputLabel>
+							<p:inputText styleClass="form-control"  value="#{arrecadacaoPjBean.financeiro.VALR_multaSegurado}" id="vlMultaSegurado"></p:inputText>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<h3 class="fieldalt">Contribuição Patronal</h3>
+							<hr />
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-4">
+							<p:outputLabel value="Valor Patronal:"></p:outputLabel>
+							<p:inputText styleClass="form-control"  value="#{arrecadacaoPjBean.financeiro.VALR_contribPatronal}" id="vlPatronal"></p:inputText>
+						</div>
+						<div class="col-sm-4">
+							<p:outputLabel value="Juros:"></p:outputLabel>
+							<p:inputText styleClass="form-control" value="#{arrecadacaoPjBean.financeiro.VALR_jurosPatronal}" id="vlJurosPatronal"></p:inputText>
+						</div>
+						<div class="col-sm-4">
+							<p:outputLabel value="Multa:"></p:outputLabel>
+							<p:inputText styleClass="form-control" value="#{arrecadacaoPjBean.financeiro.VALR_multaPatronal}" id="vlMultaPatronal"></p:inputText>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<p:commandButton value="Gerar Boleto" icon="fa fa-print"></p:commandButton>
+				</div>
+				<div class="col-sm-3">
+					<p:commandButton value="Novo" icon="fa fa-file-o"> 
+						<p:ajax process="@this" update="@form" listener="#{arrecadacaoPjBean.novoObjeto}"></p:ajax>
+					</p:commandButton>
+				</div>
+				<div class="col-sm-12"><p></p></div>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

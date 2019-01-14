@@ -1,0 +1,398 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+		<f:metadata>
+			<f:viewAction action="#{aposentadoriaInvalidezBean.recarregaPagina}"
+				onPostBack="true" />
+		</f:metadata>
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+
+		<p:panel styleClass="col-lg-10" header="Aposentadoria por Invalidez">
+			<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+			<h:form id="formInvalidez">
+				<br />
+				<div class="col-sm-12">
+					<h3 class="fieldalt">Dados do Servidor</h3>
+					<hr />
+				</div>
+				<h:inputHidden
+					value="#{aposentadoriaInvalidezBean.funcionais.NUMG_idDoObjeto}"></h:inputHidden>
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-sm-2">
+							<p:outputLabel value="Matricula:"></p:outputLabel>
+							<p:outputLabel id="matricula" styleClass="form-control"
+								value="#{aposentadoriaInvalidezBean.funcionais.DESC_matricula}"></p:outputLabel>
+						</div>
+						<div class="col-sm-5">
+							<h:inputHidden></h:inputHidden>
+							<p:outputLabel value="Nome:"></p:outputLabel>
+							<p:outputLabel styleClass="form-control"
+								value="#{aposentadoriaInvalidezBean.funcionais.NUMR_idDoObjetoPessoas.DESC_nome}"></p:outputLabel>
+						</div>
+						<div class="col-sm-5 ">
+							<p:outputLabel value="Órgão:"></p:outputLabel>
+							<p:outputLabel styleClass="form-control"
+								value="#{aposentadoriaInvalidezBean.funcionais.NUMR_idDoObjetoCargo.NUMR_idDoObjetoOrgaos.DESC_nome}" />
+						</div>
+					</div>
+
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+					<div class="col-sm-12">
+						<h3 class="fieldalt">Dados do Benefício</h3>
+						<hr />
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-4">
+							<p:outputLabel value="N° do Processo:"></p:outputLabel>
+							<p:inputMask mask="99-9999.99999-9999/9999" styleClass="form-control"
+								required="#{param['noValidate']==null}"
+								requiredMessage="Número do Processo é obrigatório"
+								value="#{aposentadoriaInvalidezBean.invalidez.NUMR_processo}" />
+						</div>
+						<div class="col-sm-5">
+							<p:outputLabel value="Motivo da Concessão do Benefício:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true"
+								required="#{param['noValidate']==null}"
+								requiredMessage="Motivo da Concessão do Benefício é obrigatório"
+								converter="conversorDeEntidades" filterMatchMode="startsWith"
+								style="width:100%"
+								value="#{aposentadoriaInvalidezBean.invalidez.NUMR_motivoConcessaoBeneficio}">
+								<f:selectItem itemLabel="--Selecione--" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems
+									value="#{aposentadoriaInvalidezBean.listaMotivoConcessaoBeneficio}"
+									var="concessao" itemValue="#{concessao}"
+									itemLabel="#{concessao.DESC_nome}">
+								</f:selectItems>
+							</p:selectOneMenu>
+						</div>
+						<div class="col-sm-3 ">
+							<p:outputLabel value="N° Ato Concessório:"></p:outputLabel>
+							<p:inputText styleClass="form-control" disabled="true" value="#{aposentadoriaInvalidezBean.invalidez.NUMR_atoConcessorio}" />
+						</div>
+					</div>
+
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+
+					<div class="ui-grid-row">
+						
+						<div class="col-sm-6">
+							<p:outputLabel value="Proventos:"></p:outputLabel>
+							<p:selectOneMenu required="#{param['noValidate']==null}"
+								requiredMessage="Tipo de Proventos é obrigatório"
+								value="#{aposentadoriaInvalidezBean.invalidez.ENUM_proventos}"
+								style="width:100%" id="proventos">
+								<f:selectItem itemLabel="--Selecione--" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems
+									value="#{aposentadoriaInvalidezBean.listaDeProventos}"
+									var="proventos" itemLabel="#{proventos.nome}"
+									itemValue="#{proventos}" />
+							</p:selectOneMenu>
+						</div>
+						<div class="col-sm-6">
+							<p:outputLabel value="Reajuste"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true"
+								required="#{param['noValidate']==null}"
+								requiredMessage="Tipo de Reajuste é obrigatório"
+								filterMatchMode="startsWith" style="width:100%"
+								value="#{aposentadoriaInvalidezBean.invalidez.ENUM_reajuste}"
+								id="reajuste">
+								<f:selectItem itemLabel="--Selecione--" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems
+									value="#{aposentadoriaInvalidezBean.listaDeReajustes}"
+									var="reajuste" itemValue="#{reajuste}"
+									itemLabel="#{reajuste.nome}" />
+							</p:selectOneMenu>
+						</div>
+					</div>
+
+
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+
+					<div class="ui-grid-row">
+						<div class="col-sm-8">
+							<p:outputLabel value="Motivo da Cessação do Benefício:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true"
+								converter="conversorDeEntidades" filterMatchMode="startsWith"
+								style="width:100%"
+								value="#{aposentadoriaInvalidezBean.invalidez.NUMR_motivoCessacaoBeneficio}">
+								<f:selectItem itemLabel="--Selecione--" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems
+									value="#{aposentadoriaInvalidezBean.listaMotivoCessacaoBeneficio}"
+									var="cessacao" itemValue="#{cessacao}"
+									itemLabel="#{cessacao.DESC_nome}" />
+							</p:selectOneMenu>
+						</div>
+						<div class="col-sm-4 ">
+							<p:outputLabel value="Data Fim:"></p:outputLabel>
+							<p:inputMask mask="99/99/9999" styleClass="form-control "
+								value="#{aposentadoriaInvalidezBean.invalidez.DATA_cessacao}"
+								converter="dateConverter">
+							</p:inputMask>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<hr />
+					</div>	
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+					</div>
+					
+					<div class="col-sm-12">
+						<h3 class="fieldalt">CID 10</h3>
+						<hr />
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-11">
+							<p:outputLabel value="Cid:"></p:outputLabel>
+							<p:autoComplete 
+								value="#{aposentadoriaInvalidezBean.cid}" id="cid"
+								completeMethod="#{aposentadoriaInvalidezBean.listaDeCids}"
+								style="width:100%;" inputStyleClass="form-control" var="cids" 
+								itemLabel="#{cids.NUMR_numCid}"
+								itemValue="#{cids}" converter="conversorDeEntidades"
+								forceSelection="true">
+							</p:autoComplete>
+						</div>
+						<div class="col-sm-1">
+							<p:commandButton icon="ui-icon-plus" style="top:23px"
+								process="cid @this " disabled="#{aposentadoriaInvalidezBean.funcionais.NUMG_idDoObjeto == 0}"
+								update="cid tabelaCids"
+								action="#{aposentadoriaInvalidezBean.reinitCid}">
+								<p:collector value="#{aposentadoriaInvalidezBean.cid}"
+									addTo="#{aposentadoriaInvalidezBean.listaCid}" unique="true" />
+								<f:param name="noValidate" value="1"></f:param>
+							</p:commandButton>
+						</div>
+
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p:outputPanel id="tabelaCids">
+								<p:dataTable value="#{aposentadoriaInvalidezBean.listaCid}"
+									var="tbCids" id="idTbCid"
+									emptyMessage="Registro não encontrado.">
+									<p:column headerText="Descrição">
+										<h:outputText value="#{tbCids.NUMR_numCid} - #{tbCids.DESC_nome}" />
+									</p:column>
+
+									<p:column headerText="Remover"
+										style="width:130px;text-align: center">
+										<p:commandButton icon="ui-icon-trash"
+											update=":formInvalidez:idTbCid"
+											process=":formInvalidez:idTbCid">
+											<p:collector value="#{tbCids}"
+												removeFrom="#{aposentadoriaInvalidezBean.listaCid}"
+												unique="true" />
+											<f:param name="noValidate" value="1"></f:param>
+										</p:commandButton>
+									</p:column>
+
+								</p:dataTable>
+							</p:outputPanel>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<hr />
+					</div>
+
+					<div class="col-sm-12">
+						<h3 class="fieldalt">Atos Legais</h3>
+						<hr />
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-11">
+							<p:outputLabel value="Fundamentação:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true"
+								value="#{aposentadoriaInvalidezBean.atosLegais}" id="fundamento"
+								converter="conversorDeEntidades" filterMatchMode="startsWith"
+								style="width:100%">
+								<f:selectItem itemLabel="--Selecione--" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems
+									value="#{aposentadoriaInvalidezBean.listaAtosLegais}"
+									var="atos" itemLabel="#{atos.DESC_tituloEmenta}"
+									itemValue="#{atos}" />
+							</p:selectOneMenu>
+						</div>
+						<div class="col-sm-1">
+							<p:commandButton icon="ui-icon-plus" style="top:23px"
+								process="fundamento @this " disabled="#{aposentadoriaInvalidezBean.funcionais.NUMG_idDoObjeto == 0}"
+								update="fundamento tabelaAtos"
+								action="#{aposentadoriaInvalidezBean.reinit}">
+								<p:collector value="#{aposentadoriaInvalidezBean.atosLegais}"
+									addTo="#{aposentadoriaInvalidezBean.listaDeAtos}" unique="true" />
+								<f:param name="noValidate" value="1"></f:param>
+							</p:commandButton>
+						</div>
+
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p:outputPanel id="tabelaAtos">
+								<p:dataTable value="#{aposentadoriaInvalidezBean.listaDeAtos}"
+									var="tbAtos" id="atosLegais"
+									emptyMessage="Registro não encontrado.">
+									<p:column headerText="Titulo">
+										<h:outputText value="#{tbAtos.DESC_tituloEmenta}" />
+									</p:column>
+
+									<p:column headerText="Remover"
+										style="width:130px;text-align: center">
+										<p:commandButton icon="ui-icon-trash"
+											update=":formInvalidez:tabelaAtos"
+											process=":formInvalidez:tabelaAtos">
+											<p:collector value="#{tbAtos}"
+												removeFrom="#{aposentadoriaInvalidezBean.listaDeAtos}"
+												unique="true" />
+											<f:param name="noValidate" value="1"></f:param>
+										</p:commandButton>
+									</p:column>
+
+								</p:dataTable>
+							</p:outputPanel>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<hr />
+					</div>
+
+					<div class="col-sm-12">
+						<h3 class="fieldalt">Ata/Laudo/Decisão Judicial</h3>
+						<hr />
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p:fileUpload disabled="#{aposentadoriaInvalidezBean.funcionais.NUMG_idDoObjeto == 0}"
+								fileUploadListener="#{aposentadoriaInvalidezBean.handleFileUpload}"
+								mode="advanced" dragDropSupport="false" update="msg tabDoc"
+								allowTypes="/(\.|\/)(pdf|jpe?g|png)$/" uploadLabel="Enviar"
+								label="Selecionar" cancelLabel="Cancelar">
+								<f:param name="noValidate" value="1"></f:param>
+							</p:fileUpload>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<p></p>
+					</div>
+
+					<div class="ui-grid-row">
+						<p:dataTable
+							value="#{aposentadoriaInvalidezBean.listaDeAtestados}" var="arq"
+							styleClass="col-sm-12" id="tabDoc"
+							emptyMessage="Registro não encontrado.">
+							<p:column headerText="Nome do Arquivo">
+								<h:outputLink target="_blank"  value="#{request.contextPath}/file/#{arq.DESC_caminhoRelativo}/#{arq.DESC_nome}">#{arq.DESC_nome}</h:outputLink>
+							</p:column>
+							<p:column style="width:130px;text-align: center"
+								headerText="Remover">
+								<p:commandButton icon="ui-icon-trash"
+									update=":formInvalidez:tabDoc"
+									process=":formInvalidez:tabDoc"
+									action="#{aposentadoriaInvalidezBean.removeArquivo(arq)}">
+									<f:param name="noValidate" value="1"></f:param>
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</div>
+					
+					<div class="ui-grid-row">
+							<p:dialog widgetVar="reqDialog" width="860" height="460" resizable="false" modal="true" id="modalRequisito">
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<div class="pull-right">
+										<p:commandButton icon="fa fa-close" action="#{aposentadoriaInvalidezBean.fechaRequisito()}" process="@this" update="@none"></p:commandButton>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<h3 class="fieldalt" style="margin-top: 3px;">Documentos requeridos</h3>
+								<hr />
+							</div>
+								<p:dataTable styleClass="col-lg-12 col-sm-12" value="#{aposentadoriaInvalidezBean.listaDeRequisitos}" var="regras" id="tbRequisitos"
+									paginator="true" paginatorAlwaysVisible="false" rows="9" paginatorPosition="bottom" rowsPerPageTemplate="9,18"
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									emptyMessage="Registro não encontrado.">
+									
+							        <p:column headerText="Requisito">
+							            <h:outputText value="#{regras.DESC_requisito}"/>
+							        </p:column>
+							        <p:column headerText="Arquivo" style="width:100px;text-align: center">
+							            <h:outputLink target="_blank"   value="#{request.contextPath}/file/#{aposentadoriaInvalidezBean.devolveDocumento(regras.NUMG_idDoObjeto)}" disabled="#{regras.FLAG_arquivo eq false}">
+							            	<p:graphicImage name="/image/#{regras.FLAG_arquivo eq false ? 'folderdisabled' :'openfile'}.png" style="margin-left: 15;" ></p:graphicImage>
+							            </h:outputLink>
+							        </p:column>
+							         <p:column headerText="Status" style="width:100px;text-align: center;">
+							            <h:outputText value="#{regras.FLAG_arquivo eq false ? 'Ausente' : 'Presente'}" style="#{regras.FLAG_arquivo eq false ? 'color:red;' : 'color:green;'}"/>
+							        </p:column>
+							   </p:dataTable>
+							</p:dialog>
+						</div>
+					
+				</div>
+
+				<div class="col-sm-12">
+					<p></p>
+				</div>
+
+				<div class="col-sm-2">
+					<p:commandButton icon="fa fa-save" process="@form" value="Salvar" required="#{param['noValidate']==null}" action="#{aposentadoriaInvalidezBean.salvarObjeto}" update="@form msg">
+					</p:commandButton>
+				</div>
+
+				<div class="col-sm-2">
+					<p:commandButton icon="fa fa-print" value="Imprimir"
+						disabled="true"></p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton icon="fa fa-check" value="Requisitos" onclick="PF('reqDialog').show();" ></p:commandButton>
+				</div>
+				<div class="col-sm-12">
+					<p></p>
+				</div>
+			</h:form>
+			<br />
+			<br />
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

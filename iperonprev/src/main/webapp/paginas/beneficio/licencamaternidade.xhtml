@@ -1,0 +1,96 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+
+		<div class="col-lg-10 panel panel-default"
+			style="background-color: #EFF6E7;">
+			<div class="panel-heading" style="background-color: #459E00;">
+				<h3 class="panel-title" style="color: #FFF;">Licença
+					Maternidade</h3>
+			</div>
+			<h:form>
+				<br />
+				<div class="col-lg-12">
+					<h3 class="fieldalt">Dados do Servidor</h3>
+					<hr />
+				</div>
+				<div class="col-lg-3">
+					<p:outputLabel value="CPF:"></p:outputLabel>
+					<p:inputMask mask="999.999.999-99"
+						styleClass="form-control input-sm" />
+				</div>
+				<div class="col-lg-6">
+					<p:outputLabel value="Nome:"></p:outputLabel>
+					<p:inputText styleClass="form-control input-sm" disabled="true" />
+				</div>
+				<div class="col-lg-3 ">
+					<p:outputLabel value="Data Nasc.:"></p:outputLabel> 
+					<p:inputMask mask="99/99/9999" disabled="true"
+						styleClass=" form-control input-sm"
+						>
+					</p:inputMask>
+				</div>
+				<div class="col-lg-12">
+					<h3 class="fieldalt">Dados do Servidor</h3>
+					<hr />
+				</div>
+
+				<div class="col-lg-4">
+					<p:outputLabel value="N° do Processo:"></p:outputLabel>
+					<p:inputText styleClass="form-control input-sm" />
+				</div>
+				<div class="col-lg-4 ">
+					<p:outputLabel value="Data da Análise do Processo:"></p:outputLabel>
+					<p:inputMask mask="99/99/9999"
+						styleClass=" form-control input-sm"
+						>
+					</p:inputMask>
+				</div>
+				<div class="col-lg-4 ">
+					<p:outputLabel value="Data da Concessão:"></p:outputLabel> 
+					<p:inputMask mask="99/99/9999"
+						styleClass=" form-control input-sm">
+					</p:inputMask>
+				</div>
+				<div class="col-lg-6 ">
+					<p:outputLabel value="Data da Revisão:"></p:outputLabel>
+					<p:inputMask mask="99/99/9999"
+						styleClass=" form-control input-sm">
+					</p:inputMask>
+				</div>
+
+				<div class="col-lg-6 ">
+					<p:outputLabel value="Data da Cessação:"></p:outputLabel>
+					<p:inputMask mask="99/99/9999"
+						styleClass=" form-control input-sm">
+					</p:inputMask>
+				</div>
+				<div class="col-lg-12"></div>
+
+				<div class="col-lg-6">
+					<p:outputLabel value="Base de Cálculo:"></p:outputLabel>
+					<p:inputText styleClass="form-control input-sm" />
+				</div>
+				<div class="col-lg-6">
+					<p:outputLabel value="Valor do Benefício:"></p:outputLabel>
+					<p:inputText styleClass="form-control input-sm" />
+				</div>
+				<div class="col-lg-12">
+					<hr />
+				</div>
+				<div class="col-sm-2" style="top: 5px;">
+					<p:commandButton value="Salvar"></p:commandButton>
+				</div>
+				<div class="col-sm-2" style="top: 5px;">
+					<p:commandButton value="Listar"></p:commandButton>
+				</div>
+			</h:form>
+			<br /> <br />
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

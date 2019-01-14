@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+
+		<p:panel header="Simulador de Aposentadoria" styleClass="col-sm-10">
+
+
+			<h:form id="formSimulador">
+				<p:messages showDetail="true" closable="true"></p:messages>
+				<br />
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-sm-3">
+							<p:outputLabel value="CPF:" />
+							<p:inputMask mask="999.999.999-99" styleClass="form-control" value="#{simuladorBean.cpf}" converter="cpfConverter">
+								<p:ajax event="blur" update="@form" process="@this" listener="#{simuladorBean.buscaServidor}"></p:ajax>
+							</p:inputMask>
+						</div>
+						<div class="col-sm-6">
+							<p:outputLabel value="Nome:"/>
+							<p:inputText styleClass="form-control" value="#{simuladorBean.pessoa.DESC_nome}" id="nome"></p:inputText>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Matrícula:"/>
+							<p:selectOneMenu effect="fade" filter="true" id="funcional"
+								filterMatchMode="startsWith" style="width:100%"
+								value="#{simuladorBean.funcional}" valueChangeListener="#{simuladorBean.buscaFuncional}"
+								converter="conversorDeEntidades">
+								<f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true"/>
+									<f:selectItems value="#{simuladorBean.listaDeFuncionais}"
+										var="funcional" itemValue="#{funcional}"
+										itemLabel="#{funcional.DESC_matricula}" />
+							<p:ajax update="@this"></p:ajax>
+							</p:selectOneMenu>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-12"><p></p></div>
+				
+				<div class="col-sm-3" style="padding-top: 20px;">
+					<p:commandButton icon="fa fa-print" value="Simular" action="#{simuladorBean.geraSimulacao}" onclick="this.form.target='_blank'" ajax="false"></p:commandButton>
+				</div>
+				<div class="col-sm-12"><p></p></div>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

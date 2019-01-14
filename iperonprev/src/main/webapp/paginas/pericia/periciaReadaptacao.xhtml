@@ -1,0 +1,284 @@
+<ui:composition template="../templates/master.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+	<ui:define name="content">
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<div class="col-lg-10">
+			<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+			<h:form>
+				<p:tabView style="margin-bottom: 55px;">
+					<p:tab title="Análise Pericial" id="analise">
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<h3 class="fieldalt">Dados do Funcionais</h3>
+									<hr />
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-3">
+									<p:outputLabel value="CPF:"></p:outputLabel>
+									<p:inputMask mask="999.999.999-99" styleClass="form-control"
+										disabled="true"></p:inputMask>
+								</div>
+								<div class="col-sm-6">
+									<p:outputLabel value="Servidor:"></p:outputLabel>
+									<p:inputText styleClass="form-control" disabled="true"></p:inputText>
+								</div>
+								<div class="col-sm-3">
+									<p:outputLabel value="Matrícula:"></p:outputLabel>
+									<p:inputText styleClass="form-control" disabled="true"></p:inputText>
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-8">
+									<p:outputLabel value="Médico:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true"
+										filterMatchMode="startsWith" style="width:100%">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-4">
+									<p:outputLabel value="Data Emissão:"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control"></p:inputMask>
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<h3 class="fieldalt">Informações Periciais</h3>
+									<hr />
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-8">
+									<p:outputLabel value="Queixa Principal:"></p:outputLabel>
+									<p:inputText styleClass="form-control"></p:inputText>
+								</div>
+								<div class="col-sm-4">
+									<p:outputLabel value="Exames Complementares:"></p:outputLabel>
+									<p:selectCheckboxMenu effect="fade" filter="true"
+										label="Selecione os Exames" filterMatchMode="startsWith"
+										style="width:100%">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+									</p:selectCheckboxMenu>
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<p:outputLabel value="Laudo Descritivo:" />
+									<p:inputTextarea styleClass="col-sm-12"></p:inputTextarea>
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-5">
+									<p:outputLabel
+										value="Há relação entre as queixas e achados clínicos?"></p:outputLabel>
+									<p:selectOneRadio>
+										<f:selectItem itemLabel="Sim" itemValue="1"></f:selectItem>
+										<f:selectItem itemLabel="Não" itemValue="0"></f:selectItem>
+									</p:selectOneRadio>
+								</div>
+								<div class="col-sm-4">
+									<p:outputLabel value="DOE Atribuições do Servidor:" />
+									<p:inputText styleClass="form-control"></p:inputText>
+								</div>
+								<div class="col-sm-3">
+									<p:outputLabel value="Diaginóstico:"></p:outputLabel>
+									<p:selectOneRadio>
+										<f:selectItem itemLabel="Etiológico" itemValue="1"></f:selectItem>
+										<f:selectItem itemLabel="Sindrômico" itemValue="0"></f:selectItem>
+									</p:selectOneRadio>
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-12"><p></p></div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-2">
+									<p:commandButton value="Salvar">
+									</p:commandButton>
+								</div>
+								<div class="col-sm-2">
+									<p:commandButton value="Novo">
+									</p:commandButton>
+								</div>
+								<div class="col-sm-2">
+									<p:commandButton value="Listar">
+									</p:commandButton>
+								</div>
+							</div>
+						</div>
+					</p:tab>
+					<p:tab title="Ata Pericial" id="ata">
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<p:outputLabel value="Anamnese:" />
+									<p:inputTextarea styleClass="col-sm-12"></p:inputTextarea>
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-6">
+									<p:outputLabel value="Inspeção Geral:" />
+									<p:inputText styleClass="form-control"></p:inputText>
+								</div>
+								<div class="col-sm-6">
+									<p:outputLabel value="Aparelho Circulatório:" />
+									<p:inputText styleClass="form-control"></p:inputText>
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-6">
+									<p:outputLabel value="Aparelho Respiratório:" />
+									<p:inputText styleClass="form-control"></p:inputText>
+								</div>
+								<div class="col-sm-6">
+									<p:outputLabel value="Aparelho Digestivo:" />
+									<p:inputText styleClass="form-control"></p:inputText>
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-6">
+									<p:outputLabel value="Aparelho G. Urinário:" />
+									<p:inputText styleClass="form-control"></p:inputText>
+								</div>
+								<div class="col-sm-6">
+									<p:outputLabel value="Sistema Ost. e Lig.:" />
+									<p:inputText styleClass="form-control"></p:inputText>
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-6">
+									<p:outputLabel value="Sistema Endócrino:" />
+									<p:inputText styleClass="form-control"></p:inputText>
+								</div>
+								<div class="col-sm-6">
+									<p:outputLabel value="Sistema Neurológico:" />
+									<p:inputText styleClass="form-control"></p:inputText>
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-6">
+									<p:outputLabel value="Exame Mental:" />
+									<p:inputText styleClass="form-control"></p:inputText>
+								</div>
+								<div class="col-sm-6">
+									<p:outputLabel value="Exame Oftalmológico:" />
+									<p:inputText styleClass="form-control"></p:inputText>
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-6">
+									<p:outputLabel value="Exame Otorrino:" />
+									<p:inputText styleClass="form-control"></p:inputText>
+								</div>
+								<div class="col-sm-6">
+									<p:outputLabel value="Exames realizados:" />
+									<p:selectCheckboxMenu effect="fade" filter="true"
+										label="Selecione os Exames" filterMatchMode="startsWith"
+										style="width:100%">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+									</p:selectCheckboxMenu>
+								</div>
+							</div>
+						</div>
+					</p:tab>
+					<p:tab title="Resultado Pericial" id="resultado">
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-6">
+									<p:outputLabel value="CID:"></p:outputLabel>
+									<p:autoComplete cache="false" multiple="true"
+										value="#{aposentadoriaInvalidezBean.listaCid}"
+										completeMethod="#{aposentadoriaInvalidezBean.listaDeCids}"
+										style="width:100%;" inputStyleClass="form-control"
+										maxResults="5" var="cid" itemLabel="#{cid.NUMR_numCid}"
+										itemValue="#{cid}" converter="conversorDeEntidades"
+										forceSelection="true">
+										<p:ajax event="itemSelect"
+											listener="#{aposentadoriaInvalidezBean.pegaItem}" />
+										<p:ajax event="itemUnselect"
+											listener="#{aposentadoriaInvalidezBean.pegaItemRemovido}" />
+									</p:autoComplete>
+								</div>
+								<div class="col-sm-6">
+									<p:outputLabel value="Ato Legal:" />
+									<p:selectOneMenu effect="fade" filter="true"
+										filterMatchMode="startsWith" style="width:100%">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+									</p:selectOneMenu>
+								</div>
+							</div>
+							
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<p:outputLabel value="Condições de Readaptação:" />
+									<p:inputTextarea styleClass="col-sm-12"></p:inputTextarea>
+								</div>
+								
+							</div>
+							
+							<div class="ui-grid-row">
+								<div class="col-sm-6">
+									<p:outputLabel value="Período Inicial:"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control"></p:inputMask>
+								</div>
+								<div class="col-sm-6">
+									<p:outputLabel value="Período Final:"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control"></p:inputMask>
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<p:outputLabel value="Observações:" />
+									<p:inputTextarea styleClass="col-sm-12"></p:inputTextarea>
+								</div>
+								
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-12"><p></p></div>
+							</div>
+							<div class="ui-grid-row">
+								<p:dataTable styleClass="col-sm-12" emptyMessage="Registro não encontrado.">
+									<p:column headerText="Tipo Documento"></p:column>
+									<p:column headerText="Assinatura"></p:column>
+								</p:dataTable>
+							</div>
+						</div>
+					</p:tab>
+				</p:tabView>
+			</h:form>
+
+		</div>
+		<div class="col-sm-12">
+			<br />
+		</div>
+		<div class="col-sm-12">
+			<br />
+		</div>
+	</ui:define>
+</ui:composition>

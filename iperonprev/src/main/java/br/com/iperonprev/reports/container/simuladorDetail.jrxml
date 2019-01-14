@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="simuladorDetail" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="d85e5626-b364-403f-9842-8bd89bd9454a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="regraAposentadoria" class="java.lang.String"/>
+	<field name="descricaoRegra" class="java.lang.String"/>
+	<field name="requisito1" class="java.lang.String"/>
+	<field name="requisito2" class="java.lang.String"/>
+	<field name="requisito3" class="java.lang.String"/>
+	<field name="requisito4" class="java.lang.String"/>
+	<field name="requisito5" class="java.lang.String"/>
+	<field name="requerido1" class="java.lang.String"/>
+	<field name="requerido2" class="java.lang.String"/>
+	<field name="requerido3" class="java.lang.String"/>
+	<field name="requerido4" class="java.lang.String"/>
+	<field name="requerido5" class="java.lang.String"/>
+	<field name="faltante1" class="java.lang.String"/>
+	<field name="faltante2" class="java.lang.String"/>
+	<field name="faltante3" class="java.lang.String"/>
+	<field name="faltante4" class="java.lang.String"/>
+	<field name="faltante5" class="java.lang.String"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="tipoProventos" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="176" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="200" y="84" width="119" height="16" isRemoveLineWhenBlank="true" uuid="a30a5dea-a8bd-467f-9e60-1fdb3d4bb1fd"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{requerido1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="330" y="129" width="145" height="16" isRemoveLineWhenBlank="true" uuid="acc9f8cc-b2fe-4fea-b121-b530b00d2529"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{faltante4}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="330" y="144" width="145" height="16" isRemoveLineWhenBlank="true" uuid="39edb6b2-501b-47fc-97af-413d93af4dae"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{faltante5}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="200" y="144" width="119" height="16" isRemoveLineWhenBlank="true" uuid="c82de3e1-9b5c-44b1-9bac-cfdbbafe5fcb"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{requerido5}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="200" y="129" width="119" height="16" isRemoveLineWhenBlank="true" uuid="665a9362-e073-4c0a-b41e-d974474e9188"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{requerido4}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="200" y="68" width="119" height="16" uuid="0b8eda62-9c2f-47b9-8a39-be2af53a0e78"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[Tempo Requerido]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="200" y="159" width="191" height="16" isRemoveLineWhenBlank="true" uuid="714675ea-841e-4acb-a1e7-0ec6fcf1b9fa"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2" y="144" width="198" height="16" isRemoveLineWhenBlank="true" uuid="44d23cbe-5ccd-4334-af6a-468a4a31ddb5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{requisito5}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2" y="114" width="198" height="16" isRemoveLineWhenBlank="true" uuid="4d2a9c8f-aab6-4595-ba7d-1cbef0bdb703"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{requisito3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2" y="129" width="198" height="16" isRemoveLineWhenBlank="true" uuid="79309ffb-ec5e-4797-9513-a7b06020c191"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{requisito4}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2" y="99" width="198" height="16" isRemoveLineWhenBlank="true" uuid="346aa287-6d35-45b1-921d-0bfecf3f31cc"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{requisito2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="200" y="99" width="119" height="16" isRemoveLineWhenBlank="true" uuid="fd6e5fe7-da86-438d-8881-10fde530f79e"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{requerido2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="330" y="84" width="145" height="16" isRemoveLineWhenBlank="true" uuid="f71ba504-0091-4b68-b48b-c3361b7caecd"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{faltante1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="68" width="191" height="16" uuid="3e5d31a7-1f65-4b4e-8314-5655067dda97"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[Requisitos]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="200" y="114" width="119" height="16" isRemoveLineWhenBlank="true" uuid="8f40f718-8422-419a-85aa-75f3dd031701"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{requerido3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="330" y="99" width="145" height="16" isRemoveLineWhenBlank="true" uuid="ebd28ed6-2105-4d30-be31-43a75bdffc64"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{faltante2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="159" width="198" height="16" uuid="f3209681-4f52-44fd-9e78-fda6148d00e5"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[STATUS:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="2" width="533" height="1" forecolor="#006600" uuid="a5f5a01b-0624-4997-ae84-577622dc0f25"/>
+				<graphicElement>
+					<pen lineWidth="2.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="330" y="68" width="119" height="16" uuid="fffc9b0e-8300-4779-a703-c9b545722742"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[Tempo Faltante]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="330" y="114" width="145" height="16" isRemoveLineWhenBlank="true" uuid="23490bfd-b106-49fe-b8b9-928cf9bd1f51"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{faltante3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2" y="5" width="533" height="15" isRemoveLineWhenBlank="true" uuid="9ad391cd-0b9c-4a18-873c-abdecdefa78c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{regraAposentadoria}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="2" y="19" width="533" height="15" isRemoveLineWhenBlank="true" uuid="ac558bd5-38f8-46ef-8612-45461504d428"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tipoProventos}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="2" y="33" width="533" height="33" isRemoveLineWhenBlank="true" uuid="f9cf52e4-81e9-47f8-aae2-5158624abb3d"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{descricaoRegra}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2" y="84" width="198" height="16" isRemoveLineWhenBlank="true" uuid="13c877ca-947c-420b-9e99-d60f9ea7029f"/>
+				<textFieldExpression><![CDATA[$F{requisito1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,102 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<h:head>
+	<title>::Rúbricas::</title>
+	<h:outputStylesheet name="/css/bootstrap.css"></h:outputStylesheet>
+	<h:outputStylesheet name="/css/bootstrap-theme.css"></h:outputStylesheet>
+		<style>
+
+.ui-shadow {
+   box-shadow: 0px 5px 10px transparent;
+}
+.ui-widget {
+    font-family: segoe ui, Arial, sans-serif;
+    font-size: 16px;
+}
+.ui-icon-bullet {
+    background-position: -81px -145px;
+}
+	</style>
+</h:head>
+<h:body>
+<h:form>
+		<div>
+			<p:commandButton icon="fa fa-close" style="float: right;top: 0px;position:relative;" id="fechaRubricas"
+			action="#{funcionalBean.fechaRubricas()}">
+			</p:commandButton>
+		</div>
+	</h:form>
+	
+	<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+	<div class="ui-grid ui-grid-responsive">
+		<div class="ui-grid-row">
+			<div class="col-sm-12">
+			<h3 class="fieldalt">Rúbricas</h3>
+			<hr />
+			<p></p>
+				<h:form id="formRubricas">
+			<p:messages showDetail="true" closable="true"></p:messages>
+				<h:inputHidden value="#{rubricasBean.rubrica.NUMG_idDoObjeto}"></h:inputHidden>
+				<div class="col-sm-3">
+					<p:outputLabel value="Código:"/>
+					<p:inputText styleClass="form-control" value="#{rubricasBean.rubrica.NUMR_codigo}" required="true" requiredMessage="Código da Rúbrica é obrigatório"/>
+				</div>
+				<div class="col-sm-6">
+					<p:outputLabel value="Descrição:"/>
+					<p:inputText styleClass="form-control" value="#{rubricasBean.rubrica.DESC_descricao}" required="true" requiredMessage="Descrição da Rúbrica é obrigatória "></p:inputText>
+				</div>
+				<div class="col-sm-3">
+					<p:outputLabel value="Tipo:"/>
+					<p:selectOneRadio style="width:100%" value="#{rubricasBean.tipoRubrica}" required="true" requiredMessage="Tipo de Rúbrica obrigatória">
+						<f:selectItem itemLabel="Rendimento" itemValue="1"></f:selectItem>
+						<f:selectItem itemLabel="Desconto" itemValue="2"></f:selectItem>
+					</p:selectOneRadio>
+				</div>
+				<div class="col-sm-12"></div>
+				<div class="col-sm-3">
+					<p:outputLabel value="Data de Criação:"></p:outputLabel>
+					<p:inputMask mask="99/99/9999" styleClass="form-control" value="#{rubricasBean.rubrica.DATA_inicio}" converter="dateConverter">
+					</p:inputMask>
+				</div>
+				<div class="col-sm-3">
+					<p:outputLabel value="Data de Extinção:"></p:outputLabel>
+					<p:inputMask mask="99/99/9999" styleClass="form-control" value="#{rubricasBean.rubrica.DATA_fim}" converter="dateConverter">
+					</p:inputMask>
+				</div>
+				<div class="col-sm-3">
+					<p:outputLabel value="Incidência Contribuição: "></p:outputLabel>
+					<p:selectOneRadio style="width:100%" value="#{rubricasBean.incideContribuicao}">
+						<f:selectItem itemLabel="Incide" itemValue="1"></f:selectItem>
+						<f:selectItem itemLabel="Não Incide" itemValue="0"></f:selectItem>
+					</p:selectOneRadio>
+				</div>
+				<div class="col-sm-3">
+					<p:outputLabel value="Contrib. Previdência: "></p:outputLabel>
+					<p:selectOneRadio style="width:100%" value="#{rubricasBean.contribuicaoPrevidenciaria}">
+						<f:selectItem itemLabel="Sim" itemValue="1"></f:selectItem>
+						<f:selectItem itemLabel="Não" itemValue="0"></f:selectItem>
+					</p:selectOneRadio>
+				</div>
+				<div class="col-sm-12"><br/></div>
+				<div class="col-sm-2" >
+					<p:commandButton value="Salvar" icon="fa fa-save">
+						<p:ajax listener="#{rubricasBean.salvarObjeto}" process="@form" update="@form"/>
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2" >
+					<p:commandButton value="Novo" icon="fa fa-plus">
+						<p:ajax listener="#{rubricasBean.novoObjeto}" process="@form" update="@form"></p:ajax>
+					</p:commandButton>
+				</div>
+				
+			</h:form>
+			</div>
+		</div>
+	</div>
+</h:body>
+</html>

@@ -1,0 +1,149 @@
+<ui:composition template="../templates/master.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+	<ui:define name="content">
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<div class="col-lg-10">
+			<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+			<h:form>
+				<p:tabView style="margin-bottom: 55px;">
+					<p:tab title="Análise Pericial" id="analise">
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<h3 class="fieldalt">Dados Funcionais</h3>
+									<hr />
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-3">
+									<p:outputLabel value="CPF:"></p:outputLabel>
+									<p:inputMask mask="999.999.999-99" styleClass="form-control"
+										disabled="true"></p:inputMask>
+								</div>
+								<div class="col-sm-6">
+									<p:outputLabel value="Servidor:"></p:outputLabel>
+									<p:inputText styleClass="form-control" disabled="true"></p:inputText>
+								</div>
+								<div class="col-sm-3">
+									<p:outputLabel value="Matrícula:"></p:outputLabel>
+									<p:inputText styleClass="form-control" disabled="true"></p:inputText>
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-9">
+									<p:outputLabel value="Médico:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true"
+										filterMatchMode="startsWith" style="width:100%">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-3">
+									<p:outputLabel value="Data emissão:"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control"></p:inputMask>
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<h3 class="fieldalt">Informações Periciais</h3>
+									<hr />
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-6">
+									<p:outputLabel value="Tipo Auxílio Maternidade:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true"
+										filterMatchMode="startsWith" style="width:100%">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItem itemLabel="Convencional" itemValue="1"></f:selectItem>
+										<f:selectItem itemLabel="Outros" itemValue="2"></f:selectItem>
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-6">
+									<p:outputLabel value="Ato Legal:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true"
+										filterMatchMode="startsWith" style="width:100%">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+									</p:selectOneMenu>
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-6">
+									<p:outputLabel value="Cid:"></p:outputLabel>
+									<p:autoComplete cache="false" multiple="true"
+										value="#{aposentadoriaInvalidezBean.listaCid}"
+										completeMethod="#{aposentadoriaInvalidezBean.listaDeCids}"
+										style="width:100%;" inputStyleClass="form-control"
+										maxResults="5" var="cid" itemLabel="#{cid.NUMR_numCid}"
+										itemValue="#{cid}" converter="conversorDeEntidades"
+										forceSelection="true">
+										<p:ajax event="itemSelect"
+											listener="#{aposentadoriaInvalidezBean.pegaItem}" />
+										<p:ajax event="itemUnselect"
+											listener="#{aposentadoriaInvalidezBean.pegaItemRemovido}" />
+									</p:autoComplete>
+								</div>
+								<div class="col-sm-3">
+									<p:outputLabel value="Período Inicial:"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control"></p:inputMask>
+								</div>
+								<div class="col-sm-3">
+									<p:outputLabel value="Período Final:"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control"></p:inputMask>
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<p:outputLabel value="Observações:" />
+									<p:inputTextarea styleClass="col-sm-12"></p:inputTextarea>
+								</div>
+							</div>
+							
+							<div class="ui-grid-row">
+								<div class="col-sm-12"><p></p></div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-2">
+									<p:commandButton value="Salvar">
+									</p:commandButton>
+								</div>
+								<div class="col-sm-2">
+									<p:commandButton value="Novo">
+									</p:commandButton>
+								</div>
+								<div class="col-sm-2">
+									<p:commandButton value="Listar">
+									</p:commandButton>
+								</div>
+							</div>
+						</div>
+					</p:tab>
+					
+				</p:tabView>
+			</h:form>
+
+		</div>
+		<div class="col-sm-12">
+			<br />
+		</div>
+		<div class="col-sm-12">
+			<br />
+		</div>
+	</ui:define>
+</ui:composition>

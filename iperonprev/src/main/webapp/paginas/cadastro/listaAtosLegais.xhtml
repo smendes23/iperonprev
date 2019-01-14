@@ -1,0 +1,91 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<h:head>
+	<title>::Lista Atos Legais::</title>
+		<style>
+
+.ui-shadow {
+   box-shadow: 0px 5px 10px transparent;
+}
+.ui-widget {
+    font-family: segoe ui, Arial, sans-serif;
+    font-size: 16px;
+}
+
+	</style>
+</h:head>
+<h:body>
+	<h:form>
+		<div>
+			<p:commandButton icon="fa fa-close" style="float: right;top: 0px;position:relative;" id="fechaFuncional"
+			action="#{atosLegais.fechaAto}">
+			</p:commandButton>
+		</div>
+	</h:form>
+	<div class="col-sm-12">
+		<br/>
+	</div>
+	<div class="ui-grid ui-grid-responsive">
+		<div class="ui-grid-row">
+			<div class="col-sm-12">
+			<p></p>
+			<h:form>
+			<sa:ajaxStatus />
+				<sa:loading imgDir="/image/loading.gif"></sa:loading>
+				<p:dataTable var="listaAtos" widgetVar="atosTable"
+					value="#{atosLegais.listaAtos}" paginator="true"
+					paginatorAlwaysVisible="false" rows="5" paginatorPosition="bottom"
+					style="heigth:480px;width:880" id="tbAtos" rowsPerPageTemplate="5,10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					filteredValue="#{atosLegais.filtroDeAtos}">
+					<f:facet name="header">
+						<p:outputPanel style="margin-left: 615px;">
+							<h:outputText value="Pesquisar:" />
+							<p:inputText id="globalFilter" styleClass="form-control input-sm" onkeyup="PF('atosTable').filter()"
+								style="width:150px" placeholder="Digite aqui..." />
+						</p:outputPanel>
+		
+					</f:facet>
+					<p:column headerText="Tipo" filterBy="#{listaAtos.NUMR_tipoAtos.DESC_descricao}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{listaAtos.NUMR_tipoAtos.DESC_descricao}"/>
+					</p:column>
+					<p:column headerText="Número" filterBy="#{listaAtos.NUMR_numeroAno}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{listaAtos.NUMR_numeroAno}"/>
+					</p:column>
+					<p:column headerText="Ementa"
+						filterBy="#{listaAtos.DESC_tituloEmenta}" filterMatchMode="contains"
+						filterStyle="display:none">
+						<p:outputLabel value="#{listaAtos.DESC_tituloEmenta}"/>
+					</p:column>
+					<p:column headerText="Vigência" filterBy="#{listaAtos.DATA_vigencia}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{listaAtos.DATA_vigencia}">
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+						</p:outputLabel>
+					</p:column>
+					<p:column headerText="Revogação"
+						filterBy="#{listaAtos.DATA_revogacao}" filterMatchMode="contains"
+						filterStyle="display:none">
+						<p:outputLabel value="#{listaAtos.DATA_revogacao}">
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+						</p:outputLabel>
+					</p:column>
+					<p:column headerText="Editar" width="50">
+						<p:commandLink
+							action="#{atosLegais.pegaInstanciaDialogo(listaAtos)}" actionListener="#{atosLegais.actionCloseListaAto}">
+							<p:graphicImage name="/image/editar.png" style="margin-left: 15;"></p:graphicImage>
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			</div>
+		</div>
+	</div>
+</h:body>
+</html>

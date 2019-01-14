@@ -1,0 +1,131 @@
+<ui:composition template="../templates/master.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+	<ui:define name="content">
+	<style>
+			
+		.ui-shadow {
+			box-shadow: 0px 5px 10px transparent;
+		}
+	</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel header="Cargos" styleClass="col-lg-10">
+			<h:form id="formCargo">
+			<p:messages showDetail="true" closable="true"></p:messages>
+				<br />
+				<h:inputHidden value="#{cargoBean.cargos.NUMG_idDoObjeto}"></h:inputHidden>
+				<h:inputHidden value="#{cargoBean.cargos.NUMR_versao}"></h:inputHidden>
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p:outputLabel value="Nome:"></p:outputLabel>
+							<p:inputText styleClass="form-control" value="#{cargoBean.cargos.DESC_nome}" required="true"></p:inputText>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-6">
+							<p:outputLabel value="Órgão"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true" required="true"
+								filterMatchMode="startsWith" style="width:100%" value="#{cargoBean.cargos.NUMR_idDoObjetoOrgaos}" converter="conversorDeEntidades">
+								<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+								<f:selectItems value="#{cargoBean.listaDeOrgaos}" var="orgao" itemValue="#{orgao}" itemLabel="#{orgao.DESC_sigla} - #{orgao.DESC_nome}"></f:selectItems>
+							</p:selectOneMenu>
+						</div>
+						<div class="col-sm-6">
+							<p:outputLabel value="Carreira:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true" required="true"
+								filterMatchMode="startsWith" style="width:100%" value="#{cargoBean.cargos.NUMR_idDoObjetoCarreiras}" converter="conversorDeEntidades">
+								<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+								<f:selectItems value="#{cargoBean.listaDeCarreiras}" var="carreiras" itemValue="#{carreiras}" itemLabel="#{carreiras.DESC_nome}" ></f:selectItems>
+							</p:selectOneMenu>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-4">
+							<p:outputLabel value="Dedicação Exclusiva:"></p:outputLabel>
+							<p:selectOneRadio value="#{cargoBean.cargos.FLAG_dedicacaoExclusiva}">
+								<f:selectItem itemLabel="Sim" itemValue="1"></f:selectItem>
+								<f:selectItem itemLabel="Não" itemValue="0"></f:selectItem>
+							</p:selectOneRadio>
+						</div>
+						<div class="col-sm-4">
+							<p:outputLabel value="Aposentadoria Especial:"></p:outputLabel>
+							<p:selectOneRadio value="#{cargoBean.cargos.FLAG_aposEspecial}">
+								<f:selectItem itemLabel="Sim" itemValue="1"></f:selectItem>
+								<f:selectItem itemLabel="Não" itemValue="0"></f:selectItem>
+							</p:selectOneRadio>
+						</div>
+						<div class="col-sm-4">
+							<p:outputLabel value="Cargo Técnico ou Científico:"></p:outputLabel>
+							<p:selectOneRadio value="#{cargoBean.cargos.FLAG_cargoTecnico}">
+								<f:selectItem itemLabel="Sim" itemValue="1"></f:selectItem>
+								<f:selectItem itemLabel="Não" itemValue="0"></f:selectItem>
+							</p:selectOneRadio>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<!-- Caso a opção seja sim, deve ser exibida a  dropdown 
+									contagem de tempo especial e Acumulável  -->
+						<div class="col-sm-3">
+							<p:outputLabel value="Carga Horária:"></p:outputLabel>
+							<p:inputText styleClass="form-control" value="#{cargoBean.cargos.NUMR_cargaHoraria}"></p:inputText>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Data de Criação:"></p:outputLabel>
+							<p:inputMask mask="99/99/9999" styleClass="form-control" value="#{cargoBean.cargos.DATA_criacao}" converter="dateConverter">
+							</p:inputMask>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Data de Extinção:"></p:outputLabel>
+							<p:inputMask mask="99/99/9999" styleClass="form-control" value="#{cargoBean.cargos.DATA_extincao}" converter="dateConverter">
+							</p:inputMask>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Ato Legal:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true"
+								filterMatchMode="startsWith" style="width:100%" value="#{cargoBean.cargos.NUMR_idDoObjetoatosLegais}" converter="conversorDeEntidades">
+								<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+								<f:selectItems value="#{cargoBean.listaDeAtosLegais}" var="atos" itemValue="#{atos}" itemLabel="#{atos.DESC_tituloEmenta}" />
+							</p:selectOneMenu>
+						</div>
+					</div>
+					<div class="col-sm-12"><p></p></div>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Salvar" icon="fa fa-save">
+						<p:ajax listener="#{cargoBean.salvarObjeto}" process="@form" update="@form"></p:ajax>
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Novo" icon="fa fa-plus">
+						<p:ajax listener="#{cargoBean.novoObjeto}" process="@form" update="@form"></p:ajax>
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton icon="fa fa-search" value="Pesquisar" action="#{cargoBean.exibeListaDeObjetos}" process="@this" update="@none">
+						<p:ajax event="dialogReturn" listener="#{cargoBean.selecionaObjetoDialogo}" process="@this" update="@form"></p:ajax>
+						<p:resetInput target="formCargo" />
+					</p:commandButton>
+				</div>
+				<div class="col-sm-12"><p></p></div>
+			</h:form>
+		</p:panel>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+	</ui:define>
+</ui:composition>

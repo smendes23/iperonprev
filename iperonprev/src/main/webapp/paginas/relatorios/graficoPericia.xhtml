@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<ui:composition template="../templates/master.xhtml" >
+	<ui:define name="content">
+	
+	<style>
+	.ui-autocomplete-multiple-container {
+    clear: left;
+    cursor: text;
+    list-style-type: none;
+    margin: 0px;
+    min-height: 1px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+	</style>
+			<h:form>
+				<div class="col-lg-8">
+					<p:chart type="pie" model="#{grafosPericia.grafico1}" style="width:700px;height:500px"></p:chart>
+				</div>
+			</h:form>
+	</ui:define>
+</ui:composition>
+</html>

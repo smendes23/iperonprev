@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+
+<composite:interface>
+	<composite:attribute name="value"></composite:attribute>
+	<composite:attribute name="valueItems"></composite:attribute>
+	<composite:attribute name="varItems"></composite:attribute>
+	<composite:attribute name="itemLabel"></composite:attribute>
+	<composite:attribute name="itemValue"></composite:attribute>
+</composite:interface>
+
+<composite:implementation>
+	<p:selectOneMenu effect="fade" filter="true"
+		filterMatchMode="startsWith" style="width:100%"
+		value="#{cc.attrs.value}">
+		<f:selectItems value="#{cc.attrs.valueItems}"
+			var="#{cc.attrs.varItems}" itemValue="#{cc.attrs.itemValue}" itemLabel="#{cc.attrs.itemLabel}" />
+	</p:selectOneMenu>
+</composite:implementation>
+
+
+</html>

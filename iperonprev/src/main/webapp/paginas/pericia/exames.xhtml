@@ -1,0 +1,62 @@
+<ui:composition template="../templates/master.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+	<ui:define name="content">
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel styleClass="col-lg-10" header="Exames">
+			<h:form id="formMedico">
+				<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+				<br />
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-sm-12 ">
+							<h:inputHidden value="#{examesBean.exames.NUMG_idDoObjeto}"></h:inputHidden>
+							<p:outputLabel value="Nome:"></p:outputLabel>
+							<p:inputText styleClass="form-control" value="#{examesBean.exames.DESC_nome}" required="true" requiredMessage="Campo requerido"></p:inputText>
+						</div>
+					</div>
+
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-2">
+							<p:commandButton value="Salvar" icon="fa fa-save">
+								<p:ajax process="@form" update="@form" listener="#{examesBean.salvarObjeto}"></p:ajax>
+							</p:commandButton>
+						</div>
+						<div class="col-sm-2">
+							<p:commandButton value="Novo" icon="fa fa-file-o">
+								<p:ajax process="@this" update="@form" listener="#{examesBean.novoObjeto}"></p:ajax>
+							</p:commandButton>
+						</div>
+						<div class="col-sm-2">
+							<p:commandButton value="Pesquisar" icon="fa fa-search" 
+								action="#{examesBean.exibeListaDeObjetos}"
+								process="@this" update="@none">
+									<p:ajax event="dialogReturn"
+										listener="#{examesBean.selecionaObjetoDialogo}"
+										process="@this" update="@form" />
+									<p:resetInput target="@form" />
+							</p:commandButton>
+						</div>
+					</div>
+				</div>
+			</h:form>
+			<br />
+			<br />
+		</p:panel>
+	</ui:define>
+</ui:composition>

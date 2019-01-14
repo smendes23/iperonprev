@@ -1,0 +1,122 @@
+<ui:composition template="../templates/master.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+	<ui:define name="content">
+	<style>
+			
+		.ui-shadow {
+			box-shadow: 0px 5px 10px transparent;
+		}
+		
+	</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel header="Ato Concessório" styleClass="col-lg-10">
+			<h:form id="formCheck">
+			<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+			<div class="ui-grid ui-grid-responsive">
+				<div class="ui-grid-row">
+					<div class="col-sm-3">
+						<p:outputLabel value="CPF"></p:outputLabel>
+						<div class="input-group">
+								<p:inputMask mask="999.999.999-99" styleClass="form-control"
+									converter="cpfConverter"
+									value="#{atoConcessorioBean.cpfServidor}" id="cpf"></p:inputMask>
+								<span class="input-group-btn"> <p:commandButton
+									icon="fa fa-caret-right" styleClass="btn-input"
+									process="cpf @this " update="@form"
+									action="#{atoConcessorioBean.buscaServidor}"></p:commandButton>
+								</span>
+							</div>
+					</div>
+					<div class="col-sm-6">
+						<p:outputLabel value="Beneficiário:" ></p:outputLabel>
+						<p:inputText id="interessado"  styleClass="form-control " disabled="true" value="#{atoConcessorioBean.pessoas.DESC_nome}"/>
+					</div>
+					<div class="col-sm-3">
+							<p:outputLabel value="Matrícula:"/>
+							<p:selectOneMenu effect="fade" filter="true" id="funcional"
+								filterMatchMode="startsWith" style="width:100%"
+								value="#{atoConcessorioBean.pf}" valueChangeListener="#{atoConcessorioBean.buscaFuncional}"
+								converter="conversorDeEntidades">
+								<f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true"/>
+									<f:selectItems value="#{atoConcessorioBean.listaFuncionais}"
+										var="funcional" itemValue="#{funcional}"
+										itemLabel="#{funcional.DESC_matricula}" />
+							<p:ajax update="orgao beneficio numero dataAto dataRetroativa msg geraAto"></p:ajax>
+							</p:selectOneMenu>
+						</div>
+				</div>
+				
+				<div class="ui-grid-row">
+					<div class="col-sm-6">
+							<p:outputLabel value="Órgão:" />
+							<p:inputText styleClass="form-control" id="orgao" disabled="true" value="#{atoConcessorioBean.pf.NUMR_idDoObjetoCargo.NUMR_idDoObjetoOrgaos.DESC_nome}"></p:inputText>
+					</div>
+					<div class="col-sm-6">
+						<p:outputLabel value="Tipo de Benefício:"></p:outputLabel>
+						<p:inputText styleClass="form-control" id="beneficio" disabled="true" value="#{atoConcessorioBean.pf.ENUM_tipoAposentadoria.nome}"></p:inputText>
+					</div>
+				</div>
+				<div class="ui-grid-row">
+					<div class="col-sm-6">
+							<p:outputLabel value="Número do processo:" />
+							<p:inputText styleClass="form-control" disabled="true"></p:inputText>
+					</div>
+					<div class="col-sm-6">
+							<p:outputLabel value="Diário Oficial do Estado:" />
+							<p:inputText styleClass="form-control" ></p:inputText>
+					</div>
+					<div class="col-sm-6">
+						<p:outputLabel value="Data publicação DOE:"></p:outputLabel>
+						<p:inputMask styleClass="form-control" mask="99/99/9999" converter="dateConverter"></p:inputMask>
+					</div>
+				</div>
+				<div class="ui-grid-row">
+					<div class="col-sm-4">
+						<p:outputLabel value="Número:" />
+						<p:inputText styleClass="form-control" id="numero" value="#{atoConcessorioBean.ato.NUMR_ato}" required="true" requiredMessage="Número do ato é obrigatório"></p:inputText>
+					</div>
+					
+					<div class="col-sm-4">
+						<p:outputLabel value="Data do Ato:" />
+						<p:inputMask mask="99/99/9999" value="#{atoConcessorioBean.ato.DATA_publicacao}" id="dataAto" required="true" requiredMessage="Data da publicação é obrigatória"
+							styleClass="form-control" converter="dateConverter"></p:inputMask>
+					</div>
+					<div class="col-sm-4">
+						<p:outputLabel value="Data Retroativa:" />
+						<p:inputMask mask="99/99/9999" id="dataRetroativa" value="#{atoConcessorioBean.ato.DATA_retroativa}"
+							styleClass="form-control" converter="dateConverter" ></p:inputMask>
+					</div>
+				</div>
+				
+			</div>
+				<div class="col-sm-12"><br/></div>
+				<div class="col-sm-2">
+					<p:commandButton value="Salvar" icon="fa fa-save" action="#{atoConcessorioBean.salvarObjeto()}" update="@form">
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Novo" icon="fa fa-file-o">
+						<p:ajax update="@form" resetValues="true" listener="#{atoConcessorioBean.novoObjeto()}"/>
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton icon="fa fa-search" value="Pesquisar">
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton action="#{atoConcessorioBean.geraAto()}" value="Gerar Ato" icon="fa fa-print" disabled="#{atoConcessorioBean.disponivel eq false}" id="geraAto" onclick="this.form.target='_blank'" ajax="false">
+						
+					</p:commandButton>
+				</div>
+					<br/>
+					<br/>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>

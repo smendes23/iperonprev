@@ -1,0 +1,575 @@
+<ui:composition template="../templates/master.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<ui:define name="content">
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+
+
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+
+		<div class="col-sm-10">
+			<h:form id="formFinanceiro">
+			<p:messages showDetail="true" closable="true" id="msgs"></p:messages>
+				<p:tabView style=" margin-bottom: 55px;">
+					<p:tab title="Histórico Financeiro" id="financeiro">
+						<div class="ui-grid ui-grid-responsive">
+							<h3 class="fieldalt">Dados do Servidor</h3>
+							<hr />
+							<div class="ui-grid-row">
+								<div class="col-sm-3" style="color: #000">
+								<p:outputLabel value="CPF:"></p:outputLabel>
+								<div class="input-group">
+									<p:inputMask mask="999.999.999-99" styleClass="form-control"
+										value="#{financeiroBean.cpfServidor}" converter="cpfConverter" id="cpfServidor">
+										
+									</p:inputMask>
+									<span class="input-group-btn">
+										<p:commandButton icon="fa fa-search" styleClass="btn-input" action="#{financeiroBean.buscaServidor}" actionListener="#{financeiroBean.limpaDadosFuncionaisServidor()}"
+											update="@form" process="cpfServidor @this">
+										</p:commandButton>
+									</span>
+								</div>	
+								</div>
+								<div class="col-sm-6" style="color: #000">
+									<p:outputLabel value="Nome do Servidor:"></p:outputLabel>
+									<p:inputText styleClass="form-control" disabled="true"
+										id="nomServidor" value="#{financeiroBean.pessoas.DESC_nome}"
+										required="true" requiredMessage="Campo nome obrigatório" />
+								</div>
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="Data Nascimento:"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control " id="dtNasc"
+										disabled="true" value="#{financeiroBean.pessoas.DATA_nascimento}" converter="dateConverter"></p:inputMask>
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="Documento Funcional:"></p:outputLabel>
+									<p:selectOneMenu  value="#{financeiroBean.idFuncional}" valueChangeListener="#{financeiroBean.buscaFuncional}" style="width:100%" >
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{financeiroBean.listaFuncionais}" var="func" itemLabel="#{func.DESC_matricula}" itemValue="#{func.NUMG_idDoObjeto}"/>
+										<p:ajax update="@form" process="@this"></p:ajax>
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-5" style="color: #000">
+									<p:outputLabel value="Órgão:"></p:outputLabel>
+									<p:inputText styleClass="form-control" disabled="true" value="#{financeiroBean.cargo.NUMR_idDoObjetoOrgaos.DESC_nome}" id="orgao" />
+								</div>
+								<div class="col-sm-4" style="color: #000">
+									<p:outputLabel value="Lotação:"></p:outputLabel>
+									<p:inputText styleClass="form-control" disabled="true" value="#{financeiroBean.cargo.DESC_nome}" id="lotacao"/>
+								</div>
+							
+							</div>
+						</div>
+						
+						<div class="ui-grid ui-grid-responsive">
+							<h3 class="fieldalt">Dados Financeiros</h3>
+								<hr />
+								<div class="ui-grid-row">
+									<h:inputHidden
+										value="#{funcionalBean.remuneracao.NUMG_idDoObjeto}"></h:inputHidden>
+									<div class="col-lg-4" style="color: #000">
+										<p:outputLabel value="Competência:"></p:outputLabel>
+										<p:inputMask mask="99/9999" styleClass="form-control"
+											converter="competenciaConverterMesAno"
+											value="#{funcionalBean.remuneracao.NUMR_competencia}" />
+									</div>
+									<div class="col-lg-4" style="color: #000">
+										<p:outputLabel value="N° da Folha:"></p:outputLabel>
+										<p:inputText styleClass="form-control "
+											value="#{funcionalBean.remuneracao.NUMR_folha}" />
+									</div>
+									<div class="col-lg-3" style="color: #000">
+										<p:outputLabel value="13° Salário:"></p:outputLabel>
+										<p:selectOneRadio style="width:100%"
+											value="#{funcionalBean.decimoTerceiro}">
+											<f:selectItem itemLabel="Sim" itemValue="1"></f:selectItem>
+											<f:selectItem itemLabel="Não" itemValue="0"></f:selectItem>
+										</p:selectOneRadio>
+									</div>
+								</div>
+								
+								<div class="ui-grid-row">
+									<div class="col-lg-7" style="color: #000">
+										<p:outputLabel value="Rúbrica:"></p:outputLabel>
+										<p:selectOneMenu effect="fade" filter="true"
+											filterMatchMode="startsWith" style="width:100%"
+											value="#{funcionalBean.rubrica}"
+											converter="conversorDeEntidades">
+											<f:selectItem itemLabel="--Selecione--" itemValue=""
+												noSelectionOption="true" />
+											<f:selectItems value="#{funcionalBean.listaRubricas}"
+												var="rubricas" itemValue="#{rubricas}"
+												itemLabel="#{rubricas.DESC_descricao}"></f:selectItems>
+										</p:selectOneMenu>
+									</div>
+									<div class="col-lg-1" style="color: #000">
+										<p:commandButton icon="fa fa-plus" style="top:20px;" action="#{funcionalBean.exibeListaDeObjetosRubricas}"
+											process="@this" update="@none">
+											<p:ajax event="dialogReturn"
+													listener="#{funcionalBean.selecionaObjetoDialogoRubricas}"
+													process="@this" update="financeiro" />
+												<p:resetInput target="financeiro" />
+										</p:commandButton>
+										
+									</div>
+									<div class="col-lg-4" style="color: #000">
+										<p:outputLabel value="Valor:"></p:outputLabel>
+										<p:inputText styleClass="form-control "
+											value="#{funcionalBean.remuneracao.VALR_remuneracao}"
+											converter="moedaConverter" />
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="col-sm-12">
+										<p></p>
+									</div>
+								</div>
+								
+								
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+								<div class="ui-grid-row">
+								<div class="col-sm-2" style="color: #000">
+										<p:commandButton value="Salvar" icon="fa fa-save">
+											<p:ajax process="financeiro" update="financeiro"
+												listener="#{funcionalBean.salvarObjetoRemuneracao}" />
+										</p:commandButton>
+									</div>
+									<div class="col-sm-2" style="color: #000">
+										<p:commandButton value="Novo" icon="fa fa-plus" immediate="true">
+											<p:ajax process="@this" update="financeiro" 
+												listener="#{funcionalBean.novoObjetoRemuneracao}" />
+										</p:commandButton>
+									</div>
+									<div class="col-sm-3" style="color: #000">
+										<h:panelGroup>
+										<p:commandButton onclick="PF('fichaFinanceira').show();"
+											value="Ficha Financeira" icon="fa fa-dollar" update="@none"></p:commandButton>
+
+										<p:dialog header="Competência Portaria" widgetVar="fichaFinanceira"
+											resizable="false"
+											style="background-color:rgb(239, 246, 231);color: #000;">
+											
+											<p:commandButton icon="fa fa-close" style="margin-left: 150px;" onclick="PF('fichaFinanceira').hide()" ></p:commandButton>
+											<br/>
+											<p:outputLabel value="Ano:"></p:outputLabel>
+											<p:inputMask mask="9999" styleClass="form-control"
+												value="#{funcionalBean.anoFichaFinanceira}">
+													<p:ajax event="blur" update="@this" resetValues="true"/>
+												</p:inputMask>
+											<p></p>
+											<p:commandButton value="Imprimir" icon="fa fa-print" immediate="true" action="#{funcionalBean.geraFichaFin()}" onclick="this.form.target='_blank'" ajax="false">
+											</p:commandButton>
+										</p:dialog>
+									</h:panelGroup>
+									
+										
+									</div>
+									<div class="col-sm-3" style="color: #000">
+										<p:commandButton value="Pesquisar" icon="fa fa-search" 
+											action="#{funcionalBean.exibeListaDeObjetosRemuneracao}"
+											process="@this" update="@none">
+											<p:ajax event="dialogReturn"
+												listener="#{funcionalBean.selecionaObjetoDialogoRemuneracao}"
+												process="@this" update="financeiro" />
+											<p:resetInput target="financeiro" />
+										</p:commandButton>
+									</div>
+									
+									
+								</div>
+							</div>
+						
+						
+					</p:tab>
+					<p:tab title="Contribuição" id="contribuicao" rendered="true"
+						disabled="#{financeiroBean.ativaTab eq false}">
+						<div class="ui-grid ui-grid-responsive">
+							<h3 class="fieldalt">Dados do Servidor</h3>
+								<hr />
+								<div class="ui-grid-row">
+									<div class="col-sm-5" style="color: #000;">
+										<p:outputLabel value="Nome: "></p:outputLabel>
+										<p:outputLabel value="#{funcionalBean.pessoas.DESC_nome}"></p:outputLabel>
+									</div>
+
+									<div class="col-sm-3" style="color: #000;">
+										<p:outputLabel value="CPF: "></p:outputLabel>
+										<p:outputLabel value="#{funcionalBean.pessoas.NUMR_cpf}"></p:outputLabel>
+									</div>
+									<div class="col-sm-4" style="color: #000;">
+										<p:outputLabel value="Matrícula: "></p:outputLabel>
+										<p:outputLabel
+											value="#{funcionalBean.funcional.DESC_matricula}"></p:outputLabel>
+									</div>
+								</div>
+								<h3 class="fieldalt">Dados Contributivos</h3>
+								<hr />
+								
+								
+								 <p:dataTable id="contribs" var="cont"  style="font-size:13px;" value="#{financeiroBean.listaDecontribuicoes}" editable="true" editMode="cell" widgetVar="cellContribs">
+							 		<f:facet name="header">
+							 		<style>
+							 			tbody > tr {
+							 				background-color:white;
+							 			}
+							 		</style>
+							 		<div style="text-align: right">
+								            <p:outputLabel value="Ano: "></p:outputLabel>
+								            <p:inputMask mask="9999" value="#{financeiroBean.ano}"></p:inputMask>
+								            <p:commandButton value="Enviar" style="margin-left: 5px;" action="#{financeiroBean.processaLista}" update="contribs"></p:commandButton>
+							 		</div>
+							        </f:facet>
+							        <p:ajax event="cellEdit" listener="#{financeiroBean.onCellEdit}" />
+							 
+							          <p:column headerText="Competência">
+							               <p:cellEditor>
+							                   <f:facet name="output"><h:outputText value="#{cont.DESC_competencia}" /></f:facet>
+							                   <f:facet name="input"><p:inputText id="modelInput" value="#{cont.DESC_competencia}" /></f:facet>
+							               </p:cellEditor>
+							           </p:column>
+							 
+							           <p:column headerText="Base de Cálculo" style="width:132px">
+								            <p:cellEditor>
+								                <f:facet name="output"><h:outputText value="#{cont.VALR_contribuicaoPrevidenciaria}" /></f:facet>
+								                <f:facet name="input"><p:inputText value="#{cont.VALR_contribuicaoPrevidenciaria}" label="Year"/></f:facet>
+								            </p:cellEditor>
+							        	</p:column>
+							        	
+							        	 <p:column headerText="Al. Segurado">
+								            <p:cellEditor>
+								                <f:facet name="output"><h:outputText value="#{cont.NUMR_aliquotaSegurado}" /></f:facet>
+								                <f:facet name="input"><p:inputText value="#{cont.NUMR_aliquotaSegurado}" label="Year"/></f:facet>
+								            </p:cellEditor>
+							        	</p:column>
+							        	
+							        	<p:column headerText="Contrib. Segurado" style="width:152px" >
+								            <p:cellEditor>
+								                <f:facet name="output"><h:outputText value="#{cont.VALR_contribSegurado}"/></f:facet>
+								                <f:facet name="input"><p:inputText value="#{cont.VALR_contribSegurado}" label="Year"/></f:facet>
+								            </p:cellEditor>
+							        	</p:column>
+							        	
+							        	<p:column headerText="Dev. Segurado">
+								            <p:cellEditor>
+								                <f:facet name="output"><h:outputText value="#{cont.VALR_devolSegurado}"/></f:facet>
+								                <f:facet name="input"><p:inputText value="#{cont.VALR_devolSegurado}" label="Year"/></f:facet>
+								            </p:cellEditor>
+							        	</p:column>
+							        	
+							        	<p:column headerText="Al. Patronal">
+								            <p:cellEditor>
+								                <f:facet name="output"><h:outputText  value="#{cont.NUMR_aliquotaPatronal}"/></f:facet>
+								                <f:facet name="input"><p:inputText value="#{cont.NUMR_aliquotaPatronal}" label="Year"/></f:facet>
+								            </p:cellEditor>
+							        	</p:column>
+							 
+							       		<p:column headerText="Contrib. Patronal" style="width:152px">
+								            <p:cellEditor>
+								                <f:facet name="output"><h:outputText value="#{cont.VALR_contribPatronal}"  /></f:facet>
+								                <f:facet name="input"><p:inputText value="#{cont.VALR_contribPatronal}" label="Year"/></f:facet>
+								            </p:cellEditor>
+							        	</p:column>
+							        	
+							        	<p:column headerText="Dev. Patronal">
+								            <p:cellEditor>
+								                <f:facet name="output"><h:outputText value="#{cont.VALR_devolPatronal}"/></f:facet>
+								                <f:facet name="input"><p:inputText value="#{cont.VALR_devolPatronal}"  label="Year"/></f:facet>
+								            </p:cellEditor>
+							        	</p:column>
+							    </p:dataTable>
+							  
+								
+								
+								
+								
+								
+								
+								
+								<div class="ui-grid-row">
+									<div class="col-sm-12">
+										<br />
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="col-sm-2" style="color: #000">
+									<p:commandButton value="Salvar" icon="fa fa-save" action="#{funcionalBean.salvaContribuicoes}" >
+										<p:ajax
+											listener="#{funcionalBean.salvaContribuicoes}" />
+									</p:commandButton>
+								</div>
+								<div class="col-sm-2" style="color: #000">
+									<p:commandButton value="Novo" icon="fa fa-plus">
+										<p:ajax
+											listener="#{funcionalBean.resetaContribuicao()}"/>
+									</p:commandButton>
+								</div>
+								<div class="col-sm-3" style="color: #000">
+									<p:commandButton value="Extrato" icon="fa fa-print"
+										action="#{funcionalBean.geraFichaFinanceira}" immediate="true"
+										onclick="this.form.target='_blank'" ajax="false">
+									</p:commandButton>
+								</div>
+								<div class="col-sm-2" style="color: #000">
+									<p:commandButton value="Excluir" icon="fa fa-trash">
+										<p:ajax 
+											listener="#{funcionalBean.removeContribuicao}" />
+									</p:commandButton>
+								</div>
+								
+								
+								</div>
+						</div>
+					</p:tab>
+						<p:ajax event="tabChange" listener="#{proventosBean.onTabChange}" update="@form"/>
+						
+					<p:tab title="Proventos" id="proventos" rendered="true"
+						disabled="#{financeiroBean.ativaTab eq false}">
+						
+						
+						<div class="ui-grid ui-grid-responsive">
+							<h3 class="fieldalt">Dados do Servidor</h3>
+								<hr />
+								<div class="ui-grid-row">
+									<div class="col-sm-5" style="color: #000;">
+										<p:outputLabel value="Nome: "></p:outputLabel>
+										<p:outputLabel value="#{proventosBean.pf.NUMR_idDoObjetoPessoas.DESC_nome}" id="nomeProventos"></p:outputLabel>
+									</div>
+
+									<div class="col-sm-3" style="color: #000;">
+										<p:outputLabel value="CPF: "></p:outputLabel>
+										<p:outputLabel value="#{proventosBean.pf.NUMR_idDoObjetoPessoas.NUMR_cpf}"></p:outputLabel>
+									</div>
+									<div class="col-sm-4" style="color: #000;">
+										<p:outputLabel value="Matrícula: "></p:outputLabel>
+										<p:outputLabel
+											value="#{proventosBean.pf.DESC_matricula}"></p:outputLabel>
+									</div>
+								</div>
+								
+								<h3 class="fieldalt">Demonstrativo financeiro</h3>
+								<hr />
+								<div class="ui-grid-row">
+									<div class="col-sm-2" style="color: #000;">
+										<p:outputLabel value="Competência: "></p:outputLabel>
+										<p:inputMask mask="99/9999" styleClass="form-control" id="comp" value="#{proventosBean.competencia}"></p:inputMask>
+									</div>
+									
+									<div class="col-sm-5" style="color: #000;">
+										<p:outputLabel value="Rúbrica: "></p:outputLabel>
+										<p:selectOneMenu effect="fade" filter="true"
+											filterMatchMode="startsWith" style="width:100%"
+											value="#{proventosBean.demonstrativo.NUMR_rubricas}" id="rub"
+											converter="conversorDeEntidades">
+											<f:selectItem itemLabel="--Selecione--" itemValue=""
+												noSelectionOption="true" />
+											<f:selectItems value="#{proventosBean.listaDeRubricas}"
+												var="rubricas" itemValue="#{rubricas}"
+												itemLabel="#{rubricas.DESC_descricao} - #{rubricas.NUMR_codigo}"></f:selectItems>
+										</p:selectOneMenu>
+									</div>
+
+									<div class="col-sm-4" style="color: #000;">
+										<p:outputLabel value="Fundamentação: "></p:outputLabel>
+										<p:selectOneMenu value="#{proventosBean.demonstrativo.NUMR_atosLegais}" style="width:100%" converter="conversorDeEntidades" id="fundamentacao">
+											<f:selectItem itemLabel="--Selecione--" itemValue=""
+												noSelectionOption="true" />
+											<f:selectItems value="#{proventosBean.listaDeAtosLegais}" var="atos" itemLabel="#{atos.DESC_tituloEmenta}" itemValue="#{atos}"/>
+										</p:selectOneMenu>
+									</div>
+									
+									<div class="col-lg-1" style="color: #000">
+										<p:commandButton icon="ui-icon-plus" style="top:23px"
+											process="rub  fundamentacao comp @this "
+											update="rub  fundamentacao tabelaProventos"
+											action="#{proventosBean.reinitDemonstrativo}" actionListener="#{proventosBean.atualizaDemonstrativo()}">
+											<p:collector value="#{proventosBean.demonstrativo}"
+												addTo="#{proventosBean.listaDemonstrativo}" unique="true" />
+											<f:param name="noValidate" value="1"></f:param>
+										</p:commandButton>
+										
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="col-sm-12">
+										<p></p>
+									</div>
+								</div>
+								<div class="ui-grid-row">
+								<p:outputPanel id="tabelaProventos">
+									<p:dataTable var="listaProventos" id="idTbProventos" widgetVar="recadTable"  styleClass="col-sm-12"
+											emptyMessage="Registro não encontrado." 
+											value="#{proventosBean.listaDemonstrativo}">
+											
+										<p:column headerText="Código" >
+											<p:outputLabel value="#{listaProventos.NUMR_rubricas.NUMR_codigo}" />
+										</p:column>
+										<p:column headerText="Discriminação" >
+											<p:outputLabel value="#{listaProventos.NUMR_rubricas.DESC_descricao}" />
+										</p:column>
+										<p:column headerText="Fundamento" >
+											<p:outputLabel value="#{listaProventos.NUMR_atosLegais.DESC_tituloEmenta}" />
+										</p:column>
+										<p:column headerText="Percentual" >
+											<p:outputLabel value="#{listaProventos.NUMR_percentual} %" />
+										</p:column>
+										<p:column headerText="Valor" >
+											<p:outputLabel value="#{listaProventos.VALR_remuneracao}" >
+												 <f:convertNumber type="currency" />
+											</p:outputLabel>
+										</p:column>
+										<p:column headerText="Remover"
+												style="width:130px;text-align: center">
+											<p:commandButton icon="ui-icon-trash"
+												update="idTbProventos"
+												process="idTbProventos">
+												<p:collector value="#{listaProventos}"
+													removeFrom="#{proventosBean.listaDemonstrativo}"
+													unique="true" />
+												<f:param name="noValidate" value="1"></f:param>
+											</p:commandButton>
+										</p:column>
+								          
+									</p:dataTable>
+								</p:outputPanel>
+								</div>
+								
+								<div class="ui-grid-row">
+									<div class="col-sm-12">
+										<p></p>
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="col-sm-12">
+										
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="col-sm-12">
+										<p></p>
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="col-sm-2" style="color: #000">
+										<p:commandButton value="Salvar" icon="fa fa-save">
+											<p:ajax process="proventos" update="tabelaProventos impressao"
+												listener="#{proventosBean.salvarObjeto()}" />
+										</p:commandButton>
+									</div>
+									<div class="col-sm-2" style="color: #000">
+										<p:commandButton value="Novo" icon="fa fa-plus" immediate="true">
+											<p:ajax process="@this" update="tabelaProventos" 
+												listener="#{proventosBean.novoObjeto()}" />
+										</p:commandButton>
+									</div>
+									<div class="col-sm-2" style="color: #000">
+										<p:commandButton value="Imprimir" icon="fa fa-print" onclick="this.form.target='_blank'" ajax="false" immediate="true"
+										 disabled="#{proventosBean.habilitaImpressao eq false}" id="impressao" action="#{proventosBean.geraProventos()}"> 
+										</p:commandButton>
+									</div>
+								</div>
+								
+						</div>
+					</p:tab>
+					
+					
+					<p:tab title="Médias Aritméticas" id="medias" rendered="true"
+						disabled="#{financeiroBean.ativaTab eq false}">
+						
+						
+						<div class="ui-grid ui-grid-responsive">
+							<h3 class="fieldalt">Dados do Servidor</h3>
+								<hr />
+								<div class="ui-grid-row">
+									<div class="col-sm-5" style="color: #000;">
+										<p:outputLabel value="Nome: "></p:outputLabel>
+										<p:outputLabel value="#{proventosBean.pf.NUMR_idDoObjetoPessoas.DESC_nome}" ></p:outputLabel>
+									</div>
+
+									<div class="col-sm-3" style="color: #000;">
+										<p:outputLabel value="CPF: "></p:outputLabel>
+										<p:outputLabel value="#{proventosBean.pf.NUMR_idDoObjetoPessoas.NUMR_cpf}"></p:outputLabel>
+									</div>
+									<div class="col-sm-4" style="color: #000;">
+										<p:outputLabel value="Matrícula: "></p:outputLabel>
+										<p:outputLabel
+											value="#{proventosBean.pf.DESC_matricula}"></p:outputLabel>
+									</div>
+								</div>
+								
+								<h3 class="fieldalt">Demonstrativo financeiro</h3>
+								<hr />
+								<div class="ui-grid-row">
+									<div class="col-sm-4" style="color: #000;">
+										<p:outputLabel value="Competência Portaria: "></p:outputLabel>
+										<p:inputMask mask="99/9999" styleClass="form-control" id="compet"
+												value="#{funcionalBean.competenciaPortaria}" converter="competenciaConverterMesAno">
+													<p:ajax event="blur" update="@this" resetValues="true"/>
+										</p:inputMask>
+									</div>
+									<div class="col-sm-4" style="color: #000;">
+										<p:outputLabel value="Data Simulação:"></p:outputLabel>
+												<p:inputMask mask="99/99/9999" styleClass="form-control"
+												value="#{funcionalBean.dataSimulacao}" converter="dateConverter">
+													<p:ajax event="blur" update="@this" resetValues="true"/>
+										</p:inputMask>
+									</div>
+									<div class="col-sm-4" style="color: #000;margin-top: 20px;">
+										<p:outputLabel value="Proventos Integrais? " />
+											<p:selectBooleanButton id="value2" value="#{funcionalBean.tipoCalculo}" onLabel="Sim" offLabel="Não"  style="width:65px">
+										            <p:ajax update="@this"/>
+										    </p:selectBooleanButton>
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="col-sm-12">
+										<p></p>
+									</div>
+								</div>
+								
+								
+								<div class="ui-grid-row">
+									<div class="col-sm-12">
+										<p></p>
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="col-sm-12">
+										
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="col-sm-12">
+										<p></p>
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="col-sm-2" style="color: #000">
+										<p:commandButton value="Imprimir"
+												action="#{funcionalBean.geraMedias}" immediate="true"
+												onclick="this.form.target='_blank'" ajax="false">
+												
+											</p:commandButton>
+									</div>
+								</div>
+								
+						</div>
+					</p:tab>
+				</p:tabView>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

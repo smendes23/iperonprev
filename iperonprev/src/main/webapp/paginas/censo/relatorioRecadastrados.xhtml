@@ -1,0 +1,89 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+	<f:metadata>
+		<f:viewAction action="#{relatorioRecadastramentoBean.recarregaPagina}" onPostBack="true"/>
+	</f:metadata>
+	
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+
+
+
+
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel header="Relatório Servidores/Beneficiários Recadastrados" styleClass="col-sm-10">
+			<h:form id="formUnidade">
+				<p:messages showDetail="true" closable="true"></p:messages>
+				<br />
+				<h:inputHidden value="#{unidadeBean.unidade.NUMG_idDoObjeto}"></h:inputHidden>
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-sm-3" style="color: #000;">
+							<p:outputLabel value="Data Inicio"></p:outputLabel>
+							<p:inputMask mask="99/99/9999" styleClass="form-control" id="inicio"  required="true" value="#{relatorioRecadastramentoBean.dataInicio}" converter="dateConverter">
+							<p:ajax></p:ajax>
+							</p:inputMask>
+						</div>
+						<div class="col-sm-3" style="color: #000;">
+							<p:outputLabel value="Data Fim"></p:outputLabel>
+							<p:inputMask mask="99/99/9999" styleClass="form-control" id="fim"  value="#{relatorioRecadastramentoBean.dataFim}" converter="dateConverter">
+								<p:ajax></p:ajax>
+							</p:inputMask>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Tipo Beneficiário:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true" id="tipo"
+								filterMatchMode="startsWith" style="width:100%" styleClass="selectalt" value="#{relatorioRecadastramentoBean.tipoBeneficiario}">
+								<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+								<f:selectItem itemLabel="Aposentado" itemValue="2"/>
+								<f:selectItem itemLabel="Pensionista" itemValue="4"/>
+								<p:ajax></p:ajax>
+							</p:selectOneMenu>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Tipo Recadastramento:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true"
+								filterMatchMode="startsWith" style="width:100%" styleClass="selectalt" value="#{relatorioRecadastramentoBean.tipoRecadastramento}">
+								<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+								<f:selectItem itemLabel="Presencial" itemValue="1"/>
+								<f:selectItem itemLabel="Online" itemValue="2"/>
+								<p:ajax></p:ajax>
+							</p:selectOneMenu>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-2">
+						
+							<p:commandButton value="Gerar" icon="fa fa-file-pdf-o" action="#{relatorioRecadastramentoBean.gerarRelatorioRecadastramento()}" onclick="this.form.target='_blank'" ajax="false" immediate="true">
+							</p:commandButton>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+					
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+				</div>
+				
+				<div class="col-sm-12"><p></p></div>
+				
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

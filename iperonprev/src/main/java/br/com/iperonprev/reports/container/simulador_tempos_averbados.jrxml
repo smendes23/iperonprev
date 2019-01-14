@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="simulador_tempos_averbados" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="18643ef5-631e-4ea2-9a58-3fa8f04d6968">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="494"/>
+	<property name="ireport.y" value="0"/>
+	<import value="org.joda.time.DateTime"/>
+	<import value="org.joda.time.Period"/>
+	<import value="org.joda.time.PeriodType"/>
+	<field name="periodo" class="java.lang.String"/>
+	<field name="quantidadeDias" class="java.lang.String"/>
+	<field name="tempoExtenso" class="java.lang.String"/>
+	<field name="regime" class="java.lang.String"/>
+	<field name="atividade" class="java.lang.String"/>
+	<field name="totalTempoExtensoRpps" class="java.lang.String"/>
+	<field name="totalDiasRgps" class="java.lang.String"/>
+	<field name="totalDiasRpps" class="java.lang.String"/>
+	<field name="totalTempoExtensoRgps" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="27">
+			<staticText>
+				<reportElement x="11" y="0" width="534" height="14" isRemoveLineWhenBlank="true" forecolor="#000000" uuid="b0132bc8-ed2f-4f2f-bebe-7b5c73c8353e"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<text><![CDATA[TEMPOS AVERBADOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="14" width="127" height="13" isRemoveLineWhenBlank="true" forecolor="#000000" uuid="180b9134-3051-4ce0-9f4b-6fa2df0c51e2"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<text><![CDATA[Período]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="138" y="14" width="67" height="13" isRemoveLineWhenBlank="true" forecolor="#000000" uuid="e324f928-1ef7-4fa8-b871-d1479add9f56"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<text><![CDATA[Dias]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="205" y="14" width="158" height="13" isRemoveLineWhenBlank="true" forecolor="#000000" uuid="14c2f3c0-0d3c-4afc-967d-445a8d41f0b1"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<text><![CDATA[Tempo por Extenso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="363" y="14" width="51" height="13" isRemoveLineWhenBlank="true" forecolor="#000000" uuid="02b01d05-a98b-4bc3-bf62-b7f8ad6901fe"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<text><![CDATA[Regime]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="414" y="14" width="131" height="13" isRemoveLineWhenBlank="true" forecolor="#000000" uuid="5e90a6e3-0ac7-4e84-ad4d-3ab92dd4d7a8"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<text><![CDATA[Atividade]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13">
+			<textField isBlankWhenNull="true">
+				<reportElement x="11" y="0" width="127" height="13" uuid="be49ec31-634b-4328-9ef6-9264ec2ceb62"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{periodo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="138" y="0" width="67" height="13" uuid="2eef69a0-510b-456f-b353-17fceae927c5"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center">
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantidadeDias}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="205" y="0" width="158" height="13" uuid="fbdc35f2-dc13-45aa-b1b2-55d6ab3d1f2d"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{tempoExtenso}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="363" y="0" width="51" height="13" uuid="10a71b3f-e115-47ff-84da-73846a8ed848"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{regime}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="414" y="0" width="131" height="13" uuid="8ce6cf37-3e95-4836-b1f0-fa4a033b25f3"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{atividade}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="36">
+			<staticText>
+				<reportElement x="11" y="0" width="127" height="13" isRemoveLineWhenBlank="true" forecolor="#000000" uuid="2cbd44b4-527b-4ee8-bf6f-098ddfdc195b"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<text><![CDATA[TOTAL RGPS:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="13" width="127" height="13" isRemoveLineWhenBlank="true" forecolor="#000000" uuid="766f9cc4-19bf-4bf5-a801-cbd25047acb5"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<text><![CDATA[TOTAL RPPS:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="138" y="0" width="67" height="13" uuid="7cc4027e-d284-435b-91ee-53c10831737e"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{totalDiasRgps}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="138" y="13" width="67" height="13" uuid="0a4f942e-1ae6-42a0-a770-ab8250cdbcbf"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{totalDiasRpps}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="0" width="158" height="13" uuid="aa697600-a86b-4f2c-8991-d28be3694ff3"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{totalTempoExtensoRgps}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="13" width="158" height="13" uuid="d79e14de-bf60-4fc9-88eb-f34c829edc78"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{totalTempoExtensoRpps}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

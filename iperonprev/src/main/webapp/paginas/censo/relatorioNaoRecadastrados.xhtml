@@ -1,0 +1,71 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+	
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel header="Relatório de Não Recadastrados" styleClass="col-sm-10">
+			<h:form id="formUnidade">
+				<p:messages showDetail="true" closable="true"></p:messages>
+				<br />
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-sm-6">
+							<p:outputLabel value="Censo Previdenciário:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true" converter="conversorDeEntidades"
+								filterMatchMode="startsWith" style="width:100%" styleClass="selectalt" value="#{relatorioRecadastramentoBean.censo}">
+								<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+								<f:selectItems value="#{relatorioRecadastramentoBean.listaCenso}" var="censo" itemLabel="#{censo.DESC_descricao}" itemValue="#{censo}"></f:selectItems>
+							</p:selectOneMenu>
+						</div>
+						<div class="col-sm-3" style="color: #000">
+							<p:outputLabel value="Competência:"></p:outputLabel>
+							<p:inputMask mask="99/9999" styleClass="form-control"  required="true" value="#{relatorioRecadastramentoBean.competenciaInicio}">
+							</p:inputMask>
+						</div>
+						<div class="col-sm-6">
+							<p:outputLabel value="Tipo Beneficiário:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true"
+								filterMatchMode="startsWith" style="width:100%" styleClass="selectalt" value="#{relatorioRecadastramentoBean.tipoBeneficiario}">
+								<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+								<f:selectItem itemLabel="Aposentado" itemValue="1"/>
+								<f:selectItem itemLabel="Pensionista" itemValue="3"/>
+							</p:selectOneMenu>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<div class="col-sm-2">
+					<p:commandButton value="Gerar" icon="fa fa-file-pdf-o" action="#{relatorioRecadastramentoBean.gerarRelatorioNaoRecadastrado()}" onclick="this.form.target='_blank'" ajax="false">
+					</p:commandButton>
+				</div>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+				</div>
+				
+				<div class="col-sm-12"><p></p></div>
+				
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

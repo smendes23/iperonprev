@@ -1,0 +1,290 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+		<f:metadata>
+			<f:viewAction action="#{recadastramentoAposentadoBean.recarregaPagina}"
+				onPostBack="true" />
+		</f:metadata>
+	<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+
+</style>
+	<sa:ajaxStatus />
+	<sa:loading imgDir="/image/loading.gif"></sa:loading>
+	<div class="col-sm-10">
+				<h:form>
+				<h:inputHidden value="#{recadastramentoAposentadoBean.convocacao.NUMG_idDoObjeto}"></h:inputHidden>
+				<h:inputHidden value="#{recadastramentoAposentadoBean.censo.NUMG_idDoObjeto}"></h:inputHidden>
+				<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+				<p:wizard flowListener="#{userWizard.onFlowProcess}" style=" margin-bottom: 55px;">
+					<p:tab id="dadosPessoais" title="Dados Pessoais">
+						<div class="ui-grid ui-grid-responsive">
+						<h3 class="fieldalt">Dados do Servidor</h3>
+						<hr />
+							<h:inputHidden value="#{recadastramentoAposentadoBean.pessoa.NUMG_idDoObjeto}" />
+							<div class="ui-grid-row">
+								<div class="col-sm-6">
+									<p:outputLabel value="Unidade de Atendimento:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true" required="true" converter="conversorDeEntidades" value="#{recadastramentoAposentadoBean.unidade}"
+											filterMatchMode="startsWith" style="width:100%" styleClass="selectalt">
+											<f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true"/>
+											<f:selectItems value="#{recadastramentoAposentadoBean.listaUnidadeCenso}"  var="unidade" itemValue="#{unidade}" itemLabel="#{unidade.DESC_nome}"></f:selectItems>
+									</p:selectOneMenu>
+								</div>		
+								<div class="col-sm-6">
+									<p:outputLabel value="Nome:"></p:outputLabel>
+									<p:inputText styleClass="form-control" value="#{recadastramentoAposentadoBean.pessoa.DESC_nome}"></p:inputText>
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-4">
+									<p:outputLabel value="Matrícula:"></p:outputLabel>
+									<p:inputText styleClass="form-control" value="#{recadastramentoAposentadoBean.pf.DESC_matricula}"></p:inputText>
+								</div>
+								<div class="col-sm-4" style="color: #000; margin-left: 20px;">
+									<p:outputLabel value="Data Nascimento"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control" value="#{recadastramentoAposentadoBean.pessoa.DATA_nascimento}" converter="dateConverter" required="true">
+									</p:inputMask>
+								</div>
+								<div class="col-sm-4" style="color: #000; margin-left: 20px;">
+									<p:outputLabel value="Nacionalidade:"></p:outputLabel>
+									<p:inputText styleClass="form-control" value="#{recadastramentoAposentadoBean.pessoa.DESC_nacionalidade}" required="true"></p:inputText>
+								</div>
+							</div>
+						</div>
+						
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="UF:"></p:outputLabel>
+									<p:inputText styleClass="form-control" value="#{recadastramentoAposentadoBean.pessoa.DESC_ufNaturalidade}" required="true"></p:inputText>
+								</div>
+
+								<div class="col-sm-3" style="color: #000; margin-left: 20px;">
+									<p:outputLabel value="Naturalidade:"></p:outputLabel>
+									<p:inputText styleClass="form-control" value="#{recadastramentoAposentadoBean.pessoa.DESC_naturalidade}" required="true"></p:inputText>
+								</div>
+
+								<div class="col-sm-3" style="color: #000; margin-left: 20px;">
+									<p:outputLabel value="Sexo:"></p:outputLabel>
+									<p:selectOneRadio styleClass="form-control" value="#{recadastramentoAposentadoBean.pessoa.DESC_sexo}" required="true">
+										<f:selectItems value="#{recadastramentoAposentadoBean.sexoEnum}" var="sexo"
+											itemLabel="#{sexo.nome}" itemValue="#{sexo}"></f:selectItems>
+									</p:selectOneRadio>
+								</div>
+								<div class="col-sm-3" style="color: #000; margin-left: 20px;">
+									<p:outputLabel value="Estado Civil:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true" required="true"
+										converter="conversorDeEntidades" filterMatchMode="startsWith"
+										style="width:100%" styleClass="selectalt"
+										value="#{recadastramentoAposentadoBean.estadoCivil}">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{recadastramentoAposentadoBean.listaEstadosCivis}"
+											var="estadoCivil" itemValue="#{estadoCivil}"
+											itemLabel="#{estadoCivil.DESC_nome}" />
+									</p:selectOneMenu>
+								</div>
+							</div>
+						</div>
+						
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-6" style="color: #000">
+									<p:outputLabel value="Nome do Pai:"></p:outputLabel>
+									<p:inputText styleClass="form-control" value="#{recadastramentoAposentadoBean.pessoa.DESC_pai}" required="true"></p:inputText>
+								</div>
+
+								<div class="col-sm-6" style="color: #000; margin-left: 20px;">
+									<p:outputLabel value="Nome da Mãe:"></p:outputLabel>
+									<p:inputText styleClass="form-control" value="#{recadastramentoAposentadoBean.pessoa.DESC_mae}" required="true"></p:inputText>
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-4" style="color: #000">
+									<p:outputLabel value="CPF:"></p:outputLabel>
+									<p:inputMask mask="999.999.999-99" styleClass="form-control" value="#{recadastramentoAposentadoBean.pessoa.NUMR_cpf}" converter="cpfConverter" required="true"></p:inputMask>
+								</div>
+
+								<div class="col-sm-4" style="color: #000">
+									<p:outputLabel value="PASEP/PIS/NIT:"></p:outputLabel>
+									<p:inputText styleClass="form-control" value="#{recadastramentoAposentadoBean.pessoa.NUMR_pisPasep}" required="true"></p:inputText>
+								</div>
+								<div class="col-sm-4" style="color: #000">
+									<p:outputLabel value="Número do RG:"></p:outputLabel>
+									<p:inputText styleClass="form-control" value="#{recadastramentoAposentadoBean.pessoa.NUMR_identidade}" ></p:inputText>
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-6" style="color: #000;">
+									<p:outputLabel value="Órgão Expedidor:"></p:outputLabel>
+									<p:inputText styleClass="form-control" value="#{recadastramentoAposentadoBean.pessoa.NUMR_orgaoIdentidade}" ></p:inputText>
+								</div>
+								<div class="col-sm-6" style="color: #000;">
+									<p:outputLabel value="Data Emissão:"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control" converter="dateConverter" value="#{recadastramentoAposentadoBean.pessoa.DATA_emissaoIdentidade}" ></p:inputMask>
+								</div>
+							</div>
+						</div>
+						
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<br />
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-2" style="color: #000">
+									<p:commandButton value="Salvar" icon="fa fa-save" ajax="false" action="#{recadastramentoAposentadoBean.salvaObjeto}">
+									</p:commandButton>
+								</div>
+								<div class="col-sm-2" style="color: #000">
+									<p:commandButton value="Novo" icon="fa fa-plus">
+										<p:ajax  process="@this"
+											update="@form"  listener="#{recadastramentoAposentadoBean.novo}" immediate="true"/>
+									</p:commandButton>
+								</div>
+
+							</div>
+						</div>
+					</p:tab>
+					<p:tab id="endereco" title="Endereço">
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="Cep:"></p:outputLabel>
+									<p:inputText styleClass="form-control" value="#{recadastramentoAposentadoBean.endereco.NUMR_cep}" required="true">
+										<p:ajax event="blur" update="@this logradouro bairro uf munic" process="@this"
+											listener="#{recadastramentoAposentadoBean.retornaEndereco}"></p:ajax>
+									</p:inputText>
+								</div>
+
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="Tipo Logradouro:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true" required="true"
+										converter="conversorDeEntidades" filterMatchMode="startsWith"
+										style="width:100%" styleClass="selectalt"
+										value="#{recadastramentoAposentadoBean.endereco.NUMR_tipoLogradouro}">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{recadastramentoAposentadoBean.listaTipoLogradouro}"
+											var="logradouro" itemValue="#{logradouro}"
+											itemLabel="#{logradouro.DESC_nome}" />
+									</p:selectOneMenu>
+								</div>
+
+								<div class="col-sm-6" style="color: #000">
+									<p:outputLabel value="Logradouro:"></p:outputLabel>
+									<p:inputText id="logradouro" styleClass="form-control" value="#{recadastramentoAposentadoBean.endereco.DESC_logradouro}" required="true"></p:inputText>
+								</div>
+							</div>
+						</div>
+
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="Número:"></p:outputLabel>
+									<p:inputText styleClass="form-control" value="#{recadastramentoAposentadoBean.endereco.DESC_numero}" required="true"></p:inputText>
+								</div>
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="Bairro:"></p:outputLabel>
+									<p:inputText id="bairro" styleClass="form-control" value="#{recadastramentoAposentadoBean.endereco.DESC_bairro}" required="true"></p:inputText>
+								</div>
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="UF:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true" id="uf" required="true"
+										filterMatchMode="startsWith" style="width:100%"
+										styleClass="selectalt" value="#{recadastramentoAposentadoBean.estado}"
+										converter="conversorDeEntidades">
+										<p:ajax event="change" update="munic" listener="#{recadastramentoAposentadoBean.populaMunicipios}" process="@this"></p:ajax>
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{recadastramentoAposentadoBean.listaDeEstados}"
+											var="estados" itemValue="#{estados}"
+											itemLabel="#{estados.DESC_nome}" />
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="Município:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true" id="munic"
+										filterMatchMode="startsWith" style="width:100%" required="true"
+										styleClass="selectalt"
+										value="#{recadastramentoAposentadoBean.municipio}"
+										converter="conversorDeEntidades">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{recadastramentoAposentadoBean.listaDeMunicipios}"
+											var="munic" itemValue="#{munic}"
+											itemLabel="#{munic.DESC_nome}" />
+									</p:selectOneMenu>
+								</div>
+								
+							</div>
+						</div>
+					</p:tab>
+					<p:tab id="contato" title="Contato">
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-6" style="color: #000">
+									<p:outputLabel value="Telefone Fixo:"></p:outputLabel>
+									<p:inputMask mask="(99)9999-9999" styleClass="form-control" value="#{recadastramentoAposentadoBean.pessoa.NUMR_telefoneFixo}"></p:inputMask>
+								</div>
+
+								<div class="col-sm-6" style="color: #000">
+									<p:outputLabel value="Telefone Celular:"></p:outputLabel>
+									<p:inputMask mask="(99)9999-9999" styleClass="form-control" value="#{recadastramentoAposentadoBean.pessoa.NUMR_telefoneCelular}"></p:inputMask>
+								</div>
+								
+							</div>
+							<div class="ui-grid-row">
+							<div class="col-sm-4" style="color: #000">
+									<p:outputLabel value="Outro Telefone:"></p:outputLabel>
+									<p:inputMask mask="(99)9999-9999" styleClass="form-control"></p:inputMask>
+								</div>
+							<div class="col-sm-8" style="color: #000">
+									<p:outputLabel value="E-mail:"></p:outputLabel>
+									<p:inputText styleClass="form-control" value="#{recadastramentoAposentadoBean.pessoa.DESC_email}"></p:inputText>
+								</div>
+							</div>
+						</div>
+					</p:tab>
+				
+					<p:tab id="dependentes" title="Dependentes">
+					<div class="ui-grid ui-grid-responsive">
+						<div class="ui-grid-row">
+								<p:dataTable  styleClass="col-sm-12" emptyMessage="Registro não encontrado." value="#{recadastramentoAposentadoBean.listaDependentes}" var="dependentes">
+									<p:column headerText="Nome">
+										<p:outputLabel value="#{dependentes.NUMR_idDoObjetoPessoas.DESC_nome}"></p:outputLabel>
+									</p:column>
+									<p:column headerText="CPF">
+										<p:outputLabel value="#{dependentes.NUMR_idDoObjetoPessoas.NUMR_cpf}"></p:outputLabel>
+									</p:column>
+									<p:column headerText="Data Nasc.">
+										<p:outputLabel value="#{dependentes.NUMR_idDoObjetoPessoas.DATA_nascimento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+										</p:outputLabel>
+									</p:column>
+									<p:column headerText="Parentesco">
+										<p:outputLabel value="#{dependentes.NUMR_grauParentesco.DESC_nome}"></p:outputLabel>
+									</p:column>
+								</p:dataTable>
+						</div>
+					</div>
+					</p:tab>
+				</p:wizard>
+				</h:form>
+	</div>
+	</ui:define>
+</ui:composition>
+</html>

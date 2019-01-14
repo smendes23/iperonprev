@@ -1,0 +1,80 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<h:head>
+	<title>::Lista de Códigos da Receita::</title>
+<style>
+
+.ui-shadow {
+   box-shadow: 0px 5px 10px transparent;
+}
+.ui-widget {
+    font-family: segoe ui, Arial, sans-serif;
+    font-size: 16px;
+}
+</style>
+</h:head>
+<h:body style="background-color:#FFF">
+	<div>
+		<br />
+	</div>
+	<h:form>
+	<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:dataTable var="listaCodigos" widgetVar="codigosTable"
+			value="#{fundoPrevidenciarioBean.listaDeCodigos}" paginator="true"
+			paginatorAlwaysVisible="false" rows="5" paginatorPosition="bottom"
+			style="heigth:480px;width:880" id="tbCodigosReceita" rowsPerPageTemplate="5,10"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			filteredValue="#{fundoPrevidenciarioBean.filtroDeCodigos}">
+			<f:facet name="header">
+				<p:outputPanel style="margin-left: 615px;">
+					<h:outputText value="Pesquisar:" />
+					<p:inputText id="globalFilter" styleClass="form-control input-sm" onkeyup="PF('codigosTable').filter()"
+						style="width:130px" placeholder="Digite aqui..." />
+				</p:outputPanel>
+
+			</f:facet>
+			<p:column headerText="Código" filterBy="#{listaCodigos.NUMG_codigo}"
+				filterMatchMode="contains" filterStyle="display:none">
+				<p:outputLabel value="#{listaCodigos.NUMG_codigo}"/>
+			</p:column>
+			<p:column headerText="Descrição" style="width:220px;" filterBy="#{listaCodigos.DESC_descricao}" filterMatchMode="contains" filterStyle="display:none">
+				<p:outputLabel value="#{listaCodigos.DESC_descricao}">
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Banco"
+				filterBy="#{listaCodigos.banco}" filterMatchMode="contains"
+				filterStyle="display:none">
+				<p:outputLabel value="#{listaCodigos.banco}">
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Agência"
+				filterBy="#{listaCodigos.agencia}" filterMatchMode="contains"
+				filterStyle="display:none">
+				<p:outputLabel value="#{listaCodigos.agencia}">
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Conta"
+				filterBy="#{listaCodigos.conta}" filterMatchMode="contains"
+				filterStyle="display:none">
+				<p:outputLabel value="#{listaCodigos.conta}">
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Editar" width="50">
+				<p:commandLink action="#{fundoPrevidenciarioBean.pegaInstanciaDialogo(listaCodigos)}">
+					<p:graphicImage name="/image/editar.png" style="margin-left: 15;"></p:graphicImage>
+				</p:commandLink>
+			</p:column>
+			<p:column headerText="Excluir" width="50">
+				<p:commandLink action="#{fundoPrevidenciarioBean.removeCodigo(listaCodigos.NUMG_codigo)}" ajax="true" update="@form">
+					<p:graphicImage name="/image/excluir.png" style="margin-left: 15;"></p:graphicImage>
+				</p:commandLink>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

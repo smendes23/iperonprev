@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="atoConcessorio" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="18643ef5-631e-4ea2-9a58-3fa8f04d6968">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="org.joda.time.DateTime"/>
+	<import value="org.joda.time.Period"/>
+	<import value="org.joda.time.PeriodType"/>
+	<field name="tituloRelatorio" class="java.lang.String"/>
+	<field name="cabecalho" class="java.lang.String"/>
+	<field name="texto1" class="java.lang.String"/>
+	<field name="texto2" class="java.lang.String"/>
+	<field name="texto3" class="java.lang.String"/>
+	<field name="chefePoder" class="java.lang.String"/>
+	<field name="poder" class="java.lang.String"/>
+	<field name="chefeIperon" class="java.lang.String"/>
+	<field name="numeroProcesso" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="193" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="39" y="118" width="515" height="20" isPrintWhenDetailOverflows="true" uuid="9bbf796d-e135-41e9-b2d1-0f3b44689916"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Cambria" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cabecalho}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="39" y="2" width="61" height="67" uuid="de391b62-cf11-4592-9117-2c85e6637829"/>
+				<imageExpression><![CDATA["C:\\tomcat8\\webapps\\ROOT\\resources\\image\\rondonia.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="495" y="15" width="78" height="54" uuid="83a3a912-c0da-40cf-8939-7d0908aa626f"/>
+				<imageExpression><![CDATA["C:\\tomcat8\\webapps\\ROOT\\resources\\image\\iperon.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="39" y="23" width="515" height="20" uuid="195d2cf8-6662-4d50-9f9a-cb1903274018"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Governo do Estado de Rondônia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="39" y="43" width="515" height="20" uuid="7d2ce3f1-c509-4501-bc5b-f49b6d24345a"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[INSTITUTO DE PREVIDÊNCIA DOS SERVIDORES PÚBLICOS DO ESTADO DE RONDÔNIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="39" y="58" width="515" height="20" uuid="54b97b12-9618-4185-a247-aaf784a53c0f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IPERON]]></text>
+			</staticText>
+			<line>
+				<reportElement x="39" y="84" width="516" height="1" forecolor="#006600" uuid="d566601a-dc5a-4164-9b17-410756a7d1bb"/>
+				<graphicElement>
+					<pen lineWidth="2.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="39" y="90" width="516" height="1" forecolor="#006600" uuid="f9eb4c26-c412-43cc-8010-d77a22bb3949"/>
+			</line>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="39" y="93" width="515" height="16" isPrintWhenDetailOverflows="true" uuid="14f38094-48de-4285-b8ae-59be82acbc15"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tituloRelatorio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="39" y="165" width="515" height="17" uuid="54ee5366-e637-4767-ae4a-4aba54b279c6"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RESOLVEM:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="39" y="143" width="99" height="16" uuid="24402885-1a72-4ea9-9cf8-aca8234d3644"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONSIDERANDO ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="138" y="143" width="149" height="16" uuid="f04d6e75-e373-41f2-8f7b-6b6337c1490b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Cambria" size="12"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<text><![CDATA[o constante no processo nº]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="287" y="143" width="267" height="16" uuid="7bf7f850-2649-4aaf-a994-1340465942c9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Cambria" size="12"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numeroProcesso}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="205">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="39" y="0" width="515" height="16" uuid="ddb68fe7-635a-4797-83ea-3ecad6b10def"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Cambria" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{texto1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="39" y="22" width="515" height="16" uuid="5777edef-d866-4bae-82b4-099836b43ee9"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Cambria" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{texto2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="39" y="44" width="515" height="16" uuid="04882e49-f8dc-4f20-98b6-265d39527792"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Cambria" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{texto3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="FixRelativeToBottom" x="39" y="102" width="516" height="16" uuid="a4ac4d59-7d48-4b56-a8fc-115d20d2fa15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{chefePoder}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="FixRelativeToBottom" x="39" y="117" width="516" height="16" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="efe860f4-4c03-44fb-87fd-2cd61f488438"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Cambria" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{poder}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="FixRelativeToBottom" x="39" y="168" width="516" height="16" isPrintWhenDetailOverflows="true" uuid="45203dc2-47f9-4d13-ba49-72c75d551821"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{chefeIperon}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="39" y="183" width="516" height="16" isPrintWhenDetailOverflows="true" uuid="c5005a2c-0d7e-4c5a-9262-09905bc8c010"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Cambria" size="12"/>
+				</textElement>
+				<text><![CDATA[Presidente do IPERON]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="7"/>
+	</pageFooter>
+</jasperReport>

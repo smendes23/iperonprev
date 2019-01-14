@@ -1,0 +1,323 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+		<f:metadata>
+			<f:viewAction action="#{ctcBean.recarregaPagina}" onPostBack="true" />
+		</f:metadata>
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel header="Emitir Certidão de Tempo de Contribuição" styleClass="col-lg-10">
+		
+			<h:form id="formCtc">
+				<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<h3 class="fieldalt">Dados Servidor</h3>
+									<hr />
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-3">
+									<p:outputLabel value="CPF: "></p:outputLabel>
+									<p:outputLabel styleClass="form-control "
+										value="#{ctcBean.pessoa.NUMR_cpf}" />
+								</div>
+								<div class="col-sm-6">
+									<p:outputLabel value="Nome: "></p:outputLabel>
+									<p:outputLabel styleClass="form-control "
+										value="#{ctcBean.pessoa.DESC_nome}" />
+								</div>
+								<div class="col-sm-3 ">
+									<p:outputLabel value="Data Nascimento: "></p:outputLabel>
+									<p:outputLabel styleClass=" form-control "
+										value="#{ctcBean.pessoa.DATA_nascimento}" >
+											<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+									</p:outputLabel>
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<h3 class="fieldalt">Dados Funcionais</h3>
+									<hr />
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-11">
+									<p:outputLabel value="Matrícula:"></p:outputLabel>
+									<p:selectOneMenu   value="#{ctcBean.idFuncional}" id="mat"
+										style="width:100%">
+											<p:ajax listener="#{ctcBean.buscarFuncional()}" process="@this" update="@this"></p:ajax>
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems
+											value="#{ctcBean.listaDeFuncionais}"
+											var="funcional" itemValue="#{funcional.NUMG_idDoObjeto}" itemLabel="#{funcional.DESC_matricula} "/>
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-1">
+									<p:commandButton icon="ui-icon-plus" style="top:23px" 
+										process="mat @this"
+										update="mat tabelaFunc msg"
+										action="#{ctcBean.reinit()}">
+										<p:collector value="#{ctcBean.funcionais}" addTo="#{ctcBean.listaCollectionFuncionais}" unique="true" />
+										<f:param name="noValidate" value="1"></f:param>
+									</p:commandButton>
+								</div>
+		
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<p></p>
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<p:outputPanel id="tabelaFunc">
+										<p:dataTable value="#{ctcBean.listaCollectionFuncionais}"
+											var="tbFun" id="atosLegais"
+											emptyMessage="Registro não encontrado.">
+											<p:column headerText="Matrícula" width="130">
+												<h:outputText value="#{tbFun.DESC_matricula}" />
+											</p:column>
+											<p:column headerText="Data da Posse" width="150">
+												<h:outputText value="#{tbFun.DATA_efetivoExercicio}" >
+													<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+												</h:outputText>
+											</p:column>
+											<p:column headerText="Órgão">
+												<h:outputText value="#{tbFun.NUMR_idDoObjetoCargo.NUMR_idDoObjetoOrgaos.DESC_nome}" />
+											</p:column>
+		
+											<p:column headerText="Remover"
+												style="width:90px;text-align: center">
+												<p:commandButton icon="ui-icon-trash"
+													update=":formCtc:tabelaFunc :formCtc:mat"
+													process=":formCtc:tabelaFunc">
+													<p:collector value="#{tbFun}"
+														removeFrom="#{ctcBean.listaCollectionFuncionais}"
+														unique="true" />
+													<f:param name="noValidate" value="1"></f:param>
+													<p:ajax update=":formCtc:tabelaFunc :formCtc:mat" listener="#{ctcBean.novoIdFuncional()}"></p:ajax>
+												</p:commandButton>
+											</p:column>
+		
+										</p:dataTable>
+									</p:outputPanel>
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<br />
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<h3 class="fieldalt">Informações básicas da CTC</h3>
+									<hr />
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-4">
+									<p:outputLabel value="N° Certidão:"></p:outputLabel>
+									<div class="input-group">
+										<p:inputText styleClass="col-sm-3"
+											style="width:60%;margin-right: 10px;"
+											value="#{ctcBean.ctc.NUMR_certidao}" required="true" />
+										<p:inputText styleClass="col-sm-1" style="width:30%"
+											disabled="true" value="#{ctcBean.ctc.NUMR_ano}" />
+									</div>
+								</div>
+								<h:inputHidden value="#{ctcBean.orgao.NUMG_idDoObjeto}" />
+								<div class="col-sm-5">
+									<p:outputLabel value="Órgão Expedidor:"></p:outputLabel>
+									<p:inputText disabled="true" styleClass="form-control" value="#{ctcBean.orgao.DESC_nome}"></p:inputText>
+								</div>
+								<div class="col-sm-3">
+									<p:outputLabel value="Data Emissão:"></p:outputLabel>
+									<p:inputText styleClass="form-control" disabled="true"
+										value="#{ctcBean.ctc.DATA_emissao.time}">
+										<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho" />
+									</p:inputText>
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-12"></div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-5">
+									<p:outputLabel value="Ato Legal:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true"
+										value="#{ctcBean.ctc.NUMR_idAtosLegais}"
+										filterMatchMode="startsWith" style="width:100%"
+										converter="conversorDeEntidades">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{ctcBean.listaDeAtosLegais}" var="ato"
+											itemValue="#{ato}" itemLabel="#{ato.DESC_tituloEmenta}" />
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-4">
+									<p:outputLabel value="Fonte da Informação:"></p:outputLabel>
+									<p:inputText styleClass="form-control" required="true"
+										value="#{ctcBean.ctc.DESC_fonte}" />
+								</div>
+								<div class="col-sm-3">
+									<p:outputLabel value="Data da Última Contribuição: "></p:outputLabel>
+									<p:inputMask mask="99/99/9999" converter="dateConverter" styleClass="form-control" value="#{ctcBean.ctc.DATA_ultimaContribuicao}"></p:inputMask>
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<h3 class="fieldalt">Destinação</h3>
+									<hr />
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-7">
+									<p:outputLabel value="Órgão de Destino:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true" style="width:100%" id="orgaoDestino"
+										filterMatchMode="startsWith" 
+										value="#{ctcBean.destinacao.REL_orgaos}"
+										converter="conversorDeEntidades">
+										<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true" />
+										<f:selectItems value="#{ctcBean.listaDeOrgaoDestino}" var="org" itemValue="#{org}" itemLabel="#{org.DESC_sigla} - #{org.DESC_nome}"/>
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-2">
+									<p:outputLabel value="Data Início: "></p:outputLabel>
+									<p:inputMask mask="99/99/9999" converter="dateConverter" styleClass="form-control" value="#{ctcBean.destinacao.DATA_inicio}" id="dataI"></p:inputMask>
+								</div>
+								<div class="col-sm-2">
+									<p:outputLabel value="Data Fim: "></p:outputLabel>
+									<p:inputMask mask="99/99/9999" converter="dateConverter" styleClass="form-control" value="#{ctcBean.destinacao.DATA_fim}" id="dataF"></p:inputMask>
+								</div>
+								<div class="col-sm-1">
+									<p:commandButton icon="ui-icon-plus" style="top:23px"
+										process="orgaoDestino dataI dataF @this"
+										update="orgaoDestino dataI dataF :formCtc:tabelaDestino @this"
+										action="#{ctcBean.reinitDestinacao()}">
+										<f:param name="noValidate" value="1"></f:param>
+									</p:commandButton>
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<p:outputPanel id="tabelaDestino">
+										<p:dataTable value="#{ctcBean.listaCollectionDestinacao}"
+											var="tbDest" id="destino"
+											emptyMessage="Registro não encontrado.">
+											<p:column headerText="Órgão" >
+												<h:outputText value="#{tbDest.REL_orgaos.DESC_nome}"/>
+											</p:column>
+											<p:column headerText="Data da Início" width="150">
+												<h:outputText value="#{tbDest.DATA_inicio}">
+													<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+												</h:outputText>
+											</p:column>
+											<p:column headerText="Data da Fim" width="150">
+												<h:outputText  value="#{tbDest.DATA_fim}">
+													<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+												</h:outputText>
+											</p:column>
+		
+											<p:column headerText="Remover"
+												style="width:90px;text-align: center">
+												<p:commandButton icon="ui-icon-trash"
+													update=":formCtc:tabelaDestino"
+													process=":formCtc:tabelaDestino">
+													<p:collector value="#{tbDest}"
+														removeFrom="#{ctcBean.listaCollectionDestinacao}"
+														unique="true" />
+													<f:param name="noValidate" value="1"></f:param>
+												</p:commandButton>
+											</p:column>
+		
+										</p:dataTable>
+									</p:outputPanel>
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-12"></div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<p:outputLabel value="Observação:"></p:outputLabel>
+									<p:inputTextarea styleClass="col-sm-12"
+										value="#{ctcBean.ctc.DESC_observacao}">
+									</p:inputTextarea>
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<p></p>
+								</div>
+							</div>
+
+							<div class="ui-grid-row">
+								<div class="col-sm-3">
+									<p:commandButton value="Salvar" icon="fa fa-save" >
+										<p:ajax update="@form" process="@form"
+											listener="#{ctcBean.salvarObjeto}"></p:ajax>
+									</p:commandButton>
+								</div>
+								
+								<div class="col-sm-3">
+									<p:commandButton icon="fa fa-print" value="Gerar CTC"
+										action="#{ctcBean.geraCtc}" disabled="#{ctcBean.ctcSalva eq false}"
+										onclick="this.form.target='_blank'" ajax="false"
+										widgetVar="ctc">
+									</p:commandButton>
+								</div>
+								<div class="col-sm-3">
+									<p:commandButton icon="fa fa-dolar" value="RRC" onclick="PF('rrc').show();"
+										update="@none">
+									</p:commandButton>
+								</div>
+							</div>
+						</div>
+								<p:panelGrid id="rrcForm">
+									<p:dialog header="Competência Portaria" widgetVar="rrc"
+											resizable="false"
+											style="background-color:rgb(239, 246, 231);color: #000;">
+											<br/>
+											<p:outputLabel value="Matrícula:" style="width:100%"></p:outputLabel>
+											<p></p>
+									<p:selectOneMenu value="#{ctcBean.idFuncional}">
+									<p:ajax listener="#{ctcBean.buscarFuncional()}" ></p:ajax>
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems
+											value="#{ctcBean.listaDeFuncionais}"
+											var="fun" itemLabel="#{fun.DESC_matricula} - #{fun.NUMR_idDoObjetoCargo.NUMR_idDoObjetoOrgaos.DESC_nome} "
+											itemValue="#{fun.NUMG_idDoObjeto}" />
+									</p:selectOneMenu>
+										<p></p>
+										<p:commandButton value="Gerar" icon="fa fa-print" action="#{ctcBean.geraRrc}" onclick="this.form.target='_blank'"
+										ajax="false" ></p:commandButton>
+									</p:dialog>
+								</p:panelGrid>
+			</h:form>
+		</p:panel>
+			<br />
+			<br />
+	</ui:define>
+</ui:composition>
+</html>

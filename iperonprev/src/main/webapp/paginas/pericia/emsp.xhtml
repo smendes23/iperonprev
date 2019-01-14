@@ -1,0 +1,209 @@
+<ui:composition template="../templates/master.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+	<ui:define name="content">
+		<style>
+
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<div class="col-lg-10">
+				<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+			<h:form>
+				<p:tabView style="margin-bottom: 55px;">
+					<p:tab title="Órgãos" id="orgaos">
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+							<h:inputHidden value="#{orgaoBean.orgaos.NUMG_idDoObjeto}"></h:inputHidden>
+								<div class="col-sm-8" style="color: #000">
+									<p:outputLabel value="Nome do Órgão:"></p:outputLabel>
+									<p:inputText styleClass="form-control "
+										value="#{orgaoBean.orgaos.DESC_nome}" />
+								</div>
+								<div class="col-sm-4" style="color: #000">
+									<p:outputLabel value="Sigla do Órgão:"></p:outputLabel>
+									<p:inputText styleClass="form-control "
+										value="#{orgaoBean.orgaos.DESC_sigla}" />
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-8" style="color: #000">
+									<p:outputLabel value="Razão Social:"></p:outputLabel>
+									<p:inputText styleClass="form-control "
+										value="#{orgaoBean.orgaos.DESC_razaoSocial}" />
+								</div>
+								<div class="col-sm-4" style="color: #000">
+									<p:outputLabel value="CNPJ:"></p:outputLabel>
+									<p:inputMask mask="99.999.999/9999-99"
+										converter="cnpjConverter" styleClass="form-control "
+										value="#{orgaoBean.orgaos.DESC_cnpj}" />
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+
+								<div class="col-sm-6" style="color: #000">
+									<p:outputLabel value="Natureza Jurídica:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true"
+										filterMatchMode="startsWith" style="width:100%"
+										value="#{orgaoBean.orgaos.NUMR_idDoObjetoNatJuridica}"
+										converter="conversorDeEntidades">
+										<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+										<f:selectItems value="#{orgaoBean.listaDeNaturezasJuridicas}"
+											var="natureza" itemValue="#{natureza}"
+											itemLabel="#{natureza.DESC_nome}"></f:selectItems>
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-6" style="color: #000">
+									<p:outputLabel value="Poder:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true"
+										filterMatchMode="startsWith" style="width:100%"
+										value="#{orgaoBean.orgaos.NUMR_idDoObjetoPoder}"
+										converter="conversorDeEntidades">
+										<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+										<f:selectItems value="#{orgaoBean.listaDePoderes}" var="poder"
+											itemValue="#{poder}" itemLabel="#{poder.DESC_nome}" />
+									</p:selectOneMenu>
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-4" style="color: #000">
+									<p:outputLabel value="E-mail:"></p:outputLabel>
+									<p:inputText styleClass="form-control "
+										value="#{orgaoBean.orgaos.DESC_email}" />
+								</div>
+								<div class="col-sm-4" style="color: #000">
+									<p:outputLabel value="Ente Federado:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true"
+										filterMatchMode="startsWith" style="width:100%"
+										value="#{orgaoBean.orgaos.NUMR_idDoObjetoEnteFederado}"
+										converter="conversorDeEntidades">
+										<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+										<f:selectItems value="#{orgaoBean.listaDeEnteFederados}"
+											var="entes" itemValue="#{entes}"
+											itemLabel="#{entes.NURM_idDoObjetoEsfera.NUMG_idDoObjeto eq 2 ? entes.NUMR_idDoObjetoMunicipio.NUMR_idDoObjetoEstado.DESC_nome : entes.NUMR_idDoObjetoMunicipio.DESC_nome}">
+										</f:selectItems>
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-4" style="color: #000; top: 25px;">
+									<p:selectBooleanCheckbox
+										value="#{orgaoBean.orgaos.NUMR_unidadeGestora}"></p:selectBooleanCheckbox>
+									<p:outputLabel value=" É Unidade Gestora"></p:outputLabel>
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-12"></div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-2">
+									<p:commandButton value="Salvar">
+										<p:ajax process="orgaos" update="@form msg"
+											listener="#{orgaoBean.salvarObjeto}" />
+									</p:commandButton>
+								</div>
+								<div class="col-sm-2">
+									<p:commandButton value="Novo">
+										<p:ajax process="orgaos" update="@form"
+											listener="#{orgaoBean.novoObjeto}" />
+									</p:commandButton>
+								</div>
+								<div class="col-sm-2">
+									<p:commandButton value="Listar"
+										action="#{orgaoBean.exibeListaDeObjetos}" process="@this"
+										update="@none">
+										<p:ajax event="dialogReturn"
+											listener="#{orgaoBean.selecionaObjetoDialogo}" process="@this"
+											update="@form" />
+										<p:resetInput target="orgaos" />
+									</p:commandButton>
+								</div>
+							</div>
+						</div>
+					</p:tab>
+
+					<p:tab title="Dados do Gestor" >
+						<h:panelGroup id="gestor">
+						
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-4" style="color: #000">
+								<h:inputHidden value="#{gestorOrgaosBean.gestor.NUMG_idDoObjeto}"></h:inputHidden>
+									<p:outputLabel value="Matrícula:"></p:outputLabel>
+									<p:inputText styleClass="form-control" value="#{gestorOrgaosBean.matricula}">
+										<p:ajax event="blur" update="gestor"
+											listener="#{gestorOrgaosBean.buscaServidor}"></p:ajax>
+									</p:inputText>
+								</div>
+								<div class="col-sm-8" style="color: #000">
+									<p:outputLabel value="Nome do Gestor:"></p:outputLabel>
+									<p:inputText styleClass="form-control" disabled="true" value="#{gestorOrgaosBean.funcionais.NUMR_idDoObjetoPessoas.DESC_nome}"></p:inputText>
+								</div>
+							
+							</div>
+							<div class="ui-grid-row">
+
+								<div class="col-sm-6" style="color: #000">
+									<p:outputLabel value="Início do Exercício"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control" converter="dateConverter" value="#{gestorOrgaosBean.gestor.DATA_inicio}"></p:inputMask>
+								</div>
+								<div class="col-sm-6" style="color: #000">
+									<p:outputLabel value="Fim do Exercício"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control" converter="dateConverter" value="#{gestorOrgaosBean.gestor.DATA_fim}"></p:inputMask>
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-lg-12" style="color: #000"></div>
+							</div>
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-lg-2" style="color: #000">
+									<p:commandButton value="Salvar">
+										<p:ajax process="gestor" update="gestor msg"
+											listener="#{gestorOrgaosBean.salvarObjeto}" />
+									</p:commandButton>
+								</div>
+								<div class="col-lg-2" style="color: #000">
+									<p:commandButton value="Novo">
+										<p:ajax process="gestor" update="gestor"
+											listener="#{gestorOrgaosBean.novoObjeto}" />
+									</p:commandButton>
+								</div>
+								<div class="col-lg-2" style="color: #000">
+									<p:commandButton value="Listar"
+										action="#{gestorOrgaosBean.exibeListaDeObjetos}" process="@this"
+										update="@none">
+										<p:ajax event="dialogReturn"
+											listener="#{gestorOrgaosBean.selecionaObjetoDialogo}" process="@this"
+											update="gestor" />
+										<p:resetInput target="gestor" />
+									</p:commandButton>
+								</div>
+							</div>
+						</div>
+						</h:panelGroup>
+					</p:tab>
+				</p:tabView>
+			</h:form>
+
+		</div>
+				<div class="col-sm-12"><br/></div>
+						<div class="col-sm-12"><br/></div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+	
+	<composite:interface>
+		<composite:attribute name="imgDir"></composite:attribute>
+	</composite:interface>
+	
+	<composite:implementation>
+	<p:dialog widgetVar="statusDialog" modal="false" draggable="false"
+			closable="false" resizable="false" showHeader="false"
+			style="border: 0px !important;
+    		background: transparent !important;
+    		color: transparent !important">
+			<h:graphicImage name="#{cc.attrs.imgDir}" />
+		</p:dialog>
+	</composite:implementation>
+	
+	
+</html>

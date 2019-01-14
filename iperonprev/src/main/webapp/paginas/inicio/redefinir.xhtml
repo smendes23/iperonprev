@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:sec="http://www.springframework.org/security/tags">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>::IPERONPREV::</title>
+
+	<h:outputStylesheet name="/css/bootstrap.css"></h:outputStylesheet>
+	<h:outputStylesheet name="/css/bootstrap-theme.css"></h:outputStylesheet>
+
+	<h:outputScript name="/js/idleTime.min.js"></h:outputScript>
+	<h:outputScript name="/js/bootstrap.js"></h:outputScript>
+	<script>
+		$(document).ready(function() {
+			$.idleTimer(800000);
+			$(document).bind("idle.idleTimer", function() {
+				var url = "#{request.contextPath}/logout"
+				$(window.document.location).attr('href', url);
+			});
+		});
+	</script>
+	<style>
+	.ui-dialog .ui-dialog-titlebar {
+display: none !important;
+}
+html {
+	height: 100%
+}
+
+body {
+	background: #134E5E; /* fallback for old browsers */
+	background: -webkit-linear-gradient(to left, #134E5E, #71B280);
+	/* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to left, #134E5E, #71B280);
+	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.ui-selectcheckboxmenu .ui-selectcheckboxmenu-trigger {
+	border-right: none;
+	border-top: none;
+	border-bottom: none;
+	cursor: pointer;
+	width: 24px;
+	height: 100%;
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 0 3px;
+}
+
+.ui-autocomplete-multiple-container {
+	clear: left;
+	cursor: text;
+	list-style-type: none;
+	margin: 0px;
+	min-height: 1px;
+	overflow: hidden;
+	width: 100%;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger {
+	border-right: medium none;
+	border-top: medium none;
+	border-bottom: medium none;
+	cursor: pointer;
+	width: 26px;
+	height: 100%;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	padding: 0px 3px;
+}
+
+.ui-selectonemenu {
+	display: inline-block;
+	position: relative;
+	width: auto;
+	zoom: 1;
+	cursor: pointer;
+	padding-right: 0;
+}
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button
+	{
+	font-family: Arial, sans-serif;
+	font-size: 16px;
+}
+
+.ui-helper-reset {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	line-height: 16px;
+	text-decoration: none;
+	font-size: 100%;
+	list-style: none;
+}
+
+.ui-widget .ui-widget {
+	font-size: 16px;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter-container {
+	position: relative;
+	margin: 0;
+	padding: 0.4em;
+	display: inline-block;
+	width: 100%;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter {
+	width: 97%;
+	padding-right: 15px;
+}
+
+.ui-icon-bullet {
+	background-position: -81px -145px;
+}
+
+.ui-selectoneradio label {
+	display: block;
+	margin-top: 4px;
+	font-size: 16px;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
+	margin-top: 6px;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter-container .ui-icon {
+	position: absolute;
+	top: 12px;
+	right: 17px;
+}
+
+nav {
+	display: block;
+}
+
+.ui-tabs.ui-tabs-top>.ui-tabs-nav {
+	padding: 0.2em 0.2em 0px;
+	border-bottom: 1px solid;
+	border-color: #459E00;
+}
+
+.fieldalt {
+	font-family: segoe ui, Arial, sans-serif;
+	color: rgb(49, 46, 37);
+	margin-bottom: -17px;
+	margin-top: 10px;
+}
+
+.ui-menubar {
+	width: auto;
+	height: 49px;
+}
+
+.ui-widget-content {
+	border: 1px solid #459E00 /*{borderColorContent}*/;
+	background: #f5f3e5  50% top repeat-x;
+	/*background: #ffffff*/
+	/*{bgColorContent} url("/iperonprev/javax.faces.resource/primefaces-sam/images/ui-bg_flat_75_ffffff_40x100.png.xhtml")*/
+	/*{bgImgUrlContent}*/ 50% /*{bgContentXPos}*/ 50% /*{bgContentYPos}*/
+	repeat-x /*{bgContentRepeat}*/;
+	color: #222222 /*{fcContent}*/;
+}
+
+.ui-widget-overlay {
+	background: #2b2922
+		url("/iperonprev/javax.faces.resource/images/ui-bg_inset-soft_15_2b2922_1x100.png.xhtml?ln=primefaces-south-street")
+		50% bottom repeat-x;
+	opacity: .4;
+	filter: Alpha(Opacity = 90);
+}
+
+/* .footer {
+	clear: both;
+	position:absolute;
+    bottom: -600px;
+    width: 100%;
+    height: 60px;
+} */
+.footer {
+	 bottom: 0;
+    clear: both;
+    height: 56px;
+    position: fixed;
+    width: 100%;
+    position: none !important;
+}
+
+
+/* .ui-inputfield {
+    margin: 0;
+    outline: medium none;
+    padding: 4px;
+    font-weight: normal;
+    height: 26px;
+} */
+.ui-inputfield {
+	margin: 0;
+	outline: medium none;
+	padding: 2px;
+	font-weight: normal;
+}
+
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+    color: #459E00;
+    text-decoration: none;
+}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+    font-weight: bold;
+    color: #459E00;
+}
+.ui-panel{
+margin-bottom: 55px;
+background: #f5f3e5 url(/iperonprev/javax.faces.resource/images/ui-bg_highlight-hard_100_f5f3e5_1x100.png.xhtml?ln=primefaces-south-street) 50% top repeat-x;
+} 
+.ui-tabs{
+margin-bottom: 55px;
+background: #f5f3e5 url(/iperonprev/javax.faces.resource/images/ui-bg_highlight-hard_100_f5f3e5_1x100.png.xhtml?ln=primefaces-south-street) 50% top repeat-x;
+} 
+.btn-input{
+border-radius: 0px 5px 5px 0px;
+height:28px
+}
+
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+
+</h:head>
+
+<h:body>
+	<div class="nav navbar-default">
+		<div class="container-fluid" style="background: #f5f3e5 50% top repeat-x;">
+			<div class="navbar-header">
+				<h2
+					style="font-family: segoe ui, Arial, sans-serif; font-weight: 100;">
+					<i><strong style="color: #459E00;">IPERON</strong>prev</i>
+				</h2>
+			</div>
+			<div
+				style="color: #336633; margin-top: 10px; font-size: 13px; text-align: right;">
+				<strong>#{masterBean.usuarioLogado}</strong> . Seu perfil é <strong>#{masterBean.users.perfil.nomePerfil}</strong>
+			</div>
+			<p></p>
+			<div class="pull-right"
+				style="color: #336633; font-size: 12px; margin-top: 3px; padding-right: 5px;">
+				<a href="/iperonprev/logout">Sair do Sistema</a> 
+			</div>
+		</div>
+
+	</div>
+
+	<div class="container-fluid">
+		<header class="row"> 
+		
+</header>
+
+	</div>
+	<div class="col-sm-12"></div>
+	<div class="col-sm-12">
+		<br />
+	</div>
+	<div class="col-sm-12">
+		<br />
+	</div>
+	<div class="container-fluid">
+		
+		<div class="row">
+			<div class="col-sm-1"></div>
+		<p:panel header="Redefinição de Senha" styleClass="col-lg-10">
+			<h:form id="formCtc">
+				<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-5">
+									<p:outputLabel value="Nova Senha: "></p:outputLabel>
+									<p:password required="true" label="password" styleClass="form-control" value="#{masterBean.senha}" id="senha">
+									</p:password>
+								</div>
+								<div class="col-sm-5">
+									<p:outputLabel value="Repitir Nova Senha: "></p:outputLabel>
+									<p:password required="true" label="password" styleClass="form-control" value="#{masterBean.repeteSenha}" >
+										<p:ajax event="blur" update="msg"  process="@this senha" listener="#{masterBean.confereSenhaIgual}"/>
+									</p:password>
+								</div>
+								<div class="col-sm-2">
+									<p:commandButton value="Salvar" icon="fa fa-save" style="top:20px;" action="#{masterBean.alteraSenha()}"></p:commandButton>
+								</div>
+							</div>
+						</div>
+			</h:form>
+		</p:panel>
+		<div class="col-sm-1"></div>
+		</div>
+
+	</div>
+<!-- <footer class="footer" style="background-color:#f8f8f8">
+	<div class="container">
+		<p>Desenvolvido pela Coordenadoria de Sistemas do Iperon.</p>
+	</div>
+</footer> -->
+</h:body>
+</html>

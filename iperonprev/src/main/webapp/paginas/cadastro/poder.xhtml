@@ -1,0 +1,113 @@
+<ui:composition template="../templates/master.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+	<ui:define name="content">
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+				<p:panel header="Gestor Poder/Órgãos" styleClass="col-lg-10">
+					<h:form id="formPessoasPoder">
+				<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+				<br />
+				<h3 class="fieldalt">Dados do Gestor do Poder</h3>
+				<hr />
+				<h:inputHidden value="#{poderPessoasBean.poderes.NUMG_idDoObjeto}"></h:inputHidden>
+				<h:inputHidden value="#{poderPessoasBean.poderes.NUMR_versao}"></h:inputHidden>
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-sm-3">
+							<p:outputLabel value="CPF:"></p:outputLabel>
+							<div class="input-group">
+								<p:inputMask mask="999.999.999-99" styleClass="form-control"
+									converter="cpfConverter"
+									value="#{poderPessoasBean.cpfServidor}" id="cpf"></p:inputMask>
+								<span class="input-group-btn"> <p:commandButton
+									icon="fa fa-caret-right" styleClass="btn-input"
+									process="cpf @this" update="@form"
+									action="#{poderPessoasBean.buscaServidor}"></p:commandButton>
+								</span>
+							</div>
+							
+						</div>
+						<div class="col-sm-6">
+							<p:outputLabel value="Nome do Servidor:"></p:outputLabel>
+							<p:inputText styleClass="form-control" disabled="true"
+								id="nomServidor" value="#{poderPessoasBean.pessoas.DESC_nome}"></p:inputText>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="PIS/PASEP/NIT:"></p:outputLabel>
+							<p:inputText styleClass="form-control" disabled="true" id="pis"
+								value="#{poderPessoasBean.pessoas.NUMR_pisPasep}">
+		
+							</p:inputText>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<hr />
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-6">
+							<p:outputLabel value="Órgão:" />
+							<p:selectOneMenu style="width:100%" effect="fade" filter="true" required="true" requiredMessage="Órgão obrigatório"
+								filterMatchMode="startsWith" converter="conversorDeEntidades" value="#{poderPessoasBean.orgao}">
+								<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+								<f:selectItems value="#{poderPessoasBean.listaOrgaos}"
+									var="orgao" itemLabel="#{orgao.DESC_nome}" itemValue="#{orgao}"></f:selectItems>
+							</p:selectOneMenu>
+						</div>
+						<div class="col-sm-3 ">
+							<p:outputLabel value="Início da Gestão"></p:outputLabel>
+							<p:inputMask mask="99/99/9999" styleClass="form-control"
+								converter="dateConverter" required="true" requiredMessage="Data de início da gestão obrigatória"
+								value="#{poderPessoasBean.poderes.DATA_inicioMandato}">
+							</p:inputMask>
+						</div>
+						<div class="col-sm-3 ">
+							<p:outputLabel value="Fim da Gestão"></p:outputLabel>
+							<p:inputMask mask="99/99/9999" styleClass="form-control"
+								converter="dateConverter"
+								value="#{poderPessoasBean.poderes.DATA_fimMandato}">
+							</p:inputMask>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-12"><p></p></div>
+				<div class="col-sm-2">
+					<p:commandButton value="Salvar" icon="fa fa-save">
+						<p:ajax process="formPessoasPoder" update="@form"
+							listener="#{poderPessoasBean.salvarObjeto}" />
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Novo" icon="fa fa-plus">
+						<p:ajax process="formPessoasPoder" update="@form"
+							listener="#{poderPessoasBean.novoObjeto}" />
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Pesquisar" icon="fa fa-search"
+						action="#{poderPessoasBean.exibeListaDeObjetos}" process="@this"
+						update="@none">
+						<p:ajax event="dialogReturn"
+							listener="#{poderPessoasBean.selecionaObjetoDialogo}"
+							process="@this" update="@form" />
+						<p:resetInput target="formPessoasPoder" />
+					</p:commandButton>
+				</div>
+				
+			</h:form>
+			</p:panel>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,96 @@
+<ui:composition template="../templates/master.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+	<ui:define name="content">
+<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		
+			<p:panel header="Salário Mínimo" styleClass="col-lg-10">
+			<h:form id="formSalario">
+			<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+				<br />
+				<div class="col-sm-2">
+					<p:outputLabel value="Ano:"/>
+					<p:inputText styleClass="form-control" value="#{salarioMinimoBean.salario.NUMR_ano}" required="true" requiredMessage="Ano é obrigatório"/>
+				</div>
+				<div class="col-sm-5">
+					<p:outputLabel value="Data Vigência:"/>
+					<p:inputMask mask="99/99/9999" styleClass="form-control"  converter="dateConverter" value="#{salarioMinimoBean.salario.dt_vigencia}" required="true" requiredMessage="Data vigência é obrigatória"></p:inputMask>
+				</div>
+				<div class="col-sm-5">
+					<p:outputLabel value="Valor:"/>
+					<p:inputText styleClass="form-control" value="#{salarioMinimoBean.salario.NUMR_valor}" converter="moedaConverter" required="true" requiredMessage="Valor é obrigatório "></p:inputText>
+				</div>
+				<div class="col-sm-12"><br/></div>
+				<div class="col-sm-2" >
+					<p:commandButton value="Salvar" icon="fa fa-save">
+						<p:ajax listener="#{salarioMinimoBean.salvarObjeto}" process="@form" update="@form"/>
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2" >
+					<p:commandButton value="Novo" icon="fa fa-plus">
+						<p:ajax listener="#{salarioMinimoBean.novoObjeto}" process="@form" update="@form"></p:ajax>
+					</p:commandButton>
+				</div>
+				
+				<div class="col-sm-12"><br/>
+					<p:dataTable value="#{salarioMinimoBean.listaDeObjetos()}" var="salario" paginator="true" editable="true"
+						paginatorAlwaysVisible="false" rows="5" paginatorPosition="bottom" rowsPerPageTemplate="5,10" id="tbSalario"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+						
+						<p:ajax event="rowEdit" listener="#{salarioMinimoBean.onRowEdit}" process="tbSalario" update="tbSalario :formSalario:msg" />
+ 					    <p:ajax event="rowEditCancel" listener="#{salarioMinimoBean.onRowCancel}" update="tbSalario :formSalario:msg" />
+ 
+						<p:column headerText="Ano">
+							<p:cellEditor>
+								<f:facet name="output">
+									<p:outputLabel value="#{salario.NUMR_ano}"/>
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText styleClass="form-control" value="#{salario.NUMR_ano}"/>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Data Vigência">
+							<p:cellEditor>
+								<f:facet name="output">
+									<p:outputLabel value="#{salario.dt_vigencia}">
+										<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+									</p:outputLabel>
+								</f:facet>
+								<f:facet name="input">
+									<p:inputMask mask="99/99/9999" styleClass="form-control"  converter="dateConverter" value="#{salario.dt_vigencia}"></p:inputMask>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Valor">
+							<p:cellEditor>
+								<f:facet name="output">
+									<p:outputLabel value="#{salario.NUMR_valor}"/>
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText styleClass="form-control" value="#{salario.NUMR_valor}"/>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Ação">
+							<p:rowEditor />
+						</p:column>
+					</p:dataTable>
+				</div>
+				<div class="col-sm-12"><p></p></div>
+				
+			</h:form>
+			<br /> <br />
+		</p:panel>
+	</ui:define>
+</ui:composition>

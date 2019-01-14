@@ -1,0 +1,84 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<h:head>
+	<title>::Lista de Órgãos::</title>
+		<style>
+
+.ui-shadow {
+   box-shadow: 0px 5px 10px transparent;
+}
+.ui-widget {
+    font-family: segoe ui, Arial, sans-serif;
+    font-size: 16px;
+}
+	</style>
+</h:head>
+<h:body>
+	<h:form>
+		<div>
+			<p:commandButton icon="fa fa-close" style="float: right;top: 0px;position:relative;" id="fechaFuncional"
+			action="#{orgaoBean.fechaOrgao}" update="@form">
+			</p:commandButton>
+		</div>
+	</h:form>
+	<div class="col-sm-12">
+		<br/>
+	</div>
+	<div class="ui-grid ui-grid-responsive">
+		<div class="ui-grid-row">
+			<div class="col-sm-12">
+			<p></p>
+			<h:form>
+			<sa:ajaxStatus />
+				<sa:loading imgDir="/image/loading.gif"></sa:loading>
+				<p:dataTable var="listaOrgaos" widgetVar="orgaosTable"
+					value="#{orgaoBean.listaDeOrgaos}" paginator="true"
+					paginatorAlwaysVisible="false" rows="5" paginatorPosition="bottom"
+					style="heigth:480px;width:880" id="tbCarreiras" rowsPerPageTemplate="5,10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					filteredValue="#{orgaoBean.filtroDeOrgaos}">
+					<f:facet name="header">
+						<p:outputPanel style="margin-left: 615px;">
+							<h:outputText value="Pesquisar:" />
+							<p:inputText id="globalFilter" styleClass="form-control input-sm" onkeyup="PF('orgaosTable').filter()"
+								style="width:130px" placeholder="Digite aqui..." />
+						</p:outputPanel>
+		
+					</f:facet>
+					<h:inputHidden value="#{listaOrgaos.NUMG_idDoObjeto}"></h:inputHidden>
+					<p:column headerText="Nome do Órgão" filterBy="#{listaOrgaos.DESC_nome}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{listaOrgaos.DESC_nome}"/>
+					</p:column>
+					<p:column headerText="Ente Federado" filterBy="#{listaOrgaos.NUMR_idDoObjetoEnteFederado.NURM_idDoObjetoEsfera.NUMG_idDoObjeto eq 2 
+					? listaOrgaos.NUMR_idDoObjetoEnteFederado.NUMR_idDoObjetoMunicipio.NUMR_idDoObjetoEstado.DESC_nome 
+					: listaOrgaos.NUMR_idDoObjetoEnteFederado.NUMR_idDoObjetoMunicipio.DESC_nome}"
+						filterMatchMode="contains" filterStyle="display:none" style="width:160px;">
+						<p:outputLabel value="#{listaOrgaos.NUMR_idDoObjetoEnteFederado.NURM_idDoObjetoEsfera.NUMG_idDoObjeto eq 2 
+					? listaOrgaos.NUMR_idDoObjetoEnteFederado.NUMR_idDoObjetoMunicipio.NUMR_idDoObjetoEstado.DESC_nome 
+					: listaOrgaos.NUMR_idDoObjetoEnteFederado.NUMR_idDoObjetoMunicipio.DESC_nome}">
+						</p:outputLabel>
+					</p:column>
+					<p:column headerText="Poder" style="width:110px;"
+						filterBy="#{listaOrgaos.NUMR_idDoObjetoPoder.DESC_nome}" filterMatchMode="contains"
+						filterStyle="display:none">
+						<p:outputLabel value="#{listaOrgaos.NUMR_idDoObjetoPoder.DESC_nome}">
+						</p:outputLabel>
+					</p:column>
+					<p:column headerText="Editar" width="50">
+						<p:commandLink
+							action="#{orgaoBean.pegaInstanciaDialogo(listaOrgaos)}" actionListener="#{orgaoBean.actionEditOrgao}">
+							<p:graphicImage name="/image/editar.png" style="margin-left: 15;"></p:graphicImage>
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			</div>
+		</div>
+	</div>
+</h:body>
+</html>

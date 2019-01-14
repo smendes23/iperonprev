@@ -1,0 +1,45 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../templates/mastereport.xhtml">
+	<ui:define name="content">
+
+				<div class="col-sm-12" style="position: relative;">
+						<H3 style="text-align: center;">#{relatorioRecadastramentoBean.tituloRelatorio}</H3>
+				</div>
+		<div class="col-sm-12"></div>
+			<div class="row ">
+				
+				<div class="col-sm-12">
+					<p></p>
+				</div>
+		
+		
+			<p:dataTable style="color: #22222;" styleClass="col-sm-12"  emptyMessage="Registros não encontrados." value="#{relatorioRecadastramentoBean.listaRecadastramento}"  var="recad">
+				<p:column headerText="CPF" styleClass="textHeadTable textAlignCenter"  width="120">
+					<h:outputText value="#{recad.NUMR_pessoasFuncionais.NUMR_idDoObjetoPessoas.NUMR_cpf}"></h:outputText>
+				</p:column>
+				<p:column headerText="Nome" styleClass="textHeadTable" >
+					<h:outputText value="#{recad.NUMR_pessoasFuncionais.NUMR_idDoObjetoPessoas.DESC_nome}"></h:outputText>
+				</p:column>
+				<p:column headerText="Matricula" styleClass="textHeadTable textAlignCenter"  width="120">
+					<h:outputText value="#{recad.NUMR_pessoasFuncionais.DESC_matricula}"></h:outputText>
+				</p:column>
+				<p:column headerText="Data Nascimento" styleClass="textHeadTable textAlignCenter"  width="120" >
+					<h:outputText value="#{recad.NUMR_pessoasFuncionais.NUMR_idDoObjetoPessoas.DATA_nascimento}">
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+					</h:outputText>
+				</p:column>
+				
+			</p:dataTable>
+			<div class="col-sm-12">
+				<br/>
+			</div>
+	</div>
+	
+		
+	</ui:define>
+</ui:composition>
+</html>

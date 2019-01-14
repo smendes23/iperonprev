@@ -1,0 +1,100 @@
+<ui:composition template="../templates/master.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+	<ui:define name="content">
+	<style>
+		.ui-shadow {
+			box-shadow: 0px 5px 10px transparent;
+		}
+	</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel header="Ente Federado" styleClass="col-lg-10">
+			<h:form id="formEnte">
+				<p:messages showDetail="true" closable="true"></p:messages>
+				<br />
+				<h:inputHidden value="#{enteFederadoBean.enteFederado.NUMG_idDoObjeto}"></h:inputHidden>
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+				<div class="col-sm-4" style="color: #000">
+					<p:outputLabel value="Esfera:" />
+					<p:selectOneMenu style="width:100%" effect="fade"
+						filterMatchMode="startsWith" converter="conversorDeEntidades"
+						value="#{enteFederadoBean.esfera}">
+						<f:selectItem itemLabel="--Selecione--" itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems value="#{enteFederadoBean.listaEsfera}" var="esfera"
+							itemLabel="#{esfera.DESC_nome}" itemValue="#{esfera}"></f:selectItems>
+					</p:selectOneMenu>
+				</div>
+				<div class="col-sm-4" style="color: #000">
+					<p:outputLabel value="UF:" />
+					<p:selectOneMenu style="width:100%" effect="fade" filter="true"
+						filterMatchMode="startsWith"
+						value="#{enteFederadoBean.estado}"
+						converter="conversorDeEntidades">
+						<p:ajax event="change" update="munic" listener="#{enteFederadoBean.populaMunicipios}" process="@this"></p:ajax>
+						<f:selectItem itemLabel="--Selecione--" itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems value="#{enteFederadoBean.listaEstado}" var="estado"
+							itemValue="#{estado}" itemLabel="#{estado.DESC_nome}"></f:selectItems>
+					</p:selectOneMenu>
+				</div>
+				<div class="col-sm-4" style="color: #000">
+					<p:outputLabel value="Municípios:" />
+					<p:selectOneMenu style="width:100%" effect="fade" filter="true"
+						filterMatchMode="startsWith" id="munic"
+						value="#{enteFederadoBean.municipio}" requiredMessage="Municipio é obrigatório" required="true"
+						converter="conversorDeEntidades">
+						<f:selectItem itemLabel="--Selecione--" itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems value="#{enteFederadoBean.listaMunicipio}" var="municipio"
+							itemLabel="#{municipio.DESC_nome}" itemValue="#{municipio}"></f:selectItems>
+					</p:selectOneMenu>
+				</div>
+					</div>
+				</div>
+
+				<div class="col-lg-12" style="color: #000"></div>
+				<div class="col-lg-2" style="color: #000">
+					<p:commandButton value="Salvar" icon="fa fa-save">
+						<p:ajax listener="#{enteFederadoBean.salvarEnteFederado}" process="@form"
+							update="@form" />
+					</p:commandButton>
+				</div>
+				<div class="col-lg-2" style="color: #000">
+					<p:commandButton value="Novo" icon="fa fa-file-o">
+						<p:ajax listener="#{enteFederadoBean.novoEnteFederado}" process="@form"
+							update="@form" />
+					</p:commandButton>
+				</div>
+				<div class="col-lg-2" style="color: #000">
+					<p:commandButton value="Listar" icon="fa fa-list"
+						action="#{enteFederadoBean.abreDialogoEnteFederado}" process="@this"
+						update="@none">
+						<p:ajax event="dialogReturn"
+							listener="#{enteFederadoBean.selecionaEnteDialogo}" process="@this"
+							update="@form" />
+						<p:resetInput target="formEnte" />
+					</p:commandButton>
+				</div>
+			</h:form>
+		</p:panel>
+	<div class="col-sm-12"><br/></div>
+	<div class="col-sm-12"><br/></div>
+	<div class="col-sm-12"><br/></div>
+	<div class="col-sm-12"><br/></div>
+	<div class="col-sm-12"><br/></div>
+	<div class="col-sm-12"><br/></div>
+	<div class="col-sm-12"><br/></div>
+	<div class="col-sm-12"><br/></div>
+	<div class="col-sm-12"><br/></div>
+	<div class="col-sm-12"><br/></div>
+	<div class="col-sm-12"><br/></div>
+	<div class="col-sm-12"><br/></div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,144 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+	<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+
+			<p:panel styleClass="col-lg-10" header="Arrecadação Pessoa Física">
+			<h:form>
+			<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+				<br />
+				<h:inputHidden value="#{arrecadacaoPfBean.funcionais.NUMG_idDoObjeto}"></h:inputHidden>
+				<h:inputHidden value="#{arrecadacaoPfBean.pessoas.NUMG_idDoObjeto}"></h:inputHidden>
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-sm-3">
+							<p:outputLabel value="CPF:" />
+							<p:inputMask mask="999.999.999-99" styleClass="form-control" value="#{arrecadacaoPfBean.cpf}" converter="cpfConverter">
+								<p:ajax event="blur" update="@form" process="@this" listener="#{arrecadacaoPfBean.buscaServidor}"></p:ajax>
+							</p:inputMask>
+						</div>
+						<div class="col-sm-6">
+							<p:outputLabel value="Nome:"/>
+							<p:inputText styleClass="form-control" value="#{arrecadacaoPfBean.pessoas.DESC_nome}" id="nome"></p:inputText>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Matrícula:"/>
+							<p:selectOneMenu effect="fade" filter="true" id="funcional"
+								filterMatchMode="startsWith" style="width:100%"
+								value="#{arrecadacaoPfBean.funcionais}" valueChangeListener="#{arrecadacaoPfBean.buscaFuncional}"
+								converter="conversorDeEntidades">
+								<f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true"/>
+									<f:selectItems value="#{arrecadacaoPfBean.listaDeFuncionais}"
+										var="funcional" itemValue="#{funcional}"
+										itemLabel="#{funcional.DESC_matricula}" />
+							<p:ajax update="@this" ></p:ajax>
+							</p:selectOneMenu>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<h3 class="fieldalt">Dados da Guia de Recolhimento</h3>
+							<hr />
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-8">
+							<p:outputLabel value="Contribuição:"></p:outputLabel>
+							<p:inputText styleClass="form-control" disabled="true"
+								value="Licenciado sem remuneração"></p:inputText>
+						</div>
+						<div class="col-sm-4 ">
+							<p:outputLabel value="Competência:"></p:outputLabel>
+							<p:inputMask mask="99/9999" styleClass="form-control" value="#{arrecadacaoPfBean.competencia}">
+								<p:ajax event="blur" update="@this msg vlSegurado vlMultaSegurado vlJurosSegurado vlPatronal  vlMultaPatronal vlJurosPatronal" process="@this" listener="#{arrecadacaoPfBean.buscaContribuicao}"></p:ajax>
+							</p:inputMask>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<h3 class="fieldalt">Contribuição Segurado</h3>
+							<hr />
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-3">
+							<p:outputLabel value="Valor Segurado:"></p:outputLabel>
+							<p:inputText styleClass="form-control"  value="#{arrecadacaoPfBean.contribuicao.VALR_contribSegurado}" id="vlSegurado" converter="moedaConverter" ></p:inputText>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Juros:"></p:outputLabel>
+							<p:inputText styleClass="form-control" value="#{arrecadacaoPfBean.contribuicao.VALR_jurosSegurado}" id="vlJurosSegurado" converter="moedaConverter" ></p:inputText>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Multa:"></p:outputLabel>
+							<p:inputText styleClass="form-control"  value="#{arrecadacaoPfBean.contribuicao.VALR_multaSegurado}" id="vlMultaSegurado" converter="moedaConverter" ></p:inputText>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Desconto:"></p:outputLabel>
+							<p:inputText styleClass="form-control" ></p:inputText>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<h3 class="fieldalt">Contribuição Patronal</h3>
+							<hr />
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-3">
+							<p:outputLabel value="Valor Patronal:"></p:outputLabel>
+							<p:inputText styleClass="form-control"  value="#{arrecadacaoPfBean.contribuicao.VALR_contribPatronal}" id="vlPatronal"></p:inputText>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Juros:"></p:outputLabel>
+							<p:inputText styleClass="form-control"  value="#{arrecadacaoPfBean.contribuicao.VALR_jurosPatronal}" id="vlJurosPatronal"></p:inputText>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Multa:"></p:outputLabel>
+							<p:inputText styleClass="form-control"  value="#{arrecadacaoPfBean.contribuicao.VALR_multaPatronal}" id="vlMultaPatronal"></p:inputText>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Desconto:"></p:outputLabel>
+							<p:inputText styleClass="form-control" ></p:inputText>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+					</div>
+				</div>
+				
+				
+				<div class="col-sm-3">
+					<p:commandButton icon="fa fa-print" value="Gerar Boleto" action="#{arrecadacaoPfBean.geraArrecadacao}" onclick="this.form.target='_blank'" ajax="false"></p:commandButton>
+				</div>
+				<div class="col-sm-3">
+					<p:commandButton value="Novo" icon="fa fa-file-o">
+						<p:ajax process="@this" update="@form" listener="#{arrecadacaoPfBean.novoObjeto}"></p:ajax>
+					</p:commandButton>
+				</div>
+				<div class="col-sm-12"><p></p></div>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

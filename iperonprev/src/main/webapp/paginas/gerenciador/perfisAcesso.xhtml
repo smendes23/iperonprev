@@ -1,0 +1,199 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+<style>
+			.ui-shadow {
+				box-shadow: 0px 5px 10px transparent;
+			}
+	table.people {
+    width: 100%;
+    border-collapse: collapse; /* so we can control cellspacing in a practical way */
+    border-bottom: 1px solid #000;
+}
+ 
+table.people th,
+table.people td {
+    padding: 5px;
+    text-align: left;
+    font-family: Arial, Verdana, sans-serif;
+    border: 1px solid #000; /* let's apply borders */
+    border-bottom:0;
+}
+ 
+ 
+table.people th {
+    background-color: #459E00;
+    color: black;
+    border-bottom: 2px solid #000;
+    text-align: center;
+}
+ 
+
+</style>
+	<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+			<p:panel styleClass="col-lg-10" header="Cadastro de Perfis">
+			<h:form id="formPerfil">
+			<p:messages showDetail="true" closable="true"></p:messages>
+				<br />
+				<h:inputHidden value="#{masterBean.modulos.id}"></h:inputHidden>
+				<h:inputHidden value="#{masterBean.perfil.id}"></h:inputHidden>
+				<div class="col-lg-12">
+					<p:outputLabel value="Nome do Perfil:"></p:outputLabel>
+					<p:inputText styleClass="form-control" value="#{masterBean.perfil.nomePerfil}"/>
+				</div>
+				<div class="col-sm-12">
+				<p:panelGrid style="margin-top:20px" styleClass="people">
+						<f:facet name="header">
+							<p:row style="background-color:#327e04;" styleClass="first">
+					            <p:column style="color:black;text-align: center;">Módulos</p:column>
+					            <p:column style="color:black;text-align: center;">Acesso</p:column>
+					            <p:column style="color:black;text-align: center;">Incluir</p:column>
+					            <p:column style="color:black;text-align: center;">Excluir</p:column>
+					            
+        					</p:row>
+						</f:facet>
+						
+						<p:row style="background-color:#EFF6E7">
+							<p:column style="color:black">Cadastro</p:column>
+							<p:column>
+							<div style="text-align: center;">
+	    						<p:selectBooleanCheckbox value="#{masterBean.modulos.acessoCadastro}"></p:selectBooleanCheckbox>
+    						</div>
+							</p:column>
+							<p:column>
+							<div style="text-align: center;">
+	    						<p:selectBooleanCheckbox value="#{masterBean.modulos.incluirCadastro}"></p:selectBooleanCheckbox>
+    						</div>
+							</p:column>
+							<p:column>
+							<div style="text-align: center;">
+	    						<p:selectBooleanCheckbox value="#{masterBean.modulos.excluirCadastro}"></p:selectBooleanCheckbox>
+    						</div>
+							</p:column>
+						</p:row>
+						
+						<p:row >
+							<p:column style="color:black">Arrecadação</p:column>
+							<p:column>
+							<div style="text-align: center;">
+	    						<p:selectBooleanCheckbox value="#{masterBean.modulos.acessoArrecadacao}"></p:selectBooleanCheckbox>
+    						</div>
+							</p:column>
+							<p:column>
+							<div style="text-align: center;">
+	    						<p:selectBooleanCheckbox value="#{masterBean.modulos.incluirArrecadacao}"></p:selectBooleanCheckbox>
+    						</div>
+							</p:column>
+							<p:column>
+							<div style="text-align: center;">
+	    						<p:selectBooleanCheckbox value="#{masterBean.modulos.excluirArrecadacao}"></p:selectBooleanCheckbox>
+    						</div>
+							</p:column>
+						</p:row>
+						<p:row style="background-color:#EFF6E7">
+							<p:column style="color:black">Benefício</p:column>
+							<p:column>
+							<div style="text-align: center;">
+	    						<p:selectBooleanCheckbox value="#{masterBean.modulos.acessoBeneficio}"></p:selectBooleanCheckbox>
+    						</div>
+							</p:column>
+							<p:column>
+							<div style="text-align: center;">
+	    						<p:selectBooleanCheckbox value="#{masterBean.modulos.incluirBeneficio}"></p:selectBooleanCheckbox>
+    						</div>
+							</p:column>
+							<p:column>
+							<div style="text-align: center;">
+	    						<p:selectBooleanCheckbox value="#{masterBean.modulos.excluirBeneficio}"></p:selectBooleanCheckbox>
+    						</div>
+							</p:column>
+						</p:row>
+						<p:row style="background-color:#EFF6E7">
+							<p:column style="color:black">Censo</p:column>
+							<p:column>
+							<div style="text-align: center;">
+	    						<p:selectBooleanCheckbox value="#{masterBean.modulos.acessoCenso}"></p:selectBooleanCheckbox>
+    						</div>
+							</p:column>
+							<p:column>
+							<div style="text-align: center;">
+	    						<p:selectBooleanCheckbox value="#{masterBean.modulos.incluirCenso}"></p:selectBooleanCheckbox>
+    						</div>
+							</p:column>
+							<p:column>
+							<div style="text-align: center;">
+	    						<p:selectBooleanCheckbox value="#{masterBean.modulos.ecluirCenso}"></p:selectBooleanCheckbox>
+    						</div>
+							</p:column>
+						</p:row>
+						<p:row style="background-color:#EFF6E7">
+							<p:column style="color:black">Relatórios</p:column>
+							<p:column>
+							<div style="text-align: center;">
+	    						<p:selectBooleanCheckbox value="#{masterBean.modulos.acessoRelatorios}"></p:selectBooleanCheckbox>
+    						</div>
+							</p:column>
+							<p:column>
+							<div style="text-align: center;">
+	    						<p:selectBooleanCheckbox value="#{masterBean.modulos.incluirRelatorios}"></p:selectBooleanCheckbox>
+    						</div>
+							</p:column>
+							<p:column>
+							<div style="text-align: center;">
+	    						<p:selectBooleanCheckbox value="#{masterBean.modulos.excluirRelatorios}"></p:selectBooleanCheckbox>
+    						</div>
+							</p:column>
+						</p:row>
+						<p:row style="background-color:#EFF6E7">
+							<p:column style="color:black">Administração</p:column>
+							<p:column>
+							<div style="text-align: center;">
+	    						<p:selectBooleanCheckbox value="#{masterBean.modulos.acessoAdministracao}"></p:selectBooleanCheckbox>
+    						</div>
+							</p:column>
+							<p:column>
+							<div style="text-align: center;">
+	    						<p:selectBooleanCheckbox value="#{masterBean.modulos.incluirAdministracao}"></p:selectBooleanCheckbox>
+    						</div>
+							</p:column>
+							<p:column>
+							<div style="text-align: center;">
+	    						<p:selectBooleanCheckbox value="#{masterBean.modulos.excluirAdministracao}"></p:selectBooleanCheckbox>
+    						</div>
+							</p:column>
+						</p:row>
+					</p:panelGrid>	
+				</div>
+				<div class="col-sm-12"></div>
+				
+				<div class="col-sm-2">
+					<p:commandButton value="Salvar" icon="fa fa-save">
+						<p:ajax listener="#{masterBean.salvarObjeto}" update="@form" process="@form"></p:ajax>
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Novo" icon="fa fa-file-o">
+						<p:ajax listener="#{masterBean.novoObjeto}" update="@form" process="@form"></p:ajax>
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Listar" icon="fa fa-list"
+						action="#{masterBean.exibeListaDeObjetos}"
+						process="@this" update="@none">
+						<p:ajax event="dialogReturn"
+							listener="#{masterBean.selecionaObjetoDialogo}"
+							process="@this" update="formPerfil" />
+						<p:resetInput target="formPerfil" />
+					</p:commandButton>
+				</div>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

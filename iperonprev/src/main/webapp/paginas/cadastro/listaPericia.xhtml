@@ -1,0 +1,91 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<h:head>
+	<title>::Lista de Reavaliações::</title>
+		<style>
+
+.ui-shadow {
+   box-shadow: 0px 5px 10px transparent;
+}
+.ui-widget {
+    font-family: segoe ui, Arial, sans-serif;
+    font-size: 16px;
+}
+
+.EXPIRADO {
+	background-color: red;
+	color: white;
+}
+
+.EXPIRANDO {
+	background-color: yellow;
+	color: inherit;
+}
+
+.VITALICIO {
+	background-color: green;
+	color: white;
+}
+
+.NORMAL {
+	background-color: #FFFFFF;
+	color: black;
+}
+	</style>
+</h:head>
+<h:body>
+<h:form>
+		<div>
+			<p:commandButton icon="fa fa-close" style="float: right;top: 0px;position:relative;" id="fechaFuncional"
+			action="#{cargoBean.fechaCargo}">
+			</p:commandButton>
+		</div>
+	</h:form>
+	<div class="col-sm-12">
+		<br/>
+	</div>
+	<div class="ui-grid ui-grid-responsive">
+		<div class="ui-grid-row">
+			<div class="col-sm-12">
+			<p></p>
+			
+	<h:form>
+	<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:dataTable var="listaPericia" widgetVar="periciaTable"
+			value="#{periciaBean.listaPericia()}" paginator="true"
+			paginatorAlwaysVisible="false" rows="5" paginatorPosition="bottom"
+			style="heigth:480px;width:880" rowsPerPageTemplate="5,10"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			>
+			
+			<p:column headerText="Perícia Realizada">
+				<p:outputLabel value="#{listaPericia.DATA_pericia}">
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Próxima pericia">
+				<p:outputLabel value="#{listaPericia.DATA_proximaPericia}">
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Periciar ?">
+				<p:outputLabel value="#{listaPericia.FLAG_naoPericia eq false ? 'Sim' : 'Não'}"/>
+			</p:column>
+			<p:column headerText="Ação" width="50">
+				<p:commandLink
+					action="#{periciaBean.pegaInstanciaDialogo(listaPericia)}" >
+					<p:graphicImage name="/image/editar.png" style="margin-left: 15;"></p:graphicImage>
+				</p:commandLink>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+			</div>
+		</div>
+	</div>
+</h:body>
+</html>

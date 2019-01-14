@@ -1,0 +1,620 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+		<f:metadata>
+			<f:viewAction action="#{pessoasBean.recarregaPagina}"
+				onPostBack="true" />
+		</f:metadata>
+
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<div class="col-sm-10">
+			<h:form id="formPessoa">
+				<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+				<p:tabView style="margin-bottom: 55px;" id="pessoas">
+					<p:tab title="Dados Pessoais">
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<h:inputHidden value="#{pessoasBean.pessoa.NUMG_idDoObjeto}"></h:inputHidden>
+								<div class="col-sm-6" style="color: #000">
+									<p:outputLabel value="Nome:"></p:outputLabel>
+									<div class="input-group">
+										<p:inputText styleClass="form-control" id="nomePessoa"
+											required="true" requiredMessage="Nome obrigatório"
+											value="#{pessoasBean.pessoa.DESC_nome}"
+											valueChangeListener="#{pessoasBean.pegaLista}">
+										</p:inputText>
+										<span class="input-group-btn"> <p:commandButton
+												icon="fa fa-search" styleClass="btn-input"
+												action="#{pessoasBean.exibeListaDeObjetos}"
+												process="@this nomePessoa" update="@none">
+												<p:ajax event="dialogReturn"
+													listener="#{pessoasBean.selecionaObjetoDialogo}"
+													process="@this" update="@form" />
+												<p:resetInput target="formPessoa" />
+											</p:commandButton>
+										</span>
+									</div>
+
+								</div>
+
+								<div class="col-sm-3" style="color: #000; margin-left: 20px;">
+									<p:outputLabel value="Data Nascimento:*"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control"
+										required="true"
+										requiredMessage="Data de nascimento obrigatória"
+										value="#{pessoasBean.pessoa.DATA_nascimento}"
+										converter="dateConverter">
+									</p:inputMask>
+								</div>
+								<div class="col-sm-3" style="color: #000; margin-left: 20px;">
+									<p:outputLabel value="Nacionalidade:*"></p:outputLabel>
+									<p:inputText styleClass="form-control" id="nacionalidade"
+										value="#{pessoasBean.pessoa.DESC_nacionalidade}"></p:inputText>
+								</div>
+							</div>
+						</div>
+
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="UF:*"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.pessoa.DESC_ufNaturalidade}"></p:inputText>
+								</div>
+
+								<div class="col-sm-3" style="color: #000; margin-left: 20px;">
+									<p:outputLabel value="Naturalidade:*"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.pessoa.DESC_naturalidade}"></p:inputText>
+								</div>
+
+								<div class="col-sm-3" style="color: #000; margin-left: 20px;">
+									<p:outputLabel value="Sexo:*"></p:outputLabel>
+									<p:selectOneRadio styleClass="form-control"
+										value="#{pessoasBean.pessoa.DESC_sexo}">
+										<f:selectItems value="#{pessoasBean.sexoEnum}" var="sexo"
+											itemLabel="#{sexo.nome}" itemValue="#{sexo}"></f:selectItems>
+									</p:selectOneRadio>
+								</div>
+								<div class="col-sm-3" style="color: #000; margin-left: 20px;">
+									<p:outputLabel value="Estado Civil:*"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true"
+										converter="conversorDeEntidades" filterMatchMode="startsWith"
+										style="width:100%" styleClass="selectalt"
+										value="#{pessoasBean.estadoCivil}">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{pessoasBean.listaEstadosCivis}"
+											var="estadoCivil" itemValue="#{estadoCivil}"
+											itemLabel="#{estadoCivil.DESC_nome}" />
+									</p:selectOneMenu>
+								</div>
+							</div>
+						</div>
+
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-6" style="color: #000">
+									<p:outputLabel value="Nome do Pai:"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.pessoa.DESC_pai}"></p:inputText>
+								</div>
+
+								<div class="col-sm-6" style="color: #000; margin-left: 20px;">
+									<p:outputLabel value="Nome da Mãe:*"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.pessoa.DESC_mae}"></p:inputText>
+								</div>
+							</div>
+						</div>
+
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+							
+							
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="CPF:*"></p:outputLabel>
+									<div class="input-group">
+										<p:inputMask mask="999.999.999-99" styleClass="form-control"
+											converter="cpfConverter"
+											value="#{pessoasBean.pessoa.NUMR_cpf}" id="cpf"></p:inputMask>
+										<span class="input-group-btn"> <p:commandButton
+												icon="fa fa-caret-right" styleClass="btn-input"
+												process="cpf @this" update="@form"
+												action="#{pessoasBean.buscaServidor()}"></p:commandButton>
+										</span>
+									</div>
+								</div>
+
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="PASEP/PIS/NIT:*"></p:outputLabel>
+									<p:inputText styleClass="form-control" 
+										value="#{pessoasBean.pessoa.NUMR_pisPasep}" required="true"
+										requiredMessage="PASEP obrigatório"></p:inputText>
+								</div>
+
+								<div class="col-sm-4" style="color: #000; margin-left: 20px;">
+									<p:outputLabel value="Grau de Instrução:*"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true"
+										filterMatchMode="startsWith" style="width:100%"
+										styleClass="selectalt"
+										value="#{pessoasBean.pessoa.NUMR_instrucao}" required="true"
+										requiredMessage="Grau de Instrução obrigatório"
+										converter="conversorDeEntidades">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{pessoasBean.listaGrauDeInstrucao}"
+											var="instrucao" itemValue="#{instrucao}"
+											itemLabel="#{instrucao.DESC_nome}" />
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-2" style="color: #000; margin-left: 20px;">
+									<p:outputLabel value="Óbito"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control"
+										value="#{pessoasBean.pessoa.DATA_obito}"
+										converter="dateConverter">
+									</p:inputMask>
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<br />
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-2" style="color: #000">
+									<p:commandButton value="Salvar" icon="fa fa-save">
+											<p:ajax update="formPessoa" process="formPessoa" listener="#{pessoasBean.salvarObjeto}" resetValues="true"></p:ajax>
+									</p:commandButton>
+								</div>
+								<div class="col-sm-2" style="color: #000">
+									<p:commandButton value="Novo" icon="fa fa-plus">
+										<p:ajax listener="#{pessoasBean.novoObjeto}" update="formPessoa" resetValues="true"/>
+										
+									</p:commandButton>
+								</div>
+								<div class="col-sm-3" style="color: #000">
+									<p:commandButton value="Recadastramento" icon="fa fa-user"  styleClass="btn-input" action="#{pessoasBean.exibeRecadastramento()}" id="recad"
+									actionListener="#{pessoasBean.buscaRecadastramento()}" process="@this cpf" update="@none " disabled="#{pessoasBean.servidorInativo eq false}">
+										<p:ajax event="dialogReturn"
+													process="@this" update="@this" />
+										<p:resetInput target="formPessoa" />
+									</p:commandButton>
+								</div>
+							</div>
+						</div>
+
+					</p:tab>
+
+					<p:tab title="Documentos">
+						<div class="ui-grid ui-grid-responsive">
+							<h3 class="fieldalt">RG</h3>
+							<hr />
+							<div class="ui-grid-row">
+								<div class="col-sm-4" style="color: #000">
+									<p:outputLabel value="Número:"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.pessoa.NUMR_identidade}"></p:inputText>
+								</div>
+
+								<div class="col-sm-4" style="color: #000;">
+									<p:outputLabel value="Órgão Expedidor:"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.pessoa.NUMR_orgaoIdentidade}"></p:inputText>
+								</div>
+								<div class="col-sm-4" style="color: #000;">
+									<p:outputLabel value="Data Emissão:"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control"
+										value="#{pessoasBean.pessoa.DATA_emissaoIdentidade}"
+										converter="dateConverter"></p:inputMask>
+								</div>
+							</div>
+						</div>
+
+						<div class="ui-grid ui-grid-responsive">
+							<h3 class="fieldalt">Certidão de Nascimento</h3>
+							<hr />
+							<div class="ui-grid-row">
+								<div class="col-sm-4" style="color: #000">
+									<p:outputLabel value="Número:"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.pessoa.DESC_numCertNasc}"></p:inputText>
+								</div>
+
+								<div class="col-sm-4" style="color: #000;">
+									<p:outputLabel value="Livro:"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.pessoa.NUMR_livroCertNasc}"></p:inputText>
+								</div>
+								<div class="col-sm-4" style="color: #000;">
+									<p:outputLabel value="Folha:"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.pessoa.NUMR_folhaCertNasc}"></p:inputText>
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+							<h3 class="fieldalt">Certidão de Casamento</h3>
+							<hr />
+							<div class="ui-grid-row">
+								<div class="col-sm-4" style="color: #000">
+									<p:outputLabel value="Número:"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.pessoa.DESC_numCertCas}"></p:inputText>
+								</div>
+
+								<div class="col-sm-4" style="color: #000;">
+									<p:outputLabel value="Livro:"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.pessoa.NUMR_livroCertCas}"></p:inputText>
+								</div>
+								<div class="col-sm-4" style="color: #000;">
+									<p:outputLabel value="Folha:"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.pessoa.NUMR_folhaCertCas}"></p:inputText>
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+							<h3 class="fieldalt">Carteira de Trabalho</h3>
+							<hr />
+							<div class="ui-grid-row">
+								<div class="col-sm-4" style="color: #000">
+									<p:outputLabel value="Número:"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.pessoa.NUMR_ctps}"></p:inputText>
+								</div>
+								<div class="col-sm-4" style="color: #000;">
+									<p:outputLabel value="Data Expedição:"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control"
+										value="#{pessoasBean.pessoa.DATA_expedicaoCtps}"
+										converter="dateConverter"></p:inputMask>
+								</div>
+
+								<div class="col-sm-4" style="color: #000;">
+									<p:outputLabel value="Série:"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.pessoa.NUMR_serieCtps}"></p:inputText>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="ui-grid ui-grid-responsive">
+							<h3 class="fieldalt">Título de Eleitor</h3>
+							<hr />
+							<div class="ui-grid-row">
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="Número:"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.pessoa.NUMR_tituloEleitor}"></p:inputText>
+								</div>
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="Zona:"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.pessoa.NUMR_tituloEleitorZona}"></p:inputText>
+								</div>
+								<div class="col-sm-3" style="color: #000;">
+									<p:outputLabel value="Seção:"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.pessoa.NUMR_tituloEleitorSecao}"></p:inputText>
+								</div>
+								<div class="col-sm-3" style="color: #000;">
+									<p:outputLabel value="UF:"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.pessoa.DESC_ufExpedidorEleitor}"></p:inputText>
+								</div>
+							</div>
+						</div>
+					</p:tab>
+
+
+					<p:tab title="Endereço">
+					
+					
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="Cep:*"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.endereco.NUMR_cep}"></p:inputText>
+								</div>
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="Tipo Logradouro:*"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true"
+										converter="conversorDeEntidades" filterMatchMode="startsWith"
+										style="width:100%" styleClass="selectalt"
+										value="#{pessoasBean.logradouro}">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{pessoasBean.listaTipoLogradouro}"
+											var="tipoLogradouro" itemValue="#{tipoLogradouro}"
+											itemLabel="#{tipoLogradouro.DESC_nome}" />
+									</p:selectOneMenu>
+								</div>
+
+								<div class="col-sm-6" style="color: #000">
+									<p:outputLabel value="Logradouro:*"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.endereco.DESC_logradouro}"></p:inputText>
+								</div>
+							</div>
+						</div>
+		
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-2" style="color: #000">
+									<p:outputLabel value="Número:*"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.endereco.DESC_numero}"></p:inputText>
+								</div>
+								<div class="col-sm-4" style="color: #000">
+									<p:outputLabel value="Bairro:*"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.endereco.DESC_bairro}"></p:inputText>
+								</div>
+								<h:inputHidden value="#{pessoasBean.estado.NUMG_idDoObjeto}" />
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="UF:*"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true"
+										filterMatchMode="startsWith" style="width:100%"
+										styleClass="selectalt" value="#{pessoasBean.estado}"
+										converter="conversorDeEntidades">
+										<p:ajax event="change" update="munic"
+											listener="#{pessoasBean.populaMunicipios}" process="@this"></p:ajax>
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{pessoasBean.listaDeEstados}"
+											var="estados" itemValue="#{estados}"
+											itemLabel="#{estados.DESC_nome}" />
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="Município:*"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true" id="munic"
+										filterMatchMode="startsWith" style="width:100%"
+										styleClass="selectalt"
+										value="#{pessoasBean.endereco.NUMR_idDoObjetoMunicipio}"
+										converter="conversorDeEntidades">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{pessoasBean.listaDeMunicipios}"
+											var="municipio" itemValue="#{municipio}"
+											itemLabel="#{municipio.DESC_nome}" />
+									</p:selectOneMenu>
+								</div>
+
+							</div>
+						</div>
+						
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-12" style="color: #000">
+									<p:outputLabel value="Observações:" />
+									<p:inputTextarea styleClass="col-sm-12"
+											value="#{pessoasBean.endereco.DESC_observacao}"></p:inputTextarea>
+								</div>
+							</div>
+						</div>
+					</p:tab>
+
+					<p:tab title="Contato">
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-4" style="color: #000">
+									<p:outputLabel value="Telefone Fixo:"></p:outputLabel>
+									<p:inputMask mask="(99)9999-9999" styleClass="form-control"
+										value="#{pessoasBean.pessoa.NUMR_telefoneFixo}"></p:inputMask>
+								</div>
+
+								<div class="col-sm-4" style="color: #000">
+									<p:outputLabel value="Telefone Celular:*"></p:outputLabel>
+									<p:inputMask mask="(99)99999-9999" styleClass="form-control" required="true" requiredMessage="Telefone celular obrigatório!"
+										value="#{pessoasBean.pessoa.NUMR_telefoneCelular}"></p:inputMask>
+								</div>
+								<div class="col-sm-4" style="color: #000">
+									<p:outputLabel value="E-mail:"></p:outputLabel>
+									<p:inputText styleClass="form-control"
+										value="#{pessoasBean.pessoa.DESC_email}"></p:inputText>
+								</div>
+							</div>
+						</div>
+					</p:tab>
+					<p:tab title="Dependentes" >
+					
+					<h:panelGroup id="dependentes">
+					<p:messages showDetail="true" closable="true" id="msgDependente"></p:messages>
+					<div class="ui-grid ui-grid-responsive">
+					
+							<div class="ui-grid-row">
+								<div class="col-sm-3" style="color: #000">
+								
+									<p:outputLabel value="CPF:*"></p:outputLabel>
+									<div class="input-group">
+										<p:inputMask mask="999.999.999-99" styleClass="form-control"
+											converter="cpfConverter"
+											value="#{pessoasBean.pessoaDependente.NUMR_cpf}" id="cpfDependente"></p:inputMask>
+										<span class="input-group-btn"> <p:commandButton
+												icon="fa fa-caret-right" styleClass="btn-input"
+												process="cpfDependente @this" update="dependentes nomeDependente nascimentoDependente sexoDependente"
+												action="#{pessoasBean.buscaDependentes()}"></p:commandButton>
+										</span>
+									</div>
+								</div>
+								<div class="col-sm-6" style="color: #000">
+									<p:outputLabel value="Nome:"></p:outputLabel>
+									<p:inputText styleClass="form-control" value="#{pessoasBean.pessoaDependente.DESC_nome}" id="nomeDependente"></p:inputText>
+								</div>
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="Data Nascimento:"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control"
+										value="#{pessoasBean.pessoaDependente.DATA_nascimento}" id="nascimentoDependente"
+										converter="dateConverter" />
+								</div>
+								</div>
+								
+								
+								<div class="ui-grid-row">
+								<div class="col-sm-3" style="color: #000; margin-left: 20px;">
+									<p:outputLabel value="Sexo:*"></p:outputLabel>
+									<p:selectOneRadio styleClass="form-control"
+										value="#{pessoasBean.pessoaDependente.DESC_sexo}" id="sexoDependente">
+										<f:selectItems value="#{pessoasBean.sexoDependenteEnum}" var="sexoDep"
+											itemLabel="#{sexoDep.nome}" itemValue="#{sexoDep}"></f:selectItems>
+									</p:selectOneRadio>
+								</div>
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="Grau de Parentesco:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true" id="grauDependente"
+										converter="conversorDeEntidades" 
+										filterMatchMode="startsWith" style="width:100%"
+										styleClass="selectalt"
+										value="#{pessoasBean.dependente.NUMR_grauParentesco}">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems
+											value="#{pessoasBean.listaGrauParentesco}"
+											var="parentesco" itemValue="#{parentesco}"
+											itemLabel="#{parentesco.DESC_nome}" />
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="Motivo Fim:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true" id="motivoFimDependente"
+										converter="conversorDeEntidades" filterMatchMode="startsWith"
+										style="width:100%" styleClass="selectalt"
+										value="#{pessoasBean.dependente.NUMR_motivoFimDependencia}">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems
+											value="#{pessoasBean.listaMotivosFimDependencia}"
+											var="motivoFim" itemValue="#{motivoFim}"
+											itemLabel="#{motivoFim.DESC_descricao}" />
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-3" style="color: #000">
+									<p:outputLabel value="Data Fim:"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" style="width:100%;" id="dataFimDependente"
+										converter="dateConverter" 
+										value="#{pessoasBean.dependente.DATA_fim}" />
+								</div>
+							</div>
+						</div>
+					</h:panelGroup>
+						
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<p></p>
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-2" style="color: #000">
+									<p:commandButton value="Salvar" icon="fa fa-save" disabled="#{pessoasBean.pessoa.NUMG_idDoObjeto eq 0}"
+									>
+										<p:ajax listener="#{pessoasBean.salvarDependente()}" process="cpfDependente nomeDependente nascimentoDependente grauDependente motivoFimDependente dataFimDependente tbDependente @this" 
+										update="cpfDependente nomeDependente nascimentoDependente grauDependente motivoFimDependente dataFimDependente tbDependente msgDependente"></p:ajax>
+									</p:commandButton>
+								</div>
+
+							</div>
+						</div>
+						
+						<div class="ui-grid ui-grid-responsive">
+						<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<p></p>
+								</div>
+							</div>
+							
+						<div class="ui-grid-row">
+								<p:dataTable  styleClass="col-sm-12" emptyMessage="Registro não encontrado." var="dependentes" value="#{pessoasBean.listaDep}"  id="tbDependente">
+									<p:column headerText="Nome">
+										<p:outputLabel value="#{dependentes.NUMR_idDoObjetoDependentes.DESC_nome}"></p:outputLabel>
+									</p:column>
+									<p:column headerText="CPF" style="width:150px">
+										<p:outputLabel value="#{dependentes.NUMR_idDoObjetoDependentes.NUMR_cpf}"></p:outputLabel>
+									</p:column>
+									<p:column headerText="Data Nasc." style="width:130px">
+										<p:outputLabel value="#{dependentes.NUMR_idDoObjetoDependentes.DATA_nascimento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+										</p:outputLabel>
+									</p:column>
+									<p:column headerText="Parentesco" style="width:110px">
+										<p:outputLabel value="#{dependentes.NUMR_grauParentesco.DESC_nome}"></p:outputLabel>
+									</p:column>
+									<p:column headerText="Ação" style="width:95px">
+									<p:commandLink action="#{pessoasBean.carregaDependente(dependentes)}" process="@this" update="formPessoa:pessoas:dependentes">
+										<p:graphicImage name="/image/editar.png"></p:graphicImage>
+									</p:commandLink>
+									</p:column>
+								</p:dataTable>
+						</div>
+					</div>
+					
+						
+					</p:tab>
+					<p:tab title="Arquivos" id="tabArquivos">
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<p:fileUpload mode="advanced" fileUploadListener="#{pessoasBean.carregaArquivoPessoa}" 
+									dragDropSupport="false" label="Selecionar arquivo..." cancelLabel="Cancelar" uploadLabel="Enviar"
+							                  multiple="true" allowTypes="/(\.|\/)(tif|jpe?g|png)$/" update="formPessoa:pessoas:tabPessoa" >
+							            <f:param name="noValidate" value="1"></f:param>
+							        </p:fileUpload>
+								</div>
+								
+							</div>
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<p></p>
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<p:dataTable
+										value="#{pessoasBean.listaDocumentos}" var="imageArq"
+										 id="tabPessoa"
+										emptyMessage="Registro não encontrado." paginator="true" paginatorAlwaysVisible="false" rows="10" paginatorPosition="bottom"
+										rowsPerPageTemplate="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+										<p:column headerText="Nome do Arquivo">
+											<h:outputLink target="_blank"  value="#{request.contextPath}/file/#{imageArq.DESC_caminhoRelativo}/#{imageArq.DESC_nome}">#{imageArq.DESC_nome}</h:outputLink>
+										</p:column>
+										<p:column style="width:130px;text-align: center"
+											headerText="Remover">
+											<p:commandButton icon="ui-icon-trash"
+												update="tabPessoa"
+												process="tabPessoa"
+												action="#{pessoasBean.removeArquivo(imageArq)}">
+												<f:param name="noValidate" value="1"></f:param>
+											</p:commandButton>
+										</p:column>
+									</p:dataTable>
+								</div>
+							</div>
+						</div>
+					</p:tab>
+				</p:tabView>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

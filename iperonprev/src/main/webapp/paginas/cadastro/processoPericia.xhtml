@@ -1,0 +1,146 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+
+		<div class="col-lg-10 panel panel-default"
+			style="background-color: #EFF6E7;">
+			<div class="panel-heading" style="background-color: #459E00;">
+				<h3 class="panel-title" style="color: #FFF;">Cadastro de Processos</h3>
+			</div>
+			<h:form>
+				<br />
+				<div class="col-lg-12">
+					<h3 class="fieldalt">Dados do Servidor</h3>
+					<hr />
+				</div>
+				<div class="col-lg-3">
+					<label>CPF:</label>
+					<p:inputMask mask="999.999.999-99"
+						styleClass="form-control "/>
+				</div>
+				<div class="col-lg-6">
+					<label>Interessado:</label>
+					<p:inputText styleClass="form-control " disabled="true" />
+				</div>
+				<div class="col-lg-3 ">
+					<p:outputLabel value="Data Nasc.:"></p:outputLabel>
+					<p:inputMask mask="99/99/9999" disabled="true"
+						styleClass="form-control ">
+					</p:inputMask>
+				</div>
+				<div class="col-lg-12">
+					<h3 class="fieldalt">Dados do Processo</h3>
+					<hr />
+				</div>
+				
+			   <div class="col-sm-4">
+			   		<p:outputLabel value="Tipo de documento:"></p:outputLabel>
+			   		<p:selectOneMenu effect="fade" filter="true"
+							filterMatchMode="startsWith" style="width:100%">
+							<f:selectItem itemValue="1" itemLabel="Laudo médico pericial" />
+							<f:selectItem itemValue="2" itemLabel="Memorando" />
+							<f:selectItem itemValue="3" itemLabel="Ofício" />
+							<f:selectItem itemValue="4" itemLabel="Processo" />
+							<f:selectItem itemValue="5" itemLabel="Requerimento" />
+						</p:selectOneMenu>
+			   </div>
+			   <div class="col-sm-4">
+			   		<p:outputLabel value="Tipo de processo:"></p:outputLabel>
+			   		<p:selectOneMenu effect="fade" filter="true"
+							filterMatchMode="startsWith" style="width:100%">
+							<f:selectItem itemValue="1" itemLabel="Aposentadoria por invalidez" />
+							<f:selectItem itemValue="2" itemLabel="Inclusão de dependentes" />
+							<f:selectItem itemValue="3" itemLabel="Isenção de imposto" />
+							<f:selectItem itemValue="4" itemLabel="Pensão" />
+							<f:selectItem itemValue="5" itemLabel="Redução da carga horária" />
+						</p:selectOneMenu>
+			   </div>
+			   <div class="col-sm-4">
+			   		<p:outputLabel value="Número do documento:"></p:outputLabel>
+			   		<p:inputText styleClass="form-control"></p:inputText>
+			   </div>
+			    <div class="col-sm-6">
+			   		<p:outputLabel value="Data da Entrada:"></p:outputLabel>
+			   		<p:inputMask mask="99/99/9999" styleClass="form-control"></p:inputMask>
+			   </div>
+			   <div class="col-sm-6">
+			   		<p:outputLabel value="Origem:"></p:outputLabel>
+			   		<p:selectOneMenu effect="fade" filter="true"
+							filterMatchMode="startsWith" style="width:100%">
+							<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+							<f:selectItem itemValue="1" itemLabel="Eq. Pessoal" />
+						</p:selectOneMenu>
+			   </div>
+			   <div class="col-sm-12">
+					<p:outputLabel value="Observação/Ocorrência:"></p:outputLabel>
+					<p:inputTextarea styleClass="col-sm-12">
+					</p:inputTextarea>
+				</div>
+				 <div class="col-sm-4">
+			   		<p:outputLabel value="Data da Saída:"></p:outputLabel>
+			   		<p:inputMask mask="99/99/9999" styleClass="form-control"></p:inputMask>
+			   </div>
+			   <div class="col-sm-4">
+			   		<p:outputLabel value="Destino:"></p:outputLabel>
+			   		<p:selectOneMenu effect="fade" filter="true"
+							filterMatchMode="startsWith" style="width:100%">
+							<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+							<f:selectItem itemValue="1" itemLabel="Eq. Pessoal" />
+						</p:selectOneMenu>
+			   </div>
+			   <div class="col-sm-4">
+			   		<p:outputLabel value="Motivo pendência:"></p:outputLabel>
+			   		<p:inputText styleClass="form-control"></p:inputText>
+			   </div>
+				<div class="col-sm-12"></div>
+				<div class="col-sm-2" style="top: 5px;">
+					<p:commandButton value="Salvar"></p:commandButton>
+				</div>
+				<div class="col-sm-2" style="top: 5px;">
+					<p:commandButton value="Novo"></p:commandButton>
+				</div>
+				<div class="col-sm-12">
+					<h3 class="fieldalt">Lista de Processos</h3>
+					<hr />
+				</div>
+				<style>
+					
+
+		 		</style>
+				<div class="col-sm-12">
+					<p:dataTable var="listaCargos" widgetVar="cargosTable" paginator="true"
+						paginatorAlwaysVisible="false" rows="5" paginatorPosition="bottom"
+						style="heigth:480px;width:880;;" id="tbCarreiras" rowsPerPageTemplate="5,10"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						tableStyleClass="linhaTabela">
+						<f:facet name="header">
+							<p:outputPanel style="margin-left: 674px;">
+								<h:outputText value="Pesquisar:" styleClass="form-control" style="margin-left:-120px;margin-bottom:-30px;"/>
+								<p:inputText id="globalFilter" styleClass="form-control" onkeyup="PF('cargosTable').filter()"
+								style="width:150px" placeholder="Digite aqui..." />
+							</p:outputPanel>
+						</f:facet>
+						<p:column headerText="N° do Processo" >
+							<p:outputLabel value="123" styleClass="linhaTabela"></p:outputLabel>
+						</p:column>
+						<p:column headerText="Interessado" filterStyleClass="linhaTabela">
+							<p:outputLabel value="Manoel"></p:outputLabel>
+						</p:column>
+						<p:column headerText="Tempo Acumulado">
+							<p:outputLabel value="1 Dia"></p:outputLabel>
+						</p:column>
+						<p:column headerText="Status">
+							<p:outputLabel value="Pendente"></p:outputLabel>
+						</p:column>
+					</p:dataTable>
+				</div>
+			</h:form>
+			<br /> <br />
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

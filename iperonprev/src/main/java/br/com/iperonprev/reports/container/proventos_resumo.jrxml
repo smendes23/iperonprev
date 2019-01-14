@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="proventos_resumo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="568" leftMargin="7" rightMargin="20" topMargin="0" bottomMargin="0" uuid="9fa18101-9036-4a73-93dd-82d5a3e42a8f">
+	<property name="ireport.zoom" value="2.357947691000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="descricao" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="4" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="2" width="551" height="1" uuid="b976a7b2-954c-4903-807b-d0a0fcf132cc"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="551" height="16" uuid="c8fab4bb-c065-457a-8764-723c420f4e4b"/>
+				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="130">
+			<line>
+				<reportElement x="0" y="2" width="551" height="1" uuid="8f29bcf7-0f10-4bc8-aac9-069b1461ae87"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="9" width="273" height="16" uuid="bdba42cd-6cf4-40e9-adc4-75de937db11f"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Lavrei o documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="273" y="25" width="278" height="22" uuid="603b1dca-3c75-4267-844e-88de7ebeeeff"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<paragraph leftIndent="30"/>
+				</textElement>
+				<text><![CDATA[Em ......./......./........]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="47" width="273" height="80" uuid="0f38dc57-f36a-433e-b267-b6a878268fec"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="273" y="47" width="278" height="80" uuid="334d91d8-5603-4a9f-8526-7ba9f78ccccd"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="273" y="9" width="278" height="16" uuid="7ca45074-ef00-4303-bd7d-954895460395"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Visto do Chefe da Equipe de Cálculo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="25" width="273" height="22" uuid="8f15566b-6dae-467c-9a9c-66330ec8a4ff"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<paragraph leftIndent="30"/>
+				</textElement>
+				<text><![CDATA[Em ......./......./........]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+</jasperReport>

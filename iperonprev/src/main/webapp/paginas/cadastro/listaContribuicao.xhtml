@@ -1,0 +1,141 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<h:head>
+	<title>::Contribuições::</title>
+	<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+
+.ui-widget {
+	font-family: segoe ui, Arial, sans-serif;
+	font-size: 16px;
+}
+</style>
+</h:head>
+<h:body>
+	<div>
+		<br />
+	</div>
+	<h:form>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+			<div class="ui-grid ui-grid-responsive">
+				<div class="ui-grid-row">
+					<div class="col-sm-6" style="color: #000">
+					<p:commandLink value="Competência:">
+						<p:ajax process="@form"
+							update="@this baseCalculo aliquotaSegurado contribSegurado aliquotaPatronal contribPatronal"
+							listener="#{funcionalBean.buscaContribuicaoAliquota}"></p:ajax>
+					</p:commandLink>
+					<i class="fa fa-search"></i>
+					<p:inputMask mask="99/9999" styleClass="form-control"
+						converter="competenciaConverterMesAno"
+						value="#{funcionalBean.contribuicao.DESC_competencia}"
+						valueChangeListener="#{funcionalBean.pegaContribuicao}"
+						id="competencia">
+					</p:inputMask>
+				</div>
+				<div class="col-sm-6" style="color: #000">
+					<p:outputLabel value="Base de Cálculo Iperon:"></p:outputLabel>
+					<p:inputText styleClass="form-control " id="baseCalculo"
+						value="#{funcionalBean.contribuicao.VALR_contribuicaoPrevidenciaria}"
+						converter="moedaConverter">
+						<p:ajax event="blur"
+							update="aliquotaSegurado contribSegurado aliquotaPatronal contribPatronal devolucaoSegurado devolucaoPatronal"
+							process="@form"
+							listener="#{funcionalBean.calculaContribuicaoApartirDoSegurado()}"></p:ajax>
+					</p:inputText>
+				</div>
+				</div>
+			</div>
+				
+				<div class="col-sm-4" style="color: #000">
+					<p:outputLabel value="Alíquota Segurado %:"></p:outputLabel>
+					<p:inputText styleClass="form-control " id="aliquotaSegurado"
+						value="#{funcionalBean.contribuicao.NUMR_aliquotaSegurado}">
+						<p:ajax event="blur" update="contribSegurado"
+							process="@form"
+							listener="#{funcionalBean.modificaCalculoContribuicaoSegurado}"></p:ajax>
+					</p:inputText>
+
+				</div>
+				<div class="col-sm-4" style="color: #000">
+					<p:outputLabel value="Contribuição Segurado:"></p:outputLabel>
+					<p:inputText styleClass="form-control " id="contribSegurado"
+						value="#{funcionalBean.contribuicao.VALR_contribSegurado}"
+						converter="moedaConverter" />
+				</div>
+				<div class="col-sm-4" style="color: #000">
+					<p:outputLabel value="Devolução Segurado:"></p:outputLabel>
+					<p:inputText styleClass="form-control " id="devolucaoSegurado"
+						value="#{funcionalBean.contribuicao.VALR_devolSegurado}"
+						converter="moedaConverter" />
+				</div>
+				<div class="col-sm-4" style="color: #000">
+					<p:outputLabel value="Alíquota Patronal %:"></p:outputLabel>
+					<p:inputText styleClass="form-control " id="aliquotaPatronal"
+						value="#{funcionalBean.contribuicao.NUMR_aliquotaPatronal}">
+						<p:ajax event="blur" update="contribPatronal" process="@this"
+							listener="#{funcionalBean.modificaCalculoContribuicaoPatronal}"></p:ajax>
+					</p:inputText>
+				</div>
+				<div class="col-sm-4" style="color: #000">
+					<p:outputLabel value="Contribuição Patronal :"></p:outputLabel>
+					<p:inputText styleClass="form-control " id="contribPatronal"
+						value="#{funcionalBean.contribuicao.VALR_contribPatronal}"
+						converter="moedaConverter" />
+				</div>
+				<div class="col-sm-4" style="color: #000">
+					<p:outputLabel value="Devolução Patronal:"></p:outputLabel>
+					<p:inputText styleClass="form-control " id="devolucaoPatronal"
+						value="#{funcionalBean.contribuicao.VALR_devolPatronal}"
+						converter="moedaConverter" />
+				</div>
+				<div class="col-sm-12">
+					<br />
+				</div>
+				<div class="col-sm-2" style="color: #000">
+					<p:commandButton value="Salvar" icon="fa fa-save">
+						<p:ajax process="@form" update="@form"
+							listener="#{funcionalBean.salvaContribuicoes}" />
+					</p:commandButton>
+				</div>
+				<div class="col-sm-3" style="color: #000">
+					<p:commandButton value="Ficha Financeira" icon="fa fa-print"
+						action="#{funcionalBean.geraFichaFinanceira}" immediate="true"
+						onclick="this.form.target='_blank'" ajax="false">
+					</p:commandButton>
+				</div>
+				<div class="col-sm-4" style="color: #000">
+					<h:panelGroup rendered="#{funcionalBean.existePortaria eq true}">
+						<p:commandButton value="Médias Aritméticas" icon="fa fa-print"
+							action="#{funcionalBean.geraMedias}" target="_blank" ajax="false">
+						</p:commandButton>
+					</h:panelGroup>
+					<h:panelGroup rendered="#{funcionalBean.existePortaria eq false}">
+						<p:commandButton onclick="PF('media').show();"
+							value="Médias Aritméticas" update="@none"></p:commandButton>
+
+						<p:dialog header="Competência Portaria" widgetVar="media"
+							resizable="false"
+							style="background-color:rgb(239, 246, 231);color: #000;">
+							<p:outputLabel value="Competência:"></p:outputLabel>
+							<p:inputMask mask="99/9999" styleClass="form-control"
+								value="#{funcionalBean.competenciaPortaria}"></p:inputMask>
+							<p></p>
+							<p:commandButton value="Imprimir"
+								action="#{funcionalBean.geraMedias}" immediate="true"
+								onclick="this.form.target='_blank'" ajax="false">
+							</p:commandButton>
+						</p:dialog>
+					</h:panelGroup>
+				</div>
+
+	</h:form>
+</h:body>
+</html>

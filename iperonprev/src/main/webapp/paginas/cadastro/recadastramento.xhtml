@@ -1,0 +1,248 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<h:head>
+	<h:outputStylesheet name="/css/bootstrap.css"></h:outputStylesheet>
+	<h:outputStylesheet name="/css/bootstrap-theme.css"></h:outputStylesheet>
+	<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+
+.ui-widget {
+	font-family: segoe ui, Arial, sans-serif;
+	font-size: 16px;
+}
+
+.btn-input {
+	border-radius: 0px 5px 5px 0px;
+	height: 28px
+}
+
+.ui-dialog .ui-dialog-titlebar .ui-widget-header .ui-corner-top {
+	display: none !important;
+}
+
+.ui-selectcheckboxmenu .ui-selectcheckboxmenu-trigger {
+	border-right: none;
+	border-top: none;
+	border-bottom: none;
+	cursor: pointer;
+	width: 24px;
+	height: 100%;
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 0 3px;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger {
+	border-right: medium none;
+	border-top: medium none;
+	border-bottom: medium none;
+	cursor: pointer;
+	width: 26px;
+	height: 100%;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	padding: 0px 3px;
+}
+
+.ui-selectonemenu {
+	display: inline-block;
+	position: relative;
+	width: auto;
+	zoom: 1;
+	cursor: pointer;
+	padding-right: 0;
+}
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button
+	{
+	font-family: Arial, sans-serif;
+	font-size: 16px;
+}
+
+.ui-helper-reset {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	line-height: 16px;
+	text-decoration: none;
+	font-size: 100%;
+	list-style: none;
+}
+
+.ui-widget .ui-widget {
+	font-size: 16px;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter-container {
+	position: relative;
+	margin: 0;
+	padding: 0.4em;
+	display: inline-block;
+	width: 100%;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter {
+	width: 97%;
+	padding-right: 15px;
+}
+
+.ui-icon-bullet {
+	background-position: -81px -145px;
+}
+
+.ui-selectoneradio label {
+	display: block;
+	margin-top: 4px;
+	font-size: 16px;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
+	margin-top: 6px;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter-container .ui-icon {
+	position: absolute;
+	top: 12px;
+	right: 17px;
+}
+</style>
+</h:head>
+<h:body>
+	<h:form>
+		<div>
+			<p:commandButton icon="fa fa-close"
+				style="float: right;top: 0px;position:relative;" id="fechaDialogo"
+				action="#{funcionalBean.fechaContribuicao}" update="@form">
+			</p:commandButton>
+		</div>
+	</h:form>
+	<div>
+		<br />
+	</div>
+	<h:form id="formRecadastramento">
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<div class="col-sm-12">
+			<h3 class="fieldalt" style="margin-top: 3px;">Recadastramento</h3>
+			<hr />
+		</div>
+		<div class="ui-grid ui-grid-responsive">
+			<div class="ui-grid-row">
+				<div class="col-sm-3">
+					<p:outputLabel value="Censo Previdenciário:"></p:outputLabel>
+					<p:selectOneMenu effect="fade" filter="true" required="true"
+						converter="conversorDeEntidades" filterMatchMode="startsWith"
+						style="width:100%" styleClass="selectalt"
+						value="#{censoPrevidenciarioBean.dadosCenso}">
+						<f:selectItem itemLabel="Selecione" itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems value="#{censoPrevidenciarioBean.listaDeCenso}"
+							var="censo" itemLabel="#{censo.DESC_descricao}"
+							itemValue="#{censo}"></f:selectItems>
+					</p:selectOneMenu>
+				</div>
+				<div class="col-sm-6">
+					<p:outputLabel value="Unidade de Atendimento:"></p:outputLabel>
+					<p:selectOneMenu effect="fade" filter="true" required="true"
+						converter="conversorDeEntidades"
+						value="#{recadastramentoAposentadoBean.unidade}"
+						filterMatchMode="startsWith" style="width:100%"
+						styleClass="selectalt">
+						<f:selectItem itemLabel="Selecione" itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems
+							value="#{recadastramentoAposentadoBean.listaUnidadeCenso}"
+							var="unidade" itemValue="#{unidade}"
+							itemLabel="#{unidade.DESC_nome}"></f:selectItems>
+					</p:selectOneMenu>
+				</div>
+			</div>
+
+			<div class="ui-grid-row">
+				<div class="col-sm-6">
+					<p:outputLabel value="Tipo de Recadastramento:"></p:outputLabel>
+					<p:selectOneMenu effect="fade" filter="true" required="true"
+						filterMatchMode="startsWith"
+						style="width:100%" styleClass="selectalt">
+						<f:selectItem itemLabel="Selecione" itemValue="0"
+							noSelectionOption="true" />
+						<f:selectItem itemLabel="Presencial" itemValue="1"
+							noSelectionOption="true" />
+						<f:selectItem itemLabel="Online" itemValue="2"
+							noSelectionOption="true" />
+					</p:selectOneMenu>
+				</div>
+				<div class="col-sm-6">
+					<p:outputLabel value="Atestado de vida e residência"></p:outputLabel>
+					<h:inputFile id="file"  disabled="true">
+					</h:inputFile>
+				</div>
+			</div>
+			<div class="ui-grid-row">
+				<div class="col-sm-12" style="color: #000">
+					<p:outputLabel value="Observações:" />
+					<p:inputTextarea styleClass="col-sm-12"></p:inputTextarea>
+				</div>
+			</div>
+		</div>
+
+		<div class="ui-grid ui-grid-responsive">
+			<div class="ui-grid-row">
+				<div class="col-sm-12">
+					<p></p>
+				</div>
+			</div>
+			<div class="ui-grid-row">
+				<div class="col-sm-2" style="color: #000">
+					<p:commandButton value="Salvar" icon="fa fa-save">
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2" style="color: #000">
+					<p:commandButton value="Imprimir" icon="fa fa-print" action="#{pessoasBean.fechaPaginaRecadastramento}"
+						>
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2" style="color: #000">
+					<p:commandButton value="Lista" icon="fa fa-search" action="#{pessoasBean.exibeListaDeObjetosTeste}" process="@this" update="@form">
+						<p:ajax event="dialogReturn" listener="#{pessoasBean.retornaPaginaAnterior}" process="@this" update="@form"></p:ajax>
+						<p:resetInput target="formRecadastramento" />
+					</p:commandButton>
+				</div>
+
+			</div>
+			
+			<div class="col-sm-12">
+				<p></p>
+			</div>
+
+			<div class="ui-grid-row">
+				<p:dataTable value="#{censoPrevidenciarioBean.listaVidaResidencia}"
+					var="arq" styleClass="col-sm-12" id="tabDoc"
+					emptyMessage="Registro não encontrado.">
+					<p:column headerText="Nome do Arquivo">
+						<h:outputLink target="_blank"
+							value="#{request.contextPath}/file/#{arq.DESC_caminhoRelativo}/#{arq.DESC_nome}">#{arq.DESC_nome}</h:outputLink>
+					</p:column>
+					<p:column style="width:130px;text-align: center"
+						headerText="Remover">
+						<p:commandButton icon="ui-icon-trash" update=":formTable:tabDoc"
+							process=":formTable:tabDoc"
+							action="#{censoPrevidenciarioBean.removeArquivo(arq)}">
+							<f:param name="noValidate" value="1"></f:param>
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</div>
+		</div>
+	</h:form>
+</h:body>
+</html>

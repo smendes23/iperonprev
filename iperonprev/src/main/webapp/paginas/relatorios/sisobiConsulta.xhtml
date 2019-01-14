@@ -1,0 +1,90 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel styleClass="col-lg-10" header="Consulta Sisobi">
+			<h:form id="formSisobi">
+				<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p:outputLabel value="Digite o Nome, CPF ou Nome da mãe:"></p:outputLabel>
+							<p:inputText styleClass="form-control" required="true" id="consulta"
+								requiredMessage="Campo obrigatório"
+								value="#{sisobiBean.querySisobi}"></p:inputText>
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-5"></div>
+						<div class="col-sm-2">
+							<p:commandButton icon="fa fa-search" value="Consultar" process="consulta @this" action="#{sisobiBean.consultaSisobi()}" update="tabSisobi"></p:commandButton>
+						</div>
+						<div class="col-sm-5"></div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<p:dataTable styleClass="col-sm-12" id="tabSisobi"
+							value="#{sisobiBean.listaDeConsultaSisobi}" var="tabSisobi"
+							paginator="true" paginatorAlwaysVisible="false" rows="5"
+							paginatorPosition="bottom" rowsPerPageTemplate="5,10"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}">
+							<f:facet name="header">
+								<h:commandLink>
+					                <p:graphicImage library="image" name="pdf.png" width="24"/>
+					                <p:dataExporter type="pdf" target="tabSisobi" fileName="sisobi"/>
+					            </h:commandLink>
+							</f:facet>
+							<p:column headerText="CPF">
+								<p:outputLabel value="#{tabSisobi.NUMR_idDoObjetoPessoa.NUMR_cpf}"></p:outputLabel>
+							</p:column>
+							<p:column headerText="Nome">
+								<p:outputLabel value="#{tabSisobi.NUMR_idDoObjetoPessoa.DESC_nome}"></p:outputLabel>
+							</p:column>
+							<p:column headerText="Nome da Mãe">
+								<p:outputLabel value="#{tabSisobi.NUMR_idDoObjetoPessoa.DESC_mae}"></p:outputLabel>
+							</p:column>
+							<p:column headerText="Data de Nasc.">
+								<p:outputLabel value="#{tabSisobi.NUMR_idDoObjetoPessoa.DATA_nascimento}">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+								</p:outputLabel>
+							</p:column>
+							<p:column headerText="Data do Óbito">
+								<p:outputLabel value="#{tabSisobi.DATA_obito}">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+								</p:outputLabel>
+							</p:column>
+						</p:dataTable>
+					</div>
+				</div>
+
+				<div class="col-sm-12">
+					<p></p>
+				</div>
+			</h:form>
+			<br />
+			<br />
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

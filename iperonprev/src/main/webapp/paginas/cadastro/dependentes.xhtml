@@ -1,0 +1,169 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+	<f:metadata>
+		<f:viewAction action="#{dependentesPensionistasBean.recarregaPagina}" onPostBack="true"/>
+	</f:metadata>
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel header="Dependentes" styleClass="col-lg-10">
+
+			<h:form id="formDependente">
+				<p:messages showDetail="true" closable="true"></p:messages>
+				
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<h:inputHidden value="#{dependentesPensionistasBean.pessoa.NUMG_idDoObjeto}" id="pessoaHidden"></h:inputHidden>
+						<div class="col-sm-6" style="color: #000">
+							<p:commandLink value="Servidor:" action="#{dependentesPensionistasBean.exibeListaDeObjetos}" 
+								process="@this nomePessoa pesquisar" update="@none">
+								<p:ajax event="dialogReturn" listener="#{dependentesPensionistasBean.selecionaObjetoDialogo}" process="@this" update="@form" />
+								<p:resetInput target="formDependente" />
+							</p:commandLink><i class="fa fa-search"></i>
+							<p:inputText styleClass="form-control" id="nomePessoa" value="#{dependentesPensionistasBean.pessoa.DESC_nome}" valueChangeListener="#{dependentesPensionistasBean.pegaListaDePessoas}"></p:inputText>
+						</div>
+						<div class="col-sm-6" style="color: #000">
+							<p:commandLink value="Dependente/Pensionista:" action="#{dependentesPensionistasBean.exibeListaDeObjetosDependentes}" 
+							process="@this nomeDependente" update="@none">
+								<p:ajax event="dialogReturn" listener="#{dependentesPensionistasBean.selecionaObjetoDialogoDependente}" process="@this" update="@form" />
+								<p:resetInput target="formDependente" />
+							</p:commandLink><i class="fa fa-search"></i>
+							<p:inputText styleClass="form-control" disabled="#{dependentesPensionistasBean.pessoaAtiva eq false }" id="nomeDependente" value="#{dependentesPensionistasBean.pessoaDependente.DESC_nome}" valueChangeListener="#{dependentesPensionistasBean.pegaListaDependentes}"></p:inputText>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12"><p></p></div>
+					</div>
+					<div class="ui-grid ui-grid-responsive">
+						<div class="col-sm-12">
+							<h3 class="fieldalt">Dados de Dependência</h3>
+							<hr />
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12"><p></p></div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-6" style="color: #000">
+							<p:outputLabel value="Tipo de Dependência:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true"
+								converter="conversorDeEntidades" required="true"
+								filterMatchMode="startsWith" style="width:100%"
+								styleClass="selectalt" disabled="#{dependentesPensionistasBean.dependenteAtivo eq false}"
+								value="#{dependentesPensionistasBean.dependente.NUMR_tipoDependencia}">
+								<f:selectItem itemLabel="--Selecione--" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems
+									value="#{dependentesPensionistasBean.listaTipoDependencia}"
+									var="tipoDependencia" itemValue="#{tipoDependencia}"
+									itemLabel="#{tipoDependencia.DESC_nome}" />
+							</p:selectOneMenu>
+						</div>
+						<div class="col-sm-6" style="color: #000">
+							<p:outputLabel value="Grau de Parentesco:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true" disabled="#{dependentesPensionistasBean.dependenteAtivo eq false}"
+								converter="conversorDeEntidades" required="true"
+								requiredMessage="Grau de parentesco obrigatório"
+								filterMatchMode="startsWith" style="width:100%"
+								styleClass="selectalt"
+								value="#{dependentesPensionistasBean.dependente.NUMR_grauParentesco}">
+								<f:selectItem itemLabel="--Selecione--" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems
+									value="#{dependentesPensionistasBean.listaGrauParentesco}"
+									var="parentesco" itemValue="#{parentesco}"
+									itemLabel="#{parentesco.DESC_nome}" />
+							</p:selectOneMenu>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-8" style="color: #000">
+							<p:outputLabel value="Motivo Início:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true" disabled="#{dependentesPensionistasBean.dependenteAtivo eq false}"
+								converter="conversorDeEntidades" filterMatchMode="startsWith"
+								style="width:100%" styleClass="selectalt"
+								value="#{dependentesPensionistasBean.dependente.NUMR_motivoDependencia}">
+								<f:selectItem itemLabel="--Selecione--" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems
+									value="#{dependentesPensionistasBean.listaMotivosInicioDependencia}"
+									var="motivoInicio" itemValue="#{motivoInicio}"
+									itemLabel="#{motivoInicio.DESC_nome}" />
+							</p:selectOneMenu>
+						</div>
+						<div class="col-sm-4" style="color: #000">
+							<p:outputLabel value="Data Início:"></p:outputLabel>
+							<p:inputMask mask="99/99/9999" styleClass="form-control" disabled="#{dependentesPensionistasBean.dependenteAtivo eq false}"
+								value="#{dependentesPensionistasBean.dependente.DATA_inicio}"
+								converter="dateConverter" />
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-8" style="color: #000">
+							<p:outputLabel value="Motivo Fim:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true" disabled="#{dependentesPensionistasBean.dependenteAtivo eq false}"
+								converter="conversorDeEntidades" filterMatchMode="startsWith"
+								style="width:100%" styleClass="selectalt"
+								value="#{dependentesPensionistasBean.dependente.NUMR_motivoFimDependencia}">
+								<f:selectItem itemLabel="--Selecione--" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems
+									value="#{dependentesPensionistasBean.listaMotivosFimDependencia}"
+									var="motivoFim" itemValue="#{motivoFim}"
+									itemLabel="#{motivoFim.DESC_descricao}" />
+							</p:selectOneMenu>
+						</div>
+						<div class="col-sm-4" style="color: #000">
+							<p:outputLabel value="Data Fim:"></p:outputLabel>
+							<p:inputMask mask="99/99/9999" style="width:100%;"
+								converter="dateConverter" disabled="#{dependentesPensionistasBean.dependenteAtivo eq false}"
+								value="#{dependentesPensionistasBean.dependente.DATA_fim}" />
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12"><p></p></div>
+					</div>
+				</div>
+				
+				<div class="col-sm-2" style="color: #000">
+					<p:commandButton value="Salvar" icon="fa fa-save">
+						<p:ajax listener="#{dependentesPensionistasBean.salvarObjeto}"
+							process="@form" update="@form" />
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2" style="color: #000">
+					<p:commandButton value="Novo" icon="fa fa-file-o">
+						<p:ajax listener="#{dependentesPensionistasBean.novoObjeto}"
+							process="@form" update="@form" />
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2" style="color: #000">
+					<p:commandButton icon="fa fa-search" value="Pesquisar" id="pesquisar"
+						 action="#{dependentesPensionistasBean.exibeListaDependetesPensionistas}" process="@form" update="@none" 
+						 disabled="#{dependentesPensionistasBean.pessoaAtiva eq false }">
+						<p:ajax event="dialogReturn" listener="#{dependentesPensionistasBean.selecionaObjetoDialogoDependentePensionista}" process="@this" update="@form"></p:ajax>
+						<p:resetInput target="formDependente" />
+					</p:commandButton>
+				</div>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

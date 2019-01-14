@@ -1,0 +1,96 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../templates/mastereport.xhtml">
+	<ui:define name="content">
+	
+		<style>
+			.ui-grid-col-2 {
+			    width: -moz-fit-content;
+			}
+			
+			
+		</style>
+		
+		<div class="row">
+			<div class="col-sm-12" style="text-align: center;">
+					<p:outputLabel style="font-size:20px !important"  value="#{checkListBean.tipoBeneficio.nome}"></p:outputLabel>
+			</div>
+			<div class="col-sm-12">
+				<p></p>
+			</div>
+		</div>
+		<div class="col-sm-12"></div>
+			<div class="row ">
+				<div class="col-sm-3 corDiv" style="position: relative;">
+						<p:outputLabel value="CPF:" styleClass="col-sm-12  font-weight-bold " ></p:outputLabel>
+				</div>
+				<div class="col-sm-5 corDiv" >
+					<p:outputLabel value="Nome:" styleClass="col-sm-12 font-weight-bold" ></p:outputLabel>
+					
+				</div>
+				<div class="col-sm-4 corDiv" >
+					<p:outputLabel value="Data Nascimento:" styleClass="col-sm-12 font-weight-bold" ></p:outputLabel>
+					
+				</div>
+				
+				<div class="col-sm-3" >
+					<p:outputLabel value="#{checkListBean.pessoas.NUMR_cpf}" styleClass="col-sm-12  font-italic "></p:outputLabel>
+				</div>
+				<div class="col-sm-5" >
+					<p:outputLabel value="#{checkListBean.pessoas.DESC_nome}" styleClass="col-sm-12 font-italic"></p:outputLabel>
+				</div>
+				<div class="col-sm-4" >
+					<p:outputLabel value="#{checkListBean.pessoas.DATA_nascimento}" styleClass="col-sm-12 font-italic" converter="dateConverter"></p:outputLabel>
+				</div>
+				
+				<div class="col-sm-12"></div>
+				
+				<div class="col-sm-3 corDiv">
+						<p:outputLabel value="Matrícula:" styleClass="col-sm-12  font-weight-bold " ></p:outputLabel>
+				</div>
+				<div class="col-sm-5 corDiv" >
+					<p:outputLabel value="Cargo:" styleClass="col-sm-12 font-weight-bold" ></p:outputLabel>
+					
+				</div>
+				<div class="col-sm-4 corDiv" >
+					<p:outputLabel value="Número do Processo:" styleClass="col-sm-12 font-weight-bold" ></p:outputLabel>
+					
+				</div>
+				
+				<div class="col-sm-3" >
+					<p:outputLabel value="#{checkListBean.pf.DESC_matricula}" styleClass="col-sm-12  font-italic "></p:outputLabel>
+				</div>
+				<div class="col-sm-5" >
+					<p:outputLabel value="#{checkListBean.pf.NUMR_idDoObjetoCargo.DESC_nome}" styleClass="col-sm-12 font-italic"></p:outputLabel>
+				</div>
+				<div class="col-sm-4" >
+					<p:outputLabel value="#{checkListBean.check.DESC_numeroProcesso}" styleClass="col-sm-12 font-italic"></p:outputLabel>
+				</div>
+				
+				
+				<div class="col-sm-12">
+					<p></p>
+				</div>
+		
+		
+			<p:dataTable styleClass="col-sm-12"  emptyMessage="Registros não encontrados." value="#{checkListBean.listaDeRequisitos}" var="regras">
+				<p:column headerText="Requisito" styleClass="textHeadTable">
+					<h:outputText value="#{regras.DESC_requisito}"></h:outputText>
+				</p:column>
+				<p:column headerText="Status" styleClass="textAlignCenter" width="90">
+					<h:outputText value="#{regras.FLAG_arquivo eq false ? 'Ausente' : 'Presente'}"></h:outputText>
+				</p:column>
+				
+			</p:dataTable>
+			<div class="col-sm-12">
+				<br/>
+			</div>
+	</div>
+	
+		
+	</ui:define>
+</ui:composition>
+</html>

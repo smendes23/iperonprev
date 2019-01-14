@@ -1,0 +1,307 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<h:head>
+	<title>::Proventos::</title>
+	<h:outputStylesheet name="/css/bootstrap.css"></h:outputStylesheet>
+	<h:outputStylesheet name="/css/bootstrap-theme.css"></h:outputStylesheet>
+	<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger {
+	border-right: medium none;
+	border-top: medium none;
+	border-bottom: medium none;
+	cursor: pointer;
+	width: 26px;
+	height: 100%;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	padding: 0px 3px;
+}
+
+.ui-selectonemenu {
+	display: inline-block;
+	position: relative;
+	width: auto;
+	zoom: 1;
+	cursor: pointer;
+	padding-right: 0;
+}
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button
+	{
+	font-family: Arial, sans-serif;
+	font-size: 16px;
+}
+
+.ui-helper-reset {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	line-height: 16px;
+	text-decoration: none;
+	font-size: 100%;
+	list-style: none;
+}
+
+.ui-widget {
+	font-family: "segoe ui", Arial, sans-serif;
+    font-size: 16px;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter-container {
+	position: relative;
+	margin: 0;
+	padding: 0.4em;
+	display: inline-block;
+	width: 100%;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter {
+	width: 97%;
+	padding-right: 15px;
+}
+
+.ui-icon-bullet {
+	background-position: -81px -145px;
+}
+
+.ui-selectoneradio label {
+	display: block;
+	margin-top: 4px;
+	font-size: 16px;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
+	margin-top: 6px;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter-container .ui-icon {
+	position: absolute;
+	top: 12px;
+	right: 17px;
+}
+
+nav {
+	display: block;
+}
+
+.ui-tabs.ui-tabs-top>.ui-tabs-nav {
+	padding: 0.2em 0.2em 0px;
+	border-bottom: 1px solid;
+	border-color: #459E00;
+}
+
+.fieldalt {
+	font-family: segoe ui, Arial, sans-serif;
+	color: rgb(49, 46, 37);
+	margin-bottom: -17px;
+	margin-top: 10px;
+}
+
+.ui-menubar {
+	width: auto;
+	height: 49px;
+}
+
+.ui-widget-content {
+	border: 1px solid #459E00 /*{borderColorContent}*/;
+	background: #ffffff;
+	/*{bgColorContent} url("/iperonprev/javax.faces.resource/primefaces-sam/images/ui-bg_flat_75_ffffff_40x100.png.xhtml")*/
+	/*{bgImgUrlContent}*/ 50% /*{bgContentXPos}*/ 50% /*{bgContentYPos}*/
+	repeat-x /*{bgContentRepeat}*/;
+	color: #222222 /*{fcContent}*/;
+}
+
+.ui-widget-overlay {
+	background: #2b2922
+		url("/iperonprev/javax.faces.resource/images/ui-bg_inset-soft_15_2b2922_1x100.png.xhtml?ln=primefaces-south-street")
+		50% bottom repeat-x;
+	opacity: .4;
+	filter: Alpha(Opacity = 90);
+}
+/* .footer {
+	clear: both;
+	position:absolute;
+    bottom: -600px;
+    width: 100%;
+    height: 60px;
+} */
+.footer {
+	clear: both;
+	position: relative;
+	bottom: 0px;
+	width: 100%;
+	height: 56px;
+}
+
+.footer>.container {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+/* .ui-inputfield {
+    margin: 0;
+    outline: medium none;
+    padding: 4px;
+    font-weight: normal;
+    height: 26px;
+} */
+.ui-inputfield {
+	margin: 0;
+	outline: medium none;
+	padding: 2px;
+	font-weight: normal;
+}
+</style>
+</h:head>
+<h:body>
+	<div>
+		<br />
+	</div>
+	<h:form id="formProventos">
+	<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+		<div class="ui-grid ui-grid-responsive">
+		<h:inputHidden value="#{proventosBean.pb.NUMG_idDoObjeto}"></h:inputHidden>
+			<div class="ui-grid-row">
+				<div class="col-sm-6">
+					<p:outputLabel value="Descrição Resumo da Memória de Cálculo: "></p:outputLabel>
+					<p:selectOneMenu effect="fade" filter="true" editable="true"
+						filterMatchMode="startsWith" style="width:100%"
+						 value="#{proventosBean.descricaoMemoriaDeCalculo}">
+						<f:selectItem itemLabel="--Selecione--" itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems value="#{proventosBean.listaTipoDeMemoria}" var="tipoMemoria" itemLabel="#{tipoMemoria.DESC_nome}" itemValue="#{tipoMemoria.DESC_nome}"></f:selectItems>
+					</p:selectOneMenu>
+				</div>
+				<div class="col-sm-6">
+					<p:outputLabel value="Ato Legal: "></p:outputLabel>
+					<p:selectOneMenu effect="fade" filter="true" value="#{proventosBean.atos}"
+						filterMatchMode="startsWith" style="width:100%"
+						converter="conversorDeEntidades">
+						<f:selectItem itemLabel="--Selecione--" itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems value="#{proventosBean.listaDeAtosLegais}" var="atos" itemValue="#{atos}" itemLabel="#{atos.DESC_tituloEmenta}"></f:selectItems>
+					</p:selectOneMenu>
+				</div>
+				
+			</div>
+		</div>
+		<div class="ui-grid ui-grid-responsive">
+			<div class="ui-grid-row">
+			<div class="col-sm-4">
+					<p:outputLabel value="Rúbrica: "></p:outputLabel>
+					<p:selectOneMenu effect="fade" filter="true"
+						filterMatchMode="startsWith" style="width:100%" value="#{proventosBean.rubrica}"
+						converter="conversorDeEntidades">
+						<f:selectItem itemLabel="--Selecione--" itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems value="#{proventosBean.listaDeRubricas}" var="rubricas" itemValue="#{rubricas}" itemLabel="#{rubricas.DESC_descricao}"></f:selectItems>
+					</p:selectOneMenu>
+				</div>
+				<div class="col-sm-4">
+					<p:outputLabel value="Percentual:"></p:outputLabel>
+					<p:inputText styleClass="form-control" value="#{proventosBean.pb.VALR_percentual}"></p:inputText>
+				</div>
+				<div class="col-sm-4">
+					<p:outputLabel value="Valor:"></p:outputLabel>
+					<p:inputText styleClass="form-control" value="#{proventosBean.pb.VALR_remuneracao}" converter="moedaConverter"></p:inputText>
+				</div>
+				
+			</div>
+		</div>
+		<div class="ui-grid ui-grid-responsive">
+			<div class="ui-grid-row">
+			<div class="col-sm-4" style="margin-top: 25px;">
+					<p:outputLabel value="Compõe Demonstrativo Verbas: "></p:outputLabel>
+					<p:selectBooleanCheckbox value="#{proventosBean.pb.FLAG_demonstrativo}"></p:selectBooleanCheckbox>
+				</div>
+				<div class="col-sm-4" style="margin-top: 25px;">
+					<p:outputLabel value="Compõe Memória de Cálculo: "></p:outputLabel>
+					<p:selectBooleanCheckbox value="#{proventosBean.pb.FLAG_memoriaDeCalculo}"></p:selectBooleanCheckbox>
+				</div>
+				<div class="col-sm-4" style="margin-top: 25px;">
+					<p:outputLabel value="Compõe Resumo da Memória: "></p:outputLabel>
+					<p:selectBooleanCheckbox value="#{proventosBean.pb.FLAG_resumoMemoria}" ></p:selectBooleanCheckbox>
+				</div>
+			</div>
+		</div>
+		<div class="ui-grid ui-grid-responsive">
+			<div class="ui-grid-row">
+				<div class="col-sm-12">
+					<p:outputLabel value="Observação: "></p:outputLabel>
+					<p:editor id="editor" widgetVar="editorWidget"  width="800" />
+				</div>
+			</div>
+		</div>
+		<div class="ui-grid ui-grid-responsive">
+			<div class="ui-grid-row">
+				<div class="col-sm-12">
+					<p></p>
+				</div>
+			</div>
+		</div>
+		<div class="ui-grid ui-grid-responsive">
+			<div class="ui-grid-row">
+				<div class="col-sm-2">
+					<p:commandButton value="Salvar" icon="fa fa-save">
+						<p:ajax listener="#{proventosBean.salvarObjeto}" process="@form" update="formProventos"></p:ajax>
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Novo" icon="fa fa-plus">
+						<p:ajax listener="#{proventosBean.novoObjeto}" process="@this" update="formProventos"></p:ajax>
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Pesquisar" icon="fa fa-search" type="button" onclick="PF('dlg1').show();" ></p:commandButton>
+				</div>
+			</div>
+		</div>
+		<p:dialog width="820" height="291" widgetVar="dlg1" header="::Lista de Proventos::" resizable="false" position="center">
+			<div class="ui-grid ui-grid-responsive">
+			<div class="ui-grid-row">
+				<p:dataTable styleClass="col-sm-12" value="#{proventosBean.listaProventos}" var="listaProventos" emptyMessage="Registro não encontrado"
+				paginator="true" paginatorAlwaysVisible="false" rows="5" paginatorPosition="bottom" id="tableProvento"
+				rowsPerPageTemplate="5,10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+				
+					<p:column headerText="Código" style="width:70px">
+						<p:outputLabel value="#{listaProventos.NUMR_rubricas.NUMR_codigo}"></p:outputLabel>
+					</p:column>
+					<p:column headerText="Rúbrica" style="width:250px">
+						<p:outputLabel value="#{listaProventos.NUMR_rubricas.DESC_descricao}"></p:outputLabel>
+					</p:column>
+					<p:column headerText="Descrição">
+						<p:outputLabel value="#{listaProventos.NUMR_tipoMemoriaCalculo.DESC_nome}"></p:outputLabel>
+					</p:column>
+					<p:column headerText="Valor" style="width:150px">
+						<p:outputLabel value="#{listaProventos.VALR_remuneracao}"> <f:convertNumber type="currency" /></p:outputLabel>
+					</p:column>
+					<p:column headerText="Ação" style="width:100px">
+						<p:commandLink actionListener="#{proventosBean.pegaProvento(listaProventos)}" update="formProventos">
+							<p:graphicImage name="/image/editar.png" style="margin-left: 15;"></p:graphicImage>
+						</p:commandLink>
+						<p:commandLink actionListener="#{proventosBean.removeProvento(listaProventos.NUMG_idDoObjeto)}" update="tableProvento">
+							<p:graphicImage name="/image/excluir.png" style="margin-left: 15;"></p:graphicImage>
+						</p:commandLink>
+					</p:column>
+					<f:facet name="footer">
+        				<p:commandButton icon="fa fa-print" value="Imprimir" action="#{proventosBean.geraProventos}" disabled="#{empty proventosBean.listaProventos}"
+					onclick="this.form.target='_blank'"  ajax="false" update="@form"></p:commandButton>
+    			</f:facet>
+				</p:dataTable>
+			</div>
+		</div>
+		</p:dialog>
+		
+	</h:form>
+</h:body>
+</html>

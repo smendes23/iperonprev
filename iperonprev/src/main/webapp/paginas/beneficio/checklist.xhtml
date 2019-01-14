@@ -1,0 +1,287 @@
+<ui:composition template="../templates/master.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+	<ui:define name="content">
+		<f:metadata>
+			<f:viewAction action="#{checkListBean.recarregaPagina}" onPostBack="true" />
+		</f:metadata>
+	<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+
+.ui-widget {
+	font-family: segoe ui, Arial, sans-serif;
+	font-size: 16px;
+}
+
+.btn-input {
+	border-radius: 0px 5px 5px 0px;
+	height: 28px
+}
+
+.ui-dialog .ui-dialog-titlebar .ui-widget-header .ui-corner-top {
+	display: none !important;
+}
+
+.ui-selectcheckboxmenu .ui-selectcheckboxmenu-trigger {
+	border-right: none;
+	border-top: none;
+	border-bottom: none;
+	cursor: pointer;
+	width: 24px;
+	height: 100%;
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 0 3px;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger {
+	border-right: medium none;
+	border-top: medium none;
+	border-bottom: medium none;
+	cursor: pointer;
+	width: 26px;
+	height: 100%;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	padding: 0px 3px;
+}
+
+.ui-selectonemenu {
+	display: inline-block;
+	position: relative;
+	width: auto;
+	zoom: 1;
+	cursor: pointer;
+	padding-right: 0;
+}
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button
+	{
+	font-family: Arial, sans-serif;
+	font-size: 16px;
+}
+
+.ui-helper-reset {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	line-height: 16px;
+	text-decoration: none;
+	font-size: 100%;
+	list-style: none;
+}
+
+.ui-widget .ui-widget {
+	font-size: 16px;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter-container {
+	position: relative;
+	margin: 0;
+	padding: 0.4em;
+	display: inline-block;
+	width: 100%;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter {
+	width: 97%;
+	padding-right: 15px;
+}
+
+.ui-icon-bullet {
+	background-position: -81px -145px;
+}
+
+.ui-selectoneradio label {
+	display: block;
+	margin-top: 4px;
+	font-size: 16px;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
+	margin-top: 6px;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter-container .ui-icon {
+	position: absolute;
+	top: 12px;
+	right: 17px;
+}
+
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel header="Check-List de Documentos" styleClass="col-lg-10">
+			<h:form id="formCheck">
+			<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+			<h:inputHidden value="#{checkListBean.pf.NUMG_idDoObjeto}"></h:inputHidden>
+			<h:inputHidden value="#{checkListBean.pessoas.NUMG_idDoObjeto}"></h:inputHidden>
+			<div class="ui-grid ui-grid-responsive">
+				<div class="ui-grid-row">
+					<div class="col-sm-3">
+						<p:outputLabel value="CPF"></p:outputLabel>
+						<p:inputMask mask="999.999.999-99" styleClass="form-control" value="#{checkListBean.cpfServidor}" converter="cpfConverter">
+							<p:ajax event="blur" update="@form" process="@this" listener="#{checkListBean.buscaServidor}"/>
+						</p:inputMask>
+					</div>
+					<div class="col-sm-6">
+						<p:outputLabel value="Interessado" ></p:outputLabel>
+						<p:inputText id="interessado" styleClass="form-control " disabled="true" value="#{checkListBean.pessoas.DESC_nome}"/>
+					</div>
+					<div class="col-sm-3 ">
+						<p:outputLabel value="Matrícula.:"></p:outputLabel>
+						<p:selectOneMenu effect="fade" filter="true"
+							filterMatchMode="startsWith" style="width:100%" value="#{checkListBean.idPf}" valueChangeListener="#{checkListBean.buscaFuncional}">
+							<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+							<f:selectItems value="#{checkListBean.listaFuncionais}" var="matricula" itemValue="#{matricula.NUMG_idDoObjeto}" itemLabel="#{matricula.DESC_matricula}"></f:selectItems>
+							<p:ajax event="change" update="@form" process="@this"></p:ajax>
+						</p:selectOneMenu>
+					</div>
+				</div>
+				
+				<div class="ui-grid-row">
+					<div class="col-sm-3">
+						<p:outputLabel value="Número do Processo:"></p:outputLabel>
+							<p:inputMask mask="99-9999.99999-9999/9999" styleClass="form-control" value="#{checkListBean.check.DESC_numeroProcesso}" />
+					</div>
+					<div class="col-sm-9">
+						<p:outputLabel value="Tipo de Benefício:"></p:outputLabel>
+						<p:selectOneMenu effect="fade" filter="true" value="#{checkListBean.tipoBeneficio}" id="tipoBeneficio"
+							filterMatchMode="startsWith" style="width:100%">
+						<p:ajax event="change" update="tbRequisitos msg @this"></p:ajax>
+							<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+							<f:selectItems value="#{checkListBean.listaDeBeneficio}" var="beneficio" itemValue="#{beneficio}" itemLabel="#{beneficio.nome}" ></f:selectItems>
+						</p:selectOneMenu>
+					</div>
+				</div>
+				<div class="ui-grid-row">
+					<p></p>
+				</div>
+			</div>
+				<div class="col-sm-12">
+					<p:dataTable value="#{checkListBean.listaDeRequisitos}" var="regras" id="tbRequisitos">
+						<f:facet name="header">
+							<p:outputLabel value="#{checkListBean.tituloBen.DESC_titulo}"></p:outputLabel>
+				            
+				        </f:facet>
+				        <p:column headerText="Requisito">
+				            <h:outputText  value="#{regras.DESC_requisito}"/>
+				        </p:column>
+				        <p:column headerText="Carregar" style="width:100px;text-align: center">
+				            <p:commandButton update=":formCheck:carDetail" id="uploadFile" action="#{checkListBean.carregaRequisito()}" icon="fa fa-upload" title="View" disabled="#{checkListBean.verificaFuncionalPessoa() eq false}">
+				            	<f:setPropertyActionListener value="#{regras}" target="#{checkListBean.requisitos}" />
+				            </p:commandButton>
+				        </p:column>
+				         <p:column headerText="Status" style="width:100px;text-align: center;">
+				            <h:outputText value="#{regras.FLAG_arquivo eq false ? 'Ausente' : 'Presente'}" style="#{regras.FLAG_arquivo eq false ? 'color:red;' : 'color:green;'}"/>
+				        </p:column>
+					</p:dataTable>
+					
+					<p:dialog widgetVar="carDialog" width="860" height="460" resizable="false" modal="true" id="modalRequisito">
+					<div class="ui-grid-row">
+						<div class="pull-right">
+							<p:commandButton icon="fa fa-close" action="#{checkListBean.fechaRequisito()}" update="modalRequisito"></p:commandButton>
+						</div>
+					</div>
+				        <p:outputPanel id="carDetail">
+				        	<div class="col-sm-12">
+								<h3 class="fieldalt" style="margin-top: 3px;">Carregar documento</h3>
+								<hr />
+							</div>
+				            <div class="ui-grid ui-grid-responsive">
+								<div class="ui-grid-row">
+									<div class="col-sm-12">
+											<p:fileUpload  id="declaracao" 
+												mode="advanced" dragDropSupport="false" update="@form" fileUploadListener="#{checkListBean.handleFileUpload}"
+												allowTypes="/(\.|\/)(pdf|jpe?g|png)$/" uploadLabel="Enviar"
+												label="Selecionar" cancelLabel="Cancelar">
+												<f:param name="noValidate" value="1"></f:param>
+											</p:fileUpload>
+									</div>
+								
+								</div>
+								
+								<div class="ui-grid-row">
+									<div class="col-sm-12">
+										<p></p>
+									</div>
+								</div>
+								
+								<div class="ui-grid-row">
+										<p:dataTable value="#{checkListBean.devolveListaDocumentos()}"
+											var="arq" styleClass="col-sm-12" id="tabDoc"
+											emptyMessage="Registro não encontrado.">
+											<p:column headerText="Nome do Arquivo">
+												<h:outputLink target="_blank"  value="#{request.contextPath}/file/#{arq.DESC_caminhoRelativo}/#{arq.DESC_nome}">#{arq.DESC_nome}</h:outputLink>
+											</p:column>
+											<p:column style="width:130px;text-align: center"
+												headerText="Remover">
+												<p:commandButton icon="ui-icon-trash"
+													update=":formCheck:tabDoc :formCheck:tbRequisitos" process=":formCheck:tabDoc"
+													action="#{checkListBean.removeArquivo(arq)}">
+													<f:param name="noValidate" value="1"></f:param>
+												</p:commandButton>
+											</p:column>
+										</p:dataTable>
+								</div>
+								
+								<div class="ui-grid-row">
+									<div class="col-sm-12">
+										<p></p>
+									</div>
+								</div>
+								
+								<div class="ui-grid-row">
+									<p></p>
+								</div>						
+							</div>
+				        </p:outputPanel>
+				    </p:dialog>
+				</div>
+				
+				<div class="col-sm-12">
+					<p:outputLabel value="***Em caso de PENSÃO é necessário verificar a existência da  data de óbito do servidor!" style="color:red;"></p:outputLabel>
+				</div>
+				<div class="col-sm-12"><br/></div>
+				<div class="col-sm-2">
+					<p:commandButton value="Salvar" icon="fa fa-save">
+						<p:ajax  process="@form" update="@form" listener="#{checkListBean.salvarCheckList()}"></p:ajax>
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Novo" icon="fa fa-plus">
+						<p:ajax  process="@this" update="@form" listener="#{checkListBean.novo}"></p:ajax>
+					</p:commandButton>
+				</div>
+				<div class="col-sm-4">
+					<p:commandButton icon="fa fa-th-list" value="Novo Requisito" action="#{checkListBean.exibeListaDeObjetos}" process="@this" update="@none">
+						<p:ajax event="dialogReturn" listener="#{checkListBean.selecionaObjetoDialogo}" process="@this" update="@form"></p:ajax>
+						<p:resetInput target="formCheck" />
+					</p:commandButton>
+				</div>
+				<div class="col-sm-3">
+					<script >
+						function openReport(){
+							varWind = window.open('#{request.contextPath}/paginas/relatorios/checklistReport.xhtml','popup',
+									"width=966, height=1188, top=100, left=110, scrollbars=yes ");
+							}
+					</script>
+					<p:commandButton icon="fa fa-print" value="Imprimir Requisitos" action="#{checkListBean.abreRelatorio}"  process="@this" update="@none">
+					</p:commandButton>
+				</div>
+				<div class="col-sm-12">
+					<p></p>
+				</div>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>

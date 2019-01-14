@@ -1,0 +1,79 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<h:head>
+	<title>::Lista de Documentos::</title>
+		<style>
+
+.ui-shadow {
+   box-shadow: 0px 5px 10px transparent;
+}
+
+.PENDENTE{
+	background-color:red;
+	color:white;
+}
+.DISPONIVEL{
+	background-color:green;
+	color:white;
+}
+.ui-widget {
+    font-family: segoe ui, Arial, sans-serif;
+    font-size: 16px;
+}
+	</style>
+</h:head>
+<h:body style="background-color:#FFF">
+	<div>
+		<br />
+	</div>
+	<h:form>
+	<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+
+		<p:dataTable var="listaCheck" widgetVar="checkTable"
+			value="#{checkListBean.listaDeDocumentos}" paginator="true"
+			paginatorAlwaysVisible="false" rows="5" paginatorPosition="bottom"
+			style="heigth:480px;width:880" id="tbCheck" rowsPerPageTemplate="5,10"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			filteredValue="#{checkListBean.filtroCheckList}">
+			<f:facet name="header">
+				<p:outputPanel style="margin-left: 615px;">
+					<h:outputText value="Pesquisar:" />
+					<p:inputText id="globalFilter" styleClass="form-control input-sm" onkeyup="PF('checkTable').filter()"
+						style="width:140px" placeholder="Digite aqui..." />
+				</p:outputPanel>
+
+			</f:facet>
+			<p:column headerText="Status" filterBy="#{listaCheck.status}"
+				filterMatchMode="contains" filterStyle="display:none">
+				<p:outputLabel value="#{listaCheck.status}" styleClass="#{listaCheck.status}" />
+			</p:column>
+			<p:column headerText="Processo" filterBy="#{listaCheck.DESC_numProcesso}"
+				filterMatchMode="contains" filterStyle="display:none">
+				<p:outputLabel value="#{listaCheck.DESC_numProcesso}">
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Interessado" filterBy="#{listaCheck.NUMR_PessoasFuncionais.NUMR_idDoObjetoPessoas.DESC_nome}"
+				filterMatchMode="contains" filterStyle="display:none">
+				<p:outputLabel value="#{listaCheck.NUMR_PessoasFuncionais.NUMR_idDoObjetoPessoas.DESC_nome}">
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Benefício" filterBy="#{listaCheck.ENUM_tipoBeneficio.nome}"
+				filterMatchMode="contains" filterStyle="display:none">
+				<p:outputLabel value="#{listaCheck.ENUM_tipoBeneficio.nome}">
+				</p:outputLabel>
+			</p:column>
+			
+			<p:column headerText="Editar" width="50">
+				<p:commandLink action="#{checkListBean.pegaInstanciaDialogo(listaCheck)}">
+					<p:graphicImage name="/image/editar.png" style="margin-left: 15;"></p:graphicImage>
+				</p:commandLink>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

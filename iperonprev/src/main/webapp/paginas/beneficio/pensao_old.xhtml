@@ -1,0 +1,168 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+	<f:metadata>
+		<f:viewAction action="#{pensaoBean.recarregaPagina}" onPostBack="true"/>
+	</f:metadata>
+		<style>
+
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+<sa:ajaxStatus />
+<sa:loading imgDir="/image/loading.gif"></sa:loading>
+	<div class="col-lg-10">
+			<h:form>
+			<p:tabView style="margin-bottom: 55px;">
+				<p:tab title="Pensão">
+				
+				</p:tab>	
+				
+				<p:tab title="Histórico Pericial">
+					
+					<br />
+					
+					<div class="ui-grid ui-grid-responsive">
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+					<div class="col-sm-12">
+						<h3 class="fieldalt">Dados do Servidor</h3>
+						<hr />
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-2">
+							<p:outputLabel value="CPF:"></p:outputLabel>
+							<p:outputLabel  styleClass="form-control" value="#{pensaoBean.funcionais.NUMR_idDoObjetoPessoas.NUMR_cpf}"></p:outputLabel>
+						</div>
+						<div class="col-sm-5">
+							<p:outputLabel value="Servidor:"></p:outputLabel>
+							<p:outputLabel  styleClass="form-control" value="#{pensaoBean.funcionais.NUMR_idDoObjetoPessoas.DESC_nome}"></p:outputLabel>
+						</div>
+						<div class="col-sm-5 ">
+							<p:outputLabel value="Órgão:"></p:outputLabel>
+							<p:outputLabel  styleClass="form-control" value="#{pensaoBean.funcionais.NUMR_idDoObjetoCargo.NUMR_idDoObjetoOrgaos.DESC_nome}"></p:outputLabel>
+						</div>
+					</div>
+					</div>
+					
+					<h:panelGroup id="pericia">
+					<h:inputHidden value="#{pensaoBean.pensao.NUMG_idDoObjeto}" />
+						<div class="ui-grid ui-grid-responsive">
+						<div class="col-sm-12">
+							<h3 class="fieldalt">Dados da Perícia</h3>
+							<hr />
+						</div>
+						<div class="ui-grid-row">
+							<div class="col-sm-6 ">
+								<p:outputLabel value="Última da perícia:"></p:outputLabel>
+								<div class="input-group">
+									<p:inputMask mask="99/99/9999" styleClass=" form-control"  id="ultima" required="true" requiredMessage="Data da última perícia obrigatória"
+										value="#{pensaoBean.avaliacaoPericial.DATA_inicio}"
+										converter="dateConverter">
+									</p:inputMask>
+									<span class="input-group-btn"> 
+										<p:commandButton icon="fa fa-caret-right" styleClass="btn-input"
+											action="#{pensaoBean.setaProximaData()}" process="ultima @this" update="proxima">
+										</p:commandButton>
+									</span>
+								</div>
+								
+							</div>
+							<div class="col-sm-6 ">
+								<p:outputLabel value="Próxima perícia:"></p:outputLabel>
+								<p:inputMask mask="99/99/9999" styleClass=" form-control " id="proxima" required="true" requiredMessage="Data da próxima perícia orbigatória"
+									value="#{pensaoBean.avaliacaoPericial.DATA_fim}" 
+									converter="dateConverter">
+								</p:inputMask>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<h3 class="fieldalt">Ata/Laudo/Decisão Judicial</h3>
+							<hr />
+						</div>
+						<div class="ui-grid-row">
+							<div class="col-sm-12">
+								<p:fileUpload fileUploadListener="#{pensaoBean.handleFileUpload}"
+									mode="advanced" dragDropSupport="false" update=" tabDoc"
+									allowTypes="/(\.|\/)(pdf|jpe?g|png)$/" uploadLabel="Enviar"
+									label="Selecionar" cancelLabel="Cancelar">
+									<f:param name="noValidate" value="1"></f:param>
+								</p:fileUpload>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+	
+						<div class="ui-grid-row">
+							<p:dataTable
+								value="#{pensaoBean.listaDeAtestados}" var="arq"
+								styleClass="col-sm-12" id="tabDoc"
+								emptyMessage="Registro não encontrado.">
+								<p:column headerText="Nome do Arquivo">
+									<h:outputLink target="_blank"  value="#{request.contextPath}/file/#{arq.DESC_caminhoRelativo}/#{arq.DESC_nome}">#{arq.DESC_nome}</h:outputLink>
+								</p:column>
+								<p:column style="width:130px;text-align: center"
+									headerText="Remover">
+									<p:commandButton icon="ui-icon-trash"
+										update="tabDoc"
+										process="tabDoc"
+										action="#{pensaoBean.removeArquivo(arq)}">
+										<f:param name="noValidate" value="1"></f:param>
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</div>
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+						<div class="ui-grid-row">
+							<div class="col-sm-12">
+								<p:outputLabel>Observação:</p:outputLabel>
+								<p:inputTextarea style="width:100%;" id="observacaoAvaliacao"
+									value="#{pensaoBean.avaliacaoPericial.DESC_observacao}" ></p:inputTextarea>
+							</div>
+						</div>
+						<div class="ui-grid-row">
+							<div class="col-sm-12">
+								<p></p>
+							</div>
+						</div>
+						<div class="ui-grid-row">
+							<div class="col-sm-2">
+								<p:commandButton value="Salvar" icon="fa fa-save" >
+									<p:ajax listener="#{pensaoBean.salvarAvaliacao()}" process="pericia" update="pericia"
+									/>
+								</p:commandButton>
+							</div>
+							<div class="col-sm-2">
+								<p:commandButton value="Novo" icon="fa fa-file-o"  action="#{pensaoBean.novaAvaliacao()}" process="@this" update="pericia">
+								</p:commandButton>
+							</div>
+							<div class="col-sm-2">
+								<p:commandButton icon="fa fa-search" value="Pesquisar" action="#{pensaoBean.exibeListaDeObjetos}" process="@this" update="@none">
+									<p:ajax event="dialogReturn" listener="#{pensaoBean.selecionaObjetoDialogo}" process="@this" update="pericia"></p:ajax>
+									<p:resetInput target="pericia" />
+								</p:commandButton>
+							</div>
+						</div>
+					</div>
+					</h:panelGroup>
+				</p:tab>
+			</p:tabView>
+				</h:form>
+	</div>
+<div class="col-sm-12"><br/></div>
+	</ui:define>
+</ui:composition>
+</html>

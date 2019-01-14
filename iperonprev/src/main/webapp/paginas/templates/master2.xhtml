@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:sec="http://www.springframework.org/security/tags">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>::IPERONPREV::</title>
+
+	<h:outputStylesheet name="/css/geral.css"></h:outputStylesheet>
+	<h:outputScript name="/js/idleTime.min.js"></h:outputScript>
+	<script>
+		$(document).ready(function() {
+			$.idleTimer(600000);
+			$(document).bind("idle.idleTimer", function() {
+				var url = "#{request.contextPath}/logout"
+				$(window.document.location).attr('href', url);
+			});
+		});
+	</script>
+	<style>
+	body{
+	background: rgba(226,226,226,1);
+background: -moz-linear-gradient(45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 42%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(226,226,226,1)), color-stop(42%, rgba(219,219,219,1)), color-stop(51%, rgba(209,209,209,1)), color-stop(100%, rgba(254,254,254,1)));
+background: -webkit-linear-gradient(45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 42%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+background: -o-linear-gradient(45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 42%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+background: -ms-linear-gradient(45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 42%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+background: linear-gradient(45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 42%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe', GradientType=1 );
+background-repeat: no-repeat;
+	}
+#j_idt110_dlg {
+	background-color: blue;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger {
+	border-right: medium none;
+	border-top: medium none;
+	border-bottom: medium none;
+	cursor: pointer;
+	width: 26px;
+	height: 100%;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	padding: 0px 3px;
+}
+
+.ui-selectonemenu {
+	display: inline-block;
+	position: relative;
+	width: auto;
+	zoom: 1;
+	cursor: pointer;
+	padding-right: 0;
+}
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button
+	{
+	font-family: Arial, sans-serif;
+	font-size: 16px;
+}
+
+.ui-helper-reset {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	line-height: 16px;
+	text-decoration: none;
+	font-size: 100%;
+	list-style: none;
+}
+
+.ui-widget .ui-widget {
+	font-size: 16px;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter-container {
+	position: relative;
+	margin: 0;
+	padding: 0.4em;
+	display: inline-block;
+	width: 100%;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter {
+	width: 97%;
+	padding-right: 15px;
+}
+
+.ui-icon-bullet {
+	background-position: -81px -145px;
+}
+
+.ui-selectoneradio label {
+	display: block;
+	margin-top: 4px;
+	font-size: 16px;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
+	margin-top: 6px;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter-container .ui-icon {
+	position: absolute;
+	top: 12px;
+	right: 17px;
+}
+
+nav {
+	display: block;
+}
+
+.footer {
+	clear: both;
+	height: 40px;
+	margin-top: 428px;
+	position: relative;
+}
+
+.ui-tabs.ui-tabs-top>.ui-tabs-nav {
+	padding: 0.2em 0.2em 0px;
+	border-bottom: 1px solid;
+	border-color: #459E00;
+}
+
+.fieldalt {
+	font-family: segoe ui, Arial, sans-serif;
+	color: rgb(49, 46, 37);
+	margin-bottom: -17px;
+	margin-top: 10px;
+}
+
+.ui-menubar {
+	width: auto;
+	height: 49px;
+}
+
+.ui-widget-content {
+	border: 1px solid #459E00 /*{borderColorContent}*/;
+	/*background: #ffffff*/
+	/*{bgColorContent} url("/iperonprev/javax.faces.resource/primefaces-sam/images/ui-bg_flat_75_ffffff_40x100.png.xhtml")*/
+	/*{bgImgUrlContent}*/ 50% /*{bgContentXPos}*/ 50% /*{bgContentYPos}*/
+	repeat-x /*{bgContentRepeat}*/;
+	color: #222222 /*{fcContent}*/;
+}
+
+.ui-widget-overlay {
+	background: #2b2922
+		url("/iperonprev/javax.faces.resource/images/ui-bg_inset-soft_15_2b2922_1x100.png.xhtml?ln=primefaces-south-street")
+		50% bottom repeat-x;
+	opacity: .4;
+	filter: Alpha(Opacity = 90);
+}
+
+</style>
+	<ui:insert name="header">
+
+	</ui:insert>
+</h:head>
+
+<h:body>
+
+	<div style="height: 70px"></div>
+	<div>
+		<div class="col-lg-1"></div>
+		<h:graphicImage name="/image/fnd_logo2.jpg" styleClass="logo-topo"></h:graphicImage>
+
+	</div>
+	<nav class="navbar navbar-default container-fluid">
+	<div class="container-fluid">
+		<h:form>
+			<p:menubar style="z-index:1;padding-left:230px;">
+				<sec:authorize access="hasRole('CADASTROA')">
+					<p:submenu label="Cadastro" icon="fa fa-arrow-circle-right">
+						<p:submenu label="Atos e Certidões" id="atos"
+							icon="fa fa-arrow-circle-down">
+							<p:menuitem value="Atos Legais"
+								url="/paginas/cadastro/atos.xhtml" ajax="true" async="true">
+							</p:menuitem>
+							<p:menuitem value="Atos Concessórios"
+								url="/paginas/cadastro/atos.xhtml" ajax="true" async="true">
+							</p:menuitem>
+							<p:menuitem value="Certidão de Tempo de Contribuição"
+								url="/paginas/cadastro/ctc.xhtml" ajax="true" async="true">
+							</p:menuitem>
+						</p:submenu>
+						<p:submenu label="Beneficiários" icon="fa fa-arrow-circle-down">
+							<p:menuitem value="Servidor"
+								url="/paginas/cadastro/pessoas.xhtml"></p:menuitem>
+							<p:menuitem value="Dependente/Pensionista"
+								url="/paginas/cadastro/dependentes.xhtml"></p:menuitem>
+							<p:menuitem value="Representante"
+								url="/paginas/cadastro/representante.xhtml"></p:menuitem>
+						</p:submenu>
+						<p:submenu label="Carreiras e Cargos"
+							icon="fa fa-arrow-circle-down">
+							<p:menuitem value="Carreiras"
+								url="/paginas/cadastro/carreiras.xhtml" ajax="true" async="true"></p:menuitem>
+							<p:menuitem value="Cargos" url="/paginas/cadastro/cargos.xhtml"
+								ajax="true" async="true"></p:menuitem>
+						</p:submenu>
+						<p:submenu label="Documentos" icon="fa fa-arrow-circle-down">
+							<p:menuitem value="Check-List"
+								url="/paginas/documentos/checklist.xhtml" ajax="true"
+								async="true"></p:menuitem>
+							<p:menuitem value="Solicitação Pensão"
+								url="/paginas/cadastro/carreiras.xhtml" ajax="true" async="true"></p:menuitem>
+						</p:submenu>
+
+						<p:submenu label="Ente e Poder" icon="fa fa-arrow-circle-down">
+							<p:menuitem value="Ente Federado"
+								url="/paginas/cadastro/entefederado.xhtml"></p:menuitem>
+
+							<p:menuitem value="Gestor do Poder"
+								url="/paginas/cadastro/poder.xhtml"></p:menuitem>
+						</p:submenu>
+
+						<p:submenu label="Funcional" icon="fa fa-arrow-circle-down">
+							<p:menuitem value="Dados Funcionais"
+								url="/paginas/cadastro/funcional.xhtml"></p:menuitem>
+							<p:menuitem value="Portaria/ Índices"
+								url="/paginas/cadastro/portariaIndices.xhtml"></p:menuitem>
+							<p:menuitem value="Alíquotas de Contribuição"
+								url="/paginas/cadastro/aliquotaContribuicao.xhtml"></p:menuitem>
+							<p:menuitem value="Fundo Previdenciário"
+								url="/paginas/cadastro/fundoPrevidenciario.xhtml"></p:menuitem>
+						</p:submenu>
+						<p:submenu label="Gerais" icon="fa fa-arrow-circle-down">
+
+						</p:submenu>
+						<p:menuitem value="Órgãos" url="/paginas/cadastro/orgaos.xhtml"
+							icon="fa fa-arrow-circle-down"></p:menuitem>
+					</p:submenu>
+				</sec:authorize>
+				<sec:authorize access="hasRole('ARRECADACAOA')">
+					<p:submenu label="Arrecadação" icon="fa fa-arrow-circle-right">
+						<p:menuitem value="Arquivo Remessa" icon="fa fa-arrow-circle-down"></p:menuitem>
+						<p:menuitem value="Arquivo Retorno" icon="fa fa-arrow-circle-down"></p:menuitem>
+						<p:menuitem value="Pessoa Física"
+							url="/paginas/arrecadacao/pessoafisica.xhtml"
+							icon="fa fa-arrow-circle-down"></p:menuitem>
+						<p:menuitem value="Pessoa Jurídica"
+							url="/paginas/arrecadacao/pessoajuridica.xhtml"
+							icon="fa fa-arrow-circle-down"></p:menuitem>
+						<p:submenu label="Relatórios" icon="fa fa-arrow-circle-down">
+							<p:menuitem value="Previsto"></p:menuitem>
+							<p:menuitem value="Realizado"></p:menuitem>
+						</p:submenu>
+					</p:submenu>
+				</sec:authorize>
+				<sec:authorize access="hasRole('BENEFICIOA')">
+					<p:submenu label="Benefício" icon="fa fa-arrow-circle-right">
+						<p:submenu label="Aposentadoria" icon="fa fa-arrow-circle-down">
+							<p:menuitem value="Invalidez"
+								url="/paginas/beneficio/aposentadoriaInvalidez.xhtml"></p:menuitem>
+							<p:menuitem value="Compulsória"
+								url="/paginas/beneficio/aposentadoriaCompulsoria.xhtml"></p:menuitem>
+							<p:menuitem value="Voluntária por Idade"
+								url="/paginas/beneficio/aposentadoriaIdade.xhtml"></p:menuitem>
+							<p:menuitem value="Idade e Tempo de Contribuição"
+								url="/paginas/beneficio/aposentadoriaIdadeContribuicao.xhtml"></p:menuitem>
+						</p:submenu>
+						<p:menuitem value="Auxílio Doença"
+							url="/paginas/beneficio/auxiliodoenca.xhtml"
+							icon="fa fa-arrow-circle-down"></p:menuitem>
+						<p:menuitem value="Pensão" url="/paginas/beneficio/pensao.xhtml"
+							icon="fa fa-arrow-circle-down"></p:menuitem>
+						<p:menuitem value="Simulação Aposent."
+							url="/paginas/beneficio/simulador.xhtml"
+							icon="fa fa-arrow-circle-down"></p:menuitem>
+					</p:submenu>
+				</sec:authorize>
+
+				<sec:authorize access="hasRole('CENSOA')">
+					<p:submenu label="Censo" icon="fa fa-arrow-circle-right">
+						<p:menuitem value="Censo Previdenciário"
+							url="/paginas/censo/censoPrevidenciario.xhtml"
+							icon="fa fa-arrow-circle-down"></p:menuitem>
+						<p:menuitem value="Unidade de Atendimento"
+							url="/paginas/censo/unidadeCenso.xhtml"
+							icon="fa fa-arrow-circle-down"></p:menuitem>
+						<p:menuitem value="Atualizar dados"
+							url="/paginas/censo/atualizacaoDados.xhtml"
+							icon="fa fa-arrow-circle-down"></p:menuitem>
+					</p:submenu>
+				</sec:authorize>
+				<sec:authorize access="hasRole('RELATORIOSA')">
+					<p:submenu label="Relatórios" icon="fa fa-arrow-circle-right">
+						<p:menuitem value="Sisobi" url="/paginas/relatorios/sisobi.xhtml"
+							icon="fa fa-arrow-circle-down"></p:menuitem>
+						<p:submenu label="Gerenciais" icon="fa fa-arrow-circle-down">
+							<p:menuitem value="Processos"
+								url="../cadastro/processoPericia.xhtml"></p:menuitem>
+							<p:menuitem value="Graficos"
+								url="/paginas/relatorios/graficoPericia.xhtml"></p:menuitem>
+						</p:submenu>
+					</p:submenu>
+				</sec:authorize>
+				<sec:authorize access="hasRole('ADMINISTRACAOA')">
+					<p:submenu label="Administração" icon="fa fa-arrow-circle-right">
+						<p:menuitem value="Cadastro de Usuários"
+							url="/paginas/gerenciador/cadastroUsuario.xhtml"
+							icon="fa fa-arrow-circle-down"></p:menuitem>
+						<p:menuitem value="Cadastro de Perfis"
+							url="/paginas/gerenciador/perfisAcesso.xhtml"
+							icon="fa fa-arrow-circle-down"></p:menuitem>
+
+					</p:submenu>
+				</sec:authorize>
+
+				<f:facet name="options">
+					<p:outputLabel id="usuarioLogado"
+						value="#{masterBean.usuarioLogado}"></p:outputLabel>
+				</f:facet>
+			</p:menubar>
+
+		</h:form>
+	</div>
+	</nav>
+
+	<!-- Texto Logo -->
+	<div style="position: relative; z-index: 1; top: -84px; left: -182px;">
+		<div class="col-lg-4"></div>
+		<h2
+			style="font-family: segoe ui, Arial, sans-serif; font-weight: 100;">
+			<i><strong style="color: #459E00;">IPERON</strong>prev</i>
+		</h2>
+	</div>
+	<!-- Dados do Usuario Conectado -->
+	<div
+		style="position: relative; z-index: 1; top: -140px; margin-left: 95px">
+		<div class="col-lg-10" style="color: #459E00;"></div>
+		<p:commandLink value="Alterar a Senha" style="color: #459E00;"></p:commandLink>
+		/
+		<p:link href="/logout" value="Sair"></p:link>
+	</div>
+
+	<!-- Início do Formulário -->
+	<div class="col-lg-2"></div>
+	<ui:insert name="content">
+
+	</ui:insert>
+	<div class="col-lg-2"></div>
+
+	<div class="col-lg-12">
+	
+	
+  
+		<br />
+	</div>
+	<!-- Fim do Formulário -->
+	<div class="footer" style="background-color: #f8f8f8;">
+		<div class="col-lg-2"></div>
+		<p
+			style="position: relative; z-index: 1; top: 12px; color: #7F8C8D; font-family: Open Sans, sans-serif; font-size: 14px">
+			&copy; 2015 Desenvolvido pela Coordenadoria de Sistema do IPERON - <i>COOSIST</i>
+		</p>
+	</div>
+</h:body>
+</html>

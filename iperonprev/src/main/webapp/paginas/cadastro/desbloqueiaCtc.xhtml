@@ -1,0 +1,116 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+	<f:metadata>
+		<f:viewAction action="#{desbloqueioCTCBean.recarregaPagina}" onPostBack="true"/>
+	</f:metadata>
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel header="Desbloqueio de CTC" styleClass="col-lg-10">
+			<h:form id="formDesbloqueio">
+				<p:messages showDetail="true" closable="true"></p:messages>
+				<br />
+				<h:inputHidden value="#{desbloqueioCTCBean.desbloqueio.NUMG_idDoObjeto}"></h:inputHidden>
+				
+				<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-3">
+									<p:outputLabel value="Matrícula:"></p:outputLabel>
+									<p:inputText styleClass="form-control" value="#{desbloqueioCTCBean.matricula}">
+										<p:ajax event="blur" update="@form" process="@this"
+											listener="#{desbloqueioCTCBean.buscaCertidao}"></p:ajax>
+									</p:inputText>
+									
+								</div>
+								<div class="col-sm-3">
+									<p:outputLabel value="Número Certidão:"></p:outputLabel>
+									<p:inputText styleClass="form-control" disabled="true" value="#{desbloqueioCTCBean.ctc.NUMR_certidao}"></p:inputText>
+								</div>
+								<div class="col-sm-6">
+									<p:outputLabel value="Servidor:"></p:outputLabel>
+									<p:inputText styleClass="form-control" disabled="true" value="#{desbloqueioCTCBean.pessoa.DESC_nome}"></p:inputText>
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-6">
+									<p:outputLabel value="Órgão Emissor:"></p:outputLabel>
+									<p:inputText styleClass="form-control" disabled="true" value="#{desbloqueioCTCBean.ctc.NUMR_orgaoExpedidor.DESC_nome}"></p:inputText>
+								</div>
+								<div class="col-sm-6">
+									<p:outputLabel value="Órgão de Destino:"></p:outputLabel>
+									<p:inputText styleClass="form-control" disabled="true" ></p:inputText>
+								</div>
+							</div>
+							<div class="ui-grid-row">
+									<div class="col-sm-4">
+										<p:outputLabel value="Edição CTC bloqueada: "></p:outputLabel>
+										<p:selectBooleanCheckbox value="#{desbloqueioCTCBean.desbloqueio.FLAG_edicao}"></p:selectBooleanCheckbox>
+									</div>
+									<div class="col-sm-4">
+										<p:outputLabel value="Impressão CTC bloqueada: "></p:outputLabel>
+										<p:selectBooleanCheckbox value="#{desbloqueioCTCBean.desbloqueio.FLAG_impressaoCtc}"></p:selectBooleanCheckbox>
+									</div>
+									<div class="col-sm-4">
+										<p:outputLabel value="Impressão RRC bloqueada: "></p:outputLabel>
+										<p:selectBooleanCheckbox value="#{desbloqueioCTCBean.desbloqueio.FLAG_impressaoRrc}"> </p:selectBooleanCheckbox>
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="col-sm-12">
+										<p:outputLabel value="Justificativa:"></p:outputLabel>
+										<p:inputTextarea styleClass="col-sm-12 form-control" required="true" value="#{desbloqueioCTCBean.desbloqueio.DESC_justificativa}"></p:inputTextarea>
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="col-sm-12">
+										<p></p>
+									</div>
+								</div>
+								<div class="ui-grid-row">
+								<div class="col-sm-3">
+									<p:commandButton value="salvar" icon="fa fa-save">
+										<p:ajax update="@form" process="@form"
+											listener="#{desbloqueioCTCBean.salvarObjeto}"></p:ajax>
+									</p:commandButton>
+								</div>
+								<div class="col-sm-3">
+									<p:commandButton value="Novo" icon="fa fa-plus">
+										<p:ajax listener="#{desbloqueioCTCBean.novoObjeto}" process="@form" update="@form"></p:ajax>
+									</p:commandButton>
+								</div>
+								<div class="col-sm-3">
+									<p:commandButton icon="fa fa-search" value="Pesquisar" action="#{desbloqueioCTCBean.exibeListaDeObjetos}" process="@this" update="@none">
+										<p:ajax event="dialogReturn" listener="#{desbloqueioCTCBean.selecionaObjetoDialogo}" process="@this" update="@form"></p:ajax>
+										<p:resetInput target="formDesbloqueio" />
+									</p:commandButton>
+								</div>
+							</div>
+						</div>
+				<div class="col-sm-12"><p></p></div>
+			</h:form>
+		</p:panel>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><p></p></div>
+	</ui:define>
+</ui:composition>
+</html>

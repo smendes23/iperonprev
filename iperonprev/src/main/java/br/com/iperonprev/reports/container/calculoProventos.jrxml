@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="templateIperon" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="18643ef5-631e-4ea2-9a58-3fa8f04d6968">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="org.joda.time.DateTime"/>
+	<import value="org.joda.time.Period"/>
+	<import value="org.joda.time.PeriodType"/>
+	<field name="mat" class="java.lang.String"/>
+	<field name="serv" class="java.lang.String"/>
+	<field name="cpf" class="java.lang.String"/>
+	<field name="sexo" class="java.lang.String"/>
+	<field name="dataNascimento" class="java.util.Date"/>
+	<field name="estadoCivil" class="java.lang.String"/>
+	<field name="cargo" class="java.lang.String"/>
+	<field name="dataAdmissao" class="java.util.Date"/>
+	<field name="orgao" class="java.lang.String"/>
+	<field name="tituloRelatorio" class="java.lang.String"/>
+	<field name="fatores" class="java.lang.String"/>
+	<field name="dataSimulacao" class="java.lang.String"/>
+	<field name="totalRemuneracao" class="java.lang.String"/>
+	<field name="totalOitentaMaiores" class="java.lang.String"/>
+	<field name="ultimaRemuneracao" class="java.lang.String"/>
+	<field name="somaOitentaMaiores" class="java.lang.String"/>
+	<field name="mediaOitentaMaiores" class="java.lang.String"/>
+	<field name="valorApurado" class="java.lang.String"/>
+	<field name="tempoServico" class="java.lang.String"/>
+	<field name="salarioMinimo" class="java.lang.String"/>
+	<field name="proporcionalidade" class="java.lang.String"/>
+	<field name="proventoIntegralidade" class="java.lang.String"/>
+	<field name="totalProventos" class="java.lang.String"/>
+	<field name="tipoProventos" class="java.lang.String"/>
+	<field name="tipoCalculo" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="110" splitType="Stretch">
+			<image>
+				<reportElement x="27" y="6" width="61" height="67" uuid="de391b62-cf11-4592-9117-2c85e6637829"/>
+				<imageExpression><![CDATA["C:\\tomcat8\\webapps\\ROOT\\resources\\image\\rondonia.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="478" y="15" width="78" height="54" uuid="83a3a912-c0da-40cf-8939-7d0908aa626f"/>
+				<imageExpression><![CDATA["C:\\tomcat8\\webapps\\ROOT\\resources\\image\\iperon.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="88" y="23" width="394" height="20" uuid="195d2cf8-6662-4d50-9f9a-cb1903274018"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Governo do Estado de Rondônia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="87" y="43" width="395" height="20" uuid="7d2ce3f1-c509-4501-bc5b-f49b6d24345a"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[INSTITUTO DE PREVIDÊNCIA DOS SERVIDORES PÚBLICOS DO ESTADO DE RONDÔNIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="222" y="58" width="100" height="20" uuid="54b97b12-9618-4185-a247-aaf784a53c0f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IPERON]]></text>
+			</staticText>
+			<line>
+				<reportElement x="26" y="84" width="505" height="1" forecolor="#006600" uuid="d566601a-dc5a-4164-9b17-410756a7d1bb"/>
+				<graphicElement>
+					<pen lineWidth="2.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="26" y="90" width="505" height="1" forecolor="#006600" uuid="f9eb4c26-c412-43cc-8010-d77a22bb3949"/>
+			</line>
+			<textField>
+				<reportElement x="26" y="93" width="528" height="16" uuid="14f38094-48de-4285-b8ae-59be82acbc15"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tituloRelatorio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="162">
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="26" y="0" width="505" height="16" forecolor="#FFFFFF" backcolor="#CCCCCC" uuid="e32cb932-cc5b-4044-822f-34c75e79dd97"/>
+			</textField>
+			<staticText>
+				<reportElement x="108" y="0" width="100" height="16" forecolor="#000000" uuid="808ee3dc-bb3b-427f-bf99-17b714ca726a"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="0" width="77" height="16" forecolor="#000000" uuid="b0132bc8-ed2f-4f2f-bebe-7b5c73c8353e"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Matrícula]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="26" y="15" width="82" height="16" uuid="4eec2e10-ea95-4e3b-8503-a08e0bea1787"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{mat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="108" y="16" width="347" height="16" uuid="adb8ecc7-a3b8-439c-99b0-cd4df8a5954f"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{serv}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="443" y="0" width="88" height="16" forecolor="#000000" uuid="2817cd3d-ebd2-46d7-9a7a-e64fe03badae"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CPF]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="443" y="16" width="88" height="16" uuid="8946625f-63d9-4d58-ae3b-b8833d98d980"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="244" y="48" width="100" height="16" uuid="07528d20-0454-4812-8c13-2560ec48abbd"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{sexo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="26" y="32" width="505" height="16" forecolor="#FFFFFF" backcolor="#CCCCCC" uuid="fc6d78d9-bbeb-4358-b0d8-595e108929b7"/>
+			</textField>
+			<staticText>
+				<reportElement x="27" y="32" width="120" height="16" forecolor="#000000" uuid="a16680fd-c989-4207-96a4-0dbe6f41ab8f"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data do Nascimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="244" y="32" width="100" height="16" forecolor="#000000" uuid="78a6f345-f852-49b4-821d-2afdbbb79249"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sexo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="443" y="32" width="88" height="16" forecolor="#000000" uuid="9d499420-81f6-49d8-99d0-a198f75d2926"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado Civil]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="26" y="48" width="120" height="16" uuid="e61bc7ca-25bc-451e-8aac-ebf48b4f6608"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dataNascimento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="443" y="48" width="88" height="16" uuid="744ac65b-f37e-49f8-ae23-54206ff1e361"/>
+				<textFieldExpression><![CDATA[$F{estadoCivil}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="26" y="64" width="505" height="16" forecolor="#FFFFFF" backcolor="#CCCCCC" uuid="76a2c15f-9e15-431c-a5a7-393fbca16810"/>
+			</textField>
+			<staticText>
+				<reportElement x="26" y="64" width="109" height="16" forecolor="#000000" uuid="d4b4db2d-d9c5-487f-8a9e-c276720a8f73"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Órgão]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="443" y="112" width="88" height="16" uuid="da650ce4-394b-4389-b6a5-8abb06fd05b9"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dataAdmissao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="26" y="112" width="417" height="16" uuid="daaaf449-5bff-49e6-a2a4-3fdb8e45c25d"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cargo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="26" y="96" width="505" height="16" forecolor="#FFFFFF" backcolor="#CCCCCC" uuid="f7d10ba9-4ff6-4a3f-b7dd-ce6696ad7e2f"/>
+			</textField>
+			<staticText>
+				<reportElement x="27" y="96" width="100" height="16" uuid="7f7dbb1c-39b6-4e3f-a0d6-74eca0731fa4"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cargo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="443" y="96" width="88" height="16" uuid="08600a39-9ea5-4cbc-8fc8-f798c522028c"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data da Admissão]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="26" y="80" width="505" height="16" uuid="cf63cdbc-f763-4855-be3b-34a02808a13a"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{orgao}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="26" y="127" width="505" height="16" forecolor="#FFFFFF" backcolor="#CCCCCC" uuid="4a38a854-04d7-4e61-9f4e-527c2de66617"/>
+			</textField>
+			<staticText>
+				<reportElement x="26" y="127" width="271" height="16" uuid="dfd8ac7a-bab9-49a5-b58a-e9af4bec8e92"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fator de atualizalçao utilizado]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="26" y="143" width="505" height="16" uuid="516bfbe8-7618-4361-b20f-123f10efdeed"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fatores}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="227">
+			<staticText>
+				<reportElement x="26" y="0" width="335" height="16" uuid="e4d99f68-7e38-4287-8332-10e0fcdfd072"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[Tipo de Cálculo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="16" width="335" height="16" uuid="32df2d8c-f7aa-49b0-8a46-97b1d9af082e"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[Data da Simulação/Concessão/Publicação do Ato]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="32" width="335" height="16" uuid="4478f0bc-f90d-4d9c-9bf3-43bd915d20c2"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[Resultado da Simulação de Aposentadoria]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="48" width="335" height="16" uuid="aed4f17a-04d5-492d-bbba-a181fdb1600c"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[Total de Remuneração]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="64" width="335" height="16" uuid="cdbdf08d-144b-4218-9132-238e18a23802"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[Total 80% das Maiores Remunerações (§ 7° do art. 61 da ON n° 02/2009/SSP/MPS)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="80" width="335" height="16" uuid="65e24788-15fa-4a69-9e20-feea5c85c700"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[Última Remuneração de Contribuição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="96" width="335" height="16" uuid="51819ef6-b2f2-4a0d-8d93-a06bb4aa8fb9"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[Soma de 80% das Maiores Remunerações]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="112" width="335" height="16" uuid="cf52f8f1-30a6-4d7a-a154-0b66853ea312"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[Média Aritmética 80% das Maiores Remunerações]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="128" width="335" height="16" uuid="ebc6282b-f082-4108-8d48-a228f64a3e63"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[Valor Apurado para a Base de Cálculo (§ 2° do art. 40 da CF/88, ECM 20/98)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="144" width="335" height="16" uuid="cbdf87c1-5160-46df-b12e-5f4378a0e000"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[Tempo de Serviço]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="160" width="335" height="16" uuid="59bf9aae-266e-488f-a878-9ce9151801b7"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[Salário Mínimo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="176" width="335" height="16" uuid="587b1cbc-a10f-4f10-a58f-cc82076d714b"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[Proporcionalidade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="208" width="335" height="16" uuid="3415e243-c2f1-425c-90c1-f8e3654d6ca9"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[Total dos Proventos]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="361" y="16" width="170" height="16" uuid="396ae9d6-660e-4407-acc8-a23cf7d77c12"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataSimulacao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="361" y="32" width="170" height="16" uuid="def8b8c3-c93e-40da-be42-97acb16270e7"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<text><![CDATA[Aplicável]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="361" y="48" width="170" height="16" uuid="4d1cc2dd-2849-4d33-a9e8-708f133893fd"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalRemuneracao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="64" width="170" height="16" uuid="dc153cc3-7cd2-4b97-a88f-801ac2aa17f7"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalOitentaMaiores}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="80" width="170" height="16" uuid="c8064c13-4834-492e-9963-c2fa9784c077"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ultimaRemuneracao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="96" width="170" height="16" uuid="0a4f981f-1ba8-43a3-83e8-49562c530082"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{somaOitentaMaiores}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="112" width="170" height="16" uuid="720da15b-57ba-4f99-b43c-eb1c349e80be"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mediaOitentaMaiores}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="128" width="170" height="16" uuid="ac92c049-a77b-4674-b6d8-150c9348007a"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorApurado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="144" width="170" height="16" uuid="590b441b-99ee-438b-89ef-3e16779e94ae"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tempoServico}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="160" width="170" height="16" uuid="9bdb02ad-1062-4899-8023-a174070108a0"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{salarioMinimo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="176" width="170" height="16" uuid="c868d1ac-cc83-4603-90b4-783694c022d7"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{proporcionalidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="192" width="170" height="16" uuid="49391fb9-09bd-40b4-9bb9-cc4320872663"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{proventoIntegralidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="208" width="170" height="16" uuid="df2e7fa3-b130-4515-99bf-e83d22dd10fe"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalProventos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="26" y="192" width="335" height="16" uuid="2d191b9f-3eef-47e2-9748-4cf4c218cbc2"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipoProventos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="0" width="170" height="16" uuid="678a556d-09e9-4f7b-8c86-e3934f18d912"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipoCalculo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+</jasperReport>

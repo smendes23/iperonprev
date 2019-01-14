@@ -1,0 +1,116 @@
+<ui:composition template="../templates/master.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+	<ui:define name="content">
+		<style>
+
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+	<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel header="Perícia Médica" styleClass="col-lg-10">
+			<h:form id="formPericia">
+				<p:messages showDetail="true" closable="true"></p:messages>
+				<div class="col-sm-12">
+					<h3 class="fieldalt">Dados Funcionais</h3>
+					<hr />
+				</div>
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-sm-3">
+							<p:outputLabel value="CPF:"></p:outputLabel>
+							<p:inputMask mask="999.999.999-99" styleClass="form-control"></p:inputMask>
+						</div>
+						<div class="col-sm-6">
+							<p:outputLabel value="Servidor:"></p:outputLabel>
+							<p:inputText styleClass="form-control" disabled="true"></p:inputText>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Matrícula:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true" filterMatchMode="startsWith" style="width:100%">
+									<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+								</p:selectOneMenu>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class='col-sm-6'>
+							<p:outputLabel value="Órgão:"></p:outputLabel>
+							<p:inputText styleClass="form-control" disabled="true"></p:inputText>
+						</div>
+						<div class='col-sm-6'>
+							<p:outputLabel value="Cargo:"></p:outputLabel>
+							<p:inputText styleClass="form-control" disabled="true"></p:inputText>
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class='col-sm-4'>
+							<p:outputLabel value="Licenças para acompanhamento:"></p:outputLabel>
+							<p:inputText styleClass="form-control" disabled="true"></p:inputText>
+						</div>
+						<div class='col-sm-4'>
+							<p:outputLabel value="Licenças tratamento de saúde:"></p:outputLabel>
+							<p:inputText styleClass="form-control" disabled="true"></p:inputText>
+						</div>
+						<div class='col-sm-4'>
+							<p:outputLabel value="Tempo total de licenças:"></p:outputLabel>
+							<p:inputText styleClass="form-control" disabled="true"></p:inputText>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-12">
+					<h3 class="fieldalt">Perícia</h3>
+					<hr />
+				</div>
+				<div class="col-sm-12">
+					<p:commandLink value="1) Aposentadoria por Invalidez" action="#{periciaBean.redirecionaPericia('/paginas/pericia/periciaAposentadoria.xhtml?faces-redirect=true')}"></p:commandLink>
+				</div>
+				<!-- <div class="col-sm-12">
+					<p:commandLink value="2)Acompanhante"></p:commandLink>
+				</div> -->
+				<div class="col-sm-12">
+					<p:commandLink value="2) Isenção do IRRF" action="#{periciaBean.redirecionaPericia('/paginas/pericia/periciaIsencaoIrrf.xhtml?faces-redirect=true')}"></p:commandLink>
+				</div>
+				<div class="col-sm-12">
+					<p:commandLink value="3) Maternidade" action="#{periciaBean.redirecionaPericia('/paginas/pericia/periciaMaternidade.xhtml?faces-redirect=true')}"></p:commandLink>
+				</div>
+				<div class="col-sm-12">
+					<p:commandLink value="4) Pensão Especial" action="#{periciaBean.redirecionaPericia('/paginas/pericia/periciaPensao.xhtml?faces-redirect=true')}"></p:commandLink>
+				</div>
+				<div class="col-sm-12">
+					<p:commandLink value="5) Readaptação" action="#{periciaBean.redirecionaPericia('/paginas/pericia/periciaReadaptacao.xhtml?faces-redirect=true')}"></p:commandLink>
+				</div>
+				<div class="col-sm-12">
+					<p:commandLink value="6) Redução de Carga Horária" action="#{periciaBean.redirecionaPericia('/paginas/pericia/periciaReducaoCargaHoraria.xhtml?faces-redirect=true')}"></p:commandLink>
+				</div>
+				<div class="col-sm-12">
+					<p:commandLink value="7) Tratamento de Saúde" action="#{periciaBean.redirecionaPericia('/paginas/pericia/periciaTratamentoDeSaude.xhtml?faces-redirect=true')}"></p:commandLink>
+				</div>
+				<div class="col-sm-12">
+					<hr />
+				</div>
+				<div class="col-sm-12"><p></p></div>
+				<div class="col-sm-2">
+					<p:commandButton value="Salvar" icon="fa fa-save">
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Novo"  icon="fa fa-file-o">
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Listar" icon="fa fa-list">
+					</p:commandButton>
+				</div>
+			</h:form>
+		</p:panel>
+				<div class="col-sm-12"><br/></div>
+						<div class="col-sm-12"><br/></div>
+	</ui:define>
+</ui:composition>

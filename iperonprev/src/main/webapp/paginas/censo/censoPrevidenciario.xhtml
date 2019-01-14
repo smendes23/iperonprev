@@ -1,0 +1,69 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel header="Cadastro do Censo" styleClass="col-lg-10">
+			<h:form id="formCenso">
+				<p:messages showDetail="true" closable="true"></p:messages>
+				<br />
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-lg-6">
+							<p:outputLabel value="Descrição:"></p:outputLabel>
+							<p:inputText styleClass="form-control"
+							value="#{dadosCensoBean.dadoscenso.DESC_descricao}" required="true" requiredMessage="Campo descriao obrigatório"/>
+						</div>
+						<div class="col-lg-3 ">
+							<p:outputLabel value="Data Início:"></p:outputLabel>
+							<p:inputMask mask="99/99/9999" styleClass="form-control"
+								value="#{dadosCensoBean.dadoscenso.DATA_inicio}" converter="dateConverter" required="true" requiredMessage="Data inicio obrigatória">
+							</p:inputMask>
+						</div>
+						<div class="col-lg-3">
+							<p:outputLabel value="Data Fim:"></p:outputLabel>
+							<p:inputMask mask="99/99/9999" styleClass="form-control"
+								value="#{dadosCensoBean.dadoscenso.DATA_fim}" converter="dateConverter" required="true"  requiredMessage="Data fim obrigatória"> 
+							</p:inputMask>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-12"><p></p></div>
+				<div class="col-sm-2">
+					<p:commandButton value="Salvar" icon="fa fa-save">
+						<p:ajax listener="#{dadosCensoBean.salvarObjeto}" process="@form"
+							update="@form" />
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Novo" icon="fa fa-file-o">
+						<p:ajax listener="#{dadosCensoBean.novoObjeto}" process="@form"
+							update="@form" />
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Pesquisar" icon="fa fa-search"
+						action="#{dadosCensoBean.exibeListaDeObjetos}"
+						process="@this" update="@none">
+						<p:ajax event="dialogReturn"
+							listener="#{dadosCensoBean.selecionaObjetoDialogo}"
+							process="@this" update="@form" />
+						<p:resetInput target="formCenso" />
+					</p:commandButton>
+				</div>
+				<div class="col-sm-12"><p></p></div>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<h:head>
+	<title>::Lista de Censos::</title>
+		<style>
+
+.ui-shadow {
+   box-shadow: 0px 5px 10px transparent;
+}
+.ui-widget {
+    font-family: segoe ui, Arial, sans-serif;
+    font-size: 16px;
+}
+	</style>
+</h:head>
+<h:body>
+	<div>
+		<br />
+	</div>
+	<h:form>
+	<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:dataTable var="listaCenso" widgetVar="censoTable"
+			value="#{dadosCensoBean.listaDeCenso}" paginator="true"
+			paginatorAlwaysVisible="false" rows="5" paginatorPosition="bottom"
+			style="heigth:480px;width:880" id="tbCarreiras" rowsPerPageTemplate="5,10"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+			<p:column headerText="Descição" filterBy="#{listaCenso.DESC_descricao}"
+				filterMatchMode="contains" filterStyle="display:none">
+				<p:outputLabel value="#{listaCenso.DESC_descricao}"/>
+			</p:column>
+			<p:column headerText="Data Início" filterBy="#{listaCenso.DATA_inicio}"
+				filterMatchMode="contains" filterStyle="display:none">
+				<p:outputLabel value="#{listaCenso.DATA_inicio}">
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Data Fim"
+				filterBy="#{listaCenso.DATA_fim}" filterMatchMode="contains"
+				filterStyle="display:none">
+				<p:outputLabel value="#{listaCenso.DATA_fim}">
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Editar" width="50">
+				<p:commandLink
+					action="#{dadosCensoBean.pegaInstanciaDialogo(listaCenso)}">
+					<p:graphicImage name="/image/editar.png" style="margin-left: 15;"></p:graphicImage>
+				</p:commandLink>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

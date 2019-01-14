@@ -1,0 +1,196 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<h:head>
+	<h:outputStylesheet name="/css/bootstrap.css"></h:outputStylesheet>
+	<h:outputStylesheet name="/css/bootstrap-theme.css"></h:outputStylesheet>
+	<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+
+.ui-widget {
+	font-family: segoe ui, Arial, sans-serif;
+	font-size: 16px;
+}
+
+.btn-input {
+	border-radius: 0px 5px 5px 0px;
+	height: 28px
+}
+
+.ui-dialog .ui-dialog-titlebar .ui-widget-header .ui-corner-top {
+	display: none !important;
+}
+
+.ui-selectcheckboxmenu .ui-selectcheckboxmenu-trigger {
+	border-right: none;
+	border-top: none;
+	border-bottom: none;
+	cursor: pointer;
+	width: 24px;
+	height: 100%;
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 0 3px;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger {
+	border-right: medium none;
+	border-top: medium none;
+	border-bottom: medium none;
+	cursor: pointer;
+	width: 26px;
+	height: 100%;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	padding: 0px 3px;
+}
+
+.ui-selectonemenu {
+	display: inline-block;
+	position: relative;
+	width: auto;
+	zoom: 1;
+	cursor: pointer;
+	padding-right: 0;
+}
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button
+	{
+	font-family: Arial, sans-serif;
+	font-size: 16px;
+}
+
+.ui-helper-reset {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	line-height: 16px;
+	text-decoration: none;
+	font-size: 100%;
+	list-style: none;
+}
+
+.ui-widget .ui-widget {
+	font-size: 16px;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter-container {
+	position: relative;
+	margin: 0;
+	padding: 0.4em;
+	display: inline-block;
+	width: 100%;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter {
+	width: 97%;
+	padding-right: 15px;
+}
+
+.ui-icon-bullet {
+	background-position: -81px -145px;
+}
+
+.ui-selectoneradio label {
+	display: block;
+	margin-top: 4px;
+	font-size: 16px;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
+	margin-top: 6px;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter-container .ui-icon {
+	position: absolute;
+	top: 12px;
+	right: 17px;
+}
+</style>
+</h:head>
+<h:body>
+	<h:form>
+		<div>
+			<p:commandButton icon="fa fa-close"
+				style="float: right;top: 0px;position:relative;" id="fechaDialogo"
+				action="#{funcionalBean.fechaContribuicao}" update="@form">
+			</p:commandButton>
+		</div>
+	</h:form>
+	<div>
+		<br />
+	</div>
+	<div class="ui-grid ui-grid-responsive">
+		<h:form id="formRecadastramento">
+		<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+			<sa:ajaxStatus />
+			<sa:loading imgDir="/image/loading.gif"></sa:loading>
+			<div class="col-sm-12">
+				<h3 class="fieldalt" style="margin-top: 3px;">Requisitos</h3>
+				<hr />
+			</div>
+			<div class="ui-grid-row">
+				<div class="col-sm-12">
+
+					<div class="ui-grid ui-grid-responsive">
+						<div class="ui-grid-row">
+							<div class="col-sm-6">
+								<p:outputLabel value="Tipo Benefício:"></p:outputLabel>
+								<p:selectOneMenu effect="fade" filter="true" value="#{checkListBean.requisitos.ENUM_tipoBeneficio}"
+									filterMatchMode="startsWith" style="width:100%">
+									<f:selectItem itemLabel="--Selecione--" itemValue="" noSelectionOption="true"/>
+									<f:selectItems value="#{checkListBean.listaDeBeneficioRequisitos}" var="beneficio" itemValue="#{beneficio}" itemLabel="#{beneficio.nome}" ></f:selectItems>
+								</p:selectOneMenu>
+							</div>
+							<div class="col-sm-6">
+								<p:outputLabel value="Título Requisito:"></p:outputLabel>
+								<p:selectOneMenu effect="fade" filter="true" required="true"
+									id="unidade" converter="conversorDeEntidades"
+									filterMatchMode="startsWith" style="width:100%"
+									styleClass="selectalt" value="#{checkListBean.requisitos.REL_tituloBeneficio}">
+									<f:selectItem itemLabel="Selecione" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{checkListBean.listaTituloBeneficio}"
+										var="titulo" itemLabel="#{titulo.DESC_titulo}"
+										itemValue="#{titulo}"></f:selectItems>
+								</p:selectOneMenu>
+							</div>
+						</div>
+						<div class="ui-grid-row">
+							<div class="col-sm-9">
+								<p:outputLabel value="Descrição Requisito:"></p:outputLabel>
+								<p:inputText styleClass="form-control" value="#{checkListBean.requisitos.DESC_requisito}"></p:inputText>
+							</div>
+							<div class="col-sm-3" style="top: 25px;">
+								<p:selectBooleanCheckbox value="#{checkListBean.requisitos.FLAG_obrigacaoSegurado}"></p:selectBooleanCheckbox>
+									<p:outputLabel value=" Obrigação do Servidor?"></p:outputLabel>
+							</div>
+						</div>
+							
+						<div class="ui-grid-row">
+							<div class="col-lg-12">
+								<p></p>
+							</div>
+						</div>
+						<div class="ui-grid-row">
+							<div class="col-lg-2">
+								<p:commandButton value="Salvar" icon="fa fa-save" action="#{checkListBean.salvaRequisito()}" process="@form" update="@form">
+								</p:commandButton>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</h:form>
+	</div>
+</h:body>
+</html>

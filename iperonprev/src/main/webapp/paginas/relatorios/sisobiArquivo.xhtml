@@ -1,0 +1,42 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+	
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+			<p:panel styleClass="col-lg-10" header="Carregar Arquivo">
+			<h:form enctype="multipart/form-data">
+			<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+				<br />
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-lg-6">
+						<h:inputFile value="#{sisobiBean.arquivo}"></h:inputFile>
+						</div>
+						<div class="col-sm-2">
+							<p:commandButton icon="fa fa-send" value="Enviar" action="#{sisobiBean.pegaArquivo}" ajax="false"></p:commandButton>
+						</div>
+					
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+					</div>
+				</div>
+			</h:form>
+			<br /> <br />
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

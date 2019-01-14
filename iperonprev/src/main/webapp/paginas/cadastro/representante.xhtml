@@ -1,0 +1,108 @@
+<ui:composition template="../templates/master.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+	<ui:define name="content">
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel header="Representante Legal" styleClass="col-lg-10">
+			<h:form id="formRepresentante">
+				<p:messages showDetail="true" closable="true"></p:messages>
+				<br />
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						
+						<div class="col-sm-5" style="color: #000" >
+							<h:inputHidden value="#{representanteLegalBean.representante.NUMG_idDoObjeto}" id="idRepresentante"></h:inputHidden>
+							<p:commandLink value="Representante Legal:"
+								action="#{representanteLegalBean.exibeListaDeObjetosRepresentante}"
+								process="@this nomeRepresentante" update="@none">
+								<p:ajax event="dialogReturn"
+									listener="#{representanteLegalBean.selecionaObjetoDialogoRepresentante}"
+									process="@this" update="@this nomeRepresentante idRepresentante" />
+								<p:resetInput target="formRepresentante" />
+							</p:commandLink>
+							<i class="fa fa-search"></i>
+							<p:inputText styleClass="form-control" id="nomeRepresentante"
+								value="#{representanteLegalBean.representante.DESC_nome}"
+								valueChangeListener="#{representanteLegalBean.pegaListaRepresentante}">
+							</p:inputText>
+						</div>
+						<div class="col-sm-5" style="color: #000">
+							<h:inputHidden value="#{representanteLegalBean.pessoa.NUMG_idDoObjeto}" id="idPessoa"></h:inputHidden>
+							<p:commandLink value="Pessoa:"
+								action="#{representanteLegalBean.exibeListaDeObjetosPessoa}"
+								process="@this nomePessoa" update="@none">
+								<p:ajax event="dialogReturn"
+									listener="#{representanteLegalBean.selecionaObjetoDialogoPessoa}"
+									process="@this" update="@this nomePessoa idPessoa" />
+								<p:resetInput target="formRepresentante" />
+							</p:commandLink>
+							<i class="fa fa-search"></i>
+							<p:inputText styleClass="form-control" id="nomePessoa"
+								value="#{representanteLegalBean.pessoa.DESC_nome }"
+								valueChangeListener="#{representanteLegalBean.pegaListaPessoa}">
+							</p:inputText>
+						</div>
+						<div class="col-sm-2" style="color: #000">
+
+							<p:outputLabel value="Tipo Repres.:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true"
+								converter="conversorDeEntidades" filterMatchMode="startsWith"
+								style="width:100%" styleClass="selectalt"
+								value="#{representanteLegalBean.tipoRepresentante}">
+								<f:selectItem itemLabel="--Selecione--" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems value="#{representanteLegalBean.listaTipoRepresentante}"
+									var="tipoRepresentante" itemValue="#{tipoRepresentante}"
+									itemLabel="#{tipoRepresentante.DESC_nome}" />
+							</p:selectOneMenu>
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<br />
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-2">
+							<p:commandButton value="Salvar" icon="fa fa-save">
+								<p:ajax listener="#{representanteLegalBean.salvarObjeto}"
+									process="@form" update="@form"></p:ajax>
+							</p:commandButton>
+						</div>
+						<div class="col-sm-2">
+							<p:commandButton value="Novo" icon="fa fa-file-o">
+								<p:ajax listener="#{representanteLegalBean.novoObjeto}"
+									process="@this" update="@form"></p:ajax>
+							</p:commandButton>
+						</div>
+						<div class="col-sm-2">
+							<p:commandButton icon="fa fa-search" value="Pesquisar"
+								action="#{representanteLegalBean.exibeListaDeObjetos}"
+								process="@this" update="@none">
+								<p:ajax event="dialogReturn"
+									listener="#{representanteLegalBean.selecionaObjetoDialogo}"
+									process="@this" update="@form"></p:ajax>
+								<p:resetInput target="formRepresentante" />
+							</p:commandButton>
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>

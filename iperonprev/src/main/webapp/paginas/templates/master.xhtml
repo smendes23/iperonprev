@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:sec="http://www.springframework.org/security/tags">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>::IPERONPREV::</title>
+
+	<h:outputStylesheet name="/css/bootstrap.css"></h:outputStylesheet>
+	<h:outputStylesheet name="/css/bootstrap-theme.css"></h:outputStylesheet>
+
+	<h:outputScript name="/js/idleTime.min.js"></h:outputScript>
+	<h:outputScript name="/js/bootstrap.js"></h:outputScript>
+	<script>
+		$(document).ready(function() {
+			$.idleTimer(800000);
+			$(document).bind("idle.idleTimer", function() {
+				var url = "#{request.contextPath}/logout"
+				$(window.document.location).attr('href', url);
+			});
+		});
+	</script>
+	<style>
+	.ui-dialog .ui-dialog-titlebar {
+display: none !important;
+}
+html {
+	height: 100%
+}
+
+body {
+	background: #134E5E; /* fallback for old browsers */
+	background: -webkit-linear-gradient(to left, #134E5E, #71B280);
+	/* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to left, #134E5E, #71B280);
+	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.ui-selectcheckboxmenu .ui-selectcheckboxmenu-trigger {
+	border-right: none;
+	border-top: none;
+	border-bottom: none;
+	cursor: pointer;
+	width: 24px;
+	height: 100%;
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 0 3px;
+}
+
+.ui-autocomplete-multiple-container {
+	clear: left;
+	cursor: text;
+	list-style-type: none;
+	margin: 0px;
+	min-height: 1px;
+	overflow: hidden;
+	width: 100%;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger {
+	border-right: medium none;
+	border-top: medium none;
+	border-bottom: medium none;
+	cursor: pointer;
+	width: 26px;
+	height: 100%;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	padding: 0px 3px;
+}
+
+.ui-selectonemenu {
+	display: inline-block;
+	position: relative;
+	width: auto;
+	zoom: 1;
+	cursor: pointer;
+	padding-right: 0;
+}
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button
+	{
+	font-family: Arial, sans-serif;
+	font-size: 16px;
+}
+
+.ui-helper-reset {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	line-height: 16px;
+	text-decoration: none;
+	font-size: 100%;
+	list-style: none;
+}
+
+.ui-widget .ui-widget {
+	font-size: 16px;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter-container {
+	position: relative;
+	margin: 0;
+	padding: 0.4em;
+	display: inline-block;
+	width: 100%;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter {
+	width: 97%;
+	padding-right: 15px;
+}
+
+.ui-icon-bullet {
+	background-position: -81px -145px;
+}
+
+.ui-selectoneradio label {
+	display: block;
+	margin-top: 4px;
+	font-size: 16px;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
+	margin-top: 6px;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter-container .ui-icon {
+	position: absolute;
+	top: 12px;
+	right: 17px;
+}
+
+nav {
+	display: block;
+}
+
+.ui-tabs.ui-tabs-top>.ui-tabs-nav {
+	padding: 0.2em 0.2em 0px;
+	border-bottom: 1px solid;
+	border-color: #459E00;
+}
+
+.fieldalt {
+	font-family: segoe ui, Arial, sans-serif;
+	color: rgb(49, 46, 37);
+	margin-bottom: -17px;
+	margin-top: 10px;
+}
+
+.ui-menubar {
+	width: auto;
+	height: 49px;
+}
+
+.ui-widget-content {
+	border: 1px solid #459E00 /*{borderColorContent}*/;
+	background: #f5f3e5  50% top repeat-x;
+	/*background: #ffffff*/
+	/*{bgColorContent} url("/iperonprev/javax.faces.resource/primefaces-sam/images/ui-bg_flat_75_ffffff_40x100.png.xhtml")*/
+	/*{bgImgUrlContent}*/ 50% /*{bgContentXPos}*/ 50% /*{bgContentYPos}*/
+	repeat-x /*{bgContentRepeat}*/;
+	color: #222222 /*{fcContent}*/;
+}
+
+.ui-widget-overlay {
+	background: #2b2922
+		url("/iperonprev/javax.faces.resource/images/ui-bg_inset-soft_15_2b2922_1x100.png.xhtml?ln=primefaces-south-street")
+		50% bottom repeat-x;
+	opacity: .4;
+	filter: Alpha(Opacity = 90);
+}
+
+/* .footer {
+	clear: both;
+	position:absolute;
+    bottom: -600px;
+    width: 100%;
+    height: 60px;
+} */
+.footer {
+	 bottom: 0;
+    clear: both;
+    height: 56px;
+    position: fixed;
+    width: 100%;
+    position: none !important;
+}
+
+
+/* .ui-inputfield {
+    margin: 0;
+    outline: medium none;
+    padding: 4px;
+    font-weight: normal;
+    height: 26px;
+} */
+.ui-inputfield {
+	margin: 0;
+	outline: medium none;
+	padding: 2px;
+	font-weight: normal;
+}
+
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+    color: #459E00;
+    text-decoration: none;
+}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+    font-weight: bold;
+    color: #459E00;
+}
+.ui-panel{
+margin-bottom: 55px;
+background: #f5f3e5 url(/iperonprev/javax.faces.resource/images/ui-bg_highlight-hard_100_f5f3e5_1x100.png.xhtml?ln=primefaces-south-street) 50% top repeat-x;
+} 
+.ui-tabs{
+margin-bottom: 55px;
+background: #f5f3e5 url(/iperonprev/javax.faces.resource/images/ui-bg_highlight-hard_100_f5f3e5_1x100.png.xhtml?ln=primefaces-south-street) 50% top repeat-x;
+} 
+.btn-input{
+border-radius: 0px 5px 5px 0px;
+height:28px
+}
+</style>
+	<ui:insert name="header">
+
+	</ui:insert>
+</h:head>
+
+<h:body>
+	<div class="nav navbar-default">
+		<div class="container-fluid" style="background: #f5f3e5 50% top repeat-x;">
+			<div class="navbar-header">
+				<h2
+					style="font-family: segoe ui, Arial, sans-serif; font-weight: 100;">
+					<i><strong style="color: #459E00;">IPERON</strong>prev</i>
+				</h2>
+			</div>
+			<div
+				style="color: #336633; margin-top: 10px; font-size: 13px; text-align: right;">
+				<strong>#{masterBean.usuarioLogado}</strong> . Seu perfil é <strong>#{masterBean.users.perfil.nomePerfil}</strong>
+			</div>
+			<p></p>
+			<div class="pull-right"
+				style="color: #336633; font-size: 12px; margin-top: 3px; padding-right: 5px;">
+				<a href="/iperonprev/logout">Sair do Sistema</a>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="container-fluid">
+		<header class="row"> <h:form>
+
+			<p:menubar style="padding-left:220px;">
+				<sec:authorize access="hasRole('CADASTROA')">
+					<p:submenu label="Cadastro" icon="fa fa-edit">
+						<p:submenu label="Atos">
+							<p:menuitem value="Atos Legais"
+								url="/paginas/cadastro/atos.xhtml" ajax="true" async="true">
+							</p:menuitem>
+							<p:menuitem value="Ato Concessório Aposentadoria"
+								url="/paginas/cadastro/atosConcessorios.xhtml" ajax="true" async="true">
+							</p:menuitem>
+							<p:menuitem value="Ato Concessório Pensão"
+								url="/paginas/cadastro/atoConcessorioPensao.xhtml" ajax="true" async="true">
+							</p:menuitem>
+						</p:submenu>
+						<p:submenu label="Segurado">
+							<p:menuitem value="Dados Pessoais"
+									url="/paginas/cadastro/pessoas.xhtml"></p:menuitem>
+							<p:menuitem value="Dados Funcionais"
+								url="/paginas/cadastro/funcional.xhtml"></p:menuitem>
+							<p:menuitem value="Dados Bancários"
+								url="/paginas/cadastro/dadosBancarios.xhtml"></p:menuitem>
+						</p:submenu>
+						<p:submenu label="Regime Próprio">
+							<p:menuitem value="Carreiras"
+								url="/paginas/cadastro/carreiras.xhtml" ajax="true" async="true"></p:menuitem>
+							<p:menuitem value="Cargos" url="/paginas/cadastro/cargos.xhtml"
+								ajax="true" async="true"></p:menuitem>
+							<p:menuitem value="Ente Federado"
+								url="/paginas/cadastro/entefederado.xhtml"></p:menuitem>
+								<p:menuitem value="Enquadramentos"
+								url="/paginas/cadastro/enquadramento.xhtml"></p:menuitem>
+							<p:menuitem value="Poder/Órgãos" url="/paginas/cadastro/orgaos.xhtml"></p:menuitem>
+							<p:menuitem value="Gestor do Poder"
+								url="/paginas/cadastro/poder.xhtml"></p:menuitem>
+						</p:submenu>
+						
+						<p:submenu label="Financeiro" id="atos">
+							<p:menuitem value="Histórico Financeiro" url="/paginas/cadastro/financeiro.xhtml"
+								ajax="true" async="true">
+							</p:menuitem>
+							<p:menuitem value="Limites Remuneratórios"
+								url="/paginas/cadastro/atos.xhtml" ajax="true" async="true">
+							</p:menuitem>
+							<p:menuitem value="Índices"
+								url="/paginas/cadastro/portariaIndices.xhtml"></p:menuitem>
+							<p:menuitem value="Rúbricas"  url="/paginas/cadastro/rubricas.xhtml"></p:menuitem>
+							<p:menuitem value="Salário Minimo"  url="/paginas/cadastro/salario.xhtml"></p:menuitem>
+						</p:submenu>
+						
+					</p:submenu>
+				</sec:authorize>
+
+				<sec:authorize access="hasRole('BENEFICIOA')">
+					<p:submenu label="Benefício" icon="fa fa-group">
+						<p:menuitem value="CheckList Beneficio"
+							url="/paginas/beneficio/checklist.xhtml"></p:menuitem>
+						<p:menuitem value="Simulação Aposentadoria"
+							url="/paginas/beneficio/simulador.xhtml"></p:menuitem>
+						<p:submenu label="Sisobi">
+							<p:menuitem value="Enviar Arquivo" url="/paginas/relatorios/sisobiArquivo.xhtml"></p:menuitem>
+							<p:menuitem value="Consulta" url="/paginas/relatorios/sisobiConsulta.xhtml"></p:menuitem>
+						</p:submenu>
+					</p:submenu>
+				</sec:authorize>
+				
+				<p:submenu label="Relatório" icon="fa fa-print">
+					<p:submenu label="Aposentadoria">
+							<p:menuitem value="Invalidez" url="/paginas/relatorios/aposentadoriaInvalidez.xhtml"></p:menuitem>
+					</p:submenu>
+					<p:submenu label="Recadastramento">
+						<p:menuitem value="Recadastrados"
+							url="/paginas/censo/relatorioRecadastrados.xhtml"></p:menuitem>
+						<p:menuitem value="Não Recadastrados"
+							url="/paginas/censo/relatorioNaoRecadastrados.xhtml"></p:menuitem>
+					</p:submenu>
+					<p:menuitem value="Sisobi"
+							url="/paginas/relatorios/sisobiRelatorio.xhtml"></p:menuitem>
+				</p:submenu>
+				
+				<sec:authorize access="hasRole('ADMINISTRACAOA')">
+					<p:submenu label="Administração" icon="fa fa-gear">
+						<p:menuitem value="Cadastro de Usuários"
+							url="/paginas/gerenciador/cadastroUsuario.xhtml"></p:menuitem>
+						<p:menuitem value="Cadastro de Perfis"
+							url="/paginas/gerenciador/perfisAcesso.xhtml"></p:menuitem>
+					</p:submenu>
+
+				</sec:authorize>
+
+			</p:menubar>
+		</h:form>
+</header>
+
+	</div>
+	<div class="col-sm-12"></div>
+	<div class="col-sm-12">
+		<br />
+	</div>
+	<div class="col-sm-12">
+	
+	<!-- Modal -->
+  <div class="modal fade" id="msgModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" style="background: #5c9ccc url('/iperonprev/javax.faces.resource/images/ui-bg_gloss-wave_55_5c9ccc_500x100.png.xhtml?ln=primefaces-redmond') 50% 50% repeat-x;color:white;">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" id="tituloModal"></h4>
+        </div>
+        <div class="modal-body" style="background-color:#f5f3e5;">
+          <p id="messageModal" style="font-weight: bold;"></p>
+        </div>
+        <div class="modal-footer" style="background-color:#f5f3e5;">
+          <button type="button" class="btn " data-dismiss="modal" style="background: #dfeffc url('/iperonprev/javax.faces.resource/images/ui-bg_glass_85_dfeffc_1x400.png.xhtml?ln=primefaces-redmond') 50% 50% repeat-x;color: #2e6e9e;font-weight: bold;border: 1px solid #c5dbec;">Fechar</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+	
+	
+		<br />
+	</div>
+	<div class="container-fluid">
+		
+		<div class="row">
+			<div class="col-sm-1"></div>
+			<ui:insert name="content">
+
+			</ui:insert>
+			<div class="col-sm-1"></div>
+
+		</div>
+
+	</div>
+<!-- <footer class="footer" style="background-color:#f8f8f8">
+	<div class="container">
+		<p>Desenvolvido pela Coordenadoria de Sistemas do Iperon.</p>
+	</div>
+</footer> -->
+
+<script>
+	var canalAviso = new WebSocket("ws://localhost:8080#{request.contextPath}/canal/avisos");
+
+	canalAviso.onmessage = function(retorno){
+		
+		var aviso = JSON.parse(retorno.data);
+
+		document.querySelector("#tituloModal").innerHTML = aviso.titulo;
+		document.querySelector("#messageModal").innerHTML = aviso.mensagem;
+		$("#msgModal").modal('show');
+	};
+</script>
+</h:body>
+</html>

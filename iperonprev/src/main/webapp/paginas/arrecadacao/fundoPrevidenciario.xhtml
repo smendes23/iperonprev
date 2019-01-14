@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+<style>
+	.ui-shadow {
+		box-shadow: 0px 5px 10px transparent;
+	}
+</style>
+	<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+			<p:panel styleClass="col-lg-10" header="Fundo Previdenciário">
+			<h:form id="formCodigos">
+			<p:messages showDetail="true" closable="true"></p:messages>
+				<div class="col-sm-2">
+					<p:outputLabel value="Código:"></p:outputLabel>
+					<p:inputText styleClass="form-control" value="#{fundoPrevidenciarioBean.fundoPrevidenciario.NUMG_codigo}" required="true" requiredMessage="Campo código obrigatório"></p:inputText>
+				</div>
+				<div class="col-sm-4">
+					<p:outputLabel value="Descrição:"></p:outputLabel>
+					<p:inputText styleClass="form-control" value="#{fundoPrevidenciarioBean.fundoPrevidenciario.DESC_descricao}" required="true" requiredMessage="Campo descrição obrigatório"></p:inputText>
+				</div>
+				<div class="col-sm-2">
+					<p:outputLabel value="Banco:"></p:outputLabel>
+					<p:inputText styleClass="form-control" value="#{fundoPrevidenciarioBean.fundoPrevidenciario.banco}" required="true" requiredMessage="Campo banco obrigatório"></p:inputText>
+				</div>
+				<div class="col-sm-2">
+					<p:outputLabel value="Agência:"></p:outputLabel>
+					<p:inputText styleClass="form-control" value="#{fundoPrevidenciarioBean.fundoPrevidenciario.agencia}" required="true" requiredMessage="Campo agência obrigatório"></p:inputText>
+				</div>
+				<div class="col-sm-2">
+					<p:outputLabel value="Conta:"></p:outputLabel>
+					<p:inputText styleClass="form-control" value="#{fundoPrevidenciarioBean.fundoPrevidenciario.conta}" required="true" requiredMessage="Campo conta obrigatório"></p:inputText>
+				</div>
+				
+				<div class="col-sm-12"><p></p></div>
+				
+				<div class="col-sm-2">
+					<p:commandButton value="Salvar" icon="fa fa-save">
+						<p:ajax listener="#{fundoPrevidenciarioBean.salvarObjeto}" process="@form" update="@form"></p:ajax>
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Novo" icon="fa fa-file-o">
+						<p:ajax listener="#{fundoPrevidenciarioBean.novoObjeto}" process="@this" update="@form"></p:ajax>
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton icon="fa fa-list" value="Listar" action="#{fundoPrevidenciarioBean.exibeListaDeObjetos}" process="@this" update="@none">
+						<p:ajax event="dialogReturn" listener="#{fundoPrevidenciarioBean.selecionaObjetoDialogo}" process="@this" update="@form"></p:ajax>
+						<p:resetInput target="formCodigos" />
+					</p:commandButton>
+				</div>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

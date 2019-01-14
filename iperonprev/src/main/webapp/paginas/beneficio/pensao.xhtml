@@ -1,0 +1,322 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel header="Pensão" styleClass="col-lg-10">
+			<h:form id="formPensao">
+				<p:messages showDetail="true" closable="true" id="msgPensao"></p:messages>
+				
+					<br />
+				<div class="col-sm-12">
+					<h3 class="fieldalt">Dados do Beneficiário</h3>
+					<hr />
+				</div>
+				<h:inputHidden value="#{pensaoBean.pensao.NUMG_idDoObjeto}" />
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-sm-3">
+							<p:outputLabel value="CPF:"></p:outputLabel>
+							<p:inputText styleClass="form-control" value="#{pensaoBean.funcionais.NUMR_idDoObjetoPessoas.NUMR_cpf}" disabled="true"></p:inputText>
+						</div>
+						<div class="col-sm-6">
+							<p:outputLabel value="Beneficiário:"></p:outputLabel>
+							<p:inputText styleClass="form-control" value="#{pensaoBean.funcionais.NUMR_idDoObjetoPessoas.DESC_nome}" disabled="true"></p:inputText>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Matrícula:"></p:outputLabel>
+							<p:inputText styleClass="form-control" value="#{pensaoBean.funcionais.DESC_matricula}" disabled="true"></p:inputText>
+						</div>
+						
+					 </div>
+					<h:inputHidden value="#{pensaoBean.pensao.NUMG_idDoObjeto}"></h:inputHidden>
+					 <div class="ui-grid-row">
+						<div class="col-sm-7 ">
+							<p:outputLabel value="Órgão:"></p:outputLabel>
+							<p:inputText styleClass="form-control" value="#{pensaoBean.funcionais.NUMR_idDoObjetoCargo.NUMR_idDoObjetoOrgaos.DESC_nome}" disabled="true"></p:inputText>
+						</div>
+						
+						<div class="col-sm-5">
+							<p:outputLabel value="Ato legal que originou benefício:"></p:outputLabel>
+							<p:selectOneMenu style="width:100%" effect="fade" value="#{pensaoBean.atosLegais}"
+								filterMatchMode="startsWith" converter="conversorDeEntidades" >
+								<f:selectItem itemLabel="--Selecione--" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems value="#{pensaoBean.listaAtosLegais}" var="atos" itemLabel="#{atos.DESC_tituloEmenta}" itemValue="#{atos}"></f:selectItems>
+							</p:selectOneMenu>
+						</div>
+					 </div>
+					 <div class="ui-grid-row">
+						<!-- Os tipos de dependências contemplam as regras quanto a periodicidade do beneficio -->
+						<div class="col-sm-4 ">
+							<p:outputLabel value="N° Processo:"></p:outputLabel>
+							<p:inputText styleClass="form-control" id="processo" required="true" requiredMessage="Número do processo é obrigatório"
+								value="#{pensaoBean.pensao.NUMR_processo}" />
+						</div>
+						<div class="col-sm-4">
+							<p:outputLabel value="Tipo de Pensão:"></p:outputLabel>
+							<p:selectOneRadio value="#{pensaoBean.pensao.ENUM_tipoPensao}" id="pensaoTipo" required="true" requiredMessage="Tipo de pensão obrigatória">
+								<f:selectItems value="#{pensaoBean.tipoPensao}" var="tipoPensao" itemValue="#{tipoPensao}" itemLabel="#{tipoPensao.nome}"></f:selectItems>
+							</p:selectOneRadio>
+						</div>
+						<div class="col-sm-2">
+							<p:outputLabel value="Quota Parte%:"></p:outputLabel>
+							<p:inputText styleClass="form-control" value="#{pensaoBean.pensao.NUMR_cotaParte}" id="cota" converter="moedaConverter" ></p:inputText>
+						</div>
+						<div class="col-sm-2">
+							<p:outputLabel value="Inválido"></p:outputLabel>
+							<p:selectOneRadio value="#{pensaoBean.pensao.ENUM_invalido}" >
+								<f:selectItems value="#{pensaoBean.decisaoInvalido}"
+									var="invalido" itemLabel="#{invalido.nome}"
+									itemValue="#{invalido}" />
+									<p:ajax update="@form"/>
+							</p:selectOneRadio>
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-11">
+							<p:outputLabel value="Cid:"></p:outputLabel>
+							<p:autoComplete disabled="#{pensaoBean.pensao.ENUM_invalido eq 'NAO'}"
+								value="#{pensaoBean.cid}" id="cid"
+								completeMethod="#{pensaoBean.listaDeCids}"
+								style="width:100%;" inputStyleClass="form-control" var="cids" 
+								itemLabel="#{cids.NUMR_numCid}"
+								itemValue="#{cids}" converter="conversorDeEntidades"
+								forceSelection="true">
+							</p:autoComplete>
+						</div>
+						<div class="col-sm-1">
+							<p:commandButton icon="ui-icon-plus" style="top:23px"
+								process="cid @this " disabled="#{pensaoBean.pensao.ENUM_invalido eq 'NAO'}"
+								update="cid tabelaCids"
+								action="#{pensaoBean.reinitCid}">
+								<p:collector value="#{pensaoBean.cid}"
+									addTo="#{pensaoBean.listaCid}" unique="true" />
+								<f:param name="noValidate" value="1"></f:param>
+							</p:commandButton>
+						</div>
+
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p></p>
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p:outputPanel id="tabelaCids">
+								<p:dataTable value="#{pensaoBean.listaCid}"
+									var="tbCids" id="idTbCid"
+									emptyMessage="Registro não encontrado.">
+									<p:column headerText="Descrição">
+										<h:outputText value="#{tbCids.NUMR_numCid} - #{tbCids.DESC_nome}" />
+									</p:column>
+									
+									<p:column headerText="Remover"
+										style="width:130px;text-align: center">
+										<p:commandButton icon="ui-icon-trash"
+											update="idTbCid"
+											process="idTbCid">
+											<p:collector value="#{tbCids}"
+												removeFrom="#{pensaoBean.listaCid}"
+												unique="true" />
+											<f:param name="noValidate" value="1"></f:param>
+										</p:commandButton>
+									</p:column>
+
+								</p:dataTable>
+							</p:outputPanel>
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-3 ">
+							<p:outputLabel value="Início Benefício:"></p:outputLabel>
+							
+							<p:inputMask mask="99/99/9999" styleClass=" form-control" required="true" requiredMessage="Data ínicio do benefício obrigatória"
+								converter="dateConverter" value="#{pensaoBean.pensao.DATA_inicioDoBeneficio}">
+							</p:inputMask>
+						</div>
+						<div class="col-sm-3 ">
+							<p:outputLabel value="Término Benefício:"></p:outputLabel>
+							<p:inputMask mask="99/99/9999" id="atualizacao" styleClass=" form-control "
+								converter="dateConverter" value="#{pensaoBean.pensao.DATA_fimDoBeneficio}">
+								
+							</p:inputMask>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Estudante:"></p:outputLabel>
+							<p:selectOneRadio value="#{pensaoBean.pensao.ENUM_estudante}">
+								<f:selectItems value="#{pensaoBean.decisaoEstudante}"
+									var="estudante" itemValue="#{estudante}"
+									itemLabel="#{estudante.nome}">
+								</f:selectItems>
+							</p:selectOneRadio>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Emancipado:"></p:outputLabel>
+							<p:selectOneRadio value="#{pensaoBean.pensao.ENUM_emancipado}">
+								<f:selectItems value="#{pensaoBean.decisaoEmancipado}"
+									var="emancipado" itemLabel="#{emancipado.nome}"
+									itemValue="#{emancipado}" />
+							</p:selectOneRadio>
+						</div>
+						
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12"></div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<!-- Aqui vai o um textarea para observação -->
+						<div class="col-sm-12">
+							<p:outputLabel>Observação:</p:outputLabel>
+							<p:inputTextarea style="width:100%;"
+								value="#{pensaoBean.pensao.DESC_observacao}" id="observacao"></p:inputTextarea>
+						</div>
+					</div>
+					<div class="ui-grid-row">
+						<div class="col-sm-12"><p></p></div>
+					</div>
+					<div class="ui-grid-row">
+							<p:dialog widgetVar="reqDialog" width="860" height="460" resizable="false" modal="true" id="modalRequisito">
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<div class="pull-right">
+										<p:commandButton icon="fa fa-close" action="#{pensaoBean.fechaRequisito()}" process="@this" update="@none"></p:commandButton>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<h3 class="fieldalt" style="margin-top: 3px;">Documentos requeridos</h3>
+								<hr />
+							</div>
+								<p:dataTable styleClass="col-lg-12 col-sm-12" value="#{pensaoBean.listaDeRequisitos}" var="regras" id="tbRequisitos"
+									paginator="true" paginatorAlwaysVisible="false" rows="9" paginatorPosition="bottom" rowsPerPageTemplate="9,18"
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									emptyMessage="Registro não encontrado.">
+									
+							        <p:column headerText="Requisito">
+							            <h:outputText value="#{regras.DESC_requisito}"/>
+							        </p:column>
+							        <p:column headerText="Arquivo" style="width:100px;text-align: center">
+							            <h:outputLink target="_blank"   value="#{request.contextPath}/file/#{pensaoBean.devolveDocumento(regras.NUMG_idDoObjeto)}" disabled="#{regras.FLAG_arquivo eq false}">
+							            	<p:graphicImage name="/image/#{regras.FLAG_arquivo eq false ? 'folderdisabled' :'openfile'}.png" style="margin-left: 15;" ></p:graphicImage>
+							            </h:outputLink>
+							        </p:column>
+							         <p:column headerText="Status" style="width:100px;text-align: center;">
+							            <h:outputText value="#{regras.FLAG_arquivo eq false ? 'Ausente' : 'Presente'}" style="#{regras.FLAG_arquivo eq false ? 'color:red;' : 'color:green;'}"/>
+							        </p:column>
+							   </p:dataTable>
+							</p:dialog>
+						</div>
+						
+						<div class="ui-grid-row">
+							<p:dialog widgetVar="repDialog" width="860" height="260" resizable="false" modal="true" id="modalRepresentante">
+							<p:messages showDetail="true" closable="true" id="msgRepresentante"></p:messages>
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<div class="pull-right">
+										<p:commandButton icon="fa fa-close" onclick="PF('repDialog').hide();" update="@none"></p:commandButton>
+									</div>
+								</div>
+							</div>
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<h3 class="fieldalt" style="margin-top: 3px;">Representante Legal</h3>
+									<hr />
+								</div>
+							</div>
+							<div class="ui-grid-row">
+							<h:inputHidden value="#{pensaoBean.representanteLegal.NUMG_idDoObjeto}" />
+							<h:inputHidden value="#{pensaoBean.pessoaRepresentante.NUMG_idDoObjeto}" />
+							
+								<div class="col-md-3">
+									<p:outputLabel value="CPF"></p:outputLabel>
+											<p:inputMask mask="999.999.999-99" styleClass="form-control"
+												converter="cpfConverter"
+												value="#{pensaoBean.cpfServidor}" id="cpfRepresentante">
+											<p:ajax event="blur"  process="@this" listener="#{checkListBean.buscaServidor}"/>	
+											</p:inputMask>
+									
+								</div>
+								<div class="col-sm-6">
+									<p:outputLabel value="Beneficiário:" ></p:outputLabel>
+									<p:inputText id="interessado"  styleClass="form-control " disabled="true" value="#{pensaoBean.pessoaRepresentante.DESC_nome}"/>
+								</div>
+								<div class="col-sm-3">
+										<p:outputLabel value="Data Nascimento:"/>
+										<p:inputMask mask="99/99/9999" disabled="true" value="#{pensaoBean.pessoaRepresentante.DATA_nascimento}"
+										styleClass="form-control" converter="dateConverter"></p:inputMask>
+										
+								</div>
+							</div>
+								<div class="col-sm-12" style="color: #000">
+
+									<p:outputLabel value="Tipo Representante:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true"
+										converter="conversorDeEntidades" filterMatchMode="startsWith"
+										style="width:100%" styleClass="selectalt"
+										value="#{pensaoBean.tipoRepresentante}">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{pensaoBean.listaTipoRepresentante}"
+											var="tipoRepresentante" itemValue="#{tipoRepresentante}"
+											itemLabel="#{tipoRepresentante.DESC_nome}" />
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-12">
+									<p></p>
+								</div>
+								<div class="col-sm-2">
+									<p:commandButton value="Salvar" icon="fa fa-save" action="#{pensaoBean.salvarRepresentanteLegal()}" process="modalRepresentante" update="msgRepresentante">
+								</p:commandButton>
+						</div>
+							</p:dialog>
+						</div>
+						
+					<div class="ui-grid-row">
+						<div class="col-sm-2">
+							<p:commandButton value="Salvar" icon="fa fa-save" action="#{pensaoBean.salvarObjeto()}" process="@form" update="@form">
+							</p:commandButton>
+						</div>
+						<div class="col-sm-2">
+							<p:commandButton value="Novo" icon="fa fa-plus">
+								<p:ajax listener="#{pensaoBean.novoObjeto}" update="@form"
+									process="@this"></p:ajax>
+							</p:commandButton>
+						</div>
+						<div class="col-sm-2">
+							<p:commandButton icon="fa fa-check" value="Requisitos" onclick="PF('reqDialog').show();" ></p:commandButton>
+						</div>
+						<div class="col-sm-3">
+							<p:commandButton icon="fa fa-user" value="Representante Legal" onclick="PF('repDialog').show();" ></p:commandButton>
+						</div>
+					</div>
+					
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12"><p></p></div>
+					</div>
+					
+				</div>
+			</h:form>
+		</p:panel>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><p></p></div>
+	</ui:define>
+</ui:composition>
+</html>

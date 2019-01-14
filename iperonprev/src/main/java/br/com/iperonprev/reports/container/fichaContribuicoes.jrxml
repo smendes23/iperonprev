@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichaContribuicoes" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="18643ef5-631e-4ea2-9a58-3fa8f04d6968">
+	<property name="ireport.zoom" value="0.9313819845887333"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="org.joda.time.DateTime"/>
+	<import value="org.joda.time.Period"/>
+	<import value="org.joda.time.PeriodType"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="matricula" class="java.lang.String"/>
+	<field name="cpf" class="java.lang.String"/>
+	<field name="orgao" class="java.lang.String"/>
+	<field name="situacaoPrevidenciaria" class="java.lang.String"/>
+	<field name="planoPrevidenciario" class="java.lang.String"/>
+	<field name="competencia" class="java.lang.String"/>
+	<field name="remuneracaoBeneficio" class="java.lang.String"/>
+	<field name="contribuicaoSegurado" class="java.lang.String"/>
+	<field name="contribuicaoPatronal" class="java.lang.String"/>
+	<field name="total" class="java.lang.String"/>
+	<field name="situacaoFuncional" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="242" splitType="Stretch">
+			<image>
+				<reportElement x="25" y="6" width="61" height="67" uuid="de391b62-cf11-4592-9117-2c85e6637829"/>
+				<imageExpression><![CDATA["C:\\tomcat8\\webapps\\ROOT\\resources\\image\\rondonia.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="495" y="15" width="78" height="54" uuid="83a3a912-c0da-40cf-8939-7d0908aa626f"/>
+				<imageExpression><![CDATA["C:\\tomcat8\\webapps\\ROOT\\resources\\image\\iperon.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="22" y="23" width="532" height="20" uuid="195d2cf8-6662-4d50-9f9a-cb1903274018"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Governo do Estado de Rondônia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="72" y="43" width="441" height="20" uuid="7d2ce3f1-c509-4501-bc5b-f49b6d24345a"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[INSTITUTO DE PREVIDÊNCIA DOS SERVIDORES PÚBLICOS DO ESTADO DE RONDÔNIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="59" width="534" height="20" uuid="54b97b12-9618-4185-a247-aaf784a53c0f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IPERON]]></text>
+			</staticText>
+			<line>
+				<reportElement x="22" y="84" width="533" height="1" forecolor="#006600" uuid="d566601a-dc5a-4164-9b17-410756a7d1bb"/>
+				<graphicElement>
+					<pen lineWidth="2.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="22" y="90" width="533" height="1" forecolor="#006600" uuid="f9eb4c26-c412-43cc-8010-d77a22bb3949"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="22" y="214" width="533" height="14" backcolor="#CCCCCC" uuid="7fe4369a-31c9-4df2-ba4d-ff15450db41a"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PLANO PREVIDENCIARIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="22" y="162" width="533" height="14" backcolor="#CCCCCC" uuid="aee3017e-602d-4e33-83be-fb537dab6f7e"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ÓRGÃO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="91" width="531" height="20" uuid="b209732a-6386-4afa-87b0-c54bd7cc2703"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Histórico de Contribuições]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="22" y="110" width="533" height="14" backcolor="#CCCCCC" uuid="68167405-2bdf-4034-b5fb-6e79629ede69"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="22" y="188" width="266" height="14" backcolor="#CCCCCC" uuid="b2414c62-efd8-4e97-8610-597135bf605e"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SITUAÇÃO PREVIDENCIÁRIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="-427" y="-168" width="555" height="14" backcolor="#CCCCCC" uuid="eff33165-275a-4709-8c83-2cd0f040fe2c"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MATRICULA						CPF				RG]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="22" y="136" width="310" height="14" backcolor="#CCCCCC" uuid="62e3692d-ba18-479c-8a04-1734254956fd"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CPF]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="23" y="123" width="531" height="14" uuid="3a817d14-f86a-4cc9-ad98-44577cc5c88b"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="313" y="136" width="241" height="14" backcolor="#CCCCCC" uuid="4fc02efb-b2ce-41f7-80b9-74d2c1d908b2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MATRICULA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="288" y="188" width="267" height="14" backcolor="#CCCCCC" uuid="4bd9649c-cdea-480e-8ca9-371335a01ccf"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SITUAÇÃO FUNCIONAL]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="22" y="149" width="240" height="14" uuid="7c087495-4ae4-4f8f-bb89-66b5a088be36"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="402" y="150" width="151" height="14" uuid="5d24cf01-6a3f-484f-825e-3ccf7d828775"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{matricula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="23" y="175" width="530" height="14" uuid="e6c31bb0-bd6c-455e-8e0d-f5d1ef1a33f9"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{orgao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="22" y="201" width="256" height="14" uuid="991301a9-4af6-48e8-a223-20c2893102e0"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{situacaoPrevidenciaria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="22" y="228" width="491" height="14" uuid="f52a504e-b80b-4bac-82e6-647771fd32a2"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{planoPrevidenciario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="288" y="201" width="265" height="14" uuid="bc206824-3bca-4fc6-9798-692b3a15a8ab"/>
+				<textFieldExpression><![CDATA[$F{situacaoFuncional}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="22" y="0" width="92" height="26" forecolor="#FFFFFF" backcolor="#006600" uuid="dc00ff23-76c0-4748-b338-dfddce4a90cf"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPETÊNCIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="114" y="0" width="137" height="26" forecolor="#FFFFFF" backcolor="#006600" uuid="5cfe2b5b-0528-42b8-b4be-2af6ab13c587"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REMUNERAÇAO FINS DE BENEFICIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="251" y="0" width="106" height="26" forecolor="#FFFFFF" backcolor="#006600" uuid="d359a4bd-9640-42b4-ba98-5fede8c15c1b"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONTRIBUIÇAO SEGURADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="357" y="0" width="106" height="26" forecolor="#FFFFFF" backcolor="#006600" uuid="9c0c0496-3217-437e-a7b8-e338ed26aeb2"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONTRIBUIÇAO PATRONAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="463" y="0" width="93" height="26" forecolor="#FFFFFF" backcolor="#006600" uuid="7847499e-ce90-4e58-a205-5f2444d85219"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<textField>
+				<reportElement x="23" y="-1" width="91" height="18" uuid="ffa50f44-d96e-4f24-a426-69d7662ff5a9"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{competencia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="114" y="-1" width="137" height="18" uuid="fe02a294-d52b-4303-88d3-9e16499e2633"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{remuneracaoBeneficio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="251" y="-1" width="106" height="18" uuid="2105232b-1d07-49b0-be0b-c2e3232d302a"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contribuicaoSegurado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="357" y="-1" width="106" height="18" uuid="4fa9a45c-ed3d-460b-a897-128c95e63b1c"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contribuicaoPatronal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="463" y="-1" width="92" height="18" uuid="5fb789be-daf0-41da-9822-2e71f3a94bf4"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="3"/>
+	</pageFooter>
+	<summary>
+		<band height="4" splitType="Stretch"/>
+	</summary>
+</jasperReport>

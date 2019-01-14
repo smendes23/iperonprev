@@ -1,0 +1,52 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<h:head>
+	<title>::Tempo Aproveitado::</title>
+		<style>
+
+.ui-shadow {
+   box-shadow: 0px 5px 10px transparent;
+}
+.ui-widget {
+    font-family: segoe ui, Arial, sans-serif;
+    font-size: 16px;
+}
+.ui-dialog .ui-dialog-title {
+	float: left;
+	margin: .3em 16px .1em 0;
+	color: #000;
+}
+	</style>
+</h:head>
+<h:body>
+<h:form>
+		<div>
+			<p:commandButton icon="fa fa-close" style="float: right;top: -16px;position:relative;"
+			action="#{funcionalBean.fechaImpressaoAverbacao}">
+			</p:commandButton>
+		</div>
+	</h:form>
+	<div>
+		<p></p>
+	</div>
+	<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+	<div class="ui-grid ui-grid-responsive">
+			<div class="ui-grid-row">
+				<h:form>
+					<h:inputHidden value="#{funcionalBean.tla.NUMG_idDoObjeto}"></h:inputHidden>
+					<h:panelGrid columns="3" cellpadding="5" cellspacing="10">
+						<h:outputLabel value="Tempo em dias:" style="color: #000;"></h:outputLabel>
+						<p:inputText value="#{funcionalBean.aproveitado}"></p:inputText>
+						<p:commandButton icon="fa fa" action="#{funcionalBean.imprimeAverbacao}"
+								onclick="this.form.target='_blank'" value="Imprimir" ajax="false"></p:commandButton>
+					</h:panelGrid>
+				</h:form>
+			</div>
+	</div>
+</h:body>
+</html>

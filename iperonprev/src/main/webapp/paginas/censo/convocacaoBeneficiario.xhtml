@@ -1,0 +1,339 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<div class="col-lg-10">
+			<p:tabView style="margin-bottom: 55px;">
+				<p:tab title="Convocação Coletiva" id="convocacao">
+					<h:form id="formConvocacao">
+						<p:messages showDetail="true" closable="true"></p:messages>
+						<h:inputHidden value="#{convocacaoBean.convoca.NUMG_idDoObjeto}"></h:inputHidden>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-3 ">
+									<p:outputLabel value="Censo:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true" required="true"
+										converter="conversorDeEntidades" filterMatchMode="startsWith"
+										style="width:100%" styleClass="selectalt"
+										value="#{convocacaoBean.dadosCenso}">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{convocacaoBean.listaCenso}"
+											var="censo" itemValue="#{censo}"
+											itemLabel="#{censo.DESC_descricao}" />
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-5 ">
+									<p:outputLabel value="Tipo Beneficiário:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true" required="true"
+										filterMatchMode="startsWith" style="width:100%"
+										styleClass="selectalt"
+										value="#{convocacaoBean.convoca.NUMR_tipoBeneficiario}">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItem itemLabel="Aposentados" itemValue="1"></f:selectItem>
+										<f:selectItem itemLabel="Pensionistas" itemValue="3"></f:selectItem>
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-4">
+									<p:outputLabel value="Competência Aniversário:"></p:outputLabel>
+									<p:inputMask mask="99/9999" required="true"
+										styleClass="form-control"
+										value="#{convocacaoBean.convoca.DESC_competencia}"
+										converter="competenciaConverterMesAno"></p:inputMask>
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<p></p>
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-3">
+									<p:commandButton value="Convocar"
+										action="#{convocacaoBean.salvarObjeto}" icon="fa fa-bullhorn"
+										onclick="this.form.target='_blank'" ajax="false">
+									</p:commandButton>
+								</div>
+								<div class="col-sm-3">
+									<p:commandButton value="Novo" icon="fa fa-plus">
+										<p:ajax process="@this" update="@form"
+											listener="#{convocacaoBean.novoObjeto}"></p:ajax>
+									</p:commandButton>
+								</div>
+								<div class="col-sm-3">
+									<p:commandButton value="Pesquisar" icon="fa fa-search"
+										action="#{convocacaoBean.exibeListaDeObjetos}" process="@this"
+										update="@none">
+										<p:ajax event="dialogReturn"
+											listener="#{convocacaoBean.selecionaObjetoDialogo}"
+											process="@this" update="@form" />
+										<p:resetInput target="formConvocacao" />
+									</p:commandButton>
+								</div>
+							</div>
+						</div>
+					</h:form>
+				</p:tab>
+				<p:tab title="Convocação Individual" id="convocacaoIndividual">
+					<h:form id="formIndividual">
+					<p:messages showDetail="true" closable="true"></p:messages>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-3 ">
+									<p:outputLabel value="Censo:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true" required="true"
+										converter="conversorDeEntidades" filterMatchMode="startsWith"
+										style="width:100%" styleClass="selectalt"
+										value="#{convocacaoBean.dadosCenso}">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{convocacaoBean.listaCenso}"
+											var="censo" itemValue="#{censo}"
+											itemLabel="#{censo.DESC_descricao}" />
+											<p:ajax update="@this"></p:ajax>
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-3">
+									<p:outputLabel value="CPF:"></p:outputLabel>
+									<div class="input-group">
+										<p:inputMask mask="999.999.999-99" styleClass="form-control"
+											value="#{convocacaoBean.cpf}" converter="cpfConverter" id="cpfServidor">
+											
+										</p:inputMask>
+										<span class="input-group-btn">
+											<p:commandButton icon="fa fa-search" styleClass="btn-input" action="#{convocacaoBean.buscaServidor}" actionListener="#{funcionalBean.limpaDadosFuncionaisServidor()}"
+												update="nome funcional @this idPessoa" process="cpfServidor @this">
+											</p:commandButton>
+										</span>
+									</div>	
+								</div>
+								<h:inputHidden value="#{convocacaoBean.pessoa.NUMG_idDoObjeto}" id="idPessoa"></h:inputHidden>
+								<div class="col-sm-6">
+									<p:outputLabel value="Nome:"></p:outputLabel>
+									<p:inputText styleClass="form-control"  value="#{convocacaoBean.pessoa.DESC_nome}" id="nome"></p:inputText>
+								</div>
+								</div>
+							</div>
+							<div class="ui-grid ui-grid-responsive">
+								<div class="ui-grid-row">
+									<div class="col-sm-12"></div>
+								</div>
+							</div>
+							<div class="ui-grid ui-grid-responsive">
+								<div class="ui-grid-row">
+									<div class="col-sm-4">
+										<p:outputLabel value="Matrícula:"/>
+										<p:selectOneMenu effect="fade" filter="true" id="funcional"
+											filterMatchMode="startsWith" style="width:100%"
+											value="#{convocacaoBean.funcional}" valueChangeListener="#{convocacaoBean.buscaFuncional}"
+											converter="conversorDeEntidades">
+											<f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true"/>
+												<f:selectItems value="#{convocacaoBean.listaDeFuncionais}"
+													var="funcional" itemValue="#{funcional}"
+													itemLabel="#{funcional.DESC_matricula}" />
+										<p:ajax process="@this" update="orgao"></p:ajax>
+										</p:selectOneMenu>
+									</div>
+									<h:inputHidden value="#{convocacaoBean.cargo.NUMG_idDoObjeto}" />
+									<h:inputHidden value="#{convocacaoBean.orgao.NUMG_idDoObjeto}" />
+									<div class="col-sm-8">
+										<p:outputLabel value="Órgão:"></p:outputLabel>
+										<p:inputText styleClass="form-control"  id="orgao"  value="#{convocacaoBean.orgao.DESC_nome}"></p:inputText>
+									</div>
+
+								</div>
+							</div>
+							
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-3">
+									<p:commandButton value="Convocar"
+										action="#{convocacaoBean.salvaConvocacao()}" icon="fa fa-bullhorn" process="@form" update="@form">
+									</p:commandButton>
+								</div>
+								<div class="col-sm-3">
+									<p:commandButton value="Novo" icon="fa fa-plus">
+										<p:ajax process="@this" update="@form"
+											listener="#{convocacaoBean.novoObjeto}"></p:ajax>
+									</p:commandButton>
+								</div>
+							</div>
+						</div>
+					</h:form>
+				</p:tab>
+				<p:tab title="Gerenciamento de Envio" id="gerenciamento">
+					<h:form id="formGerenciamento">
+						<p:messages showDetail="true" closable="true"></p:messages>
+						<h:inputHidden
+							value="#{convocacaoBean.convocacaoGerenciamento.NUMG_idDoObjeto}"></h:inputHidden>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-3 ">
+									<p:outputLabel value="Censo:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true" required="true"
+										converter="conversorDeEntidades" filterMatchMode="startsWith"
+										style="width:100%" styleClass="selectalt"
+										value="#{convocacaoBean.dadosCenso}">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{convocacaoBean.listaCenso}"
+											var="censo" itemValue="#{censo}"
+											itemLabel="#{censo.DESC_descricao}" />
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-3 ">
+									<p:outputLabel value="Tipo Beneficiário:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true" required="true"
+										filterMatchMode="startsWith" style="width:100%"
+										styleClass="selectalt"
+										value="#{convocacaoBean.convoca.NUMR_tipoBeneficiario}">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItem itemLabel="Aposentados" itemValue="1"></f:selectItem>
+										<f:selectItem itemLabel="Pensionistas" itemValue="3"></f:selectItem>
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-3">
+									<p:outputLabel value="Competência:"></p:outputLabel>
+									<p:inputMask mask="99/9999" required="true"
+										styleClass="form-control"
+										value="#{convocacaoBean.convoca.DESC_competencia}"
+										converter="competenciaConverterMesAno"></p:inputMask>
+								</div>
+								<div class="col-sm-3 ">
+									<p:outputLabel value="Data do Envio:"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control"
+										converter="dateConverter" value="#{convocacaoBean.envio}"></p:inputMask>
+								</div>
+							</div>
+						</div>
+
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<p></p>
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-2">
+									<p:commandButton value="Salvar" icon="fa fa-save">
+										<p:ajax
+											listener="#{convocacaoBean.salvaGerenciamentoConvocacao}"
+											process="@form" update="@form"></p:ajax>
+									</p:commandButton>
+								</div>
+								<div class="col-sm-2">
+									<p:commandButton value="Novo" icon="fa fa-save">
+										<p:ajax listener="#{convocacaoBean.limpaGerenciamento}"
+											process="@this" update="@form"></p:ajax>
+									</p:commandButton>
+								</div>
+							</div>
+						</div>
+					</h:form>
+				</p:tab>
+
+				<p:tab title="Gerenciamento de Recebimento" id="recebimento">
+					<h:form id="formRecebimento">
+						<p:messages showDetail="true" closable="true"></p:messages>
+						<h:inputHidden
+							value="#{convocacaoBean.convocacaoGerenciamento.NUMG_idDoObjeto}"></h:inputHidden>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-3 ">
+									<p:outputLabel value="CPF:"></p:outputLabel>
+									<p:inputMask mask="999.999.999-99" styleClass="form-control"
+										value="#{convocacaoBean.cpf}" converter="cpfConverter">
+										<p:ajax event="blur" update="@form" process="@this"
+											listener="#{convocacaoBean.buscaConvocacao}"></p:ajax>
+									</p:inputMask>
+								</div>
+								<div class="col-sm-6 ">
+									<p:outputLabel value="Beneficiário:"></p:outputLabel>
+									<p:inputText styleClass="form-control" disabled="true"
+										value="#{convocacaoBean.convocacaoGerenciamento.NUMR_idPessoasFuncionais.NUMR_idDoObjetoPessoas.DESC_nome}"></p:inputText>
+								</div>
+								<div class="col-sm-3 ">
+									<p:outputLabel value="Data Nascimento:"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control"
+										converter="dateConverter" disabled="true"
+										value="#{convocacaoBean.convocacaoGerenciamento.NUMR_idPessoasFuncionais.NUMR_idDoObjetoPessoas.DATA_nascimento}"></p:inputMask>
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+							<div class="col-sm-3 ">
+									<p:outputLabel value="Matrícula:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true" required="true"
+										filterMatchMode="startsWith" style="width:100%"
+										styleClass="selectalt">
+									</p:selectOneMenu>
+								</div>
+								<div class="col-sm-3 ">
+									<p:outputLabel value="Tipo Beneficiário:"></p:outputLabel>
+									<p:inputText disabled="true"
+										value="#{convocacaoBean.convocacaoGerenciamento.NUMR_tipoBeneficiario eq 1 ? 'Aposentado' : 'Pensionista'}"></p:inputText>
+								</div>
+								<div class="col-sm-3 ">
+									<p:outputLabel value="Data do Envio:"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control" disabled="true"
+										converter="dateConverter" value="#{convocacaoBean.envio}"></p:inputMask>
+								</div>
+								<div class="col-sm-3 ">
+									<p:outputLabel value="Data do Recebimento:"></p:outputLabel>
+									<p:inputMask mask="99/99/9999" styleClass="form-control"
+										converter="dateConverter"
+										value="#{convocacaoBean.recebimento}"></p:inputMask>
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-12">
+									<p></p>
+								</div>
+							</div>
+						</div>
+						<div class="ui-grid ui-grid-responsive">
+							<div class="ui-grid-row">
+								<div class="col-sm-2">
+									<p:commandButton value="Salvar" icon="fa fa-save">
+										<p:ajax
+											listener="#{convocacaoBean.salvaGerenciamentoConvocacao}"
+											process="@form" update="@form"></p:ajax>
+									</p:commandButton>
+								</div>
+								<div class="col-sm-2">
+									<p:commandButton value="Novo" icon="fa fa-save">
+										<p:ajax listener="#{convocacaoBean.limpaGerenciamento}"
+											process="@this" update="@form"></p:ajax>
+									</p:commandButton>
+								</div>
+							</div>
+						</div>
+					</h:form>
+				</p:tab>
+			</p:tabView>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

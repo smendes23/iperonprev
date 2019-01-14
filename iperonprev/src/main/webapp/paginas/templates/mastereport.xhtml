@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>::IPERONPREV::</title>
+	<h:outputStylesheet name="/css/report.css"></h:outputStylesheet>
+	
+	<h:outputStylesheet name="/css/bootstrap.css"></h:outputStylesheet>
+
+	<h:outputScript name="/js/bootstrap.js"></h:outputScript>
+
+	<script type="text/javascript">
+		function pagePrint(){
+			window.print();
+		}
+	</script>
+	
+	<style>
+	.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	    border: 1px solid #222222 !important;
+	    background: white !important;
+	        background-color: green;
+	    font-weight: bold;
+	    color: #222222 !important;
+	    -webkit-print-color-adjust: exact; 
+				color-adjust: exact;
+	}
+
+	.ui-widget {
+	    font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
+	    font-size: 14px !important;
+	}
+	.ui-widget-content {
+    border: 1px solid #222222 !important;
+    background: #fcfdfd url("/iperonprev/javax.faces.resource/images/ui-bg_inset-hard_100_fcfdfd_1x100.png.xhtml?ln=primefaces-redmond") 50% bottom repeat-x;
+    color: #222222;
+}
+
+.ui-datatable table {
+    border-collapse: collapse;
+    color: white !important;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: 28px;
+    padding: 4px 12px !important;
+    font-size: 16px;
+    line-height: 1.42857143;
+}
+
+	</style>
+	<ui:insert name="header">
+
+	</ui:insert>
+</h:head>
+
+<h:body>
+	<button onclick="pagePrint()" style="margin-left: 45%;" class='no-print'><img src="/iperonprev/resources/image/Print.png" style="vertical-align:middle"/><span style=""> Imprimir</span></button>
+	<div><p></p></div>
+	<page size="A4">
+	<div class="row">
+			<div class="col-sm-2">
+				<h:graphicImage name="rondonia.png" library="image" width="80px" style="height: 85px;"></h:graphicImage>
+			</div>
+			<div class="col-sm-8">
+					<h2 >Governo do Estado de Rondônia</h2>
+					<div class="col-sm-12">
+						<h5 style="text-align: center;">INSTITUTO DE PREVIDÊNCIA DOS SERVIDORES PÚBLICOS DO ESTADO DE RONDÔNIA</h5>
+					</div>
+					<div class="col-sm-12">
+						<h3 style="text-align: center;">IPERON</h3>
+					</div>
+			</div>
+			<div class="col-sm-2">
+				<h:graphicImage name="iperon.png" library="image" width="80" style="height: 85px;"></h:graphicImage>
+			</div>
+		
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<p></p>
+		</div>
+	</div>
+	<div class="row">
+		
+		<div style="border:2px solid #006600;" class="col-sm-12">
+		</div>
+		<div style="border:1px solid #006600;margin-top: 5px;" class="col-sm-12">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<p></p>
+		</div>
+	</div>
+		
+		<ui:insert name="content">
+
+		</ui:insert>
+	</page>
+</h:body>
+</html>

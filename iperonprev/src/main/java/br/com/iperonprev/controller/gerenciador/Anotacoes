@@ -1,0 +1,337 @@
+O INSTITUTO DE PREVIDÊNCIA DOS SERVIDORES ṔÚBLICOS DO ESTADO DE RONDÔNIA, convocao(a) a comparecer, até a data 31/01/2016 em uma de suas unidades mais próxima  para atualizaçao de informaçoes cadastrais, portando os seguintes documentos:
+=>obito
+=>Cessação da invalidez
+
+
+Aposentadorias que geram médias por proventos proporcionais:
+ -- Invalidez
+ -- Compulsória
+ 
+				/*Regras permanentes*/
+--> Aposentadoria compulsoria terá proventos proporcionais.
+
+--> Se o cid da aposentadoria por invalidez não participar do rol de doenças graves, 
+os proventos serão proporcionais, senão, integrais.
+
+-->Artigo 40 Alinea "a" é para aposentadorias por idade e tempo de contribuição com proventos integrais.
+-->Artigo 40 Alinea "b" é para aposentadorias por idade  com proventos proporcionais.
+
+
+				/*Regras de transição*/
+--> Artigo 2 proventos integrais.
+--> Artigo 3,6,8 integralidade e paridade.
+--> Artigo 8 
+
+
+
+/*	
+		Estados e = new Estados();
+		e.setDESC_nome("Rondônia");
+		e.setDESC_sigla("RO");
+		new GenericPersistence<Estados>(Estados.class).salvar(e);
+		
+		Municipios m = new Municipios();
+		m.setDESC_nome("Porto Velho");
+		m.setNUMR_idDoObjetoEstado(new GenericPersistence<Estados>(Estados.class).buscarPorId(1));
+		new GenericPersistence<Municipios>(Municipios.class).salvar(m);
+		
+		Poderes p = new Poderes();
+		p.setDESC_nome("Judiciário");
+		new GenericPersistence<Poderes>(Poderes.class).salvar(p);
+		GrauDeInstrucao g = new GrauDeInstrucao();
+		g.setDESC_nome("Médio");
+		new GenericPersistence<GrauDeInstrucao>(GrauDeInstrucao.class).salvar(g);
+		TipoDependencia td = new TipoDependencia();
+		td.setDESC_nome("Econômica");
+		new GenericPersistence<TipoDependencia>(TipoDependencia.class).salvar(td);
+		TipoRepresentanteLegal tr = new TipoRepresentanteLegal();
+		tr.setDESC_nome("Desconhecido");
+		new GenericPersistence<TipoRepresentanteLegal>(TipoRepresentanteLegal.class).salvar(tr);
+		TipoAtosLegais ta = new TipoAtosLegais();
+		ta.setDESC_descricao("Lei");
+		new GenericPersistence<TipoAtosLegais>(TipoAtosLegais.class).salvar(ta);
+		
+		NaturezasJuridicas nj = new NaturezasJuridicas();
+		nj.setDESC_nome("Secretaria");
+		new GenericPersistence<NaturezasJuridicas>(NaturezasJuridicas.class).salvar(nj);
+
+		
+		
+		ClasseFuncional cf = new ClasseFuncional();
+		cf.setDESC_nome("Classe A");
+		new GenericPersistence<ClasseFuncional>(ClasseFuncional.class).salvar(cf);
+		
+		NivelFuncional nf = new NivelFuncional();
+		nf.setDESC_nivel("1");
+		new GenericPersistence<NivelFuncional>(NivelFuncional.class).salvar(nf);
+		
+		SituacaoFuncional sf = new SituacaoFuncional();
+		sf.setDESC_nome("Em exercício");
+		new GenericPersistence<SituacaoFuncional>(SituacaoFuncional.class).salvar(sf);
+
+		TipoLicenca tl = new TipoLicenca();
+		tl.setDESC_nome("Maternidade");
+		new GenericPersistence<TipoLicenca>(TipoLicenca.class).salvar(tl);
+		List<String> lista = new App().pegaValorCelula(0);
+		List<String> lista2 = new App().pegaValorCelula(1);
+		
+		List<Pessoas> lis = new GenericPersistence<Pessoas>(Pessoas.class).listarTodos("Pessoas");
+		for (int i = 0; i < lista.size(); i++) {
+			BigDecimal bd = new BigDecimal(lista.get(i).toString());
+			
+			System.out.println(bd);
+		}
+
+
+		
+		lista.forEach(s ->{
+			Indice in = new Indice();
+			in.setNUMR_mesAno(s);
+			listaIndices.add(in);
+		});
+		
+		
+		listaIndices.forEach(System.out::println);
+		List<PessoasFuncionais> listaFuncionais = new GenericPersistence<PessoasFuncionais>(PessoasFuncionais.class).listarTodos("PessoasFuncionais");
+		listaFuncionais.forEach(f -> System.out.println(f.getDESC_matricula()));
+	 */	
+		
+		/*
+		lis.stream()
+			.filter(s -> s.getDESC_nome().equals("Saulo"))
+			.findAny().isPresent();
+		List<String> lista = new App().pegaValorCelula(0);
+		List<String> lista2 = new App().pegaValorCelula(1);
+		List<Indice> listaIndices = new ArrayList<>();
+		
+		for (int i = 0; i < lista.size(); i++) {
+			Indice in = new Indice();
+			in.setNUMR_mesAno(lista.get(i).replace("/", ""));
+			in.setVALR_indice(new BigDecimal(lista2.get(i).toString()));
+			listaIndices.add(in);
+		}
+		
+		for (Indice indice : listaIndices) {
+			System.out.println("Competência: "+indice.getNUMR_mesAno()+" "+"Indice: "+indice.getVALR_indice());
+			
+		}
+
+		List<String> lista = new App().pegaValorCelula(0);
+		List<String> lista2 = new App().pegaValorCelula(1);
+		List<Cid> listaIndices = new ArrayList<>();
+		
+		for (int i = 0; i < lista.size(); i++) {
+			Cid in = new Cid();
+			in.setNUMR_numCid(lista.get(i));
+			in.setDESC_nome(lista2.get(i));
+			listaIndices.add(in);
+		}
+		Cid cid = new Cid();
+		cid.setDESC_nome("Febre tifóide");
+		cid.setNUMR_numCid("1");
+		new GenericPersistence<Cid>(Cid.class).salvar(cid);
+		listaIndices.forEach(s -> new GenericPersistence<Cid>(Cid.class).salvar(s) 
+			);*/
+//		listaIndices.forEach(s->System.out.println(s.getDESC_nome()+" "+s.getNUMR_numCid()));
+/*		List<Papel> listaRegra = new GenericPersistence<Papel>(Papel.class).listarTodos("Role");
+		
+		BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
+//		System.out.println(bc.encode("SAULO").intern());
+		List<Papel> lista = new ArrayList<>();
+		lista.add(listaRegra.get(0));
+		
+		Usuario user = new Usuario();
+		user.setLogin("saulo");
+		user.setPassword(bc.encode("123"));
+		user.setRoles(lista);
+		new GenericPersistence<Usuario>(Usuario.class).salvar(user);
+		
+		String nascimento = "10/04/1982";
+		
+		Date dataInicio = sdf.parse(nascimento);
+		
+		String inicio = "10/04/1988";
+		String fim = "19/04/1999";
+		List<FrequenciaCtc> lista = RetornaTempos.retornaAnosQuantidadeDeDias(sdf.parse(inicio), 
+				sdf.parse(fim));
+		lista.forEach(f->System.out.println(f.getAno()+" - "+f.getTempoBruto()));
+		
+		Dependentes dependentes = new GenericPersistence<Dependentes>(Dependentes.class).buscarPorId(1);
+		System.out.println(dependentes.getNUMR_dependente().getDESC_nome());
+
+		Sisobi sisobi = new Sisobi();
+		sisobi.setDATA_obito(sdf.parse("01/01/2001"));
+		sisobi.setNUMR_idDoObjetoPessoa(new GenericPersistence<Pessoas>(Pessoas.class).buscarPorId(1));
+		new GenericPersistence<Sisobi>(Sisobi.class).salvar(sisobi);
+ */
+		
+//		RetornaTempos rt = new RetornaTempos();
+//		System.out.println(sdf.format(rt.retornaDataFuturaComAnos(21, sdf.parse("10/04/1982"))));
+//		List<Cid> queryCids = new GenericPersistence<Cid>(Cid.class).listarTodos("Cid");
+//		Optional<Cid> lista = queryCids.stream()
+//		.filter(q -> q.getNUMR_numCid().toLowerCase().startsWith("a1"))
+//		.findAny();
+		
+//		System.out.println(lista.get().getNUMR_numCid());
+	/*	List<String> lista = new App().pegaValorCelula(0);
+		List<String> lista2 = new App().pegaValorCelula(1);
+		List<Cid> listaIndices = new ArrayList<>();
+		
+		for (int i = 0; i < lista.size(); i++) {
+			Cid in = new Cid();
+			in.setNUMR_numCid(lista.get(i));
+			in.setDESC_nome(lista2.get(i));
+			listaIndices.add(in);
+		}
+		listaIndices.forEach(s -> new GenericPersistence<Cid>(Cid.class).salvar(s) 
+			);*/
+		/*
+		 * Molestia Profissional
+		 * Doença na forma da lei
+		MotivoConcessaoBeneficio concessao = new MotivoConcessaoBeneficio();
+		concessao.setDESC_nome("Doença na forma da lei");
+		new GenericPersistence<MotivoConcessaoBeneficio>(MotivoConcessaoBeneficio.class).salvar(concessao);
+		
+		MotivoCessacaoBeneficio cessacao = new MotivoCessacaoBeneficio();
+		cessacao.setDESC_nome("Divórcio");
+		new GenericPersistence<MotivoCessacaoBeneficio>(MotivoCessacaoBeneficio.class).salvar(cessacao);
+		 * */
+		/*SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		List<RegrasAposentadoriaEnum> listaResultado = new ArrayList<>();
+		List<RegrasAposentadoria> listaRegras = new ArrayList<>();
+		listaRegras.add(new Artigo02());
+		listaRegras.add(new Artigo03());
+		listaRegras.add(new Artigo06());
+		listaRegras.add(new Artigo08());
+		listaRegras.add(new Artigo40());
+		listaRegras.add(new Artigo40A());
+		listaRegras.add(new Artigo40B());
+		
+		
+		Date data = sdf.parse("01/01/1990");
+		for (int i = 0; i < listaRegras.size(); i++) {
+			listaResultado.add(listaRegras.get(i).verificaRegra(60, 13000, 
+					8000, 2000, 4000, SexoEnum.M,data , new Cargos(), TipoAposentadoriaEnum.IDADE));
+		}
+		
+		listaResultado.removeAll(Collections.singleton(null));
+		listaResultado.forEach(r->System.out.println(r.getNome()));*/
+		
+		
+//		System.out.println(new CriptografiaSenha().criptografa("123456"));
+		/*List<Roles> listaRoles = new GenericPersistence<Roles>(Roles.class).listarTodos("Roles");
+		ModulosPerfil m = new GenericPersistence<ModulosPerfil>(ModulosPerfil.class).buscarPorId(1);
+		Users u = new Users();
+		u.setNome("Saulo");
+		u.setMatricula("197378");
+		u.setSenha("$2a$10$SXn06V0c8AwxAG.qb5MUKOC8necDKQpUfDseP6DZcBrF2DtyOqar6");
+		u.setRoles(listaRoles);
+		u.setPerfil(m.getPerfil());
+		u.setContaHabilitada(true);
+		new GenericPersistence<Users>(Users.class).salvar(u);*/
+		
+		
+		
+		
+		
+		
+	public List<Roles> listaDeRegras(ModulosPerfil modulos){
+		List<Roles> lista = new ArrayList<>();
+	
+		if(modulos.isAcessoAdministracao()){
+			lista.add(new Roles("ROLE_ADMINISTRACAOA"));
+		}
+		
+		if(modulos.isAcessoArrecadacao()){
+			lista.add(new Roles("ROLE_ARRECADACAOA"));
+		}
+		
+		if(modulos.isAcessoBeneficio()){
+			lista.add(new Roles("ROLE_BENEFICIOA"));
+		}
+		
+		if(modulos.isAcessoCadastro()){
+			lista.add(new Roles("ROLE_CADASTROA"));
+		}
+		
+		if(modulos.isAcessoCenso()){
+			lista.add(new Roles("ROLE_CENSOA"));
+		}
+		
+		if(modulos.isAcessoRelatorios()){
+			lista.add(new Roles("ROLE_RELATORIOSA"));
+		}
+		
+		if(modulos.isIncluirAdministracao()){
+			lista.add(new Roles("ROLE_ADMINISTRACAOI"));
+		}
+		if(modulos.isIncluirArrecadacao()){
+			lista.add(new Roles("ROLE_ARRECADACAOI"));
+		}
+		if(modulos.isIncluirBeneficio()){
+			lista.add(new Roles("ROLE_BENEFICIOI"));
+		}
+		
+		if(modulos.isIncluirCadastro()){
+			lista.add(new Roles("ROLE_CADASTROI"));
+		}
+		
+		if(modulos.isIncluirCenso()){
+			lista.add(new Roles("ROLE_CENSOI"));
+		}
+		
+		if(modulos.isIncluirRelatorios()){
+			lista.add(new Roles("ROLE_RELATORIOSI"));
+		}
+		
+		if(modulos.isExcluirAdministracao()){
+			lista.add(new Roles("ROLE_ADMINISTRACAOE"));
+		}
+		if(modulos.isExcluirArrecadacao()){
+			lista.add(new Roles("ROLE_ARRECADACAOE"));
+		}
+		if(modulos.isExcluirBeneficio()){
+			lista.add(new Roles("ROLE_BENEFICIOE"));
+		}
+		
+		if(modulos.isExcluirCadastro()){
+			lista.add(new Roles("ROLE_CADASTROE"));
+		}
+		
+		if(modulos.isEcluirCenso()){
+			lista.add(new Roles("ROLE_CENSOE"));
+		}
+		
+		if(modulos.isExcluirRelatorios()){
+			lista.add(new Roles("ROLE_RELATORIOSE"));
+		}
+		return lista;
+	}
+	
+	public boolean verificaSeServidorEstaCedido(String matricula){
+		List<AfastamentosDisposicao> lista = new GenericPersistence<AfastamentosDisposicao>(AfastamentosDisposicao.class).listarTodos("AfastamentosDisposicao");
+			for (AfastamentosDisposicao af : lista) {
+				if(af.getNUMR_idDoObjetoPessoasFuncionais().getDESC_matricula().equals(matricula)){
+					return true;
+				}
+			}
+		return false;
+	}
+	
+	@SuppressWarnings("unused")
+	private List<String> pegaValorCelula(Integer num) throws BiffException, IOException{
+		List<String> lista = new ArrayList<>();
+		WorkbookSettings conf = new WorkbookSettings();
+		conf.setEncoding("ISO-8859-1");
+		Workbook w = Workbook.getWorkbook(new File("indices/cids.xls").getAbsoluteFile(),conf);
+		Sheet s = w.getSheet(0);
+		int linhas = s.getRows();
+		
+		for (int i = 0; i < linhas; i++) {
+			Cell cel = s.getCell(num,i);
+			String valor = cel.getContents();
+			lista.add(valor);
+		}
+		w.close();
+		return lista;
+	}

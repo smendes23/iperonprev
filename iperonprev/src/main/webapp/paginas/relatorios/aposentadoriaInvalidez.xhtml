@@ -1,0 +1,76 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+		<f:metadata>
+			<f:viewAction action="#{aposentadoriaInvalidezBean.recarregaPagina}"
+				onPostBack="true" />
+		</f:metadata>
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+
+		<p:panel styleClass="col-lg-10" header="Relatório de Aposentadorias Por Invalidez">
+			<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+			<h:form id="formInvalidez">
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-sm-3">
+							<p:outputLabel value="Proventos:"></p:outputLabel>
+							<p:selectOneMenu 
+								value="#{relatorioInvalidezBean.proventos}"
+								style="width:100%" >
+								<f:selectItem itemLabel="--Selecione--" itemValue="0"
+									noSelectionOption="true" />
+								<f:selectItem itemLabel="Integral" itemValue="1"/>
+								<f:selectItem itemLabel="Proporcional" itemValue="2"/>
+								<p:ajax update="@this" process="@this" event="blur"></p:ajax>
+							</p:selectOneMenu>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Reajuste:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true"
+								filterMatchMode="startsWith" style="width:100%"
+								value="#{relatorioInvalidezBean.reajuste}"
+								id="reajuste">
+								<f:selectItem itemLabel="--Selecione--" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItem itemLabel="Conforme a Lei" itemValue="1"/>
+								<f:selectItem itemLabel="Paridade" itemValue="2"/>
+								<p:ajax update="@this" process="@this" event="blur"></p:ajax>
+							</p:selectOneMenu>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Status da Perícia:"></p:outputLabel>
+							<p:selectOneMenu effect="fade" filter="true"
+								filterMatchMode="startsWith" style="width:100%"
+								value="#{relatorioInvalidezBean.status}">
+								<f:selectItem itemLabel="--Selecione--" itemValue="0"
+									noSelectionOption="true" />
+								<f:selectItem itemLabel="Dentro do prazo" itemValue="1"/>
+								<f:selectItem itemLabel="Vencendo em 3 meses" itemValue="2"/>
+								<f:selectItem itemLabel="Vencida" itemValue="3"/>
+								<p:ajax update="@this" process="@this" event="blur"></p:ajax>
+							</p:selectOneMenu>
+						</div>
+						
+						<div class="col-sm-3">
+							<p:commandButton icon="fa fa-print" value="Gerar" style="top:20px;" action="#{relatorioInvalidezBean.gera()}" onclick="this.form.target='_blank'" ajax="false"></p:commandButton>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

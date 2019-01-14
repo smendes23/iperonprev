@@ -1,0 +1,99 @@
+<ui:composition template="../templates/master.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+	<ui:define name="content">
+	<f:metadata>
+			<f:viewAction action="#{dadosBancariosBean.recarregaPagina}" onPostBack="true" />
+		</f:metadata>
+	<style>
+			
+		.ui-shadow {
+			box-shadow: 0px 5px 10px transparent;
+		}
+		
+	</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel header="Dados Bancários" styleClass="col-lg-10">
+			<h:form id="formCheck">
+			<p:messages showDetail="true" closable="true" id="msg"></p:messages>
+			<h:inputHidden value="#{dadosBancariosBean.pessoas.NUMG_idDoObjeto}" />
+			<h:inputHidden value="#{dadosBancariosBean.banco.NUMG_idDoObjeto}" />
+			<h:inputHidden value="#{dadosBancariosBean.dadosBancarios.NUMG_idDoObjeto}" />
+			<div class="ui-grid ui-grid-responsive">
+				<div class="ui-grid-row">
+					<div class="col-sm-3">
+						<p:outputLabel value="CPF"></p:outputLabel>
+						<div class="input-group">
+								<p:inputMask mask="999.999.999-99" styleClass="form-control"
+									converter="cpfConverter"
+									value="#{dadosBancariosBean.cpfServidor}" id="cpf"></p:inputMask>
+								<span class="input-group-btn"> <p:commandButton
+									icon="fa fa-caret-right" styleClass="btn-input"
+									process="cpf @this " update="@form"
+									action="#{dadosBancariosBean.buscaServidor}"></p:commandButton>
+								</span>
+							</div>
+					</div>
+					<div class="col-sm-6">
+						<p:outputLabel value="Beneficiário:" ></p:outputLabel>
+						<p:inputText id="interessado"  styleClass="form-control " disabled="true" value="#{dadosBancariosBean.pessoas.DESC_nome}"/>
+					</div>
+					<div class="col-sm-3">
+							<p:outputLabel value="Data Nascimento:"/>
+							<p:inputMask mask="99/99/9999" disabled="true" value="#{dadosBancariosBean.pessoas.DATA_nascimento}"
+							styleClass="form-control" converter="dateConverter"></p:inputMask>
+							
+						</div>
+				</div>
+				
+				<div class="ui-grid-row">
+					<div class="col-sm-6">
+							<p:outputLabel value="Banco:" />
+							<p:selectOneMenu effect="fade" filter="true" id="funcional"
+								filterMatchMode="startsWith" style="width:100%" value="#{dadosBancariosBean.banco}"
+								converter="conversorDeEntidades">
+								<f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true"/>
+								<f:selectItems value="#{dadosBancariosBean.listaDeBancos}" var="bancos" itemLabel="#{bancos.DESC_banco}" itemValue="#{bancos}"/>
+							</p:selectOneMenu>
+					</div>
+					<div class="col-sm-3">
+						<p:outputLabel value="Agência:"></p:outputLabel>
+						<p:inputText styleClass="form-control" value="#{dadosBancariosBean.dadosBancarios.DESC_agencia}"></p:inputText>
+					</div>
+					<div class="col-sm-3">
+						<p:outputLabel value="Conta:"></p:outputLabel>
+						<p:inputText styleClass="form-control" value="#{dadosBancariosBean.dadosBancarios.DESC_conta}"></p:inputText>
+					</div>
+				</div>
+				<div class="ui-grid-row">
+						<div class="col-sm-12">
+							<p:outputLabel value="Observação:" />
+							<p:inputTextarea value="#{dadosBancariosBean.dadosBancarios.DESC_observacao}"
+								styleClass="col-sm-12"></p:inputTextarea>
+						</div>
+					</div>
+				
+				
+				
+			</div>
+				<div class="col-sm-12"><br/></div>
+				<div class="col-sm-2">
+					<p:commandButton value="Salvar" icon="fa fa-save" action="#{dadosBancariosBean.salvarObjeto()}" update="@form">
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Novo" icon="fa fa-file-o">
+						<p:ajax update="@form" resetValues="true" listener="#{dadosBancariosBean.novoObjeto()}"/>
+					</p:commandButton>
+				</div>
+					<br/>
+					<br/>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>

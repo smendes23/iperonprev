@@ -1,0 +1,235 @@
+2017-01-27 08:27:49,582 [main]  WARN org.hibernate.ejb.HibernatePersistence:58 – HHH015016: Encountered a deprecated javax.persistence.spi.PersistenceProvider [org.hibernate.ejb.HibernatePersistence]; use [org.hibernate.jpa.HibernatePersistenceProvider] instead.
+2017-01-27 08:27:49,582 [main]  WARN org.hibernate.ejb.HibernatePersistence:58 – HHH015016: Encountered a deprecated javax.persistence.spi.PersistenceProvider [org.hibernate.ejb.HibernatePersistence]; use [org.hibernate.jpa.HibernatePersistenceProvider] instead.
+2017-01-27 08:27:49,582 [main]  WARN org.hibernate.ejb.HibernatePersistence:58 – HHH015016: Encountered a deprecated javax.persistence.spi.PersistenceProvider [org.hibernate.ejb.HibernatePersistence]; use [org.hibernate.jpa.HibernatePersistenceProvider] instead.
+2017-01-27 08:27:50,175 [main]  WARN org.hibernate.engine.jdbc.connections.internal.ConnectionProviderInitiator:206 – HHH000022: c3p0 properties were encountered, but the c3p0 provider class was not found on the classpath; these properties are going to be ignored.
+2017-01-27 08:27:50,175 [main]  WARN org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl:93 – HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2017-03-02 13:37:35,656 [main] ERROR org.hibernate.hql.internal.ast.ErrorCounter:78 – line 1:8: unexpected token: top
+2017-03-02 13:37:35,669 [main] ERROR org.hibernate.hql.internal.ast.ErrorCounter:73 – line 1:8: unexpected token: top
+line 1:8: unexpected token: top
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.primaryExpression(HqlBaseParser.java:1003)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.atom(HqlBaseParser.java:3609)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.unaryExpression(HqlBaseParser.java:3387)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.multiplyExpression(HqlBaseParser.java:3259)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.additiveExpression(HqlBaseParser.java:2964)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.concatenation(HqlBaseParser.java:597)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.relationalExpression(HqlBaseParser.java:2730)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.equalityExpression(HqlBaseParser.java:2591)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.negatedExpression(HqlBaseParser.java:2555)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.logicalAndExpression(HqlBaseParser.java:2471)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.logicalOrExpression(HqlBaseParser.java:2436)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.expression(HqlBaseParser.java:2146)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.aliasedExpression(HqlBaseParser.java:2389)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectedPropertiesList(HqlBaseParser.java:1415)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectClause(HqlBaseParser.java:1325)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectFrom(HqlBaseParser.java:1062)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.queryRule(HqlBaseParser.java:731)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectStatement(HqlBaseParser.java:323)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.statement(HqlBaseParser.java:186)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.parse(QueryTranslatorImpl.java:295)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:203)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:158)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:131)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:93)
+	at org.hibernate.engine.query.spi.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:167)
+	at org.hibernate.internal.AbstractSessionImpl.getHQLQueryPlan(AbstractSessionImpl.java:301)
+	at org.hibernate.internal.AbstractSessionImpl.createQuery(AbstractSessionImpl.java:236)
+	at org.hibernate.internal.SessionImpl.createQuery(SessionImpl.java:1836)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:342)
+	at br.com.iperonprev.dao.ContribuicaoDao.verificaExistenciaContribuicao(ContribuicaoDao.java:89)
+	at br.com.iperonprev.helper.ContribuicaoHelper.existeContribuicao(ContribuicaoHelper.java:58)
+	at br.com.iperonprev.controller.gerenciador.App.main(App.java:9)
+2017-03-02 13:37:35,691 [main] ERROR org.hibernate.hql.internal.ast.ErrorCounter:78 – line 1:16: unexpected token: from
+2017-03-02 13:37:35,691 [main] ERROR org.hibernate.hql.internal.ast.ErrorCounter:73 – line 1:16: unexpected token: from
+line 1:16: unexpected token: from
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.unaryExpression(HqlBaseParser.java:3394)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.multiplyExpression(HqlBaseParser.java:3297)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.additiveExpression(HqlBaseParser.java:2964)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.concatenation(HqlBaseParser.java:597)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.relationalExpression(HqlBaseParser.java:2730)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.equalityExpression(HqlBaseParser.java:2591)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.negatedExpression(HqlBaseParser.java:2555)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.logicalAndExpression(HqlBaseParser.java:2471)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.logicalOrExpression(HqlBaseParser.java:2436)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.expression(HqlBaseParser.java:2146)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.aliasedExpression(HqlBaseParser.java:2389)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectedPropertiesList(HqlBaseParser.java:1415)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectClause(HqlBaseParser.java:1325)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectFrom(HqlBaseParser.java:1062)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.queryRule(HqlBaseParser.java:731)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectStatement(HqlBaseParser.java:323)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.statement(HqlBaseParser.java:186)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.parse(QueryTranslatorImpl.java:295)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:203)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:158)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:131)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:93)
+	at org.hibernate.engine.query.spi.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:167)
+	at org.hibernate.internal.AbstractSessionImpl.getHQLQueryPlan(AbstractSessionImpl.java:301)
+	at org.hibernate.internal.AbstractSessionImpl.createQuery(AbstractSessionImpl.java:236)
+	at org.hibernate.internal.SessionImpl.createQuery(SessionImpl.java:1836)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:342)
+	at br.com.iperonprev.dao.ContribuicaoDao.verificaExistenciaContribuicao(ContribuicaoDao.java:89)
+	at br.com.iperonprev.helper.ContribuicaoHelper.existeContribuicao(ContribuicaoHelper.java:58)
+	at br.com.iperonprev.controller.gerenciador.App.main(App.java:9)
+2017-03-02 13:37:35,692 [main] ERROR org.hibernate.hql.internal.ast.ErrorCounter:78 – line 1:21: unexpected token: br
+2017-03-02 13:37:35,692 [main] ERROR org.hibernate.hql.internal.ast.ErrorCounter:73 – line 1:21: unexpected token: br
+line 1:21: unexpected token: br
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.aliasedExpression(HqlBaseParser.java:2416)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectedPropertiesList(HqlBaseParser.java:1415)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectClause(HqlBaseParser.java:1325)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectFrom(HqlBaseParser.java:1062)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.queryRule(HqlBaseParser.java:731)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectStatement(HqlBaseParser.java:323)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.statement(HqlBaseParser.java:186)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.parse(QueryTranslatorImpl.java:295)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:203)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:158)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:131)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:93)
+	at org.hibernate.engine.query.spi.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:167)
+	at org.hibernate.internal.AbstractSessionImpl.getHQLQueryPlan(AbstractSessionImpl.java:301)
+	at org.hibernate.internal.AbstractSessionImpl.createQuery(AbstractSessionImpl.java:236)
+	at org.hibernate.internal.SessionImpl.createQuery(SessionImpl.java:1836)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:342)
+	at br.com.iperonprev.dao.ContribuicaoDao.verificaExistenciaContribuicao(ContribuicaoDao.java:89)
+	at br.com.iperonprev.helper.ContribuicaoHelper.existeContribuicao(ContribuicaoHelper.java:58)
+	at br.com.iperonprev.controller.gerenciador.App.main(App.java:9)
+2017-05-10 10:35:45,602 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – O nome de coluna cpf não é válido.
+2017-05-10 10:37:43,968 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Incorrect syntax near 'ConvocacaoCenso'.
+2017-05-10 10:38:42,534 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – O nome de coluna dataRecadastramento não é válido.
+2017-05-15 11:21:31,200 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Invalid column name 'INTEGRAL'.
+2017-05-18 11:07:45,237 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Incorrect syntax near the keyword 'in'.
+2017-05-18 14:21:14,371 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Incorrect syntax near ')'.
+2017-07-12 10:28:13,591 [main] ERROR org.hibernate.tool.hbm2ddl.SchemaUpdate:261 – HHH000388: Unsuccessful: alter table CertidaoTempoContribuicao add NUMG_idDoObjeto int not null
+2017-07-12 10:28:13,593 [main] ERROR org.hibernate.tool.hbm2ddl.SchemaUpdate:262 – ALTER TABLE only allows columns to be added that can contain nulls, or have a DEFAULT definition specified, or the column being added is an identity or timestamp column, or alternatively if none of the previous conditions are satisfied the table must be empty to allow addition of this column. Column 'NUMG_idDoObjeto' cannot be added to non-empty table 'CertidaoTempoContribuicao' because it does not satisfy these conditions.
+2017-07-12 10:28:13,595 [main] ERROR org.hibernate.tool.hbm2ddl.SchemaUpdate:261 – HHH000388: Unsuccessful: alter table CertidaoTempoContribuicao_DestinacaoCtc add CertidaoTempoContribuicao_NUMG_idDoObjeto int not null
+2017-07-12 10:28:13,595 [main] ERROR org.hibernate.tool.hbm2ddl.SchemaUpdate:262 – ALTER TABLE only allows columns to be added that can contain nulls, or have a DEFAULT definition specified, or the column being added is an identity or timestamp column, or alternatively if none of the previous conditions are satisfied the table must be empty to allow addition of this column. Column 'CertidaoTempoContribuicao_NUMG_idDoObjeto' cannot be added to non-empty table 'CertidaoTempoContribuicao_DestinacaoCtc' because it does not satisfy these conditions.
+2017-07-12 10:28:13,597 [main] ERROR org.hibernate.tool.hbm2ddl.SchemaUpdate:261 – HHH000388: Unsuccessful: alter table CertidaoTempoContribuicao_PessoasFuncionais add CertidaoTempoContribuicao_NUMG_idDoObjeto int not null
+2017-07-12 10:28:13,597 [main] ERROR org.hibernate.tool.hbm2ddl.SchemaUpdate:262 – ALTER TABLE only allows columns to be added that can contain nulls, or have a DEFAULT definition specified, or the column being added is an identity or timestamp column, or alternatively if none of the previous conditions are satisfied the table must be empty to allow addition of this column. Column 'CertidaoTempoContribuicao_NUMG_idDoObjeto' cannot be added to non-empty table 'CertidaoTempoContribuicao_PessoasFuncionais' because it does not satisfy these conditions.
+2017-07-12 10:28:13,603 [main] ERROR org.hibernate.tool.hbm2ddl.SchemaUpdate:261 – HHH000388: Unsuccessful: alter table CertidaoTempoContribuicao_DestinacaoCtc add constraint FK_i855qrh2j2i2im2sdwr7dqfa3 foreign key (CertidaoTempoContribuicao_NUMG_idDoObjeto) references CertidaoTempoContribuicao
+2017-07-12 10:28:13,603 [main] ERROR org.hibernate.tool.hbm2ddl.SchemaUpdate:262 – Foreign key 'FK_i855qrh2j2i2im2sdwr7dqfa3' references invalid column 'CertidaoTempoContribuicao_NUMG_idDoObjeto' in referencing table 'CertidaoTempoContribuicao_DestinacaoCtc'.
+2017-07-12 10:28:13,605 [main] ERROR org.hibernate.tool.hbm2ddl.SchemaUpdate:261 – HHH000388: Unsuccessful: alter table CertidaoTempoContribuicao_PessoasFuncionais add constraint FK_io18nxjs8ojr4tul5xl25qtyu foreign key (CertidaoTempoContribuicao_NUMG_idDoObjeto) references CertidaoTempoContribuicao
+2017-07-12 10:28:13,605 [main] ERROR org.hibernate.tool.hbm2ddl.SchemaUpdate:262 – Foreign key 'FK_io18nxjs8ojr4tul5xl25qtyu' references invalid column 'CertidaoTempoContribuicao_NUMG_idDoObjeto' in referencing table 'CertidaoTempoContribuicao_PessoasFuncionais'.
+2017-09-13 08:12:05,084 [main] ERROR org.hibernate.hql.internal.ast.ErrorCounter:78 – line 1:74: expecting "join", found 'joim'
+2017-09-13 08:12:05,084 [main] ERROR org.hibernate.hql.internal.ast.ErrorCounter:73 – line 1:74: expecting "join", found 'joim'
+line 1:74: expecting "join", found 'joim'
+	at antlr.Parser.match(Parser.java:211)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.fromJoin(HqlBaseParser.java:1644)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.fromClause(HqlBaseParser.java:1380)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectFrom(HqlBaseParser.java:1086)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.queryRule(HqlBaseParser.java:731)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectStatement(HqlBaseParser.java:323)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.statement(HqlBaseParser.java:186)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.parse(QueryTranslatorImpl.java:295)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:203)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:158)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:131)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:93)
+	at org.hibernate.engine.query.spi.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:167)
+	at org.hibernate.internal.AbstractSessionImpl.getHQLQueryPlan(AbstractSessionImpl.java:301)
+	at org.hibernate.internal.AbstractSessionImpl.createQuery(AbstractSessionImpl.java:236)
+	at org.hibernate.internal.SessionImpl.createQuery(SessionImpl.java:1836)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:342)
+	at br.com.iperonprev.dao.CertidaoTempoDeContribuicaoDao.devolveCertidao(CertidaoTempoDeContribuicaoDao.java:153)
+	at br.com.iperonprev.controller.gerenciador.App.main(App.java:19)
+2017-09-13 08:12:05,099 [main] ERROR org.hibernate.hql.internal.ast.ErrorCounter:78 – line 1:129: unexpected token: :
+2017-09-13 08:12:05,099 [main] ERROR org.hibernate.hql.internal.ast.ErrorCounter:73 – line 1:129: unexpected token: :
+line 1:129: unexpected token: :
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.atom(HqlBaseParser.java:3694)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.unaryExpression(HqlBaseParser.java:3387)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.multiplyExpression(HqlBaseParser.java:3259)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.additiveExpression(HqlBaseParser.java:2964)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.concatenation(HqlBaseParser.java:597)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.relationalExpression(HqlBaseParser.java:2730)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.equalityExpression(HqlBaseParser.java:2591)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.negatedExpression(HqlBaseParser.java:2555)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.logicalAndExpression(HqlBaseParser.java:2471)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.logicalOrExpression(HqlBaseParser.java:2436)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.expression(HqlBaseParser.java:2146)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.logicalExpression(HqlBaseParser.java:1922)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.whereClause(HqlBaseParser.java:481)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.queryRule(HqlBaseParser.java:737)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectStatement(HqlBaseParser.java:323)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.statement(HqlBaseParser.java:186)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.parse(QueryTranslatorImpl.java:295)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:203)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:158)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:131)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:93)
+	at org.hibernate.engine.query.spi.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:167)
+	at org.hibernate.internal.AbstractSessionImpl.getHQLQueryPlan(AbstractSessionImpl.java:301)
+	at org.hibernate.internal.AbstractSessionImpl.createQuery(AbstractSessionImpl.java:236)
+	at org.hibernate.internal.SessionImpl.createQuery(SessionImpl.java:1836)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:342)
+	at br.com.iperonprev.dao.CertidaoTempoDeContribuicaoDao.devolveCertidao(CertidaoTempoDeContribuicaoDao.java:153)
+	at br.com.iperonprev.controller.gerenciador.App.main(App.java:19)
+2017-09-13 08:13:06,360 [main] ERROR org.hibernate.hql.internal.ast.ErrorCounter:78 – line 1:129: unexpected token: :
+2017-09-13 08:13:06,360 [main] ERROR org.hibernate.hql.internal.ast.ErrorCounter:73 – line 1:129: unexpected token: :
+line 1:129: unexpected token: :
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.atom(HqlBaseParser.java:3694)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.unaryExpression(HqlBaseParser.java:3387)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.multiplyExpression(HqlBaseParser.java:3259)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.additiveExpression(HqlBaseParser.java:2964)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.concatenation(HqlBaseParser.java:597)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.relationalExpression(HqlBaseParser.java:2730)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.equalityExpression(HqlBaseParser.java:2591)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.negatedExpression(HqlBaseParser.java:2555)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.logicalAndExpression(HqlBaseParser.java:2471)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.logicalOrExpression(HqlBaseParser.java:2436)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.expression(HqlBaseParser.java:2146)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.logicalExpression(HqlBaseParser.java:1922)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.whereClause(HqlBaseParser.java:481)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.queryRule(HqlBaseParser.java:737)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectStatement(HqlBaseParser.java:323)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.statement(HqlBaseParser.java:186)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.parse(QueryTranslatorImpl.java:295)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:203)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:158)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:131)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:93)
+	at org.hibernate.engine.query.spi.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:167)
+	at org.hibernate.internal.AbstractSessionImpl.getHQLQueryPlan(AbstractSessionImpl.java:301)
+	at org.hibernate.internal.AbstractSessionImpl.createQuery(AbstractSessionImpl.java:236)
+	at org.hibernate.internal.SessionImpl.createQuery(SessionImpl.java:1836)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:342)
+	at br.com.iperonprev.dao.CertidaoTempoDeContribuicaoDao.devolveCertidao(CertidaoTempoDeContribuicaoDao.java:153)
+	at br.com.iperonprev.controller.gerenciador.App.main(App.java:19)
+2018-11-14 09:59:50,523 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Read timed out
+2018-11-14 09:59:50,523 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – A conexão está fechada.
+2018-11-14 10:00:17,486 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Read timed out
+2018-11-14 10:00:17,486 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – A conexão está fechada.
+2018-11-14 10:00:32,494 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "connect timed out. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:00:47,143 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:01:02,136 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:01:17,144 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:01:32,152 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:01:47,161 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:02:02,153 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:02:17,161 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:02:32,154 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:02:47,178 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:03:02,171 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:03:17,163 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:03:32,156 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:03:47,148 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:04:02,141 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:04:17,134 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:04:32,126 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:04:47,103 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:05:02,096 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:05:17,073 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:05:32,066 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:05:47,058 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:06:02,051 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:06:17,044 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:06:32,021 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:06:47,013 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:07:02,021 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:07:17,014 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:07:32,007 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:07:46,984 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:08:01,976 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:08:16,969 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-14 10:08:31,947 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
+2018-11-22 13:41:09,995 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Column 'PessoasFuncionais.NUMG_idDoObjeto' is invalid in the select list because it is not contained in either an aggregate function or the GROUP BY clause.
+2018-11-22 13:43:43,173 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Column 'PessoasFuncionais.NUMG_idDoObjeto' is invalid in the select list because it is not contained in either an aggregate function or the GROUP BY clause.

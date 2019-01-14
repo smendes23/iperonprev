@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
+	http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+
+	<persistence-unit name="iperon" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+		<class>br.com.iperonprev.models.AfastamentosDisposicao</class>
+		<class>br.com.iperonprev.models.AfastamentosLicenca</class>
+		<class>br.com.iperonprev.models.AposentadoriaPorInvalidez</class>
+		<class>br.com.iperonprev.models.AtosConcessorios</class>
+		<class>br.com.iperonprev.models.AtosLegais</class>
+		<class>br.com.iperonprev.models.AuxilioDoenca</class>
+		<class>br.com.iperonprev.models.Averbacao</class>
+		<class>br.com.iperonprev.models.Cargos</class>
+		<class>br.com.iperonprev.models.Carreiras</class>
+		<class>br.com.iperonprev.models.CertidaoTempoContribuicao</class>
+		<class>br.com.iperonprev.models.Deducao</class>
+		<class>br.com.iperonprev.models.Dependentes</class>
+		<class>br.com.iperonprev.models.Enderecos</class>
+		<class>br.com.iperonprev.models.EntesFederados</class>
+		<class>br.com.iperonprev.models.Estados</class>
+		<class>br.com.iperonprev.models.Financeiro</class>
+		<class>br.com.iperonprev.models.GestorEnte</class>
+		<class>br.com.iperonprev.models.GrauDeInstrucao</class>
+		<class>br.com.iperonprev.models.GrauParentesco</class>
+		<class>br.com.iperonprev.models.Indice</class>
+		<class>br.com.iperonprev.models.Iniciativa</class>
+		<class>br.com.iperonprev.models.Municipios</class>
+		<class>br.com.iperonprev.models.NaturezasJuridicas</class>
+		<class>br.com.iperonprev.models.Orgaos</class>
+		<class>br.com.iperonprev.models.Pais</class>
+		<class>br.com.iperonprev.models.Pensao</class>
+		<class>br.com.iperonprev.models.Pessoas</class>
+		<class>br.com.iperonprev.models.PessoasFuncionais</class>
+		<class>br.com.iperonprev.models.Poderes</class>
+		<class>br.com.iperonprev.models.PoderPessoas</class>
+		<class>br.com.iperonprev.models.Portaria</class>
+		<class>br.com.iperonprev.models.RegimesPrevidenciarios</class>
+		<class>br.com.iperonprev.models.Sisobi</class>
+		<class>br.com.iperonprev.models.TipoAtosLegais</class>
+		<class>br.com.iperonprev.models.TipoDependencia</class>
+		<class>br.com.iperonprev.models.TipoLicenca</class>
+		<class>br.com.iperonprev.models.TipoRepresentanteLegal</class>
+		<properties>
+					
+			<!-- SQL Server Local -->
+ 			<!-- <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/> 
+			<property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=DBIPERON"/>
+			<property name="javax.persistence.jdbc.user" value="sa"/> 
+			<property name="javax.persistence.jdbc.password" value="123"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2008Dialect"/> -->
+			
+			<!-- SQL Server SAULO -->
+ 			<!-- <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/> 
+			<property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://10.31.1.121:1433;databaseName=DBIPERON"/>
+			<property name="javax.persistence.jdbc.user" value="sa"/> 
+			<property name="javax.persistence.jdbc.password" value="123"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2008Dialect"/>
+			 -->
+			<!-- SQL Server remoto -->
+			<property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/> 
+			<property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://192.168.130.30:1433;databaseName=DBIPERON"/>
+			<property name="javax.persistence.jdbc.user" value="sa"/> 
+			<property name="javax.persistence.jdbc.password" value="1p3r0n.2015"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2008Dialect"/>
+			 
+			
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.format_sql" value="false" />
+			
+			<!-- <property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider"/> -->
+			<property name="hibernate.c3p0.min_size" value="1"/>  
+   			<property name="hibernate.c3p0.max_size" value="30"/>  
+   			<property name="hibernate.c3p0.timeout" value="30"/>
+   			<property name="acquireIncrement" value="1" />
+			<property name="hibernate.c3p0.idle_test_period" value="100"/> 
+   			<property name="hibernate.c3p0.max_statements" value="50"/>
+			<property name="hibernate.event.merge.entity_copy_observer" value="allow"/>
+			
+		</properties>
+	</persistence-unit>
+
+</persistence>

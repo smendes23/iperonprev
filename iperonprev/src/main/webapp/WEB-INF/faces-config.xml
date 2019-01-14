@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+	version="2.2">
+	<application>
+		<action-listener>org.primefaces.application.DialogActionListener</action-listener>
+		<navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
+		<view-handler>org.primefaces.application.DialogViewHandler</view-handler>
+
+		<locale-config>
+			<default-locale>pt_BR</default-locale>
+		</locale-config>
+		<action-listener>org.omnifaces.eventlistener.ResetInputAjaxActionListener</action-listener>
+	</application>
+	
+	<converter>
+		<converter-id>doubleConverter</converter-id>
+		<converter-class>br.com.iperonprev.converter.DoubleConverter</converter-class>
+	</converter>
+	<converter>
+		<converter-id>conversorDeEntidades</converter-id>
+		<converter-class>br.com.iperonprev.converter.ConversorDeEntidades</converter-class>
+	</converter>
+	<converter>
+		<converter-id>cnpjConverter</converter-id>
+		<converter-class>br.com.iperonprev.converter.CnpjConverter</converter-class>
+	</converter>
+	<converter>
+		<converter-id>cpfConverter</converter-id>
+		<converter-class>br.com.iperonprev.converter.CpfConverter</converter-class>
+	</converter>
+	<converter>
+		<converter-id>competenciaConverterAnoMes</converter-id>
+		<converter-class>br.com.iperonprev.converter.CompetenciaConverterAnoMes</converter-class>
+	</converter>
+	<converter>
+		<converter-id>competenciaConverterMesAno</converter-id>
+		<converter-class>br.com.iperonprev.converter.CompetenciaConverterMesAno</converter-class>
+	</converter>
+	<converter>
+		<converter-id>dateConverter</converter-id>
+		<converter-class>br.com.iperonprev.converter.DateConverter</converter-class>
+	</converter>
+	<converter>
+		<converter-id>moedaConverter</converter-id>
+		<converter-class>br.com.iperonprev.converter.MoedaConverter</converter-class>
+	</converter>
+	<converter>
+		<converter-id>truncateTextConverter</converter-id>
+		<converter-class>br.com.iperonprev.converter.TruncateTextConverter</converter-class>
+	</converter>
+	<!-- <navigation-rule> <from-view-id>*</from-view-id> <navigation-case> 
+		<from-outcome>pretty:auxilioDoenca</from-outcome> <to-view-id>/paginas/beneficio/auxiliodoenca.xhtml</to-view-id> 
+		</navigation-case> </navigation-rule> -->
+	<!-- <navigation-rule> <from-view-id>*</from-view-id> <navigation-case> 
+		<from-outcome>pretty:sisobi</from-outcome> <to-view-id>/paginas/relatorios/sisobi.xhtml</to-view-id> 
+		</navigation-case> </navigation-rule> -->
+		<lifecycle>
+			<phase-listener>br.com.iperonprev.phase.PhaseView</phase-listener>
+		</lifecycle>
+		
+</faces-config>

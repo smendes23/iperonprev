@@ -1,0 +1,89 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sa="http://java.sun.com/jsf/composite/ccsa">
+<ui:composition template="../templates/master.xhtml">
+	<ui:define name="content">
+		<style>
+.ui-shadow {
+	box-shadow: 0px 5px 10px transparent;
+}
+</style>
+		<sa:ajaxStatus />
+		<sa:loading imgDir="/image/loading.gif"></sa:loading>
+		<p:panel header="Carreiras" styleClass="col-lg-10">
+			<h:form id="formCarreiras">
+				<p:messages showDetail="true" closable="true"></p:messages>
+				<br />
+				<h:inputHidden value="#{carreirasBean.carreira.NUMG_idDoObjeto}"></h:inputHidden>
+				<h:inputHidden value="#{carreirasBean.carreira.NUMR_versao}"></h:inputHidden>
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-lg-4">
+							<p:outputLabel value="Nome:"></p:outputLabel>
+							<p:inputText styleClass="form-control"
+								value="#{carreirasBean.carreira.DESC_nome}" required="true"/>
+						</div>
+						<div class="col-lg-4 ">
+								<p:outputLabel value="Data de Criação:"></p:outputLabel>
+								<p:inputMask mask="99/99/9999" styleClass="form-control"
+									value="#{carreirasBean.carreira.DATA_criacao}" required="true"
+									converter="dateConverter">
+								</p:inputMask>
+						</div>
+						<div class="col-lg-4">
+							<p:outputLabel value="Data de Extinção:"></p:outputLabel>
+							<p:inputMask mask="99/99/9999" styleClass="form-control"
+								value="#{carreirasBean.carreira.DATA_extincao}"
+								converter="dateConverter">
+							</p:inputMask>
+						</div>
+					</div>
+					
+					<div class="ui-grid-row">
+						<div class="col-sm-12"><br/></div>
+					</div>
+					
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Salvar" icon="fa fa-save">
+						<p:ajax listener="#{carreirasBean.salvarCarreira}" process="@form"
+							update="@form" />
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Novo"  icon="fa fa-file-o">
+						<p:ajax listener="#{carreirasBean.novaCarreira}" process="@form"
+							update="@form" />
+					</p:commandButton>
+				</div>
+				<div class="col-sm-2">
+					<p:commandButton value="Pesquisar" icon="fa fa-search"
+						action="#{carreirasBean.abreDialogoCarreiras}" 
+						process="@this" update="@none">
+						<p:ajax event="dialogReturn"
+							listener="#{carreirasBean.selecionaCarreiraDialogo}"
+							process="@this" update="@form" />
+						<p:resetInput target="formCarreiras" />
+					</p:commandButton>
+				</div>
+				<div class="col-sm-12"><p></p></div>
+			</h:form>
+		</p:panel>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><br/></div>
+		<div class="col-sm-12"><p></p></div>
+	</ui:define>
+</ui:composition>
+</html>
