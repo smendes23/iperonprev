@@ -3,11 +3,8 @@ package br.com.iperonprev.reports.ctc;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.LocalDate;
-
 import br.com.iperonprev.interfaces.JasperReportBuiderInterface;
 import br.com.iperonprev.models.FrequenciaCtc;
-import br.com.iperonprev.util.averbacao.DiaMesAno;
 import br.com.iperonprev.util.jsf.Field;
 import br.com.iperonprev.util.jsf.RetornaTempos;
 import net.sf.dynamicreports.report.datasource.DRDataSource;
@@ -33,19 +30,19 @@ public class ColumnFooterCtc implements JasperReportBuiderInterface {
 		return field;
 	}
 
-	@SuppressWarnings("static-access")
 	@Override
 	public JRDataSource dataSource() {
 		DRDataSource dataSource = new DRDataSource("certifico1","tempoTotal");
-		DiaMesAno dma = new RetornaTempos().devolveDiaMesAno(new LocalDate().now().toDate(),
-				RetornaTempos.retornaDataFutura(RetornaTempos.retornaTotalDiasFrequenciaCtc(listaFrequencia) + 1,
-						new LocalDate().now().toDate()));
+		/*DiaMesAno dma = new RetornaTempos().devolveDiaMesAno(new LocalDate().now().toDate(),
+				RetornaTempos.retornaDataFutura(RetornaTempos.retornaTotalDiasFrequenciaCtc(listaFrequencia),
+						new LocalDate().now().toDate()));*/
+		int totalDias = RetornaTempos.retornaTotalDiasFrequenciaCtc(listaFrequencia);
 		dataSource.add(
 				new StringBuilder()
 						.append("CERTIFICO, em face do apurado, que o(a) interessado(a) conta, de efetivo exercício prestado neste órgão, o tempo de contribuição de ")
 						.append(RetornaTempos.retornaTotalDiasFrequenciaCtc(listaFrequencia))
-						.append(" dias correspondente a ").append(dma.getAno()).append(" ano(s), ").append(dma.getMes())
-						.append(" mes(es), ").append(dma.getDia()).append(" dia(s).")
+						.append(" dias correspondente a ").append(totalDias/365).append(" ano(s), ").append((totalDias%365)/30)
+						.append(" mes(es), ").append((totalDias%365)%30).append(" dia(s).")
 						.append("\n")
 						.append("CERTIFICO que a Lei n°432, de 13/03/2008, assegura aos servidores do Estado de RONDÔNIA aposentadorias voluntárias, por invalidez e compulsória, e pensão por morte, ")
 						.append("com aproveitamento de tempo de contribuição para o Regime Geral de Previdência Social ou para outro Regime Próprio de "

@@ -93,7 +93,7 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	    EstadoCivil estadoCivil = new EstadoCivil();
 	    TipoLogradouro logradouro = new TipoLogradouro();
 	    CensoPrevidenciario censoPrevidenciario = new CensoPrevidenciario();
-	    public String colorRecadastramento = "green";
+//	    public String colorRecadastramento = "green";
 	    Sisobi sisobi = new Sisobi();
 	    private List<Pessoas> filtroDePessoas;
 	    static List<Municipios> listaM = new ArrayList<Municipios>();
@@ -126,9 +126,9 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	        this.censoPrevidenciario = censoPrevidenciario;
 	    }
 
-	    public String getColorRecadastramento() {
+	  /*  public String getColorRecadastramento() {
 	        return this.colorRecadastramento;
-	    }
+	    }*/
 
 	    public String getCpfDependente() {
 	        return this.cpfDependente;
@@ -303,32 +303,42 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	            this.habilitaNovoRecadastramento();
 	        }
 	        catch (Exception e) {
-	            System.out.println("Não foi possivel carregar a situa\u00e7ão previdenci\u00e1ria.");
+	            System.out.println("Não foi possivel carregar a situação previdenciária.");
 	        }
 	    }
 
 	    public void buscaServidor() {
 	        try {
 	            if (!this.pessoa.getNUMR_cpf().isEmpty()) {
-	                Optional<Pessoas> pessoaOp = Optional.ofNullable(new PessoasDao().devolvePessoa(this.pessoa.getNUMR_cpf()));
-	                if (pessoaOp.isPresent()) {
-	                    Optional<Enderecos> ende = null;
+	                this.pessoa =new PessoasDao().devolvePessoa(this.pessoa.getNUMR_cpf());
+	                this.estadoCivil = this.pessoa.getNUMR_estadoCivil();
+	                
+	                this.endereco = this.pessoa.getNUMR_idDoObjetoEndereco();
+	                this.logradouro = this.endereco.getNUMR_tipoLogradouro();
+	                this.estado =this.endereco.getNUMR_idDoObjetoMunicipio().getNUMR_idDoObjetoEstado();
+	                populaMunicipios();
+	                verificaServidorInativo(this.pessoa);
+	               
+	                /*if (pessoaOp.isPresent()) {
+//	                    Optional<Enderecos> ende = null;
 	                    this.pessoa = pessoaOp.get();
 	                    this.verificaServidorInativo(this.pessoa);
 	                    this.estadoCivil = pessoaOp.get().getNUMR_estadoCivil();
+	                    
 	                    if (this.pessoa.getNUMR_idDoObjetoEndereco() != null && (ende = Optional.ofNullable(this.pessoa.getNUMR_idDoObjetoEndereco())).isPresent()) {
-	                        this.endereco = this.pessoa.getNUMR_idDoObjetoEndereco();
+	                        this.endereco =new GenericPersistence<Enderecos>(Enderecos.class).buscarPorId(this.pessoa.getNUMR_idDoObjetoEndereco().getNUMG_idDoObjeto()) ;
 	                        this.getListaDeEstados();
-	                        this.estado = this.endereco.getNUMR_idDoObjetoMunicipio().getNUMR_idDoObjetoEstado();
+	                        this.estado =this.endereco.getNUMR_idDoObjetoMunicipio().getNUMR_idDoObjetoEstado();
 	                        this.populaMunicipios();
 	                        this.municipio = this.endereco.getNUMR_idDoObjetoMunicipio();
 	                        this.logradouro = this.endereco.getNUMR_tipoLogradouro();
 	                    }
-	                    if (new DependentesDao().existeDependente(this.pessoa.getNUMG_idDoObjeto().intValue())) {
-	                        this.listaDep = new DependentesDao().listaDependentesPensionistas(this.pessoa.getNUMG_idDoObjeto().intValue());
-	                    }
+	                }*/
+	                if (new DependentesDao().existeDependente(this.pessoa.getNUMG_idDoObjeto().intValue())) {
+	                	this.listaDep = new DependentesDao().listaDependentesPensionistas(this.pessoa.getNUMG_idDoObjeto().intValue());
 	                }
-	                pessoaOp = null;
+	                
+//	                pessoaOp = null;
 	                this.carregaListaDocumentos();
 	            } else {
 	                Message.addErrorMessage((String)"Cpf Nulo");
@@ -454,8 +464,8 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	        this.estado = new Estados();
 	        this.municipio = new Municipios();
 	        this.logradouro = new TipoLogradouro();
+            
 	        this.getListaDeEstados();
-	        
 	    }
 
 	    public void carregaDependente(Dependentes dep) {

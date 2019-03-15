@@ -38,7 +38,6 @@ public class GenericPersistence<Obj> implements Serializable {
 			em.merge(obj);
 			em.getTransaction().commit();
 		} catch (OptimisticLockException l) {
-			l.printStackTrace();
 			Message.addErrorMessage("Registro já está sendo utilizando em outro processo!");
 			em.getTransaction().rollback();
 		}catch (Exception e) {
@@ -46,7 +45,6 @@ public class GenericPersistence<Obj> implements Serializable {
 				em.getTransaction().rollback();
 			}
 			Message.addErrorMessage("Erro ao salvar dados!");
-			e.printStackTrace();
 		}finally {
 			em.close();
 		}
@@ -182,7 +180,6 @@ public class GenericPersistence<Obj> implements Serializable {
 				mov = q.getResultList();
 			}
 		}catch(PersistenceException e){
-			e.printStackTrace();
 			Message.addErrorMessage("Erro ao listar todos os registros de: "+e.getClass().getName());
 		}finally{
 			em.close();
@@ -202,7 +199,6 @@ public class GenericPersistence<Obj> implements Serializable {
 				lista = q.getResultList();
 			}
 		}catch(Exception e){
-			e.printStackTrace();
 			Message.addErrorMessage("Erro ao lista relacionamento");
 		}
 		return lista;

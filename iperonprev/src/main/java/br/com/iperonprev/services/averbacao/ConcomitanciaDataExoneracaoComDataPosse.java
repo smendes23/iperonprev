@@ -17,11 +17,16 @@ public class ConcomitanciaDataExoneracaoComDataPosse implements TemposConcomitan
 			Averbacao av = new GenericPersistence<Averbacao>(Averbacao.class).buscarPorId(a1.getNUMG_idDoObjeto());
 
 		 if(av.getNUMR_pessoasFuncionais().getDATA_efetivoExercicio().compareTo(av.getDATA_demissao()) < 0 ){
-				 av.setDATA_inicioConcomitancia(av.getNUMR_pessoasFuncionais().getDATA_efetivoExercicio());
-				 av.setDATA_fimConcomitancia(av.getDATA_demissao());
-				 if(av.isFLAG_concomitado() == true && av.getDATA_fimConcomitancia().compareTo(av.getNUMR_pessoasFuncionais().getDATA_efetivoExercicio()) != 0) {
+				 
+				 if(av.isFLAG_concomitado() == true && 
+						 RetornaTempos.retornaDiasApartirDeDuasDatas(av.getDATA_inicioConcomitancia(),av.getDATA_fimConcomitancia()) < RetornaTempos.retornaDiasApartirDeDuasDatas(av.getDATA_admissao(),av.getDATA_demissao())) {
+					 
 					 av.setDATA_fimConcomitancia(new LocalDate(av.getDATA_fimConcomitancia())
 								.plusDays(RetornaTempos.retornaDiasApartirDeDuasDatas(av.getNUMR_pessoasFuncionais().getDATA_efetivoExercicio(), av.getDATA_demissao())).toDate());
+				 }else {
+					 av.setDATA_inicioConcomitancia(av.getNUMR_pessoasFuncionais().getDATA_efetivoExercicio());
+					 av.setDATA_fimConcomitancia(av.getDATA_demissao());
+					 
 				 }
 				 av.setFLAG_concomitado(true);
 				 Averbacao averbacao = new QualificaTempoDeContribuicao().executa(av, av.getNUMR_deducao());

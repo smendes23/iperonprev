@@ -233,3 +233,23 @@ line 1:129: unexpected token: :
 2018-11-14 10:08:31,947 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Falha na conexão TCP/IP com o host 192.168.130.30, porta 1433. Erro: "Network is unreachable: connect. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".
 2018-11-22 13:41:09,995 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Column 'PessoasFuncionais.NUMG_idDoObjeto' is invalid in the select list because it is not contained in either an aggregate function or the GROUP BY clause.
 2018-11-22 13:43:43,173 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper:146 – Column 'PessoasFuncionais.NUMG_idDoObjeto' is invalid in the select list because it is not contained in either an aggregate function or the GROUP BY clause.
+2019-02-13 13:16:27,468 [main] ERROR org.hibernate.hql.internal.ast.ErrorCounter:78 – line 1:9: unexpected token: *
+2019-02-13 13:16:27,484 [main] ERROR org.hibernate.hql.internal.ast.ErrorCounter:73 – line 1:9: unexpected token: *
+line 1:9: unexpected token: *
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectClause(HqlBaseParser.java:1288)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectFrom(HqlBaseParser.java:1062)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.queryRule(HqlBaseParser.java:731)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectStatement(HqlBaseParser.java:323)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.statement(HqlBaseParser.java:186)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.parse(QueryTranslatorImpl.java:295)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:203)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:158)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:131)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:93)
+	at org.hibernate.engine.query.spi.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:167)
+	at org.hibernate.internal.AbstractSessionImpl.getHQLQueryPlan(AbstractSessionImpl.java:301)
+	at org.hibernate.internal.AbstractSessionImpl.createQuery(AbstractSessionImpl.java:236)
+	at org.hibernate.internal.SessionImpl.createQuery(SessionImpl.java:1836)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:342)
+	at br.com.iperonprev.dao.ContribuicaoDao.devolveListaContribuicaoPor(ContribuicaoDao.java:167)
+	at br.com.iperonprev.controller.App.main(App.java:29)

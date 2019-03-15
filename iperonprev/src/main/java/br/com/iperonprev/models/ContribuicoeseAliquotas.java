@@ -293,6 +293,28 @@ public class ContribuicoeseAliquotas implements Serializable{
 		VALR_devolPatronal = vALR_devolPatronal;
 	}
 	
+	public ContribuicoeseAliquotas(
+			String dESC_competencia, 
+			BigDecimal vALR_contribuicaoPrevidenciaria, 
+			double nUMR_aliquotaSegurado,
+			BigDecimal vALR_contribSegurado, 
+			BigDecimal vALR_devolSegurado, 
+			double nUMR_aliquotaPatronal,
+			BigDecimal vALR_contribPatronal, 
+			BigDecimal vALR_devolPatronal,
+			PessoasFuncionais NUMR_idPessoasFuncionais) {
+		
+		DESC_competencia = dESC_competencia;
+		VALR_contribuicaoPrevidenciaria = vALR_contribuicaoPrevidenciaria;
+		NUMR_aliquotaSegurado = nUMR_aliquotaSegurado;
+		VALR_contribSegurado = vALR_contribSegurado;
+		VALR_devolSegurado = vALR_devolSegurado;
+		NUMR_aliquotaPatronal = nUMR_aliquotaPatronal;
+		VALR_contribPatronal = vALR_contribPatronal;
+		VALR_devolPatronal = vALR_devolPatronal;
+		this.NUMR_idPessoasFuncionais = NUMR_idPessoasFuncionais;
+	}
+	
 	public ContribuicoeseAliquotas() {}
 	
 }

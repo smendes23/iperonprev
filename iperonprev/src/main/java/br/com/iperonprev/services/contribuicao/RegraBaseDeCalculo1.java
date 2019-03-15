@@ -1,7 +1,6 @@
 package br.com.iperonprev.services.contribuicao;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

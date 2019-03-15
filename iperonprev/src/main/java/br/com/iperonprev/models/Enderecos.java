@@ -34,8 +34,8 @@ public class Enderecos implements Serializable{
 	private String DESC_numero;
 	@Lob
 	private String DESC_observacao;
-	@Version
-	private int versao;
+	/*@Version
+	private int versao;*/
 	public int getNUMG_idDoObjeto() {
 		return NUMG_idDoObjeto;
 	}
@@ -84,12 +84,12 @@ public class Enderecos implements Serializable{
 	public void setDESC_observacao(String dESC_observacao) {
 		DESC_observacao = dESC_observacao;
 	}
-	public int getVersao() {
+	/*public int getVersao() {
 		return versao;
 	}
 	public void setVersao(int versao) {
 		this.versao = versao;
-	}
+	}*/
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -102,7 +102,7 @@ public class Enderecos implements Serializable{
 		result = prime * result + ((NUMR_cep == null) ? 0 : NUMR_cep.hashCode());
 		result = prime * result + ((NUMR_idDoObjetoMunicipio == null) ? 0 : NUMR_idDoObjetoMunicipio.hashCode());
 		result = prime * result + ((NUMR_tipoLogradouro == null) ? 0 : NUMR_tipoLogradouro.hashCode());
-		result = prime * result + versao;
+//		result = prime * result + versao;
 		return result;
 	}
 	@Override
@@ -151,8 +151,8 @@ public class Enderecos implements Serializable{
 				return false;
 		} else if (!NUMR_tipoLogradouro.equals(other.NUMR_tipoLogradouro))
 			return false;
-		if (versao != other.versao)
-			return false;
+		/*if (versao != other.versao)
+			return false;*/
 		return true;
 	}
 	

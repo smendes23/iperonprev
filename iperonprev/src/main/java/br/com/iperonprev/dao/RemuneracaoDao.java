@@ -86,7 +86,6 @@ public class RemuneracaoDao implements GenericDao<Remuneracoes>, Serializable {
 			}
 			rs.close();
 		} catch (Exception e) {
-			e.printStackTrace();
 			System.out.println("Erro ao executar procedure");
 		}
 		/*
@@ -288,22 +287,12 @@ public class RemuneracaoDao implements GenericDao<Remuneracoes>, Serializable {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Remuneracoes> listaRemuneracoesPorAno(String ano,int idFuncional) {
-		List<Remuneracoes> lista = new ArrayList<Remuneracoes>();
+	public List<ContribuicoeseAliquotas> listaRemuneracoesPorAno(String ano,int idFuncional) {
+		List<ContribuicoeseAliquotas> lista = new ArrayList<ContribuicoeseAliquotas>();
 		try {
 			Query q = getEm().createNativeQuery(
-					"select distinct re.* from " + 
-					"	Remuneracoes re " + 
-					"where " + 
-					"	NUMR_idDoObjetoFuncional_NUMG_idDoObjeto = :idFuncional " + 
-					"and " + 
-					"	SUBSTRING(NUMR_competencia,3,6) = :ano " + 
-					"and " + 
-					"	NUMR_rubrica_NUMG_idDoObjeto " + 
-					"in " + 
-					"	(254,5450,5456,1875,5446,5448,5450,1821,1847,1875,3722,3208,6484,6485) " + 
-					"and re.NUMR_competencia not in (select DESC_competencia from ContribuicoeseAliquotas where SUBSTRING(DESC_competencia,3,6) = :ano and NUMR_idPessoasFuncionais_NUMG_idDoObjeto = :idFuncional)",
-					Remuneracoes.class);
+					"select * from ContribuicoeseAliquotas where NUMR_idPessoasFuncionais_NUMG_idDoObjeto = :idFuncional and SUBSTRING(DESC_competencia,3,6) = :ano ",
+					ContribuicoeseAliquotas.class);
 			q.setParameter("ano", ano);
 			q.setParameter("idFuncional", idFuncional);
 			if (!q.getResultList().isEmpty()) {

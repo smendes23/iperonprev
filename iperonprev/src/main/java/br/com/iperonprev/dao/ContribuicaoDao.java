@@ -142,21 +142,30 @@ public class ContribuicaoDao implements GenericDao<Financeiro>,Serializable{
 			e.printStackTrace();
 			System.out.println("Erro ao executar procedure");
 		}
+	
+		return lista;
+	}
+	
+	public List<ContribuicoeseAliquotas> devolveListaContribuicaoPor(int mesInicio,int mesFim, String ano,int idPessoaFuncional){
+		List<ContribuicoeseAliquotas> lista = new ArrayList<>();
 		
-		
-		/*try{
-				Query q = getEm().createNativeQuery("select * from ContribuicoeseAliquotas where NUMR_idPessoasFuncionais_NUMG_idDoObjeto = :idFuncional",ContribuicoeseAliquotas.class);
-				q.setParameter("idFuncional", idFuncional);
-				
-				if(!q.getResultList().isEmpty()){
-					contribuicao = q.getResultList();
-				}
-				
-		}catch(Exception e){
-			Message.addErrorMessage("Erro ao consultar contribuições!");
-		}finally{
-			getEm().close();
-		}*/
+		try {
+			
+			Query q = getEm().createNativeQuery(" select * from ContribuicoeseAliquotas where " +
+						"NUMR_idPessoasFuncionais_NUMG_idDoObjeto  = :idFuncional and convert(int,SUBSTRING(DESC_competencia,1,2)) between :valor1 and :valor2 "+ 
+						"and SUBSTRING(DESC_competencia,3,7) = :ano ", ContribuicoeseAliquotas.class );
+			q.setParameter("idFuncional", idPessoaFuncional);
+			q.setParameter("valor1",mesInicio );
+			q.setParameter("valor2",mesFim);
+			q.setParameter("ano", ano);
+			
+			if(!q.getResultList().isEmpty()) {
+				lista = q.getResultList();
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return lista;
 	}
 

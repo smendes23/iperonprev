@@ -27,7 +27,6 @@ import br.com.iperonprev.dao.ContribuicaoDao;
 import br.com.iperonprev.dao.FuncionaisFuncoesDao;
 import br.com.iperonprev.dao.GenericPersistence;
 import br.com.iperonprev.dao.PessoasDao;
-import br.com.iperonprev.dao.RemuneracaoDao;
 import br.com.iperonprev.helper.ComponentReportBuilderHelper;
 import br.com.iperonprev.helper.ContribuicaoHelper;
 import br.com.iperonprev.interfaces.GenericBean;

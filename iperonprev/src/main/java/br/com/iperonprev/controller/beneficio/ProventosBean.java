@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
@@ -34,7 +33,8 @@ import br.com.iperonprev.util.jsf.DialogsPrime;
 import br.com.iperonprev.util.jsf.Message;
 
 @ManagedBean
-@SessionScoped
+//@SessionScoped
+@javax.faces.view.ViewScoped
 public class ProventosBean
   implements GenericBean<ProventosBeneficio>, Serializable
 {

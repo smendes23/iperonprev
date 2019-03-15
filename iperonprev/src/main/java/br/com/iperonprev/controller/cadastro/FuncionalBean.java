@@ -1733,13 +1733,14 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 		String planoPrevidenciario = "";
 
 		try {
-			if (funcional.getDATA_efetivoExercicio().before(sdf.parse("31/12/2009"))) {
+			if (funcional.getDATA_efetivoExercicio().compareTo(sdf.parse("31/12/2009")) < 0) {
 				planoPrevidenciario = "Conta Financeira";
 			} else {
 				planoPrevidenciario = "Conta Capitalizada";
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("Erro ao converter data plano previdenciario");
 		}
 		Collections.sort(listaDeContribuicoes, CONTRIBUICAO_ORDER);

@@ -1,4 +1,4 @@
-package br.com.iperonprev.controller;
+package br.com.iperonprev.services.contribuicao;
 
 public class ContadorTempo {
 

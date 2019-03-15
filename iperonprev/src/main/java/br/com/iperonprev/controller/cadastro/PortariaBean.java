@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.faces.bean.ManagedBean;
 import javax.servlet.http.Part;
@@ -51,11 +52,15 @@ public class PortariaBean implements  Serializable,GenericBean<Portaria>{
 	@Override
 	public void salvarObjeto() {
 		try{
-			System.out.println(file.getSize());
 			this.portaria.setNUMR_indice(this.listaDeIndices(file));
-			dao.salvaObjeto(this.portaria);
+			
+			if(new PortariaDao().verificaExistenciaPortaiaPorCompetencia(this.portaria.getDESC_competencia()) == false) {
+				Message.addSuccessMessage("Portaria salva com sucesso!");
+				dao.salvaObjeto(this.portaria);
+			}else {
+				Message.addErrorMessage("Portaria já existe!");
+			}
 			novoObjeto();
-			Message.addSuccessMessage("Portaria salva com sucesso!");
 		}catch(Exception e){
 			Message.addErrorMessage("Erro ao salvar Portaria!");
 		}

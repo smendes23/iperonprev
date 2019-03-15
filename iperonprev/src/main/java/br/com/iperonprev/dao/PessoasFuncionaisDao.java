@@ -263,7 +263,6 @@ public class PessoasFuncionaisDao implements GenericDao<PessoasFuncionais>,Seria
 				lista = q.getResultList();
 			}
 		}catch(Exception e){
-			e.printStackTrace();
 			System.out.println("Erro ao buscar funcional");
 		}
 		
@@ -282,7 +281,6 @@ public class PessoasFuncionaisDao implements GenericDao<PessoasFuncionais>,Seria
 				pf = (PessoasFuncionais)q.getResultList().get(0);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
 			System.out.println("Erro ao buscar funcional");
 		}
 		
@@ -321,7 +319,6 @@ public class PessoasFuncionaisDao implements GenericDao<PessoasFuncionais>,Seria
 				lista = q.getResultList();
 			}
 		}catch(Exception e){
-			e.printStackTrace();
 			System.out.println("Erro ao buscar funcional");
 		}
 		
@@ -337,12 +334,10 @@ public class PessoasFuncionaisDao implements GenericDao<PessoasFuncionais>,Seria
 										+ "pf.NUMR_idDoObjetoPessoas_NUMG_idDoObjeto = p.NUMG_idDoObjeto "
 										+ "where p.NUMR_cpf = :cpf",PessoasFuncionais.class);
 			q.setParameter("cpf", cpf);
-			System.out.println(q.getResultList().size());
 			if(!q.getResultList().isEmpty()){
 				lista = q.getResultList();
 			}
 		}catch(Exception e){
-			e.printStackTrace();
 			System.out.println("Erro ao buscar funcional");
 		}
 		
@@ -364,7 +359,6 @@ public class PessoasFuncionaisDao implements GenericDao<PessoasFuncionais>,Seria
 				pf = (PessoasFuncionais) q.getResultList().get(0);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
 			System.out.println("Erro ao buscar funcional");
 		}
 		
@@ -390,7 +384,6 @@ public class PessoasFuncionaisDao implements GenericDao<PessoasFuncionais>,Seria
 				pf =q.getResultList();
 			}
 		}catch(Exception e){
-			e.printStackTrace();
 			System.out.println("Erro ao buscar funcional");
 		}
 		
@@ -415,7 +408,6 @@ public class PessoasFuncionaisDao implements GenericDao<PessoasFuncionais>,Seria
 				lista =q.getResultList();
 			}
 		}catch(Exception e){
-			e.printStackTrace();
 			System.out.println("Erro ao buscar funcional");
 		}
 		
@@ -434,7 +426,6 @@ public class PessoasFuncionaisDao implements GenericDao<PessoasFuncionais>,Seria
 				lista = q.getResultList();
 			}
 		}catch(Exception e){
-			e.printStackTrace();
 			System.out.println("Erro ao buscar funcional");
 		}
 		

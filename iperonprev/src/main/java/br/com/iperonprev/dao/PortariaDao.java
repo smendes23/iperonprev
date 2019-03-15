@@ -57,28 +57,37 @@ public class PortariaDao implements GenericDao<Portaria>, Serializable {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
 	public Portaria buscaPortariaPorCompetencia(String competencia){
 		Portaria portaria = new Portaria();
-		List<Portaria> lista = new ArrayList<>();
-		System.out.println(competencia);
 		try{
 			Query q = getEm().createNativeQuery("select * from Portaria where DESC_competencia = :competencia",Portaria.class);
 			q.setParameter("competencia", competencia);
-			lista = q.getResultList();
-			lista.forEach(p->{
-				System.out.println(p.getNUMG_idDoObjeto());
-			});
-			portaria = lista.get(0);
-			System.out.println(portaria.getNUMG_idDoObjeto());
+			if(!q.getResultList().isEmpty()) {
+				portaria = (Portaria)q.getResultList().get(0);
+			}
 		}catch(Exception e){
-//			e.printStackTrace();
+			e.printStackTrace();
 		}finally{
 			getEm().close();
 		}
 		return portaria;
 	}
 	
-	
+	public boolean verificaExistenciaPortaiaPorCompetencia(String competencia){
+		Portaria portaria = new Portaria();
+		boolean res = false;
+		try{
+			Query q = getEm().createNativeQuery("select * from Portaria where DESC_competencia = :competencia",Portaria.class);
+			q.setParameter("competencia", competencia);
+			if(!q.getResultList().isEmpty()) {
+				res = true;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			getEm().close();
+		}
+		return res;
+	}
 
 }

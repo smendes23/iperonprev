@@ -7,6 +7,12 @@
 	xmlns:sa="http://java.sun.com/jsf/composite/ccsa"
 	xmlns:pe="http://primefaces.org/ui/extensions">
 	<ui:define name="content">
+		
+		<f:metadata>
+			<f:viewAction action="#{financeiroBean.recarregaPagina}"
+				onPostBack="true" />
+		</f:metadata>
+	
 		<style>
 .ui-shadow {
 	box-shadow: 0px 5px 10px transparent;
@@ -20,7 +26,7 @@
 		<div class="col-sm-10">
 			<h:form id="formFinanceiro">
 			<p:messages showDetail="true" closable="true" id="msgs"></p:messages>
-				<p:tabView style=" margin-bottom: 55px;">
+				<p:tabView style=" margin-bottom: 55px;" id="tbFinanceiro">
 					<p:tab title="Histórico Financeiro" id="financeiro">
 						<div class="ui-grid ui-grid-responsive">
 							<h3 class="fieldalt">Dados do Servidor</h3>
@@ -34,7 +40,7 @@
 										
 									</p:inputMask>
 									<span class="input-group-btn">
-										<p:commandButton icon="fa fa-search" styleClass="btn-input" action="#{financeiroBean.buscaServidor}" actionListener="#{financeiroBean.limpaDadosFuncionaisServidor()}"
+										<p:commandButton icon="fa fa-search" styleClass="btn-input" action="#{financeiroBean.buscaServidor}" 
 											update="@form" process="cpfServidor @this">
 										</p:commandButton>
 									</span>
@@ -55,7 +61,7 @@
 							<div class="ui-grid-row">
 								<div class="col-sm-3" style="color: #000">
 									<p:outputLabel value="Documento Funcional:"></p:outputLabel>
-									<p:selectOneMenu  value="#{financeiroBean.idFuncional}" valueChangeListener="#{financeiroBean.buscaFuncional}" style="width:100%" >
+									<p:selectOneMenu  value="#{financeiroBean.idFuncional}" valueChangeListener="#{financeiroBean.buscaFuncional}" style="width:100%" id="funcional">
 										<f:selectItem itemLabel="--Selecione--" itemValue=""
 											noSelectionOption="true" />
 										<f:selectItems value="#{financeiroBean.listaFuncionais}" var="func" itemLabel="#{func.DESC_matricula}" itemValue="#{func.NUMG_idDoObjeto}"/>
@@ -195,6 +201,8 @@
 						
 						
 					</p:tab>
+					
+					
 					<p:tab title="Contribuição" id="contribuicao" rendered="true"
 						disabled="#{financeiroBean.ativaTab eq false}">
 						<div class="ui-grid ui-grid-responsive">
@@ -203,24 +211,50 @@
 								<div class="ui-grid-row">
 									<div class="col-sm-5" style="color: #000;">
 										<p:outputLabel value="Nome: "></p:outputLabel>
-										<p:outputLabel value="#{funcionalBean.pessoas.DESC_nome}"></p:outputLabel>
+										<p:outputLabel value="#{financeiroBean.pessoas.DESC_nome}"></p:outputLabel>
 									</div>
 
 									<div class="col-sm-3" style="color: #000;">
 										<p:outputLabel value="CPF: "></p:outputLabel>
-										<p:outputLabel value="#{funcionalBean.pessoas.NUMR_cpf}"></p:outputLabel>
+										<p:outputLabel value="#{financeiroBean.pessoas.NUMR_cpf}"></p:outputLabel>
 									</div>
 									<div class="col-sm-4" style="color: #000;">
 										<p:outputLabel value="Matrícula: "></p:outputLabel>
 										<p:outputLabel
-											value="#{funcionalBean.funcional.DESC_matricula}"></p:outputLabel>
+											value="#{financeiroBean.pf.DESC_matricula}"></p:outputLabel>
 									</div>
 								</div>
 								<h3 class="fieldalt">Dados Contributivos</h3>
 								<hr />
 								
+								<div class="ui-grid-row">
+									<div class="col-sm-4" style="color: #000;">
+										<p:outputLabel value="Base de Contribuição: "></p:outputLabel>
+										<p:inputText styleClass="form-control" converter="moedaConverter" value="#{financeiroBean.baseContribuicao}" id="baseCalc"></p:inputText>
+									</div>
+
+									<div class="col-sm-3" style="color: #000;">
+										<p:outputLabel value="Competência Inicial: "></p:outputLabel>
+										<p:inputMask mask="99/9999" styleClass="form-control" value="#{financeiroBean.competenciaInicial}" id="compI"></p:inputMask>
+									</div>
+									<div class="col-sm-3" style="color: #000;">
+										<p:outputLabel value="Competência Final: "></p:outputLabel>
+										<p:inputMask mask="99/9999" styleClass="form-control" value="#{financeiroBean.competenciaFinal}" id="compF"></p:inputMask>
+									</div>
+									<div class="col-sm-2" style="color: #000;top:20px">
+										<p:commandButton value="Salvar" icon="fa fa-save">
+											<p:ajax listener="#{financeiroBean.salvaContribuicaoPorPeriodo()}" update="baseCalc compI compF :formFinanceiro:msgs" process="contribuicao"></p:ajax>
+										</p:commandButton>
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="col-sm-12"><p></p></div>
+								</div>
 								
-								 <p:dataTable id="contribs" var="cont"  style="font-size:13px;" value="#{financeiroBean.listaDecontribuicoes}" editable="true" editMode="cell" widgetVar="cellContribs">
+								
+								<p:remoteCommand name="onEdit" update="contribs"/>
+								
+								 <p:dataTable id="contribs" var="cont" rendered="true"  style="font-size:13px;" value="#{financeiroBean.listaDecontribuicoes}" editable="true" editMode="cell" widgetVar="cellContribs">
 							 		<f:facet name="header">
 							 		<style>
 							 			tbody > tr {
@@ -233,61 +267,58 @@
 								            <p:commandButton value="Enviar" style="margin-left: 5px;" action="#{financeiroBean.processaLista}" update="contribs"></p:commandButton>
 							 		</div>
 							        </f:facet>
-							        <p:ajax event="cellEdit" listener="#{financeiroBean.onCellEdit}" />
+							        <p:ajax event="cellEdit" listener="#{financeiroBean.onCellEdit}" oncomplete="onEdit()" />
 							 
 							          <p:column headerText="Competência">
-							               <p:cellEditor>
-							                   <f:facet name="output"><h:outputText value="#{cont.DESC_competencia}" /></f:facet>
-							                   <f:facet name="input"><p:inputText id="modelInput" value="#{cont.DESC_competencia}" /></f:facet>
-							               </p:cellEditor>
+							          	<h:outputText value="#{cont.DESC_competencia}" />
 							           </p:column>
 							 
-							           <p:column headerText="Base de Cálculo" style="width:132px">
+							           <p:column headerText="Base de Cálculo" style="width:132px" id="base" field="baseCalculo">
 								            <p:cellEditor>
 								                <f:facet name="output"><h:outputText value="#{cont.VALR_contribuicaoPrevidenciaria}" /></f:facet>
-								                <f:facet name="input"><p:inputText value="#{cont.VALR_contribuicaoPrevidenciaria}" label="Year"/></f:facet>
+								                <f:facet name="input"><p:inputText value="#{cont.VALR_contribuicaoPrevidenciaria}" label="Year" converter="moedaConverter" /></f:facet>
 								            </p:cellEditor>
 							        	</p:column>
 							        	
-							        	 <p:column headerText="Al. Segurado">
-								            <p:cellEditor>
+							        	 <p:column headerText="Al. Segurado" id="aliquotaSeg" field="aliquotaSegurado">
+								            <p:cellEditor id="aliquotaSegurado">
 								                <f:facet name="output"><h:outputText value="#{cont.NUMR_aliquotaSegurado}" /></f:facet>
-								                <f:facet name="input"><p:inputText value="#{cont.NUMR_aliquotaSegurado}" label="Year"/></f:facet>
+								                <f:facet name="input"><p:inputText value="#{cont.NUMR_aliquotaSegurado}" label="Year" converter="moedaConverter"/></f:facet>
 								            </p:cellEditor>
 							        	</p:column>
 							        	
-							        	<p:column headerText="Contrib. Segurado" style="width:152px" >
+							        	<p:column headerText="Contrib. Segurado" style="width:152px" id="contribSegurado" field="contribuicaoSegurado">
 								            <p:cellEditor>
 								                <f:facet name="output"><h:outputText value="#{cont.VALR_contribSegurado}"/></f:facet>
-								                <f:facet name="input"><p:inputText value="#{cont.VALR_contribSegurado}" label="Year"/></f:facet>
+								                <f:facet name="input"><p:inputText value="#{cont.VALR_contribSegurado}" label="Year" converter="moedaConverter"/></f:facet>
 								            </p:cellEditor>
 							        	</p:column>
 							        	
 							        	<p:column headerText="Dev. Segurado">
 								            <p:cellEditor>
 								                <f:facet name="output"><h:outputText value="#{cont.VALR_devolSegurado}"/></f:facet>
-								                <f:facet name="input"><p:inputText value="#{cont.VALR_devolSegurado}" label="Year"/></f:facet>
+								                <f:facet name="input"><p:inputText value="#{cont.VALR_devolSegurado}" label="Year" converter="moedaConverter"/></f:facet>
 								            </p:cellEditor>
 							        	</p:column>
 							        	
-							        	<p:column headerText="Al. Patronal">
+							        	<p:column headerText="Al. Patronal" field="aliquotaPatronal">
 								            <p:cellEditor>
 								                <f:facet name="output"><h:outputText  value="#{cont.NUMR_aliquotaPatronal}"/></f:facet>
-								                <f:facet name="input"><p:inputText value="#{cont.NUMR_aliquotaPatronal}" label="Year"/></f:facet>
+								                <f:facet name="input"><p:inputText value="#{cont.NUMR_aliquotaPatronal}" label="Year" converter="moedaConverter"/></f:facet>
 								            </p:cellEditor>
 							        	</p:column>
 							 
-							       		<p:column headerText="Contrib. Patronal" style="width:152px">
+							       		<p:column headerText="Contrib. Patronal" style="width:152px" field="contribuicaoPatronal">
 								            <p:cellEditor>
 								                <f:facet name="output"><h:outputText value="#{cont.VALR_contribPatronal}"  /></f:facet>
-								                <f:facet name="input"><p:inputText value="#{cont.VALR_contribPatronal}" label="Year"/></f:facet>
+								                <f:facet name="input"><p:inputText value="#{cont.VALR_contribPatronal}" label="Year" converter="moedaConverter"/></f:facet>
 								            </p:cellEditor>
 							        	</p:column>
 							        	
 							        	<p:column headerText="Dev. Patronal">
 								            <p:cellEditor>
 								                <f:facet name="output"><h:outputText value="#{cont.VALR_devolPatronal}"/></f:facet>
-								                <f:facet name="input"><p:inputText value="#{cont.VALR_devolPatronal}"  label="Year"/></f:facet>
+								                <f:facet name="input"><p:inputText value="#{cont.VALR_devolPatronal}"  label="Year" converter="moedaConverter"/></f:facet>
 								            </p:cellEditor>
 							        	</p:column>
 							    </p:dataTable>
@@ -306,9 +337,7 @@
 								</div>
 								<div class="ui-grid-row">
 									<div class="col-sm-2" style="color: #000">
-									<p:commandButton value="Salvar" icon="fa fa-save" action="#{funcionalBean.salvaContribuicoes}" >
-										<p:ajax
-											listener="#{funcionalBean.salvaContribuicoes}" />
+									<p:commandButton value="Salvar" icon="fa fa-save"  action="#{financeiroBean.salvaContribuicoes}" update="contribs :formFinanceiro:msgs" process="@this">
 									</p:commandButton>
 								</div>
 								<div class="col-sm-2" style="color: #000">
@@ -319,14 +348,14 @@
 								</div>
 								<div class="col-sm-3" style="color: #000">
 									<p:commandButton value="Extrato" icon="fa fa-print"
-										action="#{funcionalBean.geraFichaFinanceira}" immediate="true"
+										action="#{financeiroBean.geraFichaFinanceira}" immediate="true"
 										onclick="this.form.target='_blank'" ajax="false">
 									</p:commandButton>
 								</div>
 								<div class="col-sm-2" style="color: #000">
 									<p:commandButton value="Excluir" icon="fa fa-trash">
 										<p:ajax 
-											listener="#{funcionalBean.removeContribuicao}" />
+											listener="#{financeiroBean.recarregaPagina()}" />
 									</p:commandButton>
 								</div>
 								
@@ -334,7 +363,7 @@
 								</div>
 						</div>
 					</p:tab>
-						<p:ajax event="tabChange" listener="#{proventosBean.onTabChange}" update="@form"/>
+						<p:ajax event="tabChange" listener="#{financeiroBean.onTabChange}" update="@form"/>
 						
 					<p:tab title="Proventos" id="proventos" rendered="true"
 						disabled="#{financeiroBean.ativaTab eq false}">
@@ -346,17 +375,17 @@
 								<div class="ui-grid-row">
 									<div class="col-sm-5" style="color: #000;">
 										<p:outputLabel value="Nome: "></p:outputLabel>
-										<p:outputLabel value="#{proventosBean.pf.NUMR_idDoObjetoPessoas.DESC_nome}" id="nomeProventos"></p:outputLabel>
+										<p:outputLabel value="#{financeiroBean.pf.NUMR_idDoObjetoPessoas.DESC_nome}" id="nomeProventos"></p:outputLabel>
 									</div>
 
 									<div class="col-sm-3" style="color: #000;">
 										<p:outputLabel value="CPF: "></p:outputLabel>
-										<p:outputLabel value="#{proventosBean.pf.NUMR_idDoObjetoPessoas.NUMR_cpf}"></p:outputLabel>
+										<p:outputLabel value="#{financeiroBean.pf.NUMR_idDoObjetoPessoas.NUMR_cpf}"></p:outputLabel>
 									</div>
 									<div class="col-sm-4" style="color: #000;">
 										<p:outputLabel value="Matrícula: "></p:outputLabel>
 										<p:outputLabel
-											value="#{proventosBean.pf.DESC_matricula}"></p:outputLabel>
+											value="#{financeiroBean.pf.DESC_matricula}"></p:outputLabel>
 									</div>
 								</div>
 								
@@ -496,17 +525,17 @@
 								<div class="ui-grid-row">
 									<div class="col-sm-5" style="color: #000;">
 										<p:outputLabel value="Nome: "></p:outputLabel>
-										<p:outputLabel value="#{proventosBean.pf.NUMR_idDoObjetoPessoas.DESC_nome}" ></p:outputLabel>
+										<p:outputLabel value="#{financeiroBean.pf.NUMR_idDoObjetoPessoas.DESC_nome}" ></p:outputLabel>
 									</div>
 
 									<div class="col-sm-3" style="color: #000;">
 										<p:outputLabel value="CPF: "></p:outputLabel>
-										<p:outputLabel value="#{proventosBean.pf.NUMR_idDoObjetoPessoas.NUMR_cpf}"></p:outputLabel>
+										<p:outputLabel value="#{financeiroBean.pf.NUMR_idDoObjetoPessoas.NUMR_cpf}"></p:outputLabel>
 									</div>
 									<div class="col-sm-4" style="color: #000;">
 										<p:outputLabel value="Matrícula: "></p:outputLabel>
 										<p:outputLabel
-											value="#{proventosBean.pf.DESC_matricula}"></p:outputLabel>
+											value="#{financeiroBean.pf.DESC_matricula}"></p:outputLabel>
 									</div>
 								</div>
 								
@@ -516,20 +545,20 @@
 									<div class="col-sm-4" style="color: #000;">
 										<p:outputLabel value="Competência Portaria: "></p:outputLabel>
 										<p:inputMask mask="99/9999" styleClass="form-control" id="compet"
-												value="#{funcionalBean.competenciaPortaria}" converter="competenciaConverterMesAno">
+												value="#{financeiroBean.competenciaPortaria}" converter="competenciaConverterMesAno">
 													<p:ajax event="blur" update="@this" resetValues="true"/>
 										</p:inputMask>
 									</div>
 									<div class="col-sm-4" style="color: #000;">
 										<p:outputLabel value="Data Simulação:"></p:outputLabel>
 												<p:inputMask mask="99/99/9999" styleClass="form-control"
-												value="#{funcionalBean.dataSimulacao}" converter="dateConverter">
+												value="#{financeiroBean.dataSimulacao}" converter="dateConverter">
 													<p:ajax event="blur" update="@this" resetValues="true"/>
 										</p:inputMask>
 									</div>
 									<div class="col-sm-4" style="color: #000;margin-top: 20px;">
 										<p:outputLabel value="Proventos Integrais? " />
-											<p:selectBooleanButton id="value2" value="#{funcionalBean.tipoCalculo}" onLabel="Sim" offLabel="Não"  style="width:65px">
+											<p:selectBooleanButton id="value2" value="#{financeiroBean.tipoCalculo}" onLabel="Sim" offLabel="Não"  style="width:65px">
 										            <p:ajax update="@this"/>
 										    </p:selectBooleanButton>
 									</div>
@@ -559,7 +588,7 @@
 								<div class="ui-grid-row">
 									<div class="col-sm-2" style="color: #000">
 										<p:commandButton value="Imprimir"
-												action="#{funcionalBean.geraMedias}" immediate="true"
+												action="#{financeiroBean.geraMedias}" immediate="true"
 												onclick="this.form.target='_blank'" ajax="false">
 												
 											</p:commandButton>

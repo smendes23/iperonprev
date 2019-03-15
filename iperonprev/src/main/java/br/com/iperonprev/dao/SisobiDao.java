@@ -3,12 +3,15 @@ package br.com.iperonprev.dao;
 import java.io.Serializable;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import br.com.iperonprev.controller.dto.SisobiDto;
 import br.com.iperonprev.interfaces.GenericDao;
 import br.com.iperonprev.models.Pessoas;
 import br.com.iperonprev.models.Sisobi;
@@ -88,29 +91,47 @@ public class SisobiDao implements GenericDao<Sisobi>,Serializable {
 		return lista;
 	}
 	
+	
 	@SuppressWarnings("unchecked")
-	public List<Sisobi> devolveListaDeSisobi(String competenciaInicio){
-		List<Sisobi> lista = new ArrayList<Sisobi>();
-		List<Sisobi> listaSisobi = new ArrayList<Sisobi>();
+	public List<SisobiDto> devolveListaDeSisobi(String competenciaInicio){
+		List<SisobiDto> lista = new ArrayList<SisobiDto>();
 		try{
-			Query q = getEm().createNativeQuery("select * from Sisobi s, Pessoas p where" 
-						+" s.pessoaId = p.NUMG_idDoObjeto and" 
-						+" s.DESC_competencia = :parametro1",Sisobi.class);
-			q.setParameter("parametro1", competenciaInicio);
-			if(!q.getResultList().isEmpty()){
-				lista = q.getResultList();
-				lista.forEach(s->{
-					Pessoas p = new GenericPersistence<Pessoas>(Pessoas.class).buscarPorId(s.getNUMR_idDoObjetoPessoa().getNUMG_idDoObjeto());
-					Sisobi sisobi = s;
-					sisobi.setNUMR_idDoObjetoPessoa(p);
-					listaSisobi.add(sisobi);
-				});
+			Connection con = conexao.getInstance().getConnection();
+			String sql ="select  p.NUMR_cpf as cpf, " + 
+					"		p.DESC_nome AS nome, " + 
+					"		pf.DESC_matricula as matricula, " + 
+					"		sp.DESC_descricao AS situacao, " + 
+					"		p.DESC_mae as mae, " + 
+					"		p.DATA_nascimento as nascimento, " + 
+					"		s.DATA_obito as obito, " + 
+					"		s.DESC_competencia AS competencia " + 
+					"		 from Sisobi s, Pessoas p, PessoasFuncionais pf, SituacaoPrevidenciaria sp where " + 
+					"						s.pessoaId = p.NUMG_idDoObjeto and " + 
+					"						pf.NUMR_idDoObjetoPessoas_NUMG_idDoObjeto = p.NUMG_idDoObjeto and " + 
+					"						pf.NUMR_situacaoPrevidenciaria_NUMG_idDoObjeto = sp.NUMG_idDoObjeto and " + 
+					"						s.DESC_competencia = ?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, competenciaInicio);
+			
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				SisobiDto siso = new SisobiDto();
+				siso.setCpf(rs.getString(1));
+				siso.setNome(rs.getString(2));
+				siso.setMatricula(rs.getString(3));
+				siso.setSituacao(rs.getString(4));
+				siso.setMae(rs.getString(5));
+				siso.setNascimento(rs.getDate(6));
+				siso.setObito(rs.getDate(7));
+				siso.setCompetencia(rs.getString(8));
+				lista.add(siso);
 			}
+			rs.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		
-		return listaSisobi;
+		return lista;
 	}
 	
 	@SuppressWarnings("unchecked")

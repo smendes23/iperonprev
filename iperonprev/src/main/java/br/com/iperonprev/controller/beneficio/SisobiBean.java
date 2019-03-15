@@ -12,6 +12,7 @@ import javax.servlet.http.Part;
 import org.joda.time.LocalDateTime;
 import org.omnifaces.cdi.ViewScoped;
 
+import br.com.iperonprev.controller.dto.SisobiDto;
 import br.com.iperonprev.dao.SisobiDao;
 import br.com.iperonprev.models.Sisobi;
 import br.com.iperonprev.reports.container.Reports;
@@ -89,7 +90,7 @@ public class SisobiBean extends HttpServlet {
 	
 
 	public void geraSisobi() throws IOException {
-		List<Sisobi> listaSisobi = new ArrayList<Sisobi>();
+		List<SisobiDto> listaSisobi = new ArrayList<SisobiDto>();
 		SisobiDao dao = new SisobiDao();
 		String mes1 = "12";
 		String ano = new String();
@@ -135,12 +136,14 @@ public class SisobiBean extends HttpServlet {
 		field.add(new Field("dataNascimento", "string"));
 		field.add(new Field("dataObito", "string"));
 		field.add(new Field("tituloRelatorio", "string"));
+		field.add(new Field("matricula", "string"));
+		field.add(new Field("situacao", "string"));
 		return field;
 	}
 	
-	private JRDataSource dataSourceSisobi(List<Field> fields,List<Sisobi> listaSisobi) {
+	private JRDataSource dataSourceSisobi(List<Field> fields,List<SisobiDto> listaSisobi) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		DRDataSource dataSource = new DRDataSource("cpf","nome","mae","dataNascimento","dataObito","tituloRelatorio");
+		DRDataSource dataSource = new DRDataSource("cpf","nome","mae","dataNascimento","dataObito","tituloRelatorio","matricula","situacao");
 
 		LocalDateTime data = new LocalDateTime();
 		String mes = new String();
@@ -153,14 +156,16 @@ public class SisobiBean extends HttpServlet {
 			Message.addErrorMessage("Não existem dados para esta competência!");
 		}
 		
-		for (Sisobi s : listaSisobi) {
+		for (SisobiDto s : listaSisobi) {
 			dataSource.add(
-					s.getNUMR_idDoObjetoPessoa().getNUMR_cpf(),
-					s.getNUMR_idDoObjetoPessoa().getDESC_nome(),
-					s.getNUMR_idDoObjetoPessoa().getDESC_mae(),
-					sdf.format(s.getNUMR_idDoObjetoPessoa().getDATA_nascimento()),
-					sdf.format(s.getDATA_obito()),
-					mes
+					s.getCpf(),
+					s.getNome(),
+					s.getMae(),
+					sdf.format(s.getNascimento()),
+					sdf.format(s.getObito()),
+					mes,
+					s.getMatricula(),
+					s.getSituacao()
 					);
 		}
 		return dataSource;
