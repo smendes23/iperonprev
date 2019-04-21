@@ -13,7 +13,6 @@ import javax.persistence.Query;
 
 import br.com.iperonprev.controller.dto.SisobiDto;
 import br.com.iperonprev.interfaces.GenericDao;
-import br.com.iperonprev.models.Pessoas;
 import br.com.iperonprev.models.Sisobi;
 import br.com.iperonprev.util.jpa.EntityManagerProducer;
 import br.com.iperonprev.util.jpa.JdbcUtil;
@@ -92,7 +91,7 @@ public class SisobiDao implements GenericDao<Sisobi>,Serializable {
 	}
 	
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("static-access")
 	public List<SisobiDto> devolveListaDeSisobi(String competenciaInicio){
 		List<SisobiDto> lista = new ArrayList<SisobiDto>();
 		try{

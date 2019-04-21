@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.event.ValueChangeEvent;
 
 import br.com.iperonprev.dao.GenericPersistence;
@@ -24,7 +25,7 @@ import br.com.iperonprev.reports.simulador.TempoServicoSimulador;
 import br.com.iperonprev.util.jsf.Message;
 
 @ManagedBean
-@javax.faces.view.ViewScoped
+@SessionScoped
 public class SimuladorBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;

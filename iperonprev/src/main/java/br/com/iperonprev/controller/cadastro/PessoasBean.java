@@ -113,6 +113,8 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	    private boolean recadastramentoOnline = false;
 	    List<DocumentoPessoal> listaDocumentos = new ArrayList<DocumentoPessoal>();
+	    
+	    boolean verificaSeCarregouPessoa = false;
 
 	    public CensoPrevidenciario getCensoPrevidenciario() {
 	        return this.censoPrevidenciario;
@@ -311,6 +313,10 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	        try {
 	            if (!this.pessoa.getNUMR_cpf().isEmpty()) {
 	                this.pessoa =new PessoasDao().devolvePessoa(this.pessoa.getNUMR_cpf());
+	                if(this.pessoa.getNUMG_idDoObjeto() > 0) {
+	                	 this.verificaSeCarregouPessoa = true;
+	                }
+	                
 	                this.estadoCivil = this.pessoa.getNUMR_estadoCivil();
 	                
 	                this.endereco = this.pessoa.getNUMR_idDoObjetoEndereco();
@@ -339,6 +345,7 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	                }
 	                
 //	                pessoaOp = null;
+	               
 	                this.carregaListaDocumentos();
 	            } else {
 	                Message.addErrorMessage((String)"Cpf Nulo");
@@ -364,16 +371,39 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 
 	    public void salvarObjeto() {
 	        try {
+	        	
+	        	Pessoas pes =  new Pessoas() ;
+	        	pes = new PessoasDao().devolvePessoa(this.pessoa.getNUMR_cpf());
+	        	
 	            this.endereco.setNUMR_tipoLogradouro(this.logradouro);
 	            this.pessoa.setNUMR_idDoObjetoEndereco(this.endereco);
 	            this.pessoa.setNUMR_estadoCivil(this.estadoCivil);
+	            
 	            if (this.pessoa.getDESC_pai().contains("-")) {
 	                this.pessoa.setDESC_pai(null);
 	            }
-	            new GenericPersistence<Pessoas>(Pessoas.class).salvar(this.pessoa);
-	            this.novoObjeto();
-	            this.habilitaNovoBOtao = false;
-	            Message.addSuccessMessage((String)"Cadastro realizado com sucesso");
+	            
+	            
+	            
+	            if(pes.getNUMG_idDoObjeto() > 0 && verificaSeCarregouPessoa == true
+	            		|| pes.getNUMG_idDoObjeto() == 0) {
+
+	            		new GenericPersistence<Pessoas>(Pessoas.class).salvar(this.pessoa);
+	    	            this.novoObjeto();
+	    	            this.habilitaNovoBOtao = false;
+	    	            Message.addSuccessMessage((String)"Cadastro realizado com sucesso");
+	            	
+	            }else if(pes.getNUMG_idDoObjeto() == this.pessoa.getNUMG_idDoObjeto()) {
+	            	new GenericPersistence<Pessoas>(Pessoas.class).salvar(this.pessoa);
+    	            this.novoObjeto();
+    	            this.habilitaNovoBOtao = false;
+    	            Message.addSuccessMessage((String)"Cadastro realizado com sucesso");
+	            }
+	            
+	            else if(pes.getNUMG_idDoObjeto() > 0 && verificaSeCarregouPessoa == false){
+	            	Message.addErrorMessage("Cadastro existente");
+	            	
+	            }
 	        }
 	        catch (Exception e) {
 	            Message.addErrorMessage((String)"Erro ao salvar Pessoa");
@@ -464,6 +494,7 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	        this.estado = new Estados();
 	        this.municipio = new Municipios();
 	        this.logradouro = new TipoLogradouro();
+	        this.verificaSeCarregouPessoa = false;
             
 	        this.getListaDeEstados();
 	    }
@@ -491,6 +522,7 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	        this.filtroDePessoas = new ArrayList<Pessoas>();
 	        this.nomeDependente = new String();
 	        this.habilitarRecadastramento = false;
+	        this.verificaSeCarregouPessoa = false;
 	    }
 
 	    public List<Pessoas> listaDeObjetos() {
@@ -673,6 +705,7 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	                    this.listaDep = new DependentesDao().listaDependentesPensionistas(this.pessoa.getNUMG_idDoObjeto().intValue());
 	                }
 	                this.carregaListaDocumentos();
+	                this.verificaSeCarregouPessoa = true;
 	            }
 	            catch (Exception e) {
 	                System.out.println("Erro ao buscar a pessoa");

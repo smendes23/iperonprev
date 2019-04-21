@@ -17,7 +17,8 @@ import javax.servlet.http.Part;
 
 public class FileSaver {
 
-	public static final String SERVER_PATH = "C:\\tomcat8\\webapps\\iperonprev\\arquivos\\";
+	public static final String SERVER_PATH = "C:\\tomcat8\\webapps\\ROOT\\arquivos\\";
+	
 //	public static final String SERVER_PATH = "C:\\tomcat8\\webapps\\iperonprev\\src\\main\\webapp\\arquivos\\";
 //	public static final String SERVER_PATH = "C:\\Users\\IPERON\\workspacejboss\\iperonprev\\src\\main\\webapp\\arquivos\\";
 //	public static final String SERVER_PATH = "C:\\Users\\Saulo\\workspace\\iperonprev\\src\\main\\webapp\\arquivos\\";

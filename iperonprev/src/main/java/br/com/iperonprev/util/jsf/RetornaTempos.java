@@ -7,12 +7,11 @@ import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
-import org.joda.time.ReadableInstant;
-import org.joda.time.ReadablePartial;
 import org.joda.time.Years;
 
 import br.com.iperonprev.constantes.DecisaoEnum;
@@ -21,6 +20,7 @@ import br.com.iperonprev.controller.dto.DateTimeInicioFimDto;
 import br.com.iperonprev.dao.GenericPersistence;
 import br.com.iperonprev.models.AfastamentosLicenca;
 import br.com.iperonprev.models.Averbacao;
+import br.com.iperonprev.models.CertidaoTempoContribuicao;
 import br.com.iperonprev.models.Deducao;
 import br.com.iperonprev.models.FrequenciaCtc;
 import br.com.iperonprev.models.FuncionaisFuncoes;
@@ -179,7 +179,9 @@ public class RetornaTempos {
 			ano += p.getYears();
 		
 		if(dia >= 30){
+			System.out.println("Antes: "+dia);
 			mes = mes + (dia /30);
+			System.out.println("Antes: "+(dia%30));
 			dia %= 30;
 			
 		}
@@ -245,7 +247,7 @@ public class RetornaTempos {
 					listaModificadorAverbacao.add(modificador);
 				
 			}
-			fa = new FormataAnoMesDia(funcionais.getDATA_efetivoExercicio(), new LocalDate().now().toDate());
+			fa = new FormataAnoMesDia(funcionais.getDATA_posse(), new LocalDate().now().toDate());
 			fa.devolveAnoMesDiasFormatadosSemParametros();
 			modificador = new ModificadorDeAcessoDiaMesAno(fa.getDia(), fa.getMes(), fa.getAno());
 			listaModificadorAverbacao.add(modificador);
@@ -287,7 +289,7 @@ public class RetornaTempos {
 				
 			}
 			
-			fa = new FormataAnoMesDia(funcionais.getDATA_efetivoExercicio(), new LocalDate().now().toDate());
+			fa = new FormataAnoMesDia(funcionais.getDATA_posse(), new LocalDate().now().toDate());
 			fa.devolveAnoMesDiasFormatadosSemParametros();
 			modificador = new ModificadorDeAcessoDiaMesAno(fa.getDia(), fa.getMes(), fa.getAno());
 			listaModificadorAverbacao.add(modificador);
@@ -316,7 +318,7 @@ public class RetornaTempos {
 		}
 		TemposPrevidenciarios tp = new TemposPrevidenciarios(listaAverbacao);
 		dia += tp.devolveTotalDiasAproveitados();
-		dia += retornaDiasApartirDeDuasDatas(funcionais.getDATA_efetivoExercicio(), dataLocal.now().toDate());
+		dia += retornaDiasApartirDeDuasDatas(funcionais.getDATA_posse(), dataLocal.now().toDate());
 		return dia;
 	}
 	
@@ -351,36 +353,41 @@ public class RetornaTempos {
 		listaFuncionais.forEach(f->{
 			if(funcionais.getNUMR_idDoObjetoCargo().getNUMR_idDoObjetoCarreiras() 
 					== f.getNUMR_idDoObjetoCargo().getNUMR_idDoObjetoCarreiras() && !funcionais.getDATA_exoneracao().equals(null)){
-				dia += retornaDiasApartirDeDuasDatas(funcionais.getDATA_efetivoExercicio(), funcionais.getDATA_exoneracao());
+				dia += retornaDiasApartirDeDuasDatas(funcionais.getDATA_posse(), funcionais.getDATA_exoneracao());
 			}else{
 				dia += 0;
 			}
 		});
 		
 		if(dia == 0){
-			dia += retornaDiasApartirDeDuasDatas(funcionais.getDATA_efetivoExercicio(), local.now().toDate());
+			dia += retornaDiasApartirDeDuasDatas(funcionais.getDATA_posse(), local.now().toDate());
 		}
 		
 		return dia;
 	}
 	
 		
+	@SuppressWarnings("static-access")
 	public static List<FrequenciaCtc> retornaListaDeFrequencia(List<PessoasFuncionais> listaFuncionais,Date dataAdmissao, Date dataExo){
-		 List<PessoasFuncionais> listaFuncional = listaFuncionais;
-	        FrequenciaCtc freq = new FrequenciaCtc();
-	        ArrayList<FrequenciaCtc> listaDeFrequencias = new ArrayList<FrequenciaCtc>();
-	        ArrayList<Deducao> listaDeducao = new ArrayList<Deducao>();
-	        ArrayList<DateTimeInicioFimDto> listaLicenca = new ArrayList<DateTimeInicioFimDto>();
-	        Years y = null;
-	        int ano = 0;
-	        Date dataPosse = new Date();
-	        Date dataExoneracao = new Date();
-	        try {
-	            for (PessoasFuncionais pessoasFuncionais : listaFuncional) {
-	                listaDeducao.addAll(new GenericPersistence<Deducao>(Deducao.class).listarRelacionamento("Deducao", "NUMR_pessoasFuncionais", pessoasFuncionais.getNUMG_idDoObjeto()));
-	                listaLicenca.addAll(RetornaTempos.devolveListaLicencas(pessoasFuncionais.getNUMG_idDoObjeto()));
-	            }
-	            dataExoneracao = !RetornaTempos.dataNula(dataExo) ? dataExo : listaFuncional.get(0).getDATA_exoneracao();
+		List<PessoasFuncionais> listaFuncional = listaFuncionais;
+		
+		FrequenciaCtc freq = new FrequenciaCtc();
+		List<FrequenciaCtc> listaDeFrequencias = new ArrayList<FrequenciaCtc>();
+		List<Deducao> listaDeducao = new ArrayList<Deducao>();
+		List<AfastamentosLicenca> listaLicenca = new ArrayList<AfastamentosLicenca>();
+		Years y = null;
+		int ano = 0;
+		Date dataPosse = new Date();
+		Date dataExoneracao = new Date();
+		
+		try {
+			for (PessoasFuncionais pessoasFuncionais : listaFuncional) {
+				System.out.println("Matricula: "+pessoasFuncionais.getDESC_matricula());
+				listaDeducao.addAll(new GenericPersistence<Deducao>(Deducao.class).listarRelacionamento("Deducao", "NUMR_pessoasFuncionais", pessoasFuncionais.getNUMG_idDoObjeto()));
+				listaLicenca.addAll(new GenericPersistence<AfastamentosLicenca>(AfastamentosLicenca.class).listarRelacionamento("AfastamentosLicenca", "NUMR_idDoObjetoFuncional", pessoasFuncionais.getNUMG_idDoObjeto()));
+			}
+			
+			 dataExoneracao = !RetornaTempos.dataNula(dataExo) ? dataExo : listaFuncional.get(0).getDATA_exoneracao();
 	            if (!RetornaTempos.dataNula(dataAdmissao)) {
 	                dataPosse = dataAdmissao;
 	            } else if (listaFuncional.size() > 1) {
@@ -394,9 +401,9 @@ public class RetornaTempos {
 	                dataPosse = listaFuncional.get(0).getDATA_efetivoExercicio();
 	            }
 	            ano = LocalDate.fromDateFields((Date)dataPosse).getYear();
-	            y = Years.yearsBetween((ReadablePartial)LocalDate.fromDateFields((Date)dataPosse), (ReadablePartial)LocalDate.fromDateFields((Date)new LocalDate((Object)dataExoneracao).minusDays(1).toDate()));
+	            y = Years.yearsBetween(LocalDate.fromDateFields(dataPosse), LocalDate.fromDateFields(new LocalDate(dataExoneracao).minusDays(1).toDate()));
 	            freq.setAno(ano);
-	            freq.setTempoBruto(new Period((ReadablePartial)LocalDate.fromDateFields((Date)dataPosse), (ReadablePartial)LocalDate.fromDateFields((Date)new LocalDate().withYear(ano).withMonthOfYear(12).dayOfMonth().withMaximumValue().toDate()).plusDays(1), PeriodType.days()).getDays());
+	            freq.setTempoBruto(new Period(LocalDate.fromDateFields(dataPosse), LocalDate.fromDateFields((Date)new LocalDate().withYear(ano).withMonthOfYear(12).dayOfMonth().withMaximumValue().toDate()).plusDays(1), PeriodType.days()).getDays());
 	            if (ano == LocalDate.fromDateFields((Date)dataExoneracao).getYear()) {
 	                freq.setTempoBruto(RetornaTempos.retornaDiasApartirDeDuasDatas(dataPosse, dataExoneracao));
 	            }
@@ -406,14 +413,12 @@ public class RetornaTempos {
 	                FrequenciaCtc frequencia = new FrequenciaCtc();
 	                Date begin = new LocalDate().withYear(++ano).withMonthOfYear(1).dayOfMonth().withMinimumValue().toDate();
 	                Date end = new LocalDate().withYear(ano).withMonthOfYear(12).dayOfMonth().withMaximumValue().toDate();
-	                new org.joda.time.LocalDate();
-	                new org.joda.time.LocalDate();
-	                if (LocalDate.fromDateFields((Date)dataExoneracao).getYear() >= LocalDate.fromDateFields((Date)begin).getYear()) {
-	                    new org.joda.time.LocalDate();
-	                    if (LocalDate.fromDateFields((Date)dataExoneracao).getYear() == ano) {
-	                        frequencia.setTempoBruto(new Period((ReadablePartial)LocalDate.fromDateFields((Date)begin), (ReadablePartial)LocalDate.fromDateFields((Date)dataExoneracao), PeriodType.days()).getDays());
+	                if (new LocalDate().fromDateFields(dataExoneracao).getYear() >= new LocalDate().fromDateFields(begin).getYear()) {
+	                   
+	                    if (new LocalDate().fromDateFields(dataExoneracao).getYear() == ano) {
+	                        frequencia.setTempoBruto(new Period(new LocalDate().fromDateFields(begin),new LocalDate().fromDateFields(dataExoneracao), PeriodType.days()).getDays());
 	                    } else {
-	                        frequencia.setTempoBruto(new Period((ReadablePartial)LocalDate.fromDateFields((Date)begin), (ReadablePartial)LocalDate.fromDateFields((Date)end).plusDays(1), PeriodType.days()).getDays());
+	                        frequencia.setTempoBruto(new Period(new LocalDate().fromDateFields(begin),new LocalDate().fromDateFields(end).plusDays(1), PeriodType.days()).getDays());
 	                    }
 	                    if (frequencia.getTempoBruto() == 366) {
 	                        frequencia.setBissextos(1);
@@ -423,45 +428,55 @@ public class RetornaTempos {
 	                }
 	                ++i;
 	            }
-	            listaDeFrequencias.forEach(f -> {
-	                int faltas = 0;
-	                int licencas = 0;
-	                int outros = 0;
-	                int suspensoes = 0;
-	                for (Deducao d : listaDeducao) {
-	                    DateTime inicio = new DateTime((Object)d.getDATA_inicio());
-	                    DateTime fim = new DateTime((Object)d.getDATA_fim());
-	                    if (d.getENUM_compensasaoDeducao() != DecisaoEnum.NAO || f.getAno() != inicio.getYear() || f.getAno() != fim.getYear()) continue;
-	                    if (d.getENUM_tipoDeducao() == TipoDeducaoEnum.FALTA) {
-	                        faltas += d.getNUMR_qtdDias();
-	                        continue;
-	                    }
-	                    if (d.getENUM_tipoDeducao() == TipoDeducaoEnum.OUTROS) {
-	                        outros += d.getNUMR_qtdDias();
-	                        continue;
-	                    }
-	                    if (d.getENUM_tipoDeducao() != TipoDeducaoEnum.SUSPENSAO) continue;
-	                    suspensoes += d.getNUMR_qtdDias();
-	                }
-	                for (DateTimeInicioFimDto l : listaLicenca) {
-	                    if (f.getAno() != l.getDataInicio().getYear() || f.getAno() != l.getDataFim().getYear() || l.getDataInicio() == null || l.getDataFim() == null) continue;
-	                    licencas += RetornaTempos.retornaDiasApartirDeDuasDatas(l.getDataInicio().toDate(), l.getDataFim().toDate()) + 1;
-	                }
-	                f.setFaltas(faltas);
-	                f.setOutras(outros);
-	                f.setSuspensoes(suspensoes);
-	                f.setLicencasSemVencimentos(licencas);
-	                f.setTempoLiquido(f.getTempoBruto() - (faltas + licencas + suspensoes + outros));
-	                f.setSoma(faltas + licencas + suspensoes + outros);
-	            });
-	        }
-	        catch (Exception e) {
-	            System.out.println("Erro ao gerar lista de frequencia.");
-	        }
-	        return listaDeFrequencias;
+			
+			
+			listaDeFrequencias.forEach(f->{
+				int faltas = 0;
+				int licencas = 0;
+				int outros = 0;
+				int suspensoes = 0;
+				
+				for (Deducao d : listaDeducao) {
+					DateTime inicio = new DateTime(d.getDATA_inicio());
+					DateTime fim = new DateTime(d.getDATA_fim());
+					
+					
+					if(d.getENUM_compensasaoDeducao() == DecisaoEnum.NAO &&  inicio.getYear() == f.getAno()){
+						
+						if(d.getENUM_tipoDeducao() == TipoDeducaoEnum.FALTA){
+							faltas += Days.daysBetween(new LocalDate(inicio), new LocalDate(fim)).getDays();
+						}else if(d.getENUM_tipoDeducao() == TipoDeducaoEnum.OUTROS){
+							System.out.println("Ano Dedução: "+new LocalDate(inicio).getYear());
+							System.out.println("Dias Deduzidos: "+Days.daysBetween(new LocalDate(inicio), new LocalDate(fim)).getDays());
+							outros += Days.daysBetween(new LocalDate(inicio), new LocalDate(fim)).getDays();
+						}else if(d.getENUM_tipoDeducao() == TipoDeducaoEnum.SUSPENSAO){
+							suspensoes += Days.daysBetween(new LocalDate(inicio), new LocalDate(fim)).getDays();
+						}
+					}
+				}
+
+				for (AfastamentosLicenca l : listaLicenca) {
+					DateTime inicio = new DateTime(l.getDATA_inicioLicenca());
+					DateTime fim = new DateTime(l.getDATA_fimLicenca());
+					if(f.getAno()==inicio.getYear() && f.getAno() == fim.getYear()
+							&& l.getFLAG_contribuicao() == 0 && l.getDATA_inicioLicenca() != null && l.getDATA_fimLicenca() != null){
+						licencas += RetornaTempos.retornaDiasApartirDeDuasDatas(l.getDATA_inicioLicenca(), l.getDATA_fimLicenca())+1;
+					}
+				}
+				f.setFaltas(faltas);
+				f.setOutras(outros);
+				f.setSuspensoes(suspensoes);
+				f.setLicencasSemVencimentos(licencas);
+				f.setTempoLiquido(f.getTempoBruto()-(faltas+licencas+suspensoes+outros));
+			});
+		} catch (Exception e) {
+			System.out.println("Erro ao gerar lista de frequência");
+		}
+		
+		return listaDeFrequencias;
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes", "unused" })
 	private static List<DateTimeInicioFimDto> devolveListaLicencas(int idFuncional) {
         List<AfastamentosLicenca> listaLicenca = new ArrayList<AfastamentosLicenca>();
         ArrayList<DateTimeInicioFimDto> listaInicioFim = new ArrayList<DateTimeInicioFimDto>();
@@ -469,8 +484,8 @@ public class RetornaTempos {
             listaLicenca = new GenericPersistence(AfastamentosLicenca.class).listarRelacionamento("AfastamentosLicenca", "NUMR_idDoObjetoFuncional", idFuncional);
             listaLicenca.forEach(l -> {
                 DateTime dataInicio = new DateTime(l.getDATA_inicioLicenca());
-                DateTime dataFim = new DateTime((Object)l.getDATA_fimLicenca());
-                Interval intervalo = new Interval((ReadableInstant)dataInicio, (ReadableInstant)dataFim);
+                DateTime dataFim = new DateTime(l.getDATA_fimLicenca());
+                Interval intervalo = new Interval(dataInicio, dataFim);
                 if (l.getFLAG_contribuicao() == 0) {
                     int i = 0;
                     while (i <= intervalo.toPeriod().getYears()) {

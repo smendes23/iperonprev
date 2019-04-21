@@ -24,6 +24,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.CloseEvent;
@@ -1512,8 +1513,18 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 		BigDecimal proporcionalidade = BigDecimal.ZERO;
 		String tipoProventos = null;
 		BigDecimal proventoApurado = BigDecimal.ZERO;
+		
+		int afastamentoInteresseParticular = 0;
+		AfastamentosLicenca al = new AfastamentosLicenca();
+		try {
+			al = new AfastamentoLicencaDao().devolveListaDeAfastamentosInteresseParticular(this.funcional.getNUMG_idDoObjeto()).get(0);
+		}catch(Exception e) {
+			System.out.println("Erro afastamentos");
+		}
+		afastamentoInteresseParticular = Days.daysBetween(new LocalDate(al.getDATA_inicioLicenca()),new LocalDate( al.getDATA_fimLicenca())).getDays();
+		
 		@SuppressWarnings("static-access")
-		Date dataSimulacaoConcessao = new LocalDate().now().toDate();
+		Date dataSimulacaoConcessao = new LocalDate().minusDays(afastamentoInteresseParticular).now().toDate();
 		List<Averbacao> listaAverbacao = daoAverbacao.listaRelacionamenoDoObjeto("Averbacao", "NUMR_pessoasFuncionais",
 				obj.getNUMG_idDoObjeto());
 
@@ -1529,6 +1540,7 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 			System.out.println("Erro ao converter data!");
 		}
 		int resComparator = 0;
+		
 		
 		valorApurado = (resComparator = mediaAritmetica.compareTo(ultimaRemuneracao)) == -1 ? mediaAritmetica : ultimaRemuneracao;
         int somaDeducoes = new AfastamentoLicencaDao().devolveListaDiasAfastados(this.funcional.getNUMG_idDoObjeto()).stream().mapToInt(Integer::intValue).sum();
@@ -1592,6 +1604,7 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 					df.formatterToCurrencyBrazilian(somaOitentaMaiores),
 					df.formatterToCurrencyBrazilian(mediaAritmetica),
 					df.formatterToCurrencyBrazilian(valorApurado),
+//					devolveTempoLiquidoCargo(),
 					tempoServico,
 					df.formatterToCurrencyBrazilian(salarioMinimo.get().getNUMR_valor()),
 					new StringBuilder().append(proporcionalidade).append("%").toString(),
@@ -2092,13 +2105,27 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 					new StringBuilder().append(qtdAverbacoes).append(" período(s)").toString(),
 					obj.getNUMR_idDoObjetoPessoas().getDESC_sexo().getNome(),
 					rta.devolveDiaMesAnoTempoAproveitado(averbacao),
-					RetornaTempos.retornaDiaMesAno(obj.getDATA_efetivoExercicio(), new LocalDate().now().toDate()).toString(),
+					//Tempo Cargo
+					devolveTempoLiquidoCargo(),
 					rta.devolveDiaMesAnoTotalConcomitancia(), 
 					rta.formata(d1),
 					certificamos,
 					new StringBuilder().append("Porto Velho, ").append(sdf.format(new LocalDate().now().toDate())).toString());
 		}
 		return dataSource;
+	}
+	
+	private String devolveTempoLiquidoCargo() {
+		List<AfastamentosLicenca> lista = new AfastamentoLicencaDao().devolveListaDeAfastamentosInteresseParticular(this.funcional.getNUMG_idDoObjeto());
+		String res = new String();
+		
+		if(lista.size() == 1) {
+		AfastamentosLicenca al = lista.get(0);
+			res = RetornaTempos.retornaDiaMesAno(this.funcional.getDATA_efetivoExercicio(), new LocalDate().now().minusDays(Days.daysBetween(new LocalDate(al.getDATA_inicioLicenca()), new LocalDate(al.getDATA_fimLicenca())).getDays())
+					.toDate()).toString();
+		}
+		
+		return res;
 	}
 
 	public void exibeImpressaoAverbacao() {

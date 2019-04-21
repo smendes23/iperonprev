@@ -373,7 +373,7 @@
 										filterMatchMode="startsWith" style="width:100%"
 										styleClass="selectalt" value="#{pessoasBean.estado}"
 										converter="conversorDeEntidades">
-										<p:ajax event="change" update="munic"
+										<p:ajax  update="munic"
 											listener="#{pessoasBean.populaMunicipios}" process="@this"></p:ajax>
 										<f:selectItem itemLabel="--Selecione--" itemValue=""
 											noSelectionOption="true" />

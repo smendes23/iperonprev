@@ -349,26 +349,15 @@ public class RemuneracaoDao implements GenericDao<Remuneracoes>, Serializable {
 		List<Remuneracoes> lista = new ArrayList<Remuneracoes>();
 
 		try {
-			Connection con = conexao.getInstance().getConnection();
-			String sql = "select * from Remuneracoes where NUMR_idDoObjetoFuncional_NUMG_idDoObjeto = ? and SUBSTRING(NUMR_competencia,3,6) = ? ";
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, idFuncional);
-			ps.setString(2, ano);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				Remuneracoes rem = new Remuneracoes();
-				rem.setNUMG_idDoObjeto(rs.getInt(1));
-				rem.setFLAG_decimoTerceiro(rs.getInt(2));
-				rem.setNUMR_competencia(rs.getString(3));
-				rem.setNUMR_folha(rs.getInt(4));
-				rem.setNUMR_versao(rs.getInt(5));
-				rem.setVALR_remuneracao(rs.getBigDecimal(6));
-				rem.setNUMR_idDoObjetoFuncional(
-						new GenericPersistence<PessoasFuncionais>(PessoasFuncionais.class).buscarPorId(rs.getInt(7)));
-				rem.setNUMR_rubrica(new GenericPersistence<Rubricas>(Rubricas.class).buscarPorId(rs.getInt(8)));
-				lista.add(rem);
+			
+			Query q = getEm().createNativeQuery("select * from Remuneracoes where NUMR_idDoObjetoFuncional_NUMG_idDoObjeto = :idFuncional and SUBSTRING(NUMR_competencia,3,6) = :ano ", Remuneracoes.class);
+			q.setParameter("idFuncional", idFuncional);
+			q.setParameter("ano", ano);
+			
+			if(!q.getResultList().isEmpty()) {
+				lista = q.getResultList();
 			}
-			rs.close();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Erro ao executar procedure");
@@ -405,5 +394,5 @@ public class RemuneracaoDao implements GenericDao<Remuneracoes>, Serializable {
 		}
 		return remu;
 	}
-
+	
 }

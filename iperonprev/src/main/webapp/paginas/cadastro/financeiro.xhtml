@@ -230,20 +230,27 @@
 								<div class="ui-grid-row">
 									<div class="col-sm-4" style="color: #000;">
 										<p:outputLabel value="Base de Contribuição: "></p:outputLabel>
-										<p:inputText styleClass="form-control" converter="moedaConverter" value="#{financeiroBean.baseContribuicao}" id="baseCalc"></p:inputText>
+										<p:inputText styleClass="form-control" required="true" requiredMessage="Base de calculo requerida" converter="moedaConverter" value="#{financeiroBean.baseContribuicao}" id="baseCalc"></p:inputText>
 									</div>
 
 									<div class="col-sm-3" style="color: #000;">
 										<p:outputLabel value="Competência Inicial: "></p:outputLabel>
-										<p:inputMask mask="99/9999" styleClass="form-control" value="#{financeiroBean.competenciaInicial}" id="compI"></p:inputMask>
+										<p:inputMask mask="99/9999" required="true" requiredMessage="Competêncial Inicial obrigatória" styleClass="form-control" value="#{financeiroBean.competenciaInicial}" id="compI"></p:inputMask>
 									</div>
 									<div class="col-sm-3" style="color: #000;">
 										<p:outputLabel value="Competência Final: "></p:outputLabel>
-										<p:inputMask mask="99/9999" styleClass="form-control" value="#{financeiroBean.competenciaFinal}" id="compF"></p:inputMask>
+										<p:inputMask mask="99/9999" required="true" requiredMessage="Competêncial Final obrigatória" styleClass="form-control" value="#{financeiroBean.competenciaFinal}" id="compF">
+											<p:ajax event="blur" listener="#{financeiroBean.validaCompetencia}" update=":formFinanceiro:msgs"/>
+										</p:inputMask>
 									</div>
 									<div class="col-sm-2" style="color: #000;top:20px">
 										<p:commandButton value="Salvar" icon="fa fa-save">
 											<p:ajax listener="#{financeiroBean.salvaContribuicaoPorPeriodo()}" update="baseCalc compI compF :formFinanceiro:msgs" process="contribuicao"></p:ajax>
+										</p:commandButton>
+									</div>
+									 <div class="col-sm-2" style="color: #000;top:20px">
+										<p:commandButton value="Excluir" icon="fa fa-trash">
+											<p:ajax listener="#{financeiroBean.removeContribuicoes()}" update="baseCalc compI compF :formFinanceiro:msgs :formFinanceiro:tbFinanceiro:contribs" process="contribuicao"></p:ajax>
 										</p:commandButton>
 									</div>
 								</div>
@@ -263,8 +270,8 @@
 							 		</style>
 							 		<div style="text-align: right">
 								            <p:outputLabel value="Ano: "></p:outputLabel>
-								            <p:inputMask mask="9999" value="#{financeiroBean.ano}"></p:inputMask>
-								            <p:commandButton value="Enviar" style="margin-left: 5px;" action="#{financeiroBean.processaLista}" update="contribs"></p:commandButton>
+								            <p:inputMask mask="9999" value="#{financeiroBean.ano}" id="ano"></p:inputMask>
+								            <p:commandButton value="Enviar" style="margin-left: 5px;" action="#{financeiroBean.processaLista}" process="ano @this" update="contribs"></p:commandButton>
 							 		</div>
 							        </f:facet>
 							        <p:ajax event="cellEdit" listener="#{financeiroBean.onCellEdit}" oncomplete="onEdit()" />
@@ -350,12 +357,6 @@
 									<p:commandButton value="Extrato" icon="fa fa-print"
 										action="#{financeiroBean.geraFichaFinanceira}" immediate="true"
 										onclick="this.form.target='_blank'" ajax="false">
-									</p:commandButton>
-								</div>
-								<div class="col-sm-2" style="color: #000">
-									<p:commandButton value="Excluir" icon="fa fa-trash">
-										<p:ajax 
-											listener="#{financeiroBean.recarregaPagina()}" />
 									</p:commandButton>
 								</div>
 								

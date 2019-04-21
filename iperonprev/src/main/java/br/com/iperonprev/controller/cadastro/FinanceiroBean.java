@@ -287,10 +287,18 @@ public class FinanceiroBean implements Serializable {
 
 	public void salvaContribuicaoPorPeriodo() {
 		try {
-			new QualificaCompetencia().executa(new DateTime(sdf.parse(new StringBuilder().append("01/").append(this.competenciaInicial).toString())), new DateTime(sdf.parse(new StringBuilder().append("01/").append(this.competenciaFinal).toString())),
-					new GenericPersistence<PessoasFuncionais>(PessoasFuncionais.class).buscarPorId(this.pf.getNUMG_idDoObjeto()),
-					this.baseContribuicao);
-			Message.addSuccessMessage("Contribuições criadas com sucesso!");
+			Date dataInicio = sdf.parse(new StringBuilder().append("01/").append(this.competenciaInicial).toString());
+			
+			if(dataInicio.after(this.pf.getDATA_posse())) {
+				
+				new QualificaCompetencia().executa(new DateTime(dataInicio), new DateTime(sdf.parse(new StringBuilder().append("01/").append(this.competenciaFinal).toString())),
+						new GenericPersistence<PessoasFuncionais>(PessoasFuncionais.class).buscarPorId(this.pf.getNUMG_idDoObjeto()),
+						this.baseContribuicao);
+				Message.addSuccessMessage("Contribuições criadas com sucesso!");
+			}else {
+				Message.addErrorMessage("Competência anterior a data de posse!");
+			}
+			
 		} catch (Exception e) {
 			Message.addErrorMessage("Erro ao criar contribuições!");
 		}
@@ -317,10 +325,10 @@ public class FinanceiroBean implements Serializable {
 			this.remuneracao.setNUMR_rubrica(this.rubrica);
 			this.remuneracao.setFLAG_decimoTerceiro(this.decimoTerceiro);
 			new GenericPersistence<Remuneracoes>(Remuneracoes.class).salvar(this.remuneracao);
-//      novoObjetoRemuneracao();
-			Message.addSuccessMessage("Remunera��o salva com sucesso!");
+			novoObjetoRemuneracao();
+			Message.addSuccessMessage("Remuneração salva com sucesso!");
 		} catch (Exception e) {
-			Message.addErrorMessage("Erro ao salvar Remunera��o!");
+			Message.addErrorMessage("Erro ao salvar Remuneração!");
 		}
 	}
 
@@ -335,6 +343,7 @@ public class FinanceiroBean implements Serializable {
 		this.decimoTerceiro = 0;
 		this.pessoas = new Pessoas();
 		this.pf = new PessoasFuncionais();
+		validaComp = false;
 	}
 
 	public void exibeListaDeObjetosRemuneracao() {
@@ -412,6 +421,8 @@ public class FinanceiroBean implements Serializable {
 
 		try {
 
+			System.out.println("Ano: "+this.ano+" - Funcional: "+this.idFuncional);
+			System.out.println(dao.listaRemuneracoesPorAno(this.ano, this.idFuncional).isEmpty());
 			populaListaDeContribuicoesComCompetencia();
 			if (!dao.listaRemuneracoesPorAno(this.ano, this.idFuncional).isEmpty()) {
 
@@ -585,6 +596,7 @@ public class FinanceiroBean implements Serializable {
 		this.competenciaInicial = new String();
 		this.competenciaFinal = new String();
 		this.baseContribuicao = BigDecimal.ZERO;
+		validaComp = false;
 		
 	}
 
@@ -970,4 +982,32 @@ public class FinanceiroBean implements Serializable {
 		return listaContribuicoes;
 	}
 
+	boolean validaComp = false;
+	
+	public void validaCompetencia() {
+		
+		try {
+
+			Date dataAtual  = sdf.parse(new StringBuilder().append("01/").append(this.competenciaFinal).toString());
+			
+			if(dataAtual.compareTo(new LocalDate().now().toDate()) > 0 ) {
+				validaComp = true;
+				Message.addWarningMessage("Competencia fora do intervalo.");
+				
+			}
+			
+		}catch(Exception e) {
+		}
+	}
+	
+	
+	public void removeContribuicoes() {
+		
+		try {
+			new ContribuicaoDao().excluirContribuicoes(this.idFuncional, this.competenciaInicial.subSequence(3, 7).toString(), this.competenciaFinal.subSequence(3, 7).toString());
+			processaLista();
+		} catch (Exception e) {
+			Message.addErrorMessage("Erro ao excluir contribuições");
+		}
+	}
 }

@@ -38,11 +38,11 @@
 								filterMatchMode="startsWith" style="width:100%"
 								value="#{simuladorBean.funcional}" valueChangeListener="#{simuladorBean.buscaFuncional}"
 								converter="conversorDeEntidades">
+									<p:ajax update="@this"></p:ajax >
 								<f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true"/>
 									<f:selectItems value="#{simuladorBean.listaDeFuncionais}"
-										var="funcional" itemValue="#{funcional}"
-										itemLabel="#{funcional.DESC_matricula}" />
-							<p:ajax update="@this"></p:ajax>
+										var="func" itemValue="#{func}"
+										itemLabel="#{func.DESC_matricula}" />
 							</p:selectOneMenu>
 						</div>
 					</div>

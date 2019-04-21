@@ -304,18 +304,27 @@ public class CtcBean implements GenericBean<CertidaoTempoContribuicao>, Serializ
 
     public void geraCtc() throws IOException {
         try {
-            FuncionaisFuncoes ff = new FuncionaisFuncoesDao().devolveFuncionalFuncoes(this.listaCollectionFuncionais.get(0).getNUMR_idDoObjetoPessoas().getNUMR_cpf()).get(0);
-            List<FrequenciaCtc> listaFrequencia = RetornaTempos.retornaListaDeFrequencia(this.listaCollectionFuncionais, ff.getDATA_ingressoEnte(),ff.getDATA_egressoEnte());
+            FuncionaisFuncoes ff = new FuncionaisFuncoesDao()
+            		.devolveFuncionalFuncoes(this.listaCollectionFuncionais.get(0)
+            				.getNUMR_idDoObjetoPessoas().getNUMR_cpf()).get(0);
+            List<FrequenciaCtc> listaFrequencia = RetornaTempos.retornaListaDeFrequencia(this.listaCollectionFuncionais, 
+            		ff.getDATA_ingressoEnte(),ff.getDATA_egressoEnte());
             TemplateCtc reportCtc = new TemplateCtc();
             HeaderCtc ctcHeader = new HeaderCtc(this.ctc);
             HeaderCtcAd ctcAdmissaoDemissao = new HeaderCtcAd(this.ctc);
             HeaderCtcComplemento ctcHeaderComplemento = new HeaderCtcComplemento(this.ctc);
             ColumnFooterCtc columnFooterCtc = new ColumnFooterCtc(listaFrequencia);
-            FooterCtc footerCtc = new FooterCtc(new LocalDate((Object)this.ctc.getDATA_emissao()).toDate());
+            FooterCtc footerCtc = new FooterCtc(new LocalDate(this.ctc.getDATA_emissao()).toDate());
             FrequenciaDetailCtc freqCtc = new FrequenciaDetailCtc(listaFrequencia);
             DestinacaoTempoCtc destinacaoCtc = new DestinacaoTempoCtc(this.ctc.getREL_destinacao());
-            ComponentReportBuilderHelper crbh = new ComponentReportBuilderHelper().addComponent((JasperReportBuiderInterface)ctcHeader).addComponent((JasperReportBuiderInterface)ctcAdmissaoDemissao).addComponent((JasperReportBuiderInterface)ctcHeaderComplemento).addComponent((JasperReportBuiderInterface)destinacaoCtc).addComponent((JasperReportBuiderInterface)freqCtc).addComponent((JasperReportBuiderInterface)columnFooterCtc).addComponent((JasperReportBuiderInterface)footerCtc);
-            GenerateReportWithSub.create(crbh.listaSubReport(), (JasperReportBuiderInterface)reportCtc);
+            ComponentReportBuilderHelper crbh = new ComponentReportBuilderHelper().addComponent(ctcHeader)
+            		.addComponent(ctcAdmissaoDemissao)
+            		.addComponent(ctcHeaderComplemento)
+            		.addComponent(destinacaoCtc)
+            		.addComponent(freqCtc)
+            		.addComponent(columnFooterCtc)
+            		.addComponent(footerCtc);
+            GenerateReportWithSub.create(crbh.listaSubReport(), reportCtc);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -326,7 +335,7 @@ public class CtcBean implements GenericBean<CertidaoTempoContribuicao>, Serializ
     public void geraRrc() throws IOException {
         try {
             if (this.funcionais.getNUMG_idDoObjeto() > 0) {
-                ContribuicaoHelper.criaContribuicao((PessoasFuncionais)this.funcionais);
+                ContribuicaoHelper.criaContribuicao(this.funcionais);
                 Reports report = new Reports();
                 List<ContribuicoeseAliquotas> listaFinanceiro = new ContribuicaoDao().devolveListaContribuicoes(this.funcionais.getNUMG_idDoObjeto());
                 if (listaFinanceiro.size() > 0) {
@@ -387,7 +396,7 @@ public class CtcBean implements GenericBean<CertidaoTempoContribuicao>, Serializ
         List<String> listaDeAnos = this.devolveListaDeAnos(listaFinanceiro);
         List<FinanceiroPorMesDto> listaRrc = this.devolveListaFinanceiroRrc(listaDeAnos, listaFinanceiro);
         try {
-            listaRrc.forEach(f -> dataSource.add(new Object[]{obj.getDESC_matricula(), this.pessoa.getDESC_nome(), this.pessoa.getNUMR_cpf(), sdf.format(this.pessoa.getDATA_nascimento()), sdf.format(obj.getDATA_efetivoExercicio()), "" + this.ctc.getNUMR_certidao() + "/" + this.ctc.getNUMR_ano(), obj.getNUMR_idDoObjetoCargo().getNUMR_idDoObjetoOrgaos().getDESC_nome(), obj.getNUMR_idDoObjetoCargo().getNUMR_idDoObjetoOrgaos().getDESC_cnpj(), sdf.format(obj.getDATA_exoneracao()), f.getAno(), f.getJan(), f.getFev(), f.getMar(), f.getAbr(), f.getMai(), f.getJun(), f.getJul(), f.getAgo(), f.getSet(), f.getOut(), f.getNov(), f.getDez(), sdf.format(new LocalDate((Object)this.ctc.getDATA_emissao()).toDate()), this.ctc.getDESC_observacao(), this.pessoa.getNUMR_pisPasep(), this.pessoa.getDESC_mae(), "UNIDADE GESTORA DO RPPS", "HOMOLOGO, a presente Certid\u00e3o de Tempo de Contribui\u00e7\u00e3o e declaro que as informa\u00e7\u00f5es nela constantes correspondem com a verdade."}));
+            listaRrc.forEach(f -> dataSource.add(obj.getDESC_matricula(), this.pessoa.getDESC_nome(), this.pessoa.getNUMR_cpf(), sdf.format(this.pessoa.getDATA_nascimento()), sdf.format(obj.getDATA_efetivoExercicio()), "" + this.ctc.getNUMR_certidao() + "/" + this.ctc.getNUMR_ano(), obj.getNUMR_idDoObjetoCargo().getNUMR_idDoObjetoOrgaos().getDESC_nome(), obj.getNUMR_idDoObjetoCargo().getNUMR_idDoObjetoOrgaos().getDESC_cnpj(), sdf.format(obj.getDATA_exoneracao()), f.getAno(), f.getJan(), f.getFev(), f.getMar(), f.getAbr(), f.getMai(), f.getJun(), f.getJul(), f.getAgo(), f.getSet(), f.getOut(), f.getNov(), f.getDez(), sdf.format(new LocalDate((Object)this.ctc.getDATA_emissao()).toDate()), this.ctc.getDESC_observacao(), this.pessoa.getNUMR_pisPasep(), this.pessoa.getDESC_mae(), "UNIDADE GESTORA DO RPPS", "HOMOLOGO, a presente Certid\u00e3o de Tempo de Contribui\u00e7\u00e3o e declaro que as informa\u00e7\u00f5es nela constantes correspondem com a verdade."));
         }
         catch (Exception e) {
             System.out.println("Erro ao gerar RRC datasource.");
@@ -494,7 +503,8 @@ public class CtcBean implements GenericBean<CertidaoTempoContribuicao>, Serializ
     public List<PessoasFuncionais> getListaDeFuncionais() {
         List<PessoasFuncionais> listaDeFuncionais = new ArrayList<PessoasFuncionais>();
         try {
-            listaDeFuncionais = new GenericPersistence<PessoasFuncionais>(PessoasFuncionais.class).listarRelacionamento("PessoasFuncionais", "NUMR_idDoObjetoPessoas", this.pessoa.getNUMG_idDoObjeto());
+            listaDeFuncionais = new GenericPersistence<PessoasFuncionais>(PessoasFuncionais.class)
+            		.listarRelacionamento("PessoasFuncionais", "NUMR_idDoObjetoPessoas", this.pessoa.getNUMG_idDoObjeto());
         }
         catch (Exception e) {
             System.out.println("Erro ao listar funcionais");

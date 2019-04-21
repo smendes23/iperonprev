@@ -2,6 +2,7 @@ package br.com.iperonprev.dao;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -169,4 +170,23 @@ public class ContribuicaoDao implements GenericDao<Financeiro>,Serializable{
 		return lista;
 	}
 
+	
+	public void excluirContribuicoes(int idFuncional,String anoInicio, String anoFim){
+		
+		try {
+			
+			Connection con = conexao.getInstance().getConnection();
+			CallableStatement cs = con.prepareCall("{call dbo.EXCLUIRCONTRIBUICAO(?,?,?)}");
+			cs.setInt(1,idFuncional);
+			cs.setString(2,anoInicio);
+			cs.setString(3,anoFim);
+			cs.execute();
+			cs.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Erro ao buscar remunera��o para essa compet�ncia.");
+		}
+		
+	}
 }

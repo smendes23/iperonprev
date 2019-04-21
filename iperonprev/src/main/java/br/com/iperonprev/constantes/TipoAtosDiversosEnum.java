@@ -11,6 +11,7 @@ public enum TipoAtosDiversosEnum {
 	 TRANSFERENCIA("Transferência"),
 	 PROGRESSAO("Asceção ou Prog. Funcional"),
 	 ELOGIO("Elogio"),
+	 PENALIDADE("Penalidade"),
 	 OUTROS("Outros");
 		private String nome;
 
