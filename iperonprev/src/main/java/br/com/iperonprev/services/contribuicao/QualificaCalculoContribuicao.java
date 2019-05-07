@@ -8,7 +8,7 @@ import br.com.iperonprev.models.ContribuicoeseAliquotas;
 
 public class QualificaCalculoContribuicao {
 
-	public ContribuicoeseAliquotas executa(ContribuicoeseAliquotas contribuicao, Date dataPosse,BigDecimal contribuicaoPrevidenciaria){
+	public ContribuicoeseAliquotas executa(ContribuicoeseAliquotas contribuicao, Date dataPosse,BigDecimal contribuicaoPrevidenciaria,boolean verbaContributiva){
 		CalculaContribuicao contrib1 = new RegraAliquotaContribuicao1();
 		CalculaContribuicao contrib2 = new RegraAliquotaContribuicao2();
 		CalculaContribuicao contrib3 = new RegraAliquotaContribuicao3();
@@ -28,6 +28,6 @@ public class QualificaCalculoContribuicao {
 		contrib6.setProximoCalculo(contrib7);
 		contrib7.setProximoCalculo(contrib8);
 		contrib8.setProximoCalculo(nulo);
-		return contrib1.calcula(contribuicao, dataPosse,contribuicaoPrevidenciaria);
+		return contrib1.calcula(contribuicao, dataPosse,contribuicaoPrevidenciaria, verbaContributiva);
 	}
 }

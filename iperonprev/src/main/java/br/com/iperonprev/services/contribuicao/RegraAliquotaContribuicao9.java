@@ -14,7 +14,7 @@ public class RegraAliquotaContribuicao9 implements CalculaContribuicao{
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 	@Override
-	public ContribuicoeseAliquotas calcula(ContribuicoeseAliquotas contribuicao, Date dataPosse,BigDecimal contribuicaoPrevidenciaria) {
+	public ContribuicoeseAliquotas calcula(ContribuicoeseAliquotas contribuicao, Date dataPosse,BigDecimal contribuicaoPrevidenciaria,boolean verbaContributiva) {
 		String dataContribuicao = new StringBuilder().append("01/")
 				.append(contribuicao.getDESC_competencia().substring(0, 2))
 				.append("/").append(contribuicao.getDESC_competencia().substring(2, 6)).toString();
@@ -24,7 +24,10 @@ public class RegraAliquotaContribuicao9 implements CalculaContribuicao{
 			if(sdf.parse(dataContribuicao).after(sdf.parse("31/12/2018"))){
 				contribuicao.setNUMR_aliquotaSegurado(13.5);
 				contribuicao.setNUMR_aliquotaPatronal(14.5);
-				contribuicao.setVALR_contribuicaoPrevidenciaria(contribuicaoPrevidenciaria.divide(new BigDecimal("0.135"),3, RoundingMode.DOWN));
+				if(verbaContributiva == false) {
+					contribuicao.setVALR_contribuicaoPrevidenciaria(contribuicaoPrevidenciaria.divide(new BigDecimal("0.135"),3, RoundingMode.DOWN));
+				}
+				
 				contribuicao.setVALR_contribSegurado(contribuicaoPrevidenciaria.multiply(new BigDecimal(0.135)).setScale(3, BigDecimal.ROUND_DOWN));
 				contribuicao.setVALR_contribPatronal(contribuicaoPrevidenciaria.multiply(new BigDecimal(0.145)).setScale(3, BigDecimal.ROUND_DOWN));
 				return contribuicao;
@@ -33,7 +36,7 @@ public class RegraAliquotaContribuicao9 implements CalculaContribuicao{
 		}catch(Exception e){
 			System.out.println("Erro regra aliquota 8");
 		}
-		return proximo.calcula(contribuicao,dataPosse,contribuicaoPrevidenciaria);
+		return proximo.calcula(contribuicao,dataPosse,contribuicaoPrevidenciaria,verbaContributiva);
 	}
 
 	@Override

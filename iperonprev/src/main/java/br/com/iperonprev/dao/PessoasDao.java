@@ -69,6 +69,7 @@ public class PessoasDao implements GenericDao<Pessoas>,Serializable{
 		try{
 			Query q = getEm().createQuery("SELECT p FROM Pessoas p JOIN FETCH p.NUMR_idDoObjetoEndereco WHERE p.NUMR_cpf = :cpf",Pessoas.class);
 			q.setParameter("cpf", cpf);
+			System.out.println(q.getResultList().isEmpty());
 			if(!q.getResultList().isEmpty()){
 				pessoa = (Pessoas)q.getResultList().get(0);			
 			}

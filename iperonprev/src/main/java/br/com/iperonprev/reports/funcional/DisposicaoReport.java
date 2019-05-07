@@ -53,8 +53,8 @@ public class DisposicaoReport implements JasperReportBuiderInterface{
 						d.getENUM_tipoOnus().getNome(),
 						d.getDESC_funcao(),
 						d.getDESC_doe(),
-						sdf.format(d.getDATA_publicacaoDoe()),
-						sdf.format(d.getDATA_dataRetorno()),
+						sdf.format(d.getDATA_publicacaoDoe()).equals(null) ? "-":sdf.format(d.getDATA_publicacaoDoe()),
+						sdf.format(d.getDATA_dataRetorno()).equals(null)?"-":sdf.format(d.getDATA_dataRetorno()),
 						d.getDESC_observacao()
 						);
 			});

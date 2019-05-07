@@ -222,7 +222,7 @@ public class RemuneracaoBean implements GenericBean<Remuneracoes>,Serializable{
 	@SuppressWarnings("static-access")
 	public void calculaContribuicao(){
 		this.pf = (PessoasFuncionais)fb.mapa.get("funcional");
-		this.contribuicao = new QualificaCalculoContribuicao().executa(this.contribuicao,pf.getDATA_efetivoExercicio(),this.remuneracao.getVALR_remuneracao());
+		this.contribuicao = new QualificaCalculoContribuicao().executa(this.contribuicao,pf.getDATA_efetivoExercicio(),this.remuneracao.getVALR_remuneracao(),false);
 	}
 	
 	public void modificaCalculoContribuicaoSegurado(){

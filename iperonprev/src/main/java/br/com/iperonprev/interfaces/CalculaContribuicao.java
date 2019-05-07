@@ -6,6 +6,6 @@ import java.util.Date;
 import br.com.iperonprev.models.ContribuicoeseAliquotas;
 
 public interface CalculaContribuicao {
-	ContribuicoeseAliquotas calcula(ContribuicoeseAliquotas contribuicao, Date dataPosse, BigDecimal contribuicaoPrevidenciaria);
+	ContribuicoeseAliquotas calcula(ContribuicoeseAliquotas contribuicao, Date dataPosse, BigDecimal contribuicaoPrevidenciaria, boolean verbaContributiva);
 	void setProximoCalculo(CalculaContribuicao proximo);
 }

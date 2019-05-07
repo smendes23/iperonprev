@@ -240,7 +240,7 @@
 									<div class="col-sm-3" style="color: #000;">
 										<p:outputLabel value="Competência Final: "></p:outputLabel>
 										<p:inputMask mask="99/9999" required="true" requiredMessage="Competêncial Final obrigatória" styleClass="form-control" value="#{financeiroBean.competenciaFinal}" id="compF">
-											<p:ajax event="blur" listener="#{financeiroBean.validaCompetencia}" update=":formFinanceiro:msgs"/>
+											<p:ajax  listener="#{financeiroBean.validaCompetencia}" update=":formFinanceiro:msgs"/>
 										</p:inputMask>
 									</div>
 									<div class="col-sm-2" style="color: #000;top:20px">

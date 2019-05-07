@@ -171,21 +171,20 @@ public class ContribuicaoDao implements GenericDao<Financeiro>,Serializable{
 	}
 
 	
-	public void excluirContribuicoes(int idFuncional,String anoInicio, String anoFim){
+	public void excluirContribuicoes(int idFuncional,String dataInicio, String dataFim){
 		
 		try {
 			
 			Connection con = conexao.getInstance().getConnection();
 			CallableStatement cs = con.prepareCall("{call dbo.EXCLUIRCONTRIBUICAO(?,?,?)}");
 			cs.setInt(1,idFuncional);
-			cs.setString(2,anoInicio);
-			cs.setString(3,anoFim);
+			cs.setString(2,dataInicio);
+			cs.setString(3,dataFim);
 			cs.execute();
 			cs.close();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Erro ao buscar remunera��o para essa compet�ncia.");
+			Message.addErrorMessage("Erro ao excluir contribuições!");
 		}
 		
 	}

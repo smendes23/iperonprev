@@ -1103,7 +1103,7 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 	
 	public void calculaContribuicaoApartirDoSegurado() {
 		this.contribuicao = new QualificaCalculoContribuicao()
-				.executa(contribuicao,funcional.getDATA_efetivoExercicio(),contribuicao.getVALR_contribSegurado());
+				.executa(contribuicao,funcional.getDATA_efetivoExercicio(),contribuicao.getVALR_contribSegurado(),false);
 		
 		/*if(this.contribuicao.getNUMR_aliquotaSegurado() > 0){
 			modificaCalculoContribuicaoSegurado();
@@ -1291,6 +1291,7 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 
 			});
 		} catch (Exception e) {
+			e.printStackTrace(); 
 			System.out.println("Erro ao gerar RRC datasource.");
 		}
 		return dataSource;
@@ -1376,6 +1377,7 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 				valor = new BigDecimal(0);
 			});
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("Erro ao gerar RRC");
 		}
 		return lista;
@@ -1547,7 +1549,7 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 		
         if (StringUtils.containsIgnoreCase(obj.getNUMR_idDoObjetoCargo().getDESC_nome(),"policia")) {
             proporcionalidade = new BigDecimal("100");
-            tempoServico = "art. 1\u00b0, I LC 144/14";
+            tempoServico = "art. 1º, I LC 144/14";
             tipoProventos = "Provento Apurado pela Integralidade das M\u00e9dias";
             proventoApurado = valorApurado;
         } else {
@@ -2123,8 +2125,10 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 		AfastamentosLicenca al = lista.get(0);
 			res = RetornaTempos.retornaDiaMesAno(this.funcional.getDATA_efetivoExercicio(), new LocalDate().now().minusDays(Days.daysBetween(new LocalDate(al.getDATA_inicioLicenca()), new LocalDate(al.getDATA_fimLicenca())).getDays())
 					.toDate()).toString();
+		}else {
+			res = RetornaTempos.retornaDiaMesAno(this.funcional.getDATA_efetivoExercicio(), new LocalDate().now().toDate()).toString();
 		}
-		
+		System.out.println("Tempo do cargo: "+res);
 		return res;
 	}
 

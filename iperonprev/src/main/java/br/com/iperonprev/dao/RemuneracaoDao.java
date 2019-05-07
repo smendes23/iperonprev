@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import br.com.iperonprev.controller.dto.VerbasRubricasDto;
+import br.com.iperonprev.inigracao.Remuneracao;
 import br.com.iperonprev.interfaces.GenericDao;
 import br.com.iperonprev.models.ContribuicoeseAliquotas;
 import br.com.iperonprev.models.PessoasFuncionais;
@@ -393,6 +394,30 @@ public class RemuneracaoDao implements GenericDao<Remuneracoes>, Serializable {
 			System.out.println("Erro ao buscar remunera��o para essa compet�ncia.");
 		}
 		return remu;
+	}
+	
+	public List<ContribuicoeseAliquotas> listaRemuneracoesContribuicoes(PessoasFuncionais pf){
+		List<ContribuicoeseAliquotas> listaRemuneracao = new ArrayList<ContribuicoeseAliquotas>();
+		try {
+			Connection con = JdbcUtil.getInstance().getConnection();
+			String sql = "select * from Remuneracoes where NUMR_idDoObjetoFuncional_NUMG_idDoObjeto = ? and NUMR_rubrica_NUMG_idDoObjeto = 7602";
+			
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, pf.getNUMG_idDoObjeto());
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				ContribuicoeseAliquotas contrib = new ContribuicoeseAliquotas();
+				contrib.setDESC_competencia(rs.getString(3));
+				contrib.setVALR_contribuicaoPrevidenciaria(rs.getBigDecimal(6));
+				contrib.setNUMR_idPessoasFuncionais(pf);
+				listaRemuneracao.add(contrib);
+			}
+			rs.close();
+		}catch(Exception e) {
+			Message.addErrorMessage("Erro ao devolver lista de Remunerações com rubrica 9995!");
+		}
+		return listaRemuneracao;
 	}
 	
 }

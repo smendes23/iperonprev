@@ -28,6 +28,7 @@ public class ContribuicaoHelper {
 			
 			if(rem.verificaSeExisteRemuneracoes(pesf.getNUMG_idDoObjeto()) == true){
 				if(rem.verificaSeExisteRegistroNaTabela(pesf.getNUMG_idDoObjeto()) == false){
+				
 					
 					listaRemuneracoes = new RemuneracaoDao().devolveListaRemuneracoesContribuicao(pesf.getNUMG_idDoObjeto());
 					
@@ -45,7 +46,7 @@ public class ContribuicaoHelper {
 							ContribuicoeseAliquotas ca = new ContribuicoeseAliquotas();
 							ca.setDESC_competencia(r.getNUMR_competencia());
 							ca.setNUMR_idPessoasFuncionais(r.getNUMR_idDoObjetoFuncional());
-							ca = new QualificaCalculoContribuicao().executa(ca,r.getNUMR_idDoObjetoFuncional().getDATA_efetivoExercicio(),r.getVALR_remuneracao());
+							ca = new QualificaCalculoContribuicao().executa(ca,r.getNUMR_idDoObjetoFuncional().getDATA_efetivoExercicio(),r.getVALR_remuneracao(),false);
 							new GenericPersistence<ContribuicoeseAliquotas>(ContribuicoeseAliquotas.class).salvar(ca);
 					}
 				}

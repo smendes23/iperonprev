@@ -63,10 +63,10 @@
 			 -->
 			<!-- SQL Server remoto -->
 			<property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/> 
-			<property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://192.168.130.30:1433;databaseName=DBIPERON"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://192.168.130.30:1433;databaseName=DBIPERON"/> 
 			<!-- <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://172.16.31.135:1433;databaseName=DBIPERON-IMPORTACAO"/> -->
 			<property name="javax.persistence.jdbc.user" value="sa"/> 
-			<property name="javax.persistence.jdbc.password" value="1p3r0n.2015"/>
+			<property name="javax.persistence.jdbc.password" value="1p3r0n.2015"/> 
 			<!-- <property name="javax.persistence.jdbc.password" value="1p3r0n@2019"/> -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2008Dialect"/>
 			 

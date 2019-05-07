@@ -9,7 +9,7 @@ import br.com.iperonprev.models.ContribuicoeseAliquotas;
 public class ContribuicaoNulo implements CalculaContribuicao{
 
 	@Override
-	public ContribuicoeseAliquotas calcula(ContribuicoeseAliquotas contribuicao,Date dataPosse,BigDecimal contribuicaoPrevidenciaria) {
+	public ContribuicoeseAliquotas calcula(ContribuicoeseAliquotas contribuicao,Date dataPosse,BigDecimal contribuicaoPrevidenciaria,boolean verbaContributiva) {
 		// TODO Auto-generated method stub
 		return new ContribuicoeseAliquotas();
 	}
