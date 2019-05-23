@@ -13,8 +13,7 @@ public class ConcomitanciaEntrePeriodosIguais implements TemposConcomitantesDuas
 		try {
 			Averbacao averbacao = new Averbacao();
 			if (a1.getDATA_admissao().compareTo(a2.getDATA_admissao()) == 0 && 
-			        a1.getDATA_demissao().compareTo(a2.getDATA_demissao()) == 0  && 
-			        a1.isFLAG_concomitado() == false){
+			        a1.getDATA_demissao().compareTo(a2.getDATA_demissao()) == 0 ){
 					
 				a2.setDATA_inicioConcomitancia(a2.getDATA_admissao());
 				a2.setDATA_fimConcomitancia(a2.getDATA_demissao());

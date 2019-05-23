@@ -26,6 +26,7 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
 
 import br.com.iperonprev.constantes.SexoEnum;
+import br.com.iperonprev.controller.dto.ContribuicaoDto;
 import br.com.iperonprev.dao.AfastamentoLicencaDao;
 import br.com.iperonprev.dao.AverbacaoDao;
 import br.com.iperonprev.dao.ContribuicaoDao;
@@ -34,6 +35,7 @@ import br.com.iperonprev.dao.PessoasDao;
 import br.com.iperonprev.dao.PessoasFuncionaisDao;
 import br.com.iperonprev.dao.PortariaDao;
 import br.com.iperonprev.dao.RemuneracaoDao;
+import br.com.iperonprev.helper.ContribuicaoHelper;
 import br.com.iperonprev.interfaces.GenericDao;
 import br.com.iperonprev.models.Averbacao;
 import br.com.iperonprev.models.Cargos;
@@ -647,7 +649,7 @@ public class FinanceiroBean implements Serializable {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
 //		List<ContribuicoeseAliquotas> listaDeContribuicoes = new ContribuicaoDao().devolveListaContribuicoes(pf.getNUMG_idDoObjeto());
-		List<ContribuicoeseAliquotas> listaDeContribuicoes = devolveListaDeContribuicoesAtualizadas(this.pf);
+		List<ContribuicaoDto> listaDeContribuicoes = new ContribuicaoHelper().verificaExistenciaContribuicao(this.pf);
 		
 		System.out.println(listaDeContribuicoes.size());
 		
@@ -932,7 +934,7 @@ public class FinanceiroBean implements Serializable {
 		return dataSource;
 	}
 	
-	private List<ContribuicoeseAliquotas> devolveListaDeContribuicoesAtualizadas(PessoasFuncionais obj){
+	/*private List<ContribuicoeseAliquotas> devolveListaDeContribuicoesAtualizadas(PessoasFuncionais obj){
 		List<ContribuicoeseAliquotas> listaContribuicoes = new ArrayList<>();
 		if(!new RemuneracaoDao().listaRemuneracoesContribuicoes(obj).isEmpty()) {
 			List<ContribuicoeseAliquotas> listaCon = new RemuneracaoDao().listaRemuneracoesContribuicoes(obj);
@@ -945,7 +947,7 @@ public class FinanceiroBean implements Serializable {
 			return 	listaContribuicoes = devolveContribuicoes(listaIndice, new RemuneracaoDao()
 					.devolveContribuicoesComPortaria(portaria.getNUMG_idDoObjeto(), obj.getNUMG_idDoObjeto()));
 		}
-	}
+	}*/
 
 	private List<BigDecimal> devolveOitentaMaiores(List<Indice> listaI, List<ContribuicoeseAliquotas> listaC) {
 		List<BigDecimal> lista = new ArrayList<>();

@@ -32,7 +32,6 @@ import br.com.iperonprev.models.Remuneracoes;
 import br.com.iperonprev.models.Rubricas;
 import br.com.iperonprev.reports.container.Reports;
 import br.com.iperonprev.reports.container.Templates;
-import br.com.iperonprev.services.contribuicao.QualificaCalculoContribuicao;
 import br.com.iperonprev.util.jsf.Column;
 import br.com.iperonprev.util.jsf.DecimalFormatter;
 import br.com.iperonprev.util.jsf.DialogsPrime;
@@ -222,7 +221,7 @@ public class RemuneracaoBean implements GenericBean<Remuneracoes>,Serializable{
 	@SuppressWarnings("static-access")
 	public void calculaContribuicao(){
 		this.pf = (PessoasFuncionais)fb.mapa.get("funcional");
-		this.contribuicao = new QualificaCalculoContribuicao().executa(this.contribuicao,pf.getDATA_efetivoExercicio(),this.remuneracao.getVALR_remuneracao(),false);
+//		this.contribuicao = new QualificaCalculoContribuicao().executa(this.contribuicao,pf.getDATA_efetivoExercicio(),this.remuneracao.getVALR_remuneracao(),false);
 	}
 	
 	public void modificaCalculoContribuicaoSegurado(){

@@ -3,15 +3,15 @@ package br.com.iperonprev.services.contribuicao;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import br.com.iperonprev.controller.dto.ContribuicaoDto;
 import br.com.iperonprev.interfaces.CalculaContribuicao;
-import br.com.iperonprev.models.ContribuicoeseAliquotas;
 
 public class ContribuicaoNulo implements CalculaContribuicao{
 
 	@Override
-	public ContribuicoeseAliquotas calcula(ContribuicoeseAliquotas contribuicao,Date dataPosse,BigDecimal contribuicaoPrevidenciaria,boolean verbaContributiva) {
+	public ContribuicaoDto calcula(ContribuicaoDto contribuicao,Date dataPosse,BigDecimal contribuicaoPrevidenciaria,boolean verbaContributiva) {
 		// TODO Auto-generated method stub
-		return new ContribuicoeseAliquotas();
+		return new ContribuicaoDto();
 	}
 
 	@Override

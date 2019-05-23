@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import br.com.iperonprev.controller.dto.ContribuicaoDto;
 import br.com.iperonprev.controller.dto.VerbasRubricasDto;
 import br.com.iperonprev.inigracao.Remuneracao;
 import br.com.iperonprev.interfaces.GenericDao;
@@ -235,7 +236,8 @@ public class RemuneracaoDao implements GenericDao<Remuneracoes>, Serializable {
 					"select ca.* from ContribuicoeseAliquotas ca, Indice i, Portaria p,PessoasFuncionais pf where "
 							+ "	i.portaria_NUMG_idDoObjeto = p.NUMG_idDoObjeto and"
 							+ " ca.NUMR_idPessoasFuncionais_NUMG_idDoObjeto = pf.NUMG_idDoObjeto and"
-							+ " ca.DESC_competencia = i.NUMR_mesAno and" + " p.NUMG_idDoObjeto = :portaria and"
+							+ " ca.DESC_competencia = i.NUMR_mesAno and" 
+							+ " p.NUMG_idDoObjeto = :portaria and"
 							+ " pf.NUMG_idDoObjeto = :idFuncional",
 					ContribuicoeseAliquotas.class);
 			q.setParameter("portaria", idPortaria);
@@ -396,8 +398,8 @@ public class RemuneracaoDao implements GenericDao<Remuneracoes>, Serializable {
 		return remu;
 	}
 	
-	public List<ContribuicoeseAliquotas> listaRemuneracoesContribuicoes(PessoasFuncionais pf){
-		List<ContribuicoeseAliquotas> listaRemuneracao = new ArrayList<ContribuicoeseAliquotas>();
+	public List<ContribuicaoDto> listaRemuneracoesContribuicoes(PessoasFuncionais pf){
+		List<ContribuicaoDto> listaRemuneracao = new ArrayList<ContribuicaoDto>();
 		try {
 			Connection con = JdbcUtil.getInstance().getConnection();
 			String sql = "select * from Remuneracoes where NUMR_idDoObjetoFuncional_NUMG_idDoObjeto = ? and NUMR_rubrica_NUMG_idDoObjeto = 7602";
@@ -407,7 +409,7 @@ public class RemuneracaoDao implements GenericDao<Remuneracoes>, Serializable {
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				ContribuicoeseAliquotas contrib = new ContribuicoeseAliquotas();
+				ContribuicaoDto contrib = new ContribuicaoDto();
 				contrib.setDESC_competencia(rs.getString(3));
 				contrib.setVALR_contribuicaoPrevidenciaria(rs.getBigDecimal(6));
 				contrib.setNUMR_idPessoasFuncionais(pf);

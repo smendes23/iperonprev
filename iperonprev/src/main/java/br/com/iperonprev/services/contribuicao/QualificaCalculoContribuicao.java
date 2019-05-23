@@ -3,12 +3,13 @@ package br.com.iperonprev.services.contribuicao;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import br.com.iperonprev.controller.dto.ContribuicaoDto;
 import br.com.iperonprev.interfaces.CalculaContribuicao;
-import br.com.iperonprev.models.ContribuicoeseAliquotas;
 
 public class QualificaCalculoContribuicao {
 
-	public ContribuicoeseAliquotas executa(ContribuicoeseAliquotas contribuicao, Date dataPosse,BigDecimal contribuicaoPrevidenciaria,boolean verbaContributiva){
+	public ContribuicaoDto executa(ContribuicaoDto contribuicao, Date dataPosse,BigDecimal contribuicaoPrevidenciaria,boolean verbaContributiva){
+		
 		CalculaContribuicao contrib1 = new RegraAliquotaContribuicao1();
 		CalculaContribuicao contrib2 = new RegraAliquotaContribuicao2();
 		CalculaContribuicao contrib3 = new RegraAliquotaContribuicao3();

@@ -5,8 +5,8 @@ import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import br.com.iperonprev.controller.dto.ContribuicaoDto;
 import br.com.iperonprev.interfaces.CalculaContribuicao;
-import br.com.iperonprev.models.ContribuicoeseAliquotas;
 
 public class RegraAliquotaContribuicao8 implements CalculaContribuicao{
 
@@ -14,7 +14,7 @@ public class RegraAliquotaContribuicao8 implements CalculaContribuicao{
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 	@Override
-	public ContribuicoeseAliquotas calcula(ContribuicoeseAliquotas contribuicao, Date dataPosse,BigDecimal contribuicaoPrevidenciaria,boolean verbaContributiva) {
+	public ContribuicaoDto calcula(ContribuicaoDto contribuicao, Date dataPosse,BigDecimal contribuicaoPrevidenciaria,boolean verbaContributiva) {
 		String dataContribuicao = new StringBuilder().append("01/")
 				.append(contribuicao.getDESC_competencia().substring(0, 2))
 				.append("/").append(contribuicao.getDESC_competencia().substring(2, 6)).toString();

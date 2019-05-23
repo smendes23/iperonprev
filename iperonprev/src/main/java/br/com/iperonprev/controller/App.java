@@ -1,27 +1,33 @@
 package br.com.iperonprev.controller;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
+
+import br.com.iperonprev.controller.dto.ContribuicaoDto;
 import br.com.iperonprev.dao.GenericPersistence;
 import br.com.iperonprev.dao.RemuneracaoDao;
+import br.com.iperonprev.helper.ContribuicaoHelper;
 import br.com.iperonprev.models.ContribuicoeseAliquotas;
 import br.com.iperonprev.models.PessoasFuncionais;
 
 public class App {
-
-	int resultado = 0;
+	
 	public static void main(String[] args) throws ParseException {
-		PessoasFuncionais pf = new GenericPersistence<PessoasFuncionais>(PessoasFuncionais.class).buscarPorId(27581);
 		
-		List<ContribuicoeseAliquotas> lista = new RemuneracaoDao().listaRemuneracoesContribuicoes(pf);
-		lista.forEach(r->{
-			System.out.println("Competência: "+r.getDESC_competencia());
-			System.out.println("Valor: "+r.getVALR_contribuicaoPrevidenciaria());
-			
-		});
-		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		LocalDate data = new LocalDate(sdf.parse("01/01/2000")).plusDays(20);
+		System.out.println(sdf.format(data.toDate()));
 	}
 	
-
 }
+
+
+
+

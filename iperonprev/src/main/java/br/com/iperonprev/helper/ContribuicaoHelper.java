@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.TreeSet;
 
+import br.com.iperonprev.controller.dto.ContribuicaoDto;
 import br.com.iperonprev.dao.ContribuicaoDao;
 import br.com.iperonprev.dao.GenericPersistence;
 import br.com.iperonprev.dao.RemuneracaoDao;
@@ -46,7 +47,7 @@ public class ContribuicaoHelper {
 							ContribuicoeseAliquotas ca = new ContribuicoeseAliquotas();
 							ca.setDESC_competencia(r.getNUMR_competencia());
 							ca.setNUMR_idPessoasFuncionais(r.getNUMR_idDoObjetoFuncional());
-							ca = new QualificaCalculoContribuicao().executa(ca,r.getNUMR_idDoObjetoFuncional().getDATA_efetivoExercicio(),r.getVALR_remuneracao(),false);
+//							ca = new QualificaCalculoContribuicao().executa(ca,r.getNUMR_idDoObjetoFuncional().getDATA_efetivoExercicio(),r.getVALR_remuneracao(),false);
 							new GenericPersistence<ContribuicoeseAliquotas>(ContribuicoeseAliquotas.class).salvar(ca);
 					}
 				}
@@ -62,6 +63,27 @@ public class ContribuicaoHelper {
 		boolean res = false;
 		res = new ContribuicaoDao().verificaExistenciaContribuicao(idFuncional);
 		return res;
+	}
+	
+	public List<ContribuicaoDto> listaDeContribuicoesRemuneracao(PessoasFuncionais pf){
+		List<ContribuicaoDto> lista = new ArrayList<>();
+		List<ContribuicaoDto> listaRes = new ArrayList<>();
+		try {
+			lista = new RemuneracaoDao().listaRemuneracoesContribuicoes(pf);
+			
+			for (ContribuicaoDto c : lista) {
+				
+				ContribuicaoDto contrib = new ContribuicaoDto();
+				contrib  =new QualificaCalculoContribuicao()
+				.executa(c,pf.getDATA_efetivoExercicio(),c.getVALR_contribSegurado(),true);
+				
+				listaRes.add(contrib);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return listaRes;
 	}
 	
 }

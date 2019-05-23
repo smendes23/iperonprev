@@ -3,9 +3,9 @@ package br.com.iperonprev.interfaces;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import br.com.iperonprev.models.ContribuicoeseAliquotas;
+import br.com.iperonprev.controller.dto.ContribuicaoDto;
 
 public interface CalculaContribuicao {
-	ContribuicoeseAliquotas calcula(ContribuicoeseAliquotas contribuicao, Date dataPosse, BigDecimal contribuicaoPrevidenciaria, boolean verbaContributiva);
+	ContribuicaoDto calcula(ContribuicaoDto contribuicao, Date dataPosse, BigDecimal contribuicaoPrevidenciaria, boolean verbaContributiva);
 	void setProximoCalculo(CalculaContribuicao proximo);
 }

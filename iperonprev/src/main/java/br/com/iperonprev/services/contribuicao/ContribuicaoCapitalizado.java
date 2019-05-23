@@ -4,15 +4,15 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import br.com.iperonprev.controller.dto.ContribuicaoDto;
 import br.com.iperonprev.interfaces.CalculaContribuicao;
-import br.com.iperonprev.models.ContribuicoeseAliquotas;
 
 public class ContribuicaoCapitalizado implements CalculaContribuicao{
 	private CalculaContribuicao proximo;
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 	@Override
-	public ContribuicoeseAliquotas calcula(ContribuicoeseAliquotas contribuicao, Date dataPosse,BigDecimal contribuicaoPrevidenciaria) {
+	public ContribuicaoDto calcula(ContribuicaoDto contribuicao, Date dataPosse,BigDecimal contribuicaoPrevidenciaria,boolean verbaContributiva ) {
 		try{
 			int ano = Integer.parseInt(contribuicao.getDESC_competencia().substring(2, 6));
 //			contribuicao.setENUM_fundoPrevidenciario(FundoPrevidenciarioEnum.CAPITALIZADO);
@@ -33,7 +33,7 @@ public class ContribuicaoCapitalizado implements CalculaContribuicao{
 		}catch(Exception e){
 			System.out.println("sem");
 		}
-		return proximo.calcula(contribuicao,dataPosse,contribuicaoPrevidenciaria);
+		return proximo.calcula(contribuicao,dataPosse,contribuicaoPrevidenciaria, verbaContributiva);
 	}
 
 	@Override

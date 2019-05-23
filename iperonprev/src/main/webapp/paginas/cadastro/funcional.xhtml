@@ -528,14 +528,7 @@
 											<p:resetInput target="financeiro" />
 										</p:commandButton>
 									</div>
-									<div class="col-sm-3" style="color: #000">
-										<p:commandButton value="Contribuição" icon="fa fa-dollar" 
-											action="#{funcionalBean.exibeContribuicao}"
-											process="@this" update="@none" >
-											<p:ajax event="dialogReturn" listener="#{funcionalBean.selecionaObjetoDialogoContribuicao}" process="@this" update="financeiro"></p:ajax>
-											<p:resetInput target="financeiro" />
-										</p:commandButton>
-									</div>
+									
 									<div class="col-sm-2" style="color: #000">
 									<h:panelGroup
 										rendered="#{funcionalBean.existePortaria eq false}" id="mediasPanel">
@@ -578,122 +571,8 @@
 								</div>
 							</div>
 						</h:panelGroup>
-						<p:panelGrid id="contrib">
-							<p:dialog widgetVar="contribuicao" width="880" height="320"
-								resizable="false" modal="true" id="dialogoContrib">
-								<p:ajax event="close" update="dialogoContrib" listener="#{funcionalBean.fechaDialogoContribuicao}"></p:ajax>
-								
-								
-									<p:messages showDetail="true" closable="true"></p:messages>
-								<h3 class="fieldalt">Contribuição</h3>
-								<hr />
-								<div class="col-sm-6" style="color: #000">
-									<p:commandLink value="Competência:">
-										<p:ajax process="dialogoContrib"
-											update="@this baseCalculo aliquotaSegurado contribSegurado aliquotaPatronal contribPatronal"
-											listener="#{funcionalBean.buscaContribuicaoAliquota}"></p:ajax>
-									</p:commandLink>
-									<i class="fa fa-search"></i>
-									<p:inputMask mask="99/9999" styleClass="form-control"
-										converter="competenciaConverterMesAno" required="true"
-										value="#{funcionalBean.contribuicao.DESC_competencia}"
-										valueChangeListener="#{funcionalBean.pegaContribuicao}"
-										id="competencia">
-									</p:inputMask>
-									
-								</div>
-								<div class="col-sm-6" style="color: #000">
-									<p:outputLabel value="Base de Cálculo Iperon:"></p:outputLabel>
-									<p:inputText styleClass="form-control " id="baseCalculo" required="true"
-										value="#{funcionalBean.contribuicao.VALR_contribuicaoPrevidenciaria}"
-										converter="moedaConverter">
-										<p:ajax event="blur"
-											update="dialogoContrib"
-											process="@this dialogoContrib"
-											listener="#{funcionalBean.calculaBaseContribuicao}"></p:ajax>
-									</p:inputText>
-								</div>
-								<div class="col-sm-4" style="color: #000">
-									<p:outputLabel value="Alíquota Segurado %:"></p:outputLabel>
-									<p:inputText styleClass="form-control " id="aliquotaSegurado" required="true"
-										value="#{funcionalBean.contribuicao.NUMR_aliquotaSegurado}" converter="moedaConverter">
-										<p:ajax event="blur" update="contribSegurado baseCalculo"
-											process="dialogoContrib"
-											listener="#{funcionalBean.modificaCalculoContribuicaoSegurado}"></p:ajax>
-									</p:inputText>
-
-								</div>
-								<div class="col-sm-4" style="color: #000">
-									<p:outputLabel value="Contribuição Segurado:"></p:outputLabel>
-									<p:inputText styleClass="form-control " id="contribSegurado" required="true"
-										value="#{funcionalBean.contribuicao.VALR_contribSegurado}"
-										converter="moedaConverter" >
-									<p:ajax event="blur"
-											update="aliquotaSegurado baseCalculo aliquotaPatronal contribPatronal devolucaoSegurado devolucaoPatronal"
-											process="dialogoContrib"
-											listener="#{funcionalBean.calculaContribuicaoApartirDoSegurado}"></p:ajax>	
-									</p:inputText>
-								</div>
-								<div class="col-sm-4" style="color: #000">
-									<p:outputLabel value="Devolução Segurado:"></p:outputLabel>
-									<p:inputText styleClass="form-control " id="devolucaoSegurado"
-										value="#{funcionalBean.contribuicao.VALR_devolSegurado}"
-										converter="moedaConverter" />
-								</div>
-								<div class="col-sm-4" style="color: #000">
-									<p:outputLabel value="Alíquota Patronal %:"></p:outputLabel>
-									<p:inputText styleClass="form-control " id="aliquotaPatronal" required="true"
-										value="#{funcionalBean.contribuicao.NUMR_aliquotaPatronal}" converter="moedaConverter">
-										<p:ajax event="blur" update="contribPatronal" process="@this"
-											listener="#{funcionalBean.modificaCalculoContribuicaoPatronal}"></p:ajax>
-									</p:inputText>
-								</div>
-								<div class="col-sm-4" style="color: #000">
-									<p:outputLabel value="Contribuição Patronal :"></p:outputLabel>
-									<p:inputText styleClass="form-control " id="contribPatronal" required="true"
-										value="#{funcionalBean.contribuicao.VALR_contribPatronal}"
-										converter="moedaConverter" />
-								</div>
-								<div class="col-sm-4" style="color: #000">
-									<p:outputLabel value="Devolução Patronal:"></p:outputLabel>
-									<p:inputText styleClass="form-control " id="devolucaoPatronal"
-										value="#{funcionalBean.contribuicao.VALR_devolPatronal}"
-										converter="moedaConverter" />
-								</div>
-								<div class="col-sm-12">
-									<br />
-								</div>
-								<div class="col-sm-2" style="color: #000">
-									<p:commandButton value="Salvar" icon="fa fa-save" action="#{funcionalBean.salvaContribuicoes}" process="contrib" update="dialogoContrib">
-										<p:ajax process="contrib"
-											update="dialogoContrib"
-											listener="#{funcionalBean.salvaContribuicoes}" />
-									</p:commandButton>
-								</div>
-								<div class="col-sm-2" style="color: #000">
-									<p:commandButton value="Novo" icon="fa fa-plus">
-										<p:ajax
-											update="dialogoContrib"
-											listener="#{funcionalBean.resetaContribuicao()}"/>
-									</p:commandButton>
-								</div>
-								<div class="col-sm-3" style="color: #000">
-									<p:commandButton value="Extrato" icon="fa fa-print"
-										action="#{funcionalBean.geraFichaFinanceira}" immediate="true"
-										onclick="this.form.target='_blank'" ajax="false">
-									</p:commandButton>
-								</div>
-								<div class="col-sm-2" style="color: #000">
-									<p:commandButton value="Excluir" icon="fa fa-trash">
-										<p:ajax process="contrib"
-											update="dialogoContrib"
-											listener="#{funcionalBean.removeContribuicao}" />
-									</p:commandButton>
-								</div>
-								
-							</p:dialog>
-
-						</p:panelGrid>
+						
+						
 
 					</p:tab>
 					<p:tab title="Averbação"

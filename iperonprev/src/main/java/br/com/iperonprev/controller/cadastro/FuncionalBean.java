@@ -40,11 +40,11 @@ import br.com.iperonprev.constantes.TipoAtosDiversosEnum;
 import br.com.iperonprev.constantes.TipoBeneficioEnum;
 import br.com.iperonprev.constantes.TipoDeducaoEnum;
 import br.com.iperonprev.constantes.TipoOnusEnum;
+import br.com.iperonprev.controller.dto.ContribuicaoDto;
 import br.com.iperonprev.controller.dto.FichaFinanceiraDto;
 import br.com.iperonprev.dao.AfastamentoDisposicaoDao;
 import br.com.iperonprev.dao.AfastamentoLicencaDao;
 import br.com.iperonprev.dao.AverbacaoDao;
-import br.com.iperonprev.dao.ContribuicaoDao;
 import br.com.iperonprev.dao.DeducaoDao;
 import br.com.iperonprev.dao.FuncionaisFuncoesDao;
 import br.com.iperonprev.dao.GenericPersistence;
@@ -105,7 +105,6 @@ import br.com.iperonprev.services.averbacao.QualificaConcomitanciaDuasAverbacoes
 import br.com.iperonprev.services.averbacao.QualificaConcomitanciaUmaAverbacao;
 import br.com.iperonprev.services.beneficio.Artigo03;
 import br.com.iperonprev.services.contribuicao.QualificaBaseDeCalculo;
-import br.com.iperonprev.services.contribuicao.QualificaCalculoContribuicao;
 import br.com.iperonprev.util.averbacao.DiaMesAno;
 import br.com.iperonprev.util.averbacao.RetornaTemposAverbacao;
 import br.com.iperonprev.util.jsf.Column;
@@ -1054,13 +1053,13 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 		actionEditRubricas();
 	}
 	
-	public void exibeContribuicao() {
+	/*public void exibeContribuicao() {
 		if (ContribuicaoHelper.existeContribuicao(this.funcional.getNUMG_idDoObjeto()) != true) {
 			ContribuicaoHelper.criaContribuicao(this.funcional);
 		}
 		listaDefinanceiro = new ArrayList<>();
 		new DialogsPrime().showDialogWithAndHeightWihoutClose(true, true, true, true, "contribuicao", 350, 930);
-	}
+	}*/
 
 	public void fechaContribuicao() {
 		RequestContext.getCurrentInstance().closeDialog("contribuicao");
@@ -1102,8 +1101,8 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 	}
 	
 	public void calculaContribuicaoApartirDoSegurado() {
-		this.contribuicao = new QualificaCalculoContribuicao()
-				.executa(contribuicao,funcional.getDATA_efetivoExercicio(),contribuicao.getVALR_contribSegurado(),false);
+		/*this.contribuicao = new QualificaCalculoContribuicao()
+				.executa(contribuicao,funcional.getDATA_efetivoExercicio(),contribuicao.getVALR_contribSegurado(),false);*/
 		
 		/*if(this.contribuicao.getNUMR_aliquotaSegurado() > 0){
 			modificaCalculoContribuicaoSegurado();
@@ -1484,7 +1483,18 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 		field.add(new Field("tipoCalculo", "string"));
 		return field;
 	}
-
+	
+	/*private List<ContribuicoeseAliquotas> devolveListaCotribuicaoSizeMaior(PessoasFuncionais obj){
+		List<ContribuicoeseAliquotas> listaContribuicoes = new ArrayList<>();
+		try {
+			devolveContribuicoes(listaIndice, new RemuneracaoDao()
+					.devolveContribuicoesComPortaria(portaria.getNUMG_idDoObjeto(), obj.getNUMG_idDoObjeto()));
+		}catch(Exception e) {
+			
+		}
+		return listaContribuicoes;
+	}
+*/
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	@SuppressWarnings("unused")
 	private JRDataSource dataSourceProventos(PessoasFuncionais obj, List<Column> columns, List<Field> fields,
@@ -1496,8 +1506,11 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 				"tempoServico", "salarioMinimo", "proporcionalidade", "proventoIntegralidade", "totalProventos","tipoProventos","tipoCalculo");
 		
 		
-		List<ContribuicoeseAliquotas> listaContribuicoes = devolveContribuicoes(listaIndice, new RemuneracaoDao()
-				.devolveContribuicoesComPortaria(portaria.getNUMG_idDoObjeto(), obj.getNUMG_idDoObjeto()));
+		List<ContribuicaoDto> listaContribuicoes = devolveContribuicoes(listaDeIndice, obj);
+		
+		System.out.println("Tamanho da Lista: "+listaContribuicoes.size());
+		
+		
 
 		int qtdOitenta = (int) listaContribuicoes.stream()
 				.filter(c -> !c.getVALR_oitentaMaiores().equals(new BigDecimal("0"))).count();
@@ -1578,7 +1591,7 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 			tipoProventos = "Provento Integral Apurado";
 			proporcionalidade = new BigDecimal(100);
 			tipoCalc = "Integralidade";
-			proventoApurado = mediaAritmetica;
+			proventoApurado = mediaAritmetica.compareTo(ultimaRemuneracao) == 1 ?ultimaRemuneracao :mediaAritmetica;
 		}
 		
 		List<SalarioMinimo> listaSalario = new GenericPersistence<SalarioMinimo>(SalarioMinimo.class).listarTodos("SalarioMinimo");
@@ -1629,13 +1642,12 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 				"cargo", "dataAdmissao", "orgao", "tituloRelatorio", "fatores", "competencia", "base", "indice",
 				"remuneracao", "oitenta", "total");
 
-		List<ContribuicoeseAliquotas> listaContribuicoes = devolveContribuicoes(listaIndice, new RemuneracaoDao()
-				.devolveContribuicoesComPortaria(portaria.getNUMG_idDoObjeto(), obj.getNUMG_idDoObjeto()));
+		List<ContribuicaoDto> listaContribuicoes = devolveContribuicoes(listaDeIndice, obj);
 
 		BigDecimal totalOitentas = listaContribuicoes.stream().map(b -> b.getVALR_oitentaMaiores())
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 
-		for (ContribuicoeseAliquotas lC : listaContribuicoes) {
+		for (ContribuicaoDto lC : listaContribuicoes) {
 			dataSource.add(obj.getDESC_matricula(), obj.getNUMR_idDoObjetoPessoas().getDESC_nome(),
 					obj.getNUMR_idDoObjetoPessoas().getNUMR_cpf(),
 					obj.getNUMR_idDoObjetoPessoas().getDESC_sexo().getNome().toString(),
@@ -1655,7 +1667,7 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 		return dataSource;
 	}
 
-	private List<BigDecimal> devolveOitentaMaiores(List<Indice> listaI, List<ContribuicoeseAliquotas> listaC) {
+	private List<BigDecimal> devolveOitentaMaiores(List<Indice> listaI, List<ContribuicaoDto> listaC) {
 		List<BigDecimal> lista = new ArrayList<>();
 		listaC.forEach(i -> {
 			listaI.forEach(f -> {
@@ -1667,9 +1679,17 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 		return lista;
 	}
 
-	public List<ContribuicoeseAliquotas> devolveContribuicoes(List<Indice> listaI,
-			List<ContribuicoeseAliquotas> listaC) {
-		List<ContribuicoeseAliquotas> lista = new ArrayList<>();
+	
+	public List<ContribuicaoDto> devolveContribuicoes(List<Indice> listaI,
+			PessoasFuncionais pf) {
+		
+		List<ContribuicaoDto> listaC = new ContribuicaoHelper().listaDeContribuicoesRemuneracao(pf);
+		/*listaC.forEach(c->{
+			System.out.println(c.toString());
+			System.out.println("********************************");
+		});*/
+		
+		List<ContribuicaoDto> lista = new ArrayList<>();
 		listaC.forEach(i -> {
 			listaI.forEach(f -> {
 				if (i.getDESC_competencia().equals(f.getNUMR_mesAno())) {
@@ -1694,12 +1714,12 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 				lista.get(i).setVALR_oitentaMaiores(new BigDecimal("0"));
 			}
 		}
-		List<ContribuicoeseAliquotas> listaContribuicoes = new ArrayList<>();
+		List<ContribuicaoDto> listaContribuicoes = new ArrayList<>();
 
 		listaI.forEach(i -> {
 			lista.forEach(f -> {
 				if (f.getDESC_competencia().equals(i.getNUMR_mesAno())) {
-					ContribuicoeseAliquotas ca = new ContribuicoeseAliquotas();
+					ContribuicaoDto ca = new ContribuicaoDto();
 					ca.setDESC_competencia(f.getDESC_competencia());
 					ca.setVALR_contribuicaoPrevidenciaria(f.getVALR_contribuicaoPrevidenciaria());
 					ca.setVALR_indice(i.getVALR_indice());
@@ -1739,7 +1759,7 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 	}
 
 	private JRDataSource dataSourceFichaFinanceira() {
-		List<ContribuicoeseAliquotas> listaDeContribuicoes = new ContribuicaoDao().devolveListaContribuicoes(funcional.getNUMG_idDoObjeto());
+		List<ContribuicaoDto> listaDeContribuicoes = new ContribuicaoHelper().listaDeContribuicoesRemuneracao(funcional);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
 		DRDataSource dataSource = new DRDataSource("nome", "matricula", "cpf", "orgao", "situacaoPrevidenciaria",
@@ -1759,7 +1779,7 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 			System.out.println("Erro ao converter data plano previdenciario");
 		}
 		Collections.sort(listaDeContribuicoes, CONTRIBUICAO_ORDER);
-		for (ContribuicoeseAliquotas c : listaDeContribuicoes) {
+		for (ContribuicaoDto c : listaDeContribuicoes) {
 			dataSource.add(funcional.getNUMR_idDoObjetoPessoas().getDESC_nome(), funcional.getDESC_matricula(),
 					funcional.getNUMR_idDoObjetoPessoas().getNUMR_cpf(),
 					funcional.getNUMR_idDoObjetoCargo().getNUMR_idDoObjetoOrgaos().getDESC_nome(),
@@ -1806,10 +1826,10 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 		}
 	}
 
-	private static Comparator<ContribuicoeseAliquotas> CONTRIBUICAO_ORDER = new Comparator<ContribuicoeseAliquotas>() {
+	private static Comparator<ContribuicaoDto> CONTRIBUICAO_ORDER = new Comparator<ContribuicaoDto>() {
 
 		@Override
-		public int compare(ContribuicoeseAliquotas o1, ContribuicoeseAliquotas o2) {
+		public int compare(ContribuicaoDto o1, ContribuicaoDto o2) {
 			Integer valor1 = Integer.parseInt(new StringBuilder().append(o1.getDESC_competencia().substring(2, 6))
 					.append(o1.getDESC_competencia().substring(0, 2)).toString());
 			Integer valor2 = Integer.parseInt(new StringBuilder().append(o2.getDESC_competencia().substring(2, 6))

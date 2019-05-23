@@ -14,19 +14,21 @@ public class QualificaConcomitanciaDuasAverbacoes {
 			Averbacao av2 = new GenericPersistence<Averbacao>(Averbacao.class).buscarPorId(a2.getNUMG_idDoObjeto());
 			
 			if(av1.getNUMG_idDoObjeto() != av2.getNUMG_idDoObjeto()){
+				
+				
 					
 					TemposConcomitantesDuasAverbacoes con1 = new ConcomitanciaAdmissaoDemissao();
 					TemposConcomitantesDuasAverbacoes con2 = new ConcomitanciaEntrePeriodosIguais();
 					TemposConcomitantesDuasAverbacoes con3 = new ConcomitanciaDataAdmissao();
-					TemposConcomitantesDuasAverbacoes con4 = new ConcomitanciaDemissao();
-					TemposConcomitantesDuasAverbacoes con5 = new ConcomitanciaAdmissaoIgualDemissaoMenor();
+//					TemposConcomitantesDuasAverbacoes con4 = new ConcomitanciaDemissao();
+					/*TemposConcomitantesDuasAverbacoes con5 = new ConcomitanciaAdmissaoIgualDemissaoMenor();*/
 					TemposConcomitantesDuasAverbacoes nulo = new ConcomitanciaNulaDuasAverbacoes();
 					
 					con1.setProximaConcomitancia(con2);
 					con2.setProximaConcomitancia(con3);
-					con3.setProximaConcomitancia(con4);
-					con4.setProximaConcomitancia(con5);
-					con5.setProximaConcomitancia(nulo);
+					con3.setProximaConcomitancia(nulo);
+//					con4.setProximaConcomitancia(nulo);
+//					con5.setProximaConcomitancia(nulo);
 					
 					return con1.verificaConcomitancia(av1, RetornaTempos.retornaDiasApartirDeDuasDatas(av1.getDATA_admissao(), av1.getDATA_demissao()), av2, RetornaTempos.retornaDiasApartirDeDuasDatas(av2.getDATA_admissao(), av2.getDATA_demissao()));
 					
@@ -37,6 +39,18 @@ public class QualificaConcomitanciaDuasAverbacoes {
 		
 		
 		return false;
+	}
+	
+	private boolean verificaConcomitanciaAverbacao(Averbacao a1, Averbacao a2) {
+		boolean res = false;
+		
+		if(a1.getDATA_admissao().compareTo(a1.getDATA_inicioConcomitancia()) == 0 && a1.getDATA_demissao().compareTo(a1.getDATA_fimConcomitancia()) == 0 ) {
+			res = true;
+		}else if(a2.getDATA_admissao().compareTo(a2.getDATA_inicioConcomitancia()) == 0 && a2.getDATA_demissao().compareTo(a2.getDATA_fimConcomitancia()) == 0) {
+			res = true;
+		}
+		
+		return res;
 	}
 	
 	
