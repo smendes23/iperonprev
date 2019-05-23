@@ -1266,7 +1266,7 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 			listaRrc.forEach(f -> {
 				dataSource.add(
 						
-						obj.getDESC_matricula(), 
+						obj.getNUMR_idDoObjetoPessoas().getNUMR_cpf(), 
 						obj.getNUMR_idDoObjetoPessoas().getDESC_nome(), 
 						sdf.format(obj.getDATA_efetivoExercicio()),
 						obj.getNUMR_idDoObjetoCargo().getNUMR_idDoObjetoOrgaos().getDESC_nome(),
