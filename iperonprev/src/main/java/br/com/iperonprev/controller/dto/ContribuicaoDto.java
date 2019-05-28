@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import br.com.iperonprev.models.PessoasFuncionais;
 
 public class ContribuicaoDto implements Serializable {
+	
 
 	private PessoasFuncionais NUMR_idPessoasFuncionais;
 	private String DESC_competencia;
@@ -27,6 +28,27 @@ public class ContribuicaoDto implements Serializable {
 	private BigDecimal VALR_multaPatronal = BigDecimal.ZERO;
 	private boolean BOL_contribuicaoInvalida;
 	
+	
+	public ContribuicaoDto() {}
+	public ContribuicaoDto(
+			String dESC_competencia,
+			BigDecimal vALR_contribuicaoPrevidenciaria,
+			double nUMR_aliquotaSegurado, 
+			BigDecimal vALR_contribSegurado,
+			BigDecimal vALR_devolSegurado,
+			double nUMR_aliquotaPatronal, 
+			BigDecimal vALR_contribPatronal,
+			BigDecimal vALR_devolPatronal) {
+		DESC_competencia = dESC_competencia;
+		VALR_contribuicaoPrevidenciaria = vALR_contribuicaoPrevidenciaria;
+		NUMR_aliquotaSegurado = nUMR_aliquotaSegurado;
+		VALR_contribSegurado = vALR_contribSegurado;
+		VALR_devolSegurado = vALR_devolSegurado;
+		NUMR_aliquotaPatronal = nUMR_aliquotaPatronal;
+		VALR_contribPatronal = vALR_contribPatronal;
+		VALR_devolPatronal = vALR_devolPatronal;
+
+	}
 	public PessoasFuncionais getNUMR_idPessoasFuncionais() {
 		return NUMR_idPessoasFuncionais;
 	}

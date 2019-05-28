@@ -22,8 +22,13 @@ public class App {
 	public static void main(String[] args) throws ParseException {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		LocalDate data = new LocalDate(sdf.parse("01/01/2000")).plusDays(20);
-		System.out.println(sdf.format(data.toDate()));
+		LocalDate data = new LocalDate(sdf.parse("10/05/2019"));
+		if(new LocalDate().now().compareTo(data) > 0) {
+			System.out.println("Hoje é maior");
+		}else {
+				System.out.println("menor");
+		}
+//		System.out.println(sdf.format(data.toDate()));
 	}
 	
 }

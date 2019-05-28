@@ -1,6 +1,8 @@
 package br.com.iperonprev.dao;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +14,6 @@ import javax.persistence.Query;
 
 import br.com.iperonprev.controller.dto.ContribuicaoDto;
 import br.com.iperonprev.controller.dto.VerbasRubricasDto;
-import br.com.iperonprev.inigracao.Remuneracao;
 import br.com.iperonprev.interfaces.GenericDao;
 import br.com.iperonprev.models.ContribuicoeseAliquotas;
 import br.com.iperonprev.models.PessoasFuncionais;
@@ -102,6 +103,25 @@ public class RemuneracaoDao implements GenericDao<Remuneracoes>, Serializable {
 
 		return lista;
 	}
+	
+	public void saveAnyFinance(String dataInicio, String dataFim,
+			int idFuncional, BigDecimal remuneracao) {
+		try {
+			@SuppressWarnings("static-access")
+			Connection con = conexao.getInstance().getConnection();
+			CallableStatement cs = con.prepareCall("{call dbo.ADICIONABASEDECALCULO(?,?,?,?)}");
+			cs.setInt("FUNCIONAL", idFuncional);
+			cs.setString("DATAINICIO", dataInicio);
+			cs.setString("DATAFIM", dataFim);
+			cs.setBigDecimal("REMUNERACAO", remuneracao);
+			cs.execute();
+			cs.close();
+			Message.addSuccessMessage("Procedure executada com sucesso");
+		} catch (Exception e) {
+			Message.addErrorMessage("Erro ao executar procedure");
+		}
+		
+	}
 
 	public boolean verificaSeExisteRegistroNaTabela(int idFuncional) {
 		boolean res = false;
@@ -172,17 +192,6 @@ public class RemuneracaoDao implements GenericDao<Remuneracoes>, Serializable {
 			e.printStackTrace();
 			System.out.println("Erro ao executar procedure");
 		}
-		/*
-		 * try { Query q = getEm().
-		 * createNativeQuery("select r.* from Remuneracoes r,PessoasFuncionais pf where "
-		 * + " r.NUMR_idDoObjetoFuncional_NUMG_idDoObjeto = pf.NUMG_idDoObjeto and" +
-		 * " r.NUMR_rubrica_NUMG_idDoObjeto in (254,5450,5456,1875,5446,5448,5450,1821,1847,1875,3722,3208,6484,6485) and"
-		 * + " pf.NUMG_idDoObjeto = :idFuncional", Remuneracoes.class);
-		 * q.setParameter("idFuncional", idFuncional); lista = q.getResultList(); }
-		 * catch (Exception e) {
-		 * System.out.println("Erro ao devolver a lista de remunerações."); } finally {
-		 * if (getEm().isOpen()) { getEm().close(); } }
-		 */
 
 		return lista;
 	}
@@ -290,16 +299,26 @@ public class RemuneracaoDao implements GenericDao<Remuneracoes>, Serializable {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<ContribuicoeseAliquotas> listaRemuneracoesPorAno(String ano,int idFuncional) {
-		List<ContribuicoeseAliquotas> lista = new ArrayList<ContribuicoeseAliquotas>();
+	public List<ContribuicaoDto> listaRemuneracoesPorAno(String ano,int idFuncional) {
+		List<ContribuicaoDto> lista = new ArrayList<ContribuicaoDto>();
+		List<Remuneracoes> listaRemuneracoes = new ArrayList<>();
 		try {
+			
 			Query q = getEm().createNativeQuery(
-					"select * from ContribuicoeseAliquotas where NUMR_idPessoasFuncionais_NUMG_idDoObjeto = :idFuncional and SUBSTRING(DESC_competencia,3,6) = :ano ",
-					ContribuicoeseAliquotas.class);
+					"select * from Remuneracoes where NUMR_idDoObjetoFuncional_NUMG_idDoObjeto = :idFuncional and SUBSTRING(NUMR_competencia,3,6) = :ano and NUMR_rubrica_NUMG_idDoObjeto = 7602 ",
+					Remuneracoes.class);
 			q.setParameter("ano", ano);
 			q.setParameter("idFuncional", idFuncional);
 			if (!q.getResultList().isEmpty()) {
-				lista = q.getResultList();
+				listaRemuneracoes = q.getResultList();
+				listaRemuneracoes.forEach(r->{
+					ContribuicaoDto contrib = new ContribuicaoDto();
+					contrib.setDESC_competencia(r.getNUMR_competencia());
+					contrib.setNUMR_idPessoasFuncionais(r.getNUMR_idDoObjetoFuncional());
+					contrib.setVALR_contribuicaoPrevidenciaria(r.getVALR_remuneracao());
+					lista.add(contrib);
+					
+				});
 			} 
 		} catch (Exception e) {
 			System.out.println("Erro ao carregar Remuneracoes");

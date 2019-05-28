@@ -20,21 +20,20 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
 import br.com.iperonprev.constantes.DecisaoEnum;
+import br.com.iperonprev.controller.dto.ContribuicaoDto;
 import br.com.iperonprev.controller.dto.FinanceiroPorMesDto;
 import br.com.iperonprev.dao.AverbacaoDao;
 import br.com.iperonprev.dao.CertidaoTempoDeContribuicaoDao;
-import br.com.iperonprev.dao.ContribuicaoDao;
 import br.com.iperonprev.dao.FuncionaisFuncoesDao;
 import br.com.iperonprev.dao.GenericPersistence;
 import br.com.iperonprev.dao.PessoasDao;
+import br.com.iperonprev.dao.RemuneracaoDao;
 import br.com.iperonprev.helper.ComponentReportBuilderHelper;
 import br.com.iperonprev.helper.ContribuicaoHelper;
 import br.com.iperonprev.interfaces.GenericBean;
 import br.com.iperonprev.interfaces.GenericDao;
-import br.com.iperonprev.interfaces.JasperReportBuiderInterface;
 import br.com.iperonprev.models.AtosLegais;
 import br.com.iperonprev.models.CertidaoTempoContribuicao;
-import br.com.iperonprev.models.ContribuicoeseAliquotas;
 import br.com.iperonprev.models.DestinacaoCtc;
 import br.com.iperonprev.models.EntesFederados;
 import br.com.iperonprev.models.FrequenciaCtc;
@@ -337,7 +336,7 @@ public class CtcBean implements GenericBean<CertidaoTempoContribuicao>, Serializ
             if (this.funcionais.getNUMG_idDoObjeto() > 0) {
                 ContribuicaoHelper.criaContribuicao(this.funcionais);
                 Reports report = new Reports();
-                List<ContribuicoeseAliquotas> listaFinanceiro = new ContribuicaoDao().devolveListaContribuicoes(this.funcionais.getNUMG_idDoObjeto());
+                List<ContribuicaoDto> listaFinanceiro = new RemuneracaoDao().listaRemuneracoesContribuicoes(this.funcionais);
                 if (listaFinanceiro.size() > 0) {
                     report.createReport(Templates.reportTemplate, "rrc", new ArrayList<>(), this.fieldsRrc(), this.dataSourceRrc(this.funcionais, new ArrayList<Column>(), this.fieldsRrc(), listaFinanceiro));
                     this.ctc.setFLAG_rrc(true);
@@ -390,13 +389,41 @@ public class CtcBean implements GenericBean<CertidaoTempoContribuicao>, Serializ
         return field;
     }
 
-    private JRDataSource dataSourceRrc(PessoasFuncionais obj, List<Column> columns, List<Field> fields, List<ContribuicoeseAliquotas> listaFinanceiro) {
+    private JRDataSource dataSourceRrc(PessoasFuncionais obj, List<Column> columns, List<Field> fields, List<ContribuicaoDto> listaFinanceiro) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         DRDataSource dataSource = new DRDataSource(new String[]{"matricula", "nome", "cpf", "dataNascimento", "dataAdmissao", "numero", "orgaoExpedidor", "cnpj", "dataDemissao", "ano", "jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez", "dataEmissao", "observacao", "pis", "mae", "textoUnidadeGestora", "textoHomolagacao"});
         List<String> listaDeAnos = this.devolveListaDeAnos(listaFinanceiro);
+        
         List<FinanceiroPorMesDto> listaRrc = this.devolveListaFinanceiroRrc(listaDeAnos, listaFinanceiro);
+        
         try {
-            listaRrc.forEach(f -> dataSource.add(obj.getDESC_matricula(), this.pessoa.getDESC_nome(), this.pessoa.getNUMR_cpf(), sdf.format(this.pessoa.getDATA_nascimento()), sdf.format(obj.getDATA_efetivoExercicio()), "" + this.ctc.getNUMR_certidao() + "/" + this.ctc.getNUMR_ano(), obj.getNUMR_idDoObjetoCargo().getNUMR_idDoObjetoOrgaos().getDESC_nome(), obj.getNUMR_idDoObjetoCargo().getNUMR_idDoObjetoOrgaos().getDESC_cnpj(), sdf.format(obj.getDATA_exoneracao()), f.getAno(), f.getJan(), f.getFev(), f.getMar(), f.getAbr(), f.getMai(), f.getJun(), f.getJul(), f.getAgo(), f.getSet(), f.getOut(), f.getNov(), f.getDez(), sdf.format(new LocalDate((Object)this.ctc.getDATA_emissao()).toDate()), this.ctc.getDESC_observacao(), this.pessoa.getNUMR_pisPasep(), this.pessoa.getDESC_mae(), "UNIDADE GESTORA DO RPPS", "HOMOLOGO, a presente Certid\u00e3o de Tempo de Contribui\u00e7\u00e3o e declaro que as informa\u00e7\u00f5es nela constantes correspondem com a verdade."));
+            listaRrc.forEach(f -> dataSource.add(
+            		obj.getDESC_matricula(), 
+            		this.pessoa.getDESC_nome(), 
+            		this.pessoa.getNUMR_cpf(), 
+            		sdf.format(this.pessoa.getDATA_nascimento()), 
+            		sdf.format(obj.getDATA_efetivoExercicio()), 
+            		"" + this.ctc.getNUMR_certidao() + "/" + this.ctc.getNUMR_ano(), 
+            		obj.getNUMR_idDoObjetoCargo().getNUMR_idDoObjetoOrgaos().getDESC_nome(), 
+            		obj.getNUMR_idDoObjetoCargo().getNUMR_idDoObjetoOrgaos().getDESC_cnpj(), 
+            		sdf.format(obj.getDATA_exoneracao()), 
+            		f.getAno(), 
+            		f.getJan(), 
+            		f.getFev(), 
+            		f.getMar(), 
+            		f.getAbr(), 
+            		f.getMai(), 
+            		f.getJun(), 
+            		f.getJul(), 
+            		f.getAgo(), 
+            		f.getSet(), 
+            		f.getOut(), 
+            		f.getNov(), 
+            		f.getDez(), 
+            		sdf.format(new LocalDate((Object)this.ctc.getDATA_emissao()).toDate()), 
+            		this.ctc.getDESC_observacao(), 
+            		this.pessoa.getNUMR_pisPasep(), 
+            		this.pessoa.getDESC_mae(), "UNIDADE GESTORA DO RPPS", "HOMOLOGO, a presente Certid\u00e3o de Tempo de Contribui\u00e7\u00e3o e declaro que as informa\u00e7\u00f5es nela constantes correspondem com a verdade."));
         }
         catch (Exception e) {
             System.out.println("Erro ao gerar RRC datasource.");
@@ -404,13 +431,13 @@ public class CtcBean implements GenericBean<CertidaoTempoContribuicao>, Serializ
         return dataSource;
     }
 
-    private List<String> devolveListaDeAnos(List<ContribuicoeseAliquotas> listaContribuicao) {
+    private List<String> devolveListaDeAnos(List<ContribuicaoDto> listaContribuicao) {
         String ano = listaContribuicao.get(0).getDESC_competencia().substring(2, 6);
         LinkedHashSet<String> listaAnos = new LinkedHashSet<String>();
         listaAnos.add(ano);
         ArrayList<String> listaDeAnos = new ArrayList<String>();
         try {
-            for (ContribuicoeseAliquotas contribuicao : listaContribuicao) {
+            for (ContribuicaoDto contribuicao : listaContribuicao) {
                 if (contribuicao.getDESC_competencia().substring(2, 6).equals(ano)) continue;
                 ano = contribuicao.getDESC_competencia().substring(2, 6);
                 listaAnos.add(ano);
@@ -424,14 +451,14 @@ public class CtcBean implements GenericBean<CertidaoTempoContribuicao>, Serializ
         return listaDeAnos;
     }
 
-    private List<FinanceiroPorMesDto> devolveListaFinanceiroRrc(List<String> listaDeAnos, List<ContribuicoeseAliquotas> listaFinanceiro) {
+    private List<FinanceiroPorMesDto> devolveListaFinanceiroRrc(List<String> listaDeAnos, List<ContribuicaoDto> listaFinanceiro) {
         ArrayList<FinanceiroPorMesDto> lista = new ArrayList<FinanceiroPorMesDto>();
         DecimalFormatter df = new DecimalFormatter();
         try {
             listaDeAnos.forEach(a -> {
                 FinanceiroPorMesDto fr = new FinanceiroPorMesDto();
                 fr.setAno(a);
-                for (ContribuicoeseAliquotas contribuicao : listaFinanceiro) {
+                for (ContribuicaoDto contribuicao : listaFinanceiro) {
                     if (Integer.parseInt(contribuicao.getDESC_competencia().substring(0, 2)) == 1 && contribuicao.getDESC_competencia().substring(2, 6).equals(a)) {
                         fr.setJan(df.formatterToCurrencyBrazilianWithoutSymbol(contribuicao.getVALR_contribuicaoPrevidenciaria()));
                         continue;

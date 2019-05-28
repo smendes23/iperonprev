@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +17,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.event.ValueChangeEvent;
 
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
@@ -39,7 +37,6 @@ import br.com.iperonprev.helper.ContribuicaoHelper;
 import br.com.iperonprev.interfaces.GenericDao;
 import br.com.iperonprev.models.Averbacao;
 import br.com.iperonprev.models.Cargos;
-import br.com.iperonprev.models.ContribuicoeseAliquotas;
 import br.com.iperonprev.models.DemonstrativoFinanceiro;
 import br.com.iperonprev.models.Indice;
 import br.com.iperonprev.models.Pessoas;
@@ -55,9 +52,7 @@ import br.com.iperonprev.reports.container.ReportsConcate;
 import br.com.iperonprev.reports.container.Templates;
 import br.com.iperonprev.services.beneficio.Aposentadorias.QualificaProporcionalidade;
 import br.com.iperonprev.services.beneficio.Aposentadorias.TipoAposentadoriaImpl;
-import br.com.iperonprev.services.contribuicao.QualificaBaseDeCalculo;
 import br.com.iperonprev.services.contribuicao.QualificaCalculoContribuicao;
-import br.com.iperonprev.services.contribuicao.QualificaCompetencia;
 import br.com.iperonprev.util.averbacao.RetornaTemposAverbacao;
 import br.com.iperonprev.util.jsf.Column;
 import br.com.iperonprev.util.jsf.DecimalFormatter;
@@ -76,7 +71,7 @@ public class FinanceiroBean implements Serializable {
 	PessoasFuncionais pf = new PessoasFuncionais();
 	Remuneracoes remuneracao = new Remuneracoes();
 	Rubricas rubrica = new Rubricas();
-	ContribuicoeseAliquotas contribuicao = new ContribuicoeseAliquotas();
+	ContribuicaoDto contribuicao = new ContribuicaoDto();
 	private List<Remuneracoes> filtroDeRemuneracao;
 	private int decimoTerceiro;
 	private String competenciaInicial;
@@ -87,7 +82,7 @@ public class FinanceiroBean implements Serializable {
 	private List<PessoasFuncionais> listaFuncionais = new ArrayList<PessoasFuncionais>();
 	private boolean ativaTab = false;
 	private String ano;
-	ArrayList<ContribuicoeseAliquotas> listaDecontribuicoes = new ArrayList<>();
+	ArrayList<ContribuicaoDto> listaDecontribuicoes = new ArrayList<>();
 	private BigDecimal baseContribuicao;
 	private Date dataSimulacao;
 	private boolean tipoCalculo = false;
@@ -103,7 +98,7 @@ public class FinanceiroBean implements Serializable {
 		this.baseContribuicao = baseContribuicao;
 	}
 
-	public List<ContribuicoeseAliquotas> getListaDecontribuicoes() {
+	public List<ContribuicaoDto> getListaDecontribuicoes() {
 		return listaDecontribuicoes;
 	}
 
@@ -143,11 +138,11 @@ public class FinanceiroBean implements Serializable {
 		this.rubrica = rubrica;
 	}
 
-	public ContribuicoeseAliquotas getContribuicao() {
+	public ContribuicaoDto getContribuicao() {
 		return this.contribuicao;
 	}
 
-	public void setContribuicao(ContribuicoeseAliquotas contribuicao) {
+	public void setContribuicao(ContribuicaoDto contribuicao) {
 		this.contribuicao = contribuicao;
 	}
 
@@ -294,9 +289,12 @@ public class FinanceiroBean implements Serializable {
 			
 			if(dataInicio.after(this.pf.getDATA_posse()) && sdf.parse(new StringBuilder().append("01/").append(this.competenciaFinal).toString()).compareTo(new LocalDate().now().toDate()) < 0) {
 				
-				new QualificaCompetencia().executa(new DateTime(dataInicio), new DateTime(sdf.parse(new StringBuilder().append("01/").append(this.competenciaFinal).toString())),
+				/*new QualificaCompetencia().executa(new DateTime(dataInicio), new DateTime(sdf.parse(new StringBuilder().append("01/").append(this.competenciaFinal).toString())),
 						new GenericPersistence<PessoasFuncionais>(PessoasFuncionais.class).buscarPorId(this.pf.getNUMG_idDoObjeto()),
-						this.baseContribuicao);
+						this.baseContribuicao);*/
+				new RemuneracaoDao().saveAnyFinance(new StringBuilder().append("01/").append(this.competenciaInicial).toString(),
+						new StringBuilder().append("01/").append(this.competenciaFinal).toString(), this.idFuncional, this.baseContribuicao);
+				
 				Message.addSuccessMessage("Contribuições criadas com sucesso!");
 			}else {
 				Message.addErrorMessage("Competência anterior a data de posse, ou competência final maior que data atual!");
@@ -342,7 +340,7 @@ public class FinanceiroBean implements Serializable {
 	public void novoObjetoRemuneracao() {
 		this.remuneracao = new Remuneracoes();
 		this.rubrica = new Rubricas();
-		this.contribuicao = new ContribuicoeseAliquotas();
+		this.contribuicao = new ContribuicaoDto();
 		this.decimoTerceiro = 0;
 		this.pessoas = new Pessoas();
 		this.pf = new PessoasFuncionais();
@@ -420,7 +418,7 @@ public class FinanceiroBean implements Serializable {
 	public void processaLista() {
 		RemuneracaoDao dao = new RemuneracaoDao();
 		this.listaDecontribuicoes = new ArrayList<>();
-		List<ContribuicoeseAliquotas> listaContrib = new ArrayList<>();
+		List<ContribuicaoDto> listaContrib = new ArrayList<>();
 
 		try {
 
@@ -430,7 +428,7 @@ public class FinanceiroBean implements Serializable {
 				listaContrib = dao.listaRemuneracoesPorAno(this.ano, this.idFuncional);
 				for (int i = 0; i < listaDecontribuicoes.size(); i++) {
 
-					for (ContribuicoeseAliquotas cont : listaContrib) {
+					for (ContribuicaoDto cont : listaContrib) {
 						if (cont.getDESC_competencia().equals(listaDecontribuicoes.get(i).getDESC_competencia())) {
 							listaDecontribuicoes.set(i, cont);
 						}
@@ -446,10 +444,15 @@ public class FinanceiroBean implements Serializable {
 
 	private void populaListaDeContribuicoesComCompetencia() {
 		for (int i = 0; i < 12; i++) {
-			this.listaDecontribuicoes.add(new ContribuicoeseAliquotas(
+			this.listaDecontribuicoes.add(new ContribuicaoDto(
 					new StringBuilder().append(i <= 8 ? "0" + (i + 1) : (i + 1)).append(this.ano).toString(),
-					new BigDecimal("0.00"), new Double(0.00), new BigDecimal("0.00"), new BigDecimal("0.00"),
-					new Double(0.00), new BigDecimal("0.00"), new BigDecimal("0.00")));
+					new BigDecimal("0.00"),
+					new Double(0.00),
+					new BigDecimal("0.00"),
+					new BigDecimal("0.00"),
+					new Double(0.00),
+					new BigDecimal("0.00"), 
+					new BigDecimal("0.00")));
 		}
 
 	}
@@ -457,14 +460,14 @@ public class FinanceiroBean implements Serializable {
 	public void onCellEdit(CellEditEvent event) {
 
 		this.pf = new GenericPersistence<PessoasFuncionais>(PessoasFuncionais.class).buscarPorId(this.idFuncional);
-		ContribuicoeseAliquotas contrib = new ContribuicoeseAliquotas();
+		ContribuicaoDto contrib = new ContribuicaoDto();
 		contrib.setDESC_competencia(listaDecontribuicoes.get(event.getRowIndex()).getDESC_competencia());
 
 		switch (event.getColumn().getField()) {
 		case "baseCalculo":
 			
 			contrib.setVALR_contribuicaoPrevidenciaria((BigDecimal) event.getNewValue());
-			contrib = new QualificaBaseDeCalculo().executa(contrib, this.pf.getDATA_efetivoExercicio());
+			contrib = new QualificaCalculoContribuicao().executa(contrib, this.pf.getDATA_efetivoExercicio(),contrib.getVALR_contribuicaoPrevidenciaria(),true);
 			
 			break;
 		case "aliquotaSegurado":
@@ -580,7 +583,7 @@ public class FinanceiroBean implements Serializable {
 		this.pf = new PessoasFuncionais();
 		this.remuneracao = new Remuneracoes();
 		this.rubrica = new Rubricas();
-		this.contribuicao = new ContribuicoeseAliquotas();
+		this.contribuicao = new ContribuicaoDto();
 		this.filtroDeRemuneracao = new ArrayList<>();
 		this.decimoTerceiro = 0;
 		this.competenciaInicial = new String();
@@ -608,7 +611,7 @@ public class FinanceiroBean implements Serializable {
 
 			listaDecontribuicoes.forEach(c -> {
 				c.setNUMR_idPessoasFuncionais(this.pf);
-				new GenericPersistence<ContribuicoeseAliquotas>(ContribuicoeseAliquotas.class).salvar(c);
+				new GenericPersistence<ContribuicaoDto>(ContribuicaoDto.class).salvar(c);
 			});
 			Message.addSuccessMessage("Contribuicoes salvas com sucesso");
 		} catch (Exception e) {
@@ -646,12 +649,8 @@ public class FinanceiroBean implements Serializable {
 	}
 
 	private JRDataSource dataSourceFichaFinanceira() {
+		List<ContribuicaoDto> listaDeContribuicoes = new ContribuicaoHelper().listaDeContribuicoesRemuneracao(this.pf);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		
-//		List<ContribuicoeseAliquotas> listaDeContribuicoes = new ContribuicaoDao().devolveListaContribuicoes(pf.getNUMG_idDoObjeto());
-		List<ContribuicaoDto> listaDeContribuicoes = new ContribuicaoHelper().verificaExistenciaContribuicao(this.pf);
-		
-		System.out.println(listaDeContribuicoes.size());
 		
 		DRDataSource dataSource = new DRDataSource("nome", "matricula", "cpf", "orgao", "situacaoPrevidenciaria",
 				"situacaoFuncional", "planoPrevidenciario", "competencia", "remuneracaoBeneficio",
@@ -659,25 +658,23 @@ public class FinanceiroBean implements Serializable {
 		String planoPrevidenciario = "";
 
 		try {
-			if (pf.getDATA_efetivoExercicio().compareTo(sdf.parse("31/12/2009")) < 0) {
+			if (this.pf.getDATA_efetivoExercicio().compareTo(sdf.parse("31/12/2009")) < 0) {
 				planoPrevidenciario = "Conta Financeira";
 			} else {
 				planoPrevidenciario = "Conta Capitalizada";
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("Erro ao converter data plano previdenciario");
 		}
-		
-		
 		Collections.sort(listaDeContribuicoes, CONTRIBUICAO_ORDER);
-		for (ContribuicoeseAliquotas c : listaDeContribuicoes) {
-			
-			dataSource.add(pf.getNUMR_idDoObjetoPessoas().getDESC_nome(), pf.getDESC_matricula(),
-					pf.getNUMR_idDoObjetoPessoas().getNUMR_cpf(),
-					pf.getNUMR_idDoObjetoCargo().getNUMR_idDoObjetoOrgaos().getDESC_nome(),
-					pf.getNUMR_situacaoPrevidenciaria().getDESC_descricao(),
-					pf.getNUMR_situacaoFuncional().getDESC_nome(), 
+		for (ContribuicaoDto c : listaDeContribuicoes) {
+			dataSource.add(this.pf.getNUMR_idDoObjetoPessoas().getDESC_nome(), this.pf.getDESC_matricula(),
+					this.pf.getNUMR_idDoObjetoPessoas().getNUMR_cpf(),
+					this.pf.getNUMR_idDoObjetoCargo().getNUMR_idDoObjetoOrgaos().getDESC_nome(),
+					this.pf.getNUMR_situacaoPrevidenciaria().getDESC_descricao(),
+					this.pf.getNUMR_situacaoFuncional().getDESC_nome(), 
 					planoPrevidenciario,
 					new StringBuilder().append(c.getDESC_competencia().substring(0, 2)).append("/")
 							.append(c.getDESC_competencia().substring(2, 6)).toString(),
@@ -690,10 +687,10 @@ public class FinanceiroBean implements Serializable {
 		return dataSource;
 	}
 	
-	private static Comparator<ContribuicoeseAliquotas> CONTRIBUICAO_ORDER = new Comparator<ContribuicoeseAliquotas>() {
+	private static Comparator<ContribuicaoDto> CONTRIBUICAO_ORDER = new Comparator<ContribuicaoDto>() {
 
 		@Override
-		public int compare(ContribuicoeseAliquotas o1, ContribuicoeseAliquotas o2) {
+		public int compare(ContribuicaoDto o1, ContribuicaoDto o2) {
 			Integer valor1 = Integer.parseInt(new StringBuilder().append(o1.getDESC_competencia().substring(2, 6))
 					.append(o1.getDESC_competencia().substring(0, 2)).toString());
 			Integer valor2 = Integer.parseInt(new StringBuilder().append(o2.getDESC_competencia().substring(2, 6))
@@ -785,7 +782,7 @@ public class FinanceiroBean implements Serializable {
 				"tempoServico", "salarioMinimo", "proporcionalidade", "proventoIntegralidade", "totalProventos","tipoProventos","tipoCalculo");
 		
 		
-		List<ContribuicoeseAliquotas> listaContribuicoes = devolveContribuicoes(listaDeIndice, devolveListaDeContribuicoesAtualizadas(obj)) ;
+		List<ContribuicaoDto> listaContribuicoes = devolveContribuicoes(listaDeIndice, obj);
 
 		int qtdOitenta = (int) listaContribuicoes.stream()
 				.filter(c -> !c.getVALR_oitentaMaiores().equals(new BigDecimal("0"))).count();
@@ -908,13 +905,13 @@ public class FinanceiroBean implements Serializable {
 				"cargo", "dataAdmissao", "orgao", "tituloRelatorio", "fatores", "competencia", "base", "indice",
 		
 				"remuneracao", "oitenta", "total");
-		List<ContribuicoeseAliquotas> listaContribuicoes = devolveListaDeContribuicoesAtualizadas(obj);
+		List<ContribuicaoDto> listaContribuicoes = new RemuneracaoDao().listaRemuneracoesContribuicoes(obj);// devolveListaDeContribuicoesAtualizadas(obj);
 
 
 		BigDecimal totalOitentas = listaContribuicoes.stream().map(b -> b.getVALR_oitentaMaiores())
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 
-		for (ContribuicoeseAliquotas lC : listaContribuicoes) {
+		for (ContribuicaoDto lC : listaContribuicoes) {
 			dataSource.add(obj.getDESC_matricula(), obj.getNUMR_idDoObjetoPessoas().getDESC_nome(),
 					obj.getNUMR_idDoObjetoPessoas().getNUMR_cpf(),
 					obj.getNUMR_idDoObjetoPessoas().getDESC_sexo().getNome().toString(),
@@ -949,21 +946,17 @@ public class FinanceiroBean implements Serializable {
 		}
 	}*/
 
-	private List<BigDecimal> devolveOitentaMaiores(List<Indice> listaI, List<ContribuicoeseAliquotas> listaC) {
-		List<BigDecimal> lista = new ArrayList<>();
-		listaC.forEach(i -> {
-			listaI.forEach(f -> {
-				if (i.getDESC_competencia().equals(f.getNUMR_mesAno())) {
-					lista.add(i.getVALR_contribuicaoPrevidenciaria().multiply(f.getVALR_indice()));
-				}
-			});
-		});
-		return lista;
-	}
 
-	public List<ContribuicoeseAliquotas> devolveContribuicoes(List<Indice> listaI,
-			List<ContribuicoeseAliquotas> listaC) {
-		List<ContribuicoeseAliquotas> lista = new ArrayList<>();
+	public List<ContribuicaoDto> devolveContribuicoes(List<Indice> listaI,
+			PessoasFuncionais pf) {
+		
+		List<ContribuicaoDto> listaC = new ContribuicaoHelper().listaDeContribuicoesRemuneracao(pf);
+		/*listaC.forEach(c->{
+			System.out.println(c.toString());
+			System.out.println("********************************");
+		});*/
+		
+		List<ContribuicaoDto> lista = new ArrayList<>();
 		listaC.forEach(i -> {
 			listaI.forEach(f -> {
 				if (i.getDESC_competencia().equals(f.getNUMR_mesAno())) {
@@ -988,12 +981,12 @@ public class FinanceiroBean implements Serializable {
 				lista.get(i).setVALR_oitentaMaiores(new BigDecimal("0"));
 			}
 		}
-		List<ContribuicoeseAliquotas> listaContribuicoes = new ArrayList<>();
+		List<ContribuicaoDto> listaContribuicoes = new ArrayList<>();
 
 		listaI.forEach(i -> {
 			lista.forEach(f -> {
 				if (f.getDESC_competencia().equals(i.getNUMR_mesAno())) {
-					ContribuicoeseAliquotas ca = new ContribuicoeseAliquotas();
+					ContribuicaoDto ca = new ContribuicaoDto();
 					ca.setDESC_competencia(f.getDESC_competencia());
 					ca.setVALR_contribuicaoPrevidenciaria(f.getVALR_contribuicaoPrevidenciaria());
 					ca.setVALR_indice(i.getVALR_indice());
@@ -1006,6 +999,18 @@ public class FinanceiroBean implements Serializable {
 		});
 
 		return listaContribuicoes;
+	}
+	
+	private List<BigDecimal> devolveOitentaMaiores(List<Indice> listaI, List<ContribuicaoDto> listaC) {
+		List<BigDecimal> lista = new ArrayList<>();
+		listaC.forEach(i -> {
+			listaI.forEach(f -> {
+				if (i.getDESC_competencia().equals(f.getNUMR_mesAno())) {
+					lista.add(i.getVALR_contribuicaoPrevidenciaria().multiply(f.getVALR_indice()));
+				}
+			});
+		});
+		return lista;
 	}
 
 	boolean validaComp = false;

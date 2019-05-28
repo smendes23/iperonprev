@@ -20,7 +20,6 @@ import br.com.iperonprev.controller.dto.DateTimeInicioFimDto;
 import br.com.iperonprev.dao.GenericPersistence;
 import br.com.iperonprev.models.AfastamentosLicenca;
 import br.com.iperonprev.models.Averbacao;
-import br.com.iperonprev.models.CertidaoTempoContribuicao;
 import br.com.iperonprev.models.Deducao;
 import br.com.iperonprev.models.FrequenciaCtc;
 import br.com.iperonprev.models.FuncionaisFuncoes;
@@ -444,13 +443,11 @@ public class RetornaTempos {
 					if(d.getENUM_compensasaoDeducao() == DecisaoEnum.NAO &&  inicio.getYear() == f.getAno()){
 						
 						if(d.getENUM_tipoDeducao() == TipoDeducaoEnum.FALTA){
-							faltas += Days.daysBetween(new LocalDate(inicio), new LocalDate(fim)).getDays();
+							faltas += Days.daysBetween(new LocalDate(inicio), new LocalDate(fim).plusDays(1)).getDays();
 						}else if(d.getENUM_tipoDeducao() == TipoDeducaoEnum.OUTROS){
-							System.out.println("Ano Dedução: "+new LocalDate(inicio).getYear());
-							System.out.println("Dias Deduzidos: "+Days.daysBetween(new LocalDate(inicio), new LocalDate(fim)).getDays());
-							outros += Days.daysBetween(new LocalDate(inicio), new LocalDate(fim)).getDays();
+							outros += Days.daysBetween(new LocalDate(inicio), new LocalDate(fim).plusDays(1)).getDays();
 						}else if(d.getENUM_tipoDeducao() == TipoDeducaoEnum.SUSPENSAO){
-							suspensoes += Days.daysBetween(new LocalDate(inicio), new LocalDate(fim)).getDays();
+							suspensoes += Days.daysBetween(new LocalDate(inicio), new LocalDate(fim).plusDays(1)).getDays();
 						}
 					}
 				}
