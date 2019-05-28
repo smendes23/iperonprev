@@ -81,7 +81,6 @@ public class CensoPrevidenciarioDao implements Serializable{
 			}
 			
 		}catch(Exception e){
-			e.printStackTrace();
 			Message.addErrorMessage("Não carregar lista de recadastramento para este servidor");
 		}finally{
 			getEm().close();

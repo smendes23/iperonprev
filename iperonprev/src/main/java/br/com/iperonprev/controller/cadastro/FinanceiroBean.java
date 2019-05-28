@@ -82,7 +82,7 @@ public class FinanceiroBean implements Serializable {
 	private List<PessoasFuncionais> listaFuncionais = new ArrayList<PessoasFuncionais>();
 	private boolean ativaTab = false;
 	private String ano;
-	ArrayList<ContribuicaoDto> listaDecontribuicoes = new ArrayList<>();
+	List<ContribuicaoDto> listaDecontribuicoes = new ArrayList<>();
 	private BigDecimal baseContribuicao;
 	private Date dataSimulacao;
 	private boolean tipoCalculo = false;
@@ -422,20 +422,20 @@ public class FinanceiroBean implements Serializable {
 
 		try {
 
-			populaListaDeContribuicoesComCompetencia();
-			if (!dao.listaRemuneracoesPorAno(this.ano, this.idFuncional).isEmpty()) {
-
-				listaContrib = dao.listaRemuneracoesPorAno(this.ano, this.idFuncional);
-				for (int i = 0; i < listaDecontribuicoes.size(); i++) {
-
-					for (ContribuicaoDto cont : listaContrib) {
-						if (cont.getDESC_competencia().equals(listaDecontribuicoes.get(i).getDESC_competencia())) {
-							listaDecontribuicoes.set(i, cont);
-						}
-					}
-
-				}
+//			populaListaDeContribuicoesComCompetencia();
+			
+			listaContrib = dao.listaRemuneracoesPorAno(this.ano, this.idFuncional);
+			for (ContribuicaoDto c : listaContrib) {
+				
+				ContribuicaoDto contrib = new ContribuicaoDto();
+				contrib  =new QualificaCalculoContribuicao()
+				.executa(c,pf.getDATA_efetivoExercicio(),c.getVALR_contribSegurado(),true);
+				
+				listaDecontribuicoes.add(contrib);
 			}
+
+//			listaDecontribuicoes= dao.listaRemuneracoesPorAno(this.ano, this.idFuncional);
+			Collections.sort(listaDecontribuicoes, CONTRIBUICAO_ORDER) ;
 
 		} catch (Exception e) {
 			e.printStackTrace();

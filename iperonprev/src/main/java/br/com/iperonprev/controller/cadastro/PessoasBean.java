@@ -325,21 +325,6 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	                populaMunicipios();
 	                verificaServidorInativo(this.pessoa);
 	               
-	                /*if (pessoaOp.isPresent()) {
-//	                    Optional<Enderecos> ende = null;
-	                    this.pessoa = pessoaOp.get();
-	                    this.verificaServidorInativo(this.pessoa);
-	                    this.estadoCivil = pessoaOp.get().getNUMR_estadoCivil();
-	                    
-	                    if (this.pessoa.getNUMR_idDoObjetoEndereco() != null && (ende = Optional.ofNullable(this.pessoa.getNUMR_idDoObjetoEndereco())).isPresent()) {
-	                        this.endereco =new GenericPersistence<Enderecos>(Enderecos.class).buscarPorId(this.pessoa.getNUMR_idDoObjetoEndereco().getNUMG_idDoObjeto()) ;
-	                        this.getListaDeEstados();
-	                        this.estado =this.endereco.getNUMR_idDoObjetoMunicipio().getNUMR_idDoObjetoEstado();
-	                        this.populaMunicipios();
-	                        this.municipio = this.endereco.getNUMR_idDoObjetoMunicipio();
-	                        this.logradouro = this.endereco.getNUMR_tipoLogradouro();
-	                    }
-	                }*/
 	                if (new DependentesDao().existeDependente(this.pessoa.getNUMG_idDoObjeto().intValue())) {
 	                	this.listaDep = new DependentesDao().listaDependentesPensionistas(this.pessoa.getNUMG_idDoObjeto().intValue());
 	                }

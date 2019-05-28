@@ -8,6 +8,7 @@ import br.com.iperonprev.models.PessoasFuncionais;
 public class ContribuicaoDto implements Serializable {
 	
 
+	private int NUMG_idDoObjeto = 0;
 	private PessoasFuncionais NUMR_idPessoasFuncionais;
 	private String DESC_competencia;
 	private BigDecimal VALR_contribuicaoPrevidenciaria = BigDecimal.ZERO;;
@@ -30,6 +31,12 @@ public class ContribuicaoDto implements Serializable {
 	
 	
 	public ContribuicaoDto() {}
+	public ContribuicaoDto(int NUMG_idDoObjeto,String DESC_competencia,PessoasFuncionais NUMR_idPessoasFuncionais,BigDecimal vALR_contribuicaoPrevidenciaria) {
+		this.NUMG_idDoObjeto = NUMG_idDoObjeto;
+		this.DESC_competencia = DESC_competencia;
+		this.NUMR_idPessoasFuncionais = NUMR_idPessoasFuncionais;
+		this.VALR_contribuicaoPrevidenciaria = vALR_contribuicaoPrevidenciaria;
+	}
 	public ContribuicaoDto(
 			String dESC_competencia,
 			BigDecimal vALR_contribuicaoPrevidenciaria,
@@ -48,6 +55,14 @@ public class ContribuicaoDto implements Serializable {
 		VALR_contribPatronal = vALR_contribPatronal;
 		VALR_devolPatronal = vALR_devolPatronal;
 
+	}
+	
+	
+	public int getNUMG_idDoObjeto() {
+		return NUMG_idDoObjeto;
+	}
+	public void setNUMG_idDoObjeto(int nUMG_idDoObjeto) {
+		NUMG_idDoObjeto = nUMG_idDoObjeto;
 	}
 	public PessoasFuncionais getNUMR_idPessoasFuncionais() {
 		return NUMR_idPessoasFuncionais;

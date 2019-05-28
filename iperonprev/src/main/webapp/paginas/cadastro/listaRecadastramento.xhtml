@@ -149,7 +149,7 @@
 						<p:outputLabel value="#{listaRecad.NUMR_idCenso.DESC_descricao}"/>
 					</p:column>
 					<p:column headerText="Tipo" width="100">
-						<p:outputLabel value="#{listaRecad.tipoBeneficiario eq 2 ? 'Aposentado' : 'Pensionista'}"/>
+						<p:outputLabel value="#{listaRecad.NUMR_pessoasFuncionais.NUMR_situacaoPrevidenciaria.NUMG_idDoObjeto eq 2 ? 'Aposentado' : 'Pensionista'}"/>
 					</p:column>
 					<p:column headerText="Matrícula" width="100">
 						<p:outputLabel value="#{listaRecad.NUMR_pessoasFuncionais.DESC_matricula}"/>

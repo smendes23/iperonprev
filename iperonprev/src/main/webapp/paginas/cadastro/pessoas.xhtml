@@ -374,7 +374,7 @@
 										styleClass="selectalt" value="#{pessoasBean.estado}"
 										converter="conversorDeEntidades">
 										<p:ajax  update="munic"
-											listener="#{pessoasBean.populaMunicipios}" process="@this"></p:ajax>
+											listener="#{pessoasBean.populaMunicipios}"></p:ajax>
 										<f:selectItem itemLabel="--Selecione--" itemValue=""
 											noSelectionOption="true" />
 										<f:selectItems value="#{pessoasBean.listaDeEstados}"

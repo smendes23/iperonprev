@@ -304,22 +304,20 @@ public class RemuneracaoDao implements GenericDao<Remuneracoes>, Serializable {
 		List<Remuneracoes> listaRemuneracoes = new ArrayList<>();
 		try {
 			
-			Query q = getEm().createNativeQuery(
-					"select * from Remuneracoes where NUMR_idDoObjetoFuncional_NUMG_idDoObjeto = :idFuncional and SUBSTRING(NUMR_competencia,3,6) = :ano and NUMR_rubrica_NUMG_idDoObjeto = 7602 ",
-					Remuneracoes.class);
-			q.setParameter("ano", ano);
-			q.setParameter("idFuncional", idFuncional);
-			if (!q.getResultList().isEmpty()) {
-				listaRemuneracoes = q.getResultList();
-				listaRemuneracoes.forEach(r->{
-					ContribuicaoDto contrib = new ContribuicaoDto();
-					contrib.setDESC_competencia(r.getNUMR_competencia());
-					contrib.setNUMR_idPessoasFuncionais(r.getNUMR_idDoObjetoFuncional());
-					contrib.setVALR_contribuicaoPrevidenciaria(r.getVALR_remuneracao());
-					lista.add(contrib);
-					
-				});
-			} 
+			Connection con = conexao.getInstance().getConnection();
+			String sql = "select * from Remuneracoes where NUMR_idDoObjetoFuncional_NUMG_idDoObjeto = ? and SUBSTRING(NUMR_competencia,3,6) = ? and NUMR_rubrica_NUMG_idDoObjeto = 7602 ";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, idFuncional);
+			ps.setString(2, ano);
+			ResultSet rs = ps.executeQuery();
+			PessoasFuncionais fp = new GenericPersistence<PessoasFuncionais>(PessoasFuncionais.class).buscarPorId(idFuncional);
+			while (rs.next()) {
+				ContribuicaoDto contrib = new ContribuicaoDto(rs.getInt(1),rs.getString(3),fp,rs.getBigDecimal(6));
+				lista.add(contrib);
+				
+			}
+			rs.close();
+			
 		} catch (Exception e) {
 			System.out.println("Erro ao carregar Remuneracoes");
 		}
