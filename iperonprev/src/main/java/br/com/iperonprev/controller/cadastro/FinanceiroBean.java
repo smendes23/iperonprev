@@ -17,6 +17,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.event.ValueChangeEvent;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
@@ -35,6 +36,7 @@ import br.com.iperonprev.dao.PortariaDao;
 import br.com.iperonprev.dao.RemuneracaoDao;
 import br.com.iperonprev.helper.ContribuicaoHelper;
 import br.com.iperonprev.interfaces.GenericDao;
+import br.com.iperonprev.models.AfastamentosLicenca;
 import br.com.iperonprev.models.Averbacao;
 import br.com.iperonprev.models.Cargos;
 import br.com.iperonprev.models.DemonstrativoFinanceiro;
@@ -285,9 +287,9 @@ public class FinanceiroBean implements Serializable {
 
 	public void salvaContribuicaoPorPeriodo() {
 		try {
-			Date dataInicio = sdf.parse(new StringBuilder().append("01/").append(this.competenciaInicial).toString());
+			Date dataFim = sdf.parse(new StringBuilder().append("01/").append(this.competenciaFinal).toString());
 			
-			if(dataInicio.after(this.pf.getDATA_posse()) && sdf.parse(new StringBuilder().append("01/").append(this.competenciaFinal).toString()).compareTo(new LocalDate().now().toDate()) < 0) {
+			if(sdf.parse(new StringBuilder().append("01/").append(this.competenciaFinal).toString()).compareTo(new LocalDate().now().toDate()) < 0) {
 				
 				/*new QualificaCompetencia().executa(new DateTime(dataInicio), new DateTime(sdf.parse(new StringBuilder().append("01/").append(this.competenciaFinal).toString())),
 						new GenericPersistence<PessoasFuncionais>(PessoasFuncionais.class).buscarPorId(this.pf.getNUMG_idDoObjeto()),
@@ -303,6 +305,19 @@ public class FinanceiroBean implements Serializable {
 		} catch (Exception e) {
 			Message.addErrorMessage("Erro ao criar contribuições!");
 		}
+	}
+	
+	private boolean habilitaCompetenciaFim(Date dataFim) {
+		boolean res = false;
+		try {
+			if(new LocalDate(dataFim).getYear() <= new LocalDate().now().getYear() &&
+					new LocalDate(dataFim).getMonthOfYear() <= new LocalDate().now().getMonthOfYear()) {
+				res = true;
+			}
+		}catch(Exception e) {
+			res = false;
+		}
+		return res;
 	}
 
 	public void buscaFuncional(ValueChangeEvent event) {
@@ -772,7 +787,6 @@ public class FinanceiroBean implements Serializable {
 		return field;
 	}
 
-	@SuppressWarnings("unused")
 	private JRDataSource dataSourceProventos(PessoasFuncionais obj, List<Column> columns, List<Field> fields,
 			List<Indice> listaDeIndice) {
 
@@ -783,6 +797,10 @@ public class FinanceiroBean implements Serializable {
 		
 		
 		List<ContribuicaoDto> listaContribuicoes = devolveContribuicoes(listaDeIndice, obj);
+		
+		System.out.println("Tamanho da Lista: "+listaContribuicoes.size());
+		
+		
 
 		int qtdOitenta = (int) listaContribuicoes.stream()
 				.filter(c -> !c.getVALR_oitentaMaiores().equals(new BigDecimal("0"))).count();
@@ -793,9 +811,6 @@ public class FinanceiroBean implements Serializable {
 				.filter(c -> !c.equals(new BigDecimal("0"))).reduce(BigDecimal.ZERO, BigDecimal::add)
 				.setScale(3, RoundingMode.CEILING);
 		
-		System.out.println("Qtd oitenta: "+qtdOitenta);
-		System.out.println("Soma oitenta: "+somaOitentaMaiores);
-		
 		BigDecimal ultimaRemuneracao = listaContribuicoes.get(listaContribuicoes.size()-1).getVALR_contribuicaoPrevidenciaria();
 		BigDecimal mediaAritmetica = somaOitentaMaiores.divide(new BigDecimal(qtdOitenta), RoundingMode.CEILING);
 		BigDecimal valorApurado = BigDecimal.ZERO;
@@ -803,8 +818,18 @@ public class FinanceiroBean implements Serializable {
 		BigDecimal proporcionalidade = BigDecimal.ZERO;
 		String tipoProventos = null;
 		BigDecimal proventoApurado = BigDecimal.ZERO;
+		
+		int afastamentoInteresseParticular = 0;
+		AfastamentosLicenca al = new AfastamentosLicenca();
+		try {
+			al = new AfastamentoLicencaDao().devolveListaDeAfastamentosInteresseParticular(obj.getNUMG_idDoObjeto()).get(0);
+		}catch(Exception e) {
+			System.out.println("Erro afastamentos");
+		}
+		afastamentoInteresseParticular = Days.daysBetween(new LocalDate(al.getDATA_inicioLicenca()),new LocalDate( al.getDATA_fimLicenca())).getDays();
+		
 		@SuppressWarnings("static-access")
-		Date dataSimulacaoConcessao = new LocalDate().now().toDate();
+		Date dataSimulacaoConcessao = new LocalDate().minusDays(afastamentoInteresseParticular).now().toDate();
 		List<Averbacao> listaAverbacao = daoAverbacao.listaRelacionamenoDoObjeto("Averbacao", "NUMR_pessoasFuncionais",
 				obj.getNUMG_idDoObjeto());
 
@@ -821,13 +846,14 @@ public class FinanceiroBean implements Serializable {
 		}
 		int resComparator = 0;
 		
+		
 		valorApurado = (resComparator = mediaAritmetica.compareTo(ultimaRemuneracao)) == -1 ? mediaAritmetica : ultimaRemuneracao;
-        int somaDeducoes = new AfastamentoLicencaDao().devolveListaDiasAfastados(this.pf.getNUMG_idDoObjeto()).stream().mapToInt(Integer::intValue).sum();
+        int somaDeducoes = new AfastamentoLicencaDao().devolveListaDiasAfastados(obj.getNUMG_idDoObjeto()).stream().mapToInt(Integer::intValue).sum();
 		
         if (StringUtils.containsIgnoreCase(obj.getNUMR_idDoObjetoCargo().getDESC_nome(),"policia")) {
             proporcionalidade = new BigDecimal("100");
             tempoServico = "art. 1º, I LC 144/14";
-            tipoProventos = "Provento Apurado pela Integralidade das Médias";
+            tipoProventos = "Provento Apurado pela Integralidade das M\u00e9dias";
             proventoApurado = valorApurado;
         } else {
             tipoProventos = "Provento Proporcional Apurado";
@@ -855,7 +881,7 @@ public class FinanceiroBean implements Serializable {
 			tipoProventos = "Provento Integral Apurado";
 			proporcionalidade = new BigDecimal(100);
 			tipoCalc = "Integralidade";
-			proventoApurado = mediaAritmetica;
+			proventoApurado = mediaAritmetica.compareTo(ultimaRemuneracao) == 1 ?ultimaRemuneracao :mediaAritmetica;
 		}
 		
 		List<SalarioMinimo> listaSalario = new GenericPersistence<SalarioMinimo>(SalarioMinimo.class).listarTodos("SalarioMinimo");
@@ -883,6 +909,7 @@ public class FinanceiroBean implements Serializable {
 					df.formatterToCurrencyBrazilian(somaOitentaMaiores),
 					df.formatterToCurrencyBrazilian(mediaAritmetica),
 					df.formatterToCurrencyBrazilian(valorApurado),
+//					devolveTempoLiquidoCargo(),
 					tempoServico,
 					df.formatterToCurrencyBrazilian(salarioMinimo.get().getNUMR_valor()),
 					new StringBuilder().append(proporcionalidade).append("%").toString(),
@@ -903,10 +930,9 @@ public class FinanceiroBean implements Serializable {
 
 		DRDataSource dataSource = new DRDataSource("mat", "serv", "cpf", "sexo", "dataNascimento", "estadoCivil",
 				"cargo", "dataAdmissao", "orgao", "tituloRelatorio", "fatores", "competencia", "base", "indice",
-		
 				"remuneracao", "oitenta", "total");
-		List<ContribuicaoDto> listaContribuicoes = new RemuneracaoDao().listaRemuneracoesContribuicoes(obj);// devolveListaDeContribuicoesAtualizadas(obj);
 
+		List<ContribuicaoDto> listaContribuicoes = devolveContribuicoes(listaDeIndice, obj);
 
 		BigDecimal totalOitentas = listaContribuicoes.stream().map(b -> b.getVALR_oitentaMaiores())
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -931,30 +957,24 @@ public class FinanceiroBean implements Serializable {
 		return dataSource;
 	}
 	
-	/*private List<ContribuicoeseAliquotas> devolveListaDeContribuicoesAtualizadas(PessoasFuncionais obj){
-		List<ContribuicoeseAliquotas> listaContribuicoes = new ArrayList<>();
-		if(!new RemuneracaoDao().listaRemuneracoesContribuicoes(obj).isEmpty()) {
-			List<ContribuicoeseAliquotas> listaCon = new RemuneracaoDao().listaRemuneracoesContribuicoes(obj);
-			for (int i = 0; i < listaCon.size(); i++) {
-				listaContribuicoes.add(new QualificaCalculoContribuicao().executa(listaCon.get(i), listaCon.get(i).getNUMR_idPessoasFuncionais().getDATA_posse(), listaCon.get(i).getVALR_contribuicaoPrevidenciaria(), true));
-			}
-			
-			return	listaContribuicoes;
-		}else {
-			return 	listaContribuicoes = devolveContribuicoes(listaIndice, new RemuneracaoDao()
-					.devolveContribuicoesComPortaria(portaria.getNUMG_idDoObjeto(), obj.getNUMG_idDoObjeto()));
-		}
-	}*/
+	private List<BigDecimal> devolveOitentaMaiores(List<Indice> listaI, List<ContribuicaoDto> listaC) {
+		List<BigDecimal> lista = new ArrayList<>();
+		listaC.forEach(i -> {
+			listaI.forEach(f -> {
+				if (i.getDESC_competencia().equals(f.getNUMR_mesAno())) {
+					lista.add(i.getVALR_contribuicaoPrevidenciaria().multiply(f.getVALR_indice()));
+				}
+			});
+		});
+		return lista;
+	}
 
 
+	
 	public List<ContribuicaoDto> devolveContribuicoes(List<Indice> listaI,
 			PessoasFuncionais pf) {
 		
 		List<ContribuicaoDto> listaC = new ContribuicaoHelper().listaDeContribuicoesRemuneracao(pf);
-		/*listaC.forEach(c->{
-			System.out.println(c.toString());
-			System.out.println("********************************");
-		});*/
 		
 		List<ContribuicaoDto> lista = new ArrayList<>();
 		listaC.forEach(i -> {
@@ -1000,19 +1020,6 @@ public class FinanceiroBean implements Serializable {
 
 		return listaContribuicoes;
 	}
-	
-	private List<BigDecimal> devolveOitentaMaiores(List<Indice> listaI, List<ContribuicaoDto> listaC) {
-		List<BigDecimal> lista = new ArrayList<>();
-		listaC.forEach(i -> {
-			listaI.forEach(f -> {
-				if (i.getDESC_competencia().equals(f.getNUMR_mesAno())) {
-					lista.add(i.getVALR_contribuicaoPrevidenciaria().multiply(f.getVALR_indice()));
-				}
-			});
-		});
-		return lista;
-	}
-
 	boolean validaComp = false;
 	
 	@SuppressWarnings("static-access")

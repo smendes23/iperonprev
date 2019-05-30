@@ -438,9 +438,10 @@ public class CtcBean implements GenericBean<CertidaoTempoContribuicao>, Serializ
         ArrayList<String> listaDeAnos = new ArrayList<String>();
         try {
             for (ContribuicaoDto contribuicao : listaContribuicao) {
-                if (contribuicao.getDESC_competencia().substring(2, 6).equals(ano)) continue;
-                ano = contribuicao.getDESC_competencia().substring(2, 6);
-                listaAnos.add(ano);
+                if (contribuicao.getDESC_competencia().substring(2, 6).equals(ano)) {
+                	ano = contribuicao.getDESC_competencia().substring(2, 6);
+                	listaAnos.add(ano);
+                }
             }
             listaDeAnos = new ArrayList<>(listaAnos);
             Collections.sort(listaDeAnos);

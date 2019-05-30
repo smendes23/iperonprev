@@ -107,6 +107,7 @@ public class RemuneracaoDao implements GenericDao<Remuneracoes>, Serializable {
 	public void saveAnyFinance(String dataInicio, String dataFim,
 			int idFuncional, BigDecimal remuneracao) {
 		try {
+			excluirContribuicoes(idFuncional, dataInicio, dataFim);
 			@SuppressWarnings("static-access")
 			Connection con = conexao.getInstance().getConnection();
 			CallableStatement cs = con.prepareCall("{call dbo.ADICIONABASEDECALCULO(?,?,?,?)}");
@@ -122,7 +123,25 @@ public class RemuneracaoDao implements GenericDao<Remuneracoes>, Serializable {
 		}
 		
 	}
-
+	
+	public void excluirContribuicoes(int idFuncional,String dataInicio, String dataFim){
+		
+		try {
+			
+			Connection con = conexao.getInstance().getConnection();
+			CallableStatement cs = con.prepareCall("{call dbo.EXCLUIRCONTRIBUICAO(?,?,?)}");
+			cs.setInt(1,idFuncional);
+			cs.setString(2,dataInicio);
+			cs.setString(3,dataFim);
+			cs.execute();
+			cs.close();
+			
+		} catch (Exception e) {
+			Message.addErrorMessage("Erro ao excluir contribuições!");
+		}
+	}
+	
+	
 	public boolean verificaSeExisteRegistroNaTabela(int idFuncional) {
 		boolean res = false;
 		try {
@@ -426,11 +445,15 @@ public class RemuneracaoDao implements GenericDao<Remuneracoes>, Serializable {
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				ContribuicaoDto contrib = new ContribuicaoDto();
-				contrib.setDESC_competencia(rs.getString(3));
-				contrib.setVALR_contribuicaoPrevidenciaria(rs.getBigDecimal(6));
-				contrib.setNUMR_idPessoasFuncionais(pf);
-				listaRemuneracao.add(contrib);
+				System.out.println(rs.getInt(4));
+//				if(rs.getInt(4) != 13) {
+					ContribuicaoDto contrib = new ContribuicaoDto();
+					contrib.setDESC_competencia(rs.getString(3));
+					contrib.setVALR_contribuicaoPrevidenciaria(rs.getBigDecimal(6));
+					contrib.setNUMR_idPessoasFuncionais(pf);
+					listaRemuneracao.add(contrib);
+					
+//				}
 			}
 			rs.close();
 		}catch(Exception e) {

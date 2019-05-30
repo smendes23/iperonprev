@@ -140,7 +140,6 @@ public class ContribuicaoDao implements GenericDao<Financeiro>,Serializable{
 			}
 			rs.close();
 		}catch(Exception e){
-			e.printStackTrace();
 			System.out.println("Erro ao executar procedure");
 		}
 	

@@ -473,19 +473,14 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 			}
 			switch (this.funcional.getENUM_tipoAposentadoria()) {
 			case INVALIDEZ:
-//			new DialogsPrime().showDialog(true, true, true, false, "recadastramento");
 				return "/paginas/beneficio/aposentadoriaInvalidez.xhtml?faces-redirect=true";
 			case IDADE:
-//			new DialogsPrime().showDialog(true, true, true, false, "recadastramento");
 				return "/paginas/beneficio/aposentadoriaIdade.xhtml?faces-redirect=true";
 			case IDADETEMPO:
-//			new DialogsPrime().showDialog(true, true, true, false, "recadastramento");
 				return "/paginas/beneficio/aposentadoriaIdadeContribuicao.xhtml?faces-redirect=true";
 			case COMPULSORIA:
-//			new DialogsPrime().showDialog(true, true, true, false, "recadastramento");
 				return "/paginas/beneficio/aposentadoriaCompulsoria.xhtml?faces-redirect=true";
 			case PENSAO:
-//				new DialogsPrime().showDialog(true, true, true, false, "recadastramento");
 				return "/paginas/beneficio/pensao.xhtml?faces-redirect=true";
 			default:
 				return "/paginas/cadastro/funcional.xhtml?faces-redirect=true";
@@ -515,7 +510,6 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 				Message.addErrorMessage("Servidor não encontrado!");
 			}
 
-//			this.cpfServidor = "";
 		} catch (Exception e) {
 			Message.addErrorMessage("Não foi possível carregar os dados pessoais!");
 		}
@@ -524,8 +518,6 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 			if (new FuncionaisFuncoesDao()
 					.verificaExistenciaFuncionalFuncoes(this.pessoas.getNUMG_idDoObjeto()) == true) {
 				this.funcionaisFuncoes = devolveSituacaoPrevidenciaria();
-				/*this.situacao = this.funcionaisFuncoes.getNUMR_situacaoPrevidenciaria();
-				this.vinculo = this.funcionaisFuncoes.getNUMR_vinculoPrevidenciario();*/
 			}
 			
 		} catch (Exception e) {
@@ -619,8 +611,6 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 		try {
 
 			this.funcionaisFuncoes.setNUMR_idPessoas(this.pessoas);
-			/*this.funcionaisFuncoes.setNUMR_situacaoPrevidenciaria(this.situacao);
-			this.funcionaisFuncoes.setNUMR_vinculoPrevidenciario(this.vinculo);*/
 			new GenericPersistence<FuncionaisFuncoes>(FuncionaisFuncoes.class).salvar(funcionaisFuncoes);
 		} catch (Exception e) {
 			Message.addErrorMessage("Erro ao salvar situação previdenciária");
@@ -840,8 +830,6 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 
 	public String redirecionaCtc(String url) {
 		FacesContext fc = FacesContext.getCurrentInstance();
-//		Flash flash = fc.getExternalContext().getFlash();
-//		flash.put("funcional", this.funcional);
 		fc.getExternalContext().getSessionMap().put("funcional", funcional);
 		return url;
 	}
@@ -856,28 +844,6 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 				.listarTodos("SituacaoPrevidenciaria");
 	}
 
-	/*public List<Enquadramento> getListaDeEnquadamento(){
-		List<Enquadramento> lista = new ArrayList<>();
-		try{
-			lista = new GenericPersistence<Enquadramento>(Enquadramento.class).listarTodos("Enquadramento");
-		}catch(Exception e){
-			System.out.println("Não foi possível carregar a lista");
-		}
-		return lista;
-	}*/
-	/*public List<Enquadramento> listaDeEnquadramentos(String query) {
-		List<Enquadramento> queryEnq = new GenericPersistence<Enquadramento>(Enquadramento.class)
-				.listarTodos("Enquadramento");
-		List<Enquadramento> lista = new ArrayList<>();
-		for (Enquadramento enq : queryEnq) {
-			if (enq.getDESC_descricao().startsWith(query)) {
-				lista.add(enq);
-			}
-		}
-
-		return lista;
-	}
-*/
 	public void pegaItem(SelectEvent event) {
 		Enquadramento item = (Enquadramento) event.getObject();
 		listaEnquadramento.add(item);
@@ -1052,14 +1018,6 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 		
 		actionEditRubricas();
 	}
-	
-	/*public void exibeContribuicao() {
-		if (ContribuicaoHelper.existeContribuicao(this.funcional.getNUMG_idDoObjeto()) != true) {
-			ContribuicaoHelper.criaContribuicao(this.funcional);
-		}
-		listaDefinanceiro = new ArrayList<>();
-		new DialogsPrime().showDialogWithAndHeightWihoutClose(true, true, true, true, "contribuicao", 350, 930);
-	}*/
 
 	public void fechaContribuicao() {
 		RequestContext.getCurrentInstance().closeDialog("contribuicao");
@@ -1098,18 +1056,6 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 		}catch(Exception e){
 			System.out.println("Erro ao estabelecer base de contribuição.");
 		}
-	}
-	
-	public void calculaContribuicaoApartirDoSegurado() {
-		/*this.contribuicao = new QualificaCalculoContribuicao()
-				.executa(contribuicao,funcional.getDATA_efetivoExercicio(),contribuicao.getVALR_contribSegurado(),false);*/
-		
-		/*if(this.contribuicao.getNUMR_aliquotaSegurado() > 0){
-			modificaCalculoContribuicaoSegurado();
-		}else{
-			this.contribuicao = new QualificaCalculoContribuicao()
-					.executa(contribuicao,funcional.getDATA_efetivoExercicio(),contribuicao.getVALR_contribSegurado());
-		}*/
 	}
 	
 	
@@ -1418,8 +1364,6 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 			listaIndice = new GenericPersistence<Indice>(Indice.class).listarRelacionamento("Indice", "portaria",
 					portaria.getNUMG_idDoObjeto());
 			
-			/*listaIndice = new GenericPersistence<Indice>(Indice.class).listarRelacionamento("Indice", "portaria",
-					portaria.getNUMG_idDoObjeto());*/
 			ReportsConcate rep = new ReportsConcate();
 			
 			rep.generateReportsWithTwoBuilder(new BuilderReport().createReport(Templates.reportTemplate, "medias", new ArrayList<Column>(), fieldsRemuneracao(),
@@ -1484,17 +1428,7 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 		return field;
 	}
 	
-	/*private List<ContribuicoeseAliquotas> devolveListaCotribuicaoSizeMaior(PessoasFuncionais obj){
-		List<ContribuicoeseAliquotas> listaContribuicoes = new ArrayList<>();
-		try {
-			devolveContribuicoes(listaIndice, new RemuneracaoDao()
-					.devolveContribuicoesComPortaria(portaria.getNUMG_idDoObjeto(), obj.getNUMG_idDoObjeto()));
-		}catch(Exception e) {
-			
-		}
-		return listaContribuicoes;
-	}
-*/
+	
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	@SuppressWarnings("unused")
 	private JRDataSource dataSourceProventos(PessoasFuncionais obj, List<Column> columns, List<Field> fields,
@@ -1684,10 +1618,6 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 			PessoasFuncionais pf) {
 		
 		List<ContribuicaoDto> listaC = new ContribuicaoHelper().listaDeContribuicoesRemuneracao(pf);
-		/*listaC.forEach(c->{
-			System.out.println(c.toString());
-			System.out.println("********************************");
-		});*/
 		
 		List<ContribuicaoDto> lista = new ArrayList<>();
 		listaC.forEach(i -> {
@@ -1775,7 +1705,6 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			System.out.println("Erro ao converter data plano previdenciario");
 		}
 		Collections.sort(listaDeContribuicoes, CONTRIBUICAO_ORDER);
@@ -2137,6 +2066,7 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 		return dataSource;
 	}
 	
+	@SuppressWarnings("static-access")
 	private String devolveTempoLiquidoCargo() {
 		List<AfastamentosLicenca> lista = new AfastamentoLicencaDao().devolveListaDeAfastamentosInteresseParticular(this.funcional.getNUMG_idDoObjeto());
 		String res = new String();
@@ -2727,19 +2657,6 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 	List<DecenioEnum> novaListaDecenio = new ArrayList<>();
 
 	public List<DecenioEnum> getListaDecenio() {
-
-		/*try {
-			if (this.funcional.getNUMG_idDoObjeto() > 0) {
-				novaListaDecenio = devolveDecenioDisponivel();
-				if (this.quiquenio.getNUMG_idDoObjeto() > 0) {
-					novaListaDecenio.add(this.quiquenio.getENUM_decenio());
-				}
-			}
-
-		} catch (Exception e) {
-			System.out.println("Não foi possível gerar lista dos decênios");
-		}
-		return novaListaDecenio;*/
 		return Arrays.asList(DecenioEnum.values());
 	}
 

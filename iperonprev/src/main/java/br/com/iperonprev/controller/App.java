@@ -28,7 +28,7 @@ public class App {
 		}else {
 				System.out.println("menor");
 		}
-//		System.out.println(sdf.format(data.toDate()));
+
 	}
 	
 }
