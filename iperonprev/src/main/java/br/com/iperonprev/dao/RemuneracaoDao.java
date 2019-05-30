@@ -446,14 +446,12 @@ public class RemuneracaoDao implements GenericDao<Remuneracoes>, Serializable {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				System.out.println(rs.getInt(4));
-//				if(rs.getInt(4) != 13) {
 					ContribuicaoDto contrib = new ContribuicaoDto();
 					contrib.setDESC_competencia(rs.getString(3));
 					contrib.setVALR_contribuicaoPrevidenciaria(rs.getBigDecimal(6));
 					contrib.setNUMR_idPessoasFuncionais(pf);
 					listaRemuneracao.add(contrib);
 					
-//				}
 			}
 			rs.close();
 		}catch(Exception e) {

@@ -395,6 +395,9 @@ public class CtcBean implements GenericBean<CertidaoTempoContribuicao>, Serializ
         List<String> listaDeAnos = this.devolveListaDeAnos(listaFinanceiro);
         
         List<FinanceiroPorMesDto> listaRrc = this.devolveListaFinanceiroRrc(listaDeAnos, listaFinanceiro);
+        listaRrc.forEach(r->{
+        	System.out.println(r.getAno());
+        });
         
         try {
             listaRrc.forEach(f -> dataSource.add(
@@ -432,17 +435,15 @@ public class CtcBean implements GenericBean<CertidaoTempoContribuicao>, Serializ
     }
 
     private List<String> devolveListaDeAnos(List<ContribuicaoDto> listaContribuicao) {
-        String ano = listaContribuicao.get(0).getDESC_competencia().substring(2, 6);
+    	
         LinkedHashSet<String> listaAnos = new LinkedHashSet<String>();
-        listaAnos.add(ano);
+        listaAnos.add(listaContribuicao.get(0).getDESC_competencia().substring(2, 6));
         ArrayList<String> listaDeAnos = new ArrayList<String>();
         try {
-            for (ContribuicaoDto contribuicao : listaContribuicao) {
-                if (contribuicao.getDESC_competencia().substring(2, 6).equals(ano)) {
-                	ano = contribuicao.getDESC_competencia().substring(2, 6);
-                	listaAnos.add(ano);
-                }
-            }
+        	listaContribuicao.forEach(l->{
+        		listaAnos.add(l.getDESC_competencia().substring(2, 6));
+        	});
+        	
             listaDeAnos = new ArrayList<>(listaAnos);
             Collections.sort(listaDeAnos);
         }
@@ -456,59 +457,68 @@ public class CtcBean implements GenericBean<CertidaoTempoContribuicao>, Serializ
         ArrayList<FinanceiroPorMesDto> lista = new ArrayList<FinanceiroPorMesDto>();
         DecimalFormatter df = new DecimalFormatter();
         try {
-            listaDeAnos.forEach(a -> {
+        	listaDeAnos.forEach(a -> {
                 FinanceiroPorMesDto fr = new FinanceiroPorMesDto();
                 fr.setAno(a);
                 for (ContribuicaoDto contribuicao : listaFinanceiro) {
+                	System.out.println("Ano: "+a);
+                	
+                	System.out.println("Competência: "+Integer.parseInt(contribuicao.getDESC_competencia().substring(0, 2)));
+                	
                     if (Integer.parseInt(contribuicao.getDESC_competencia().substring(0, 2)) == 1 && contribuicao.getDESC_competencia().substring(2, 6).equals(a)) {
                         fr.setJan(df.formatterToCurrencyBrazilianWithoutSymbol(contribuicao.getVALR_contribuicaoPrevidenciaria()));
-                        continue;
+                        System.out.println(fr.getJan());
                     }
                     if (Integer.parseInt(contribuicao.getDESC_competencia().substring(0, 2)) == 2 && contribuicao.getDESC_competencia().substring(2, 6).equals(a)) {
                         fr.setFev(df.formatterToCurrencyBrazilianWithoutSymbol(contribuicao.getVALR_contribuicaoPrevidenciaria()));
-                        continue;
+                        System.out.println(fr.getFev());
                     }
                     if (Integer.parseInt(contribuicao.getDESC_competencia().substring(0, 2)) == 3 && contribuicao.getDESC_competencia().substring(2, 6).equals(a)) {
                         fr.setMar(df.formatterToCurrencyBrazilianWithoutSymbol(contribuicao.getVALR_contribuicaoPrevidenciaria()));
-                        continue;
+                        System.out.println(fr.getMar());
                     }
                     if (Integer.parseInt(contribuicao.getDESC_competencia().substring(0, 2)) == 4 && contribuicao.getDESC_competencia().substring(2, 6).equals(a)) {
                         fr.setAbr(df.formatterToCurrencyBrazilianWithoutSymbol(contribuicao.getVALR_contribuicaoPrevidenciaria()));
-                        continue;
+                        System.out.println(fr.getAbr());
                     }
                     if (Integer.parseInt(contribuicao.getDESC_competencia().substring(0, 2)) == 5 && contribuicao.getDESC_competencia().substring(2, 6).equals(a)) {
                         fr.setMai(df.formatterToCurrencyBrazilianWithoutSymbol(contribuicao.getVALR_contribuicaoPrevidenciaria()));
-                        continue;
+                        System.out.println(fr.getMai());
                     }
                     if (Integer.parseInt(contribuicao.getDESC_competencia().substring(0, 2)) == 6 && contribuicao.getDESC_competencia().substring(2, 6).equals(a)) {
                         fr.setJun(df.formatterToCurrencyBrazilianWithoutSymbol(contribuicao.getVALR_contribuicaoPrevidenciaria()));
-                        continue;
+                        System.out.println(fr.getJun());
                     }
                     if (Integer.parseInt(contribuicao.getDESC_competencia().substring(0, 2)) == 7 && contribuicao.getDESC_competencia().substring(2, 6).equals(a)) {
                         fr.setJul(df.formatterToCurrencyBrazilianWithoutSymbol(contribuicao.getVALR_contribuicaoPrevidenciaria()));
-                        continue;
+                        System.out.println(fr.getJul());
                     }
                     if (Integer.parseInt(contribuicao.getDESC_competencia().substring(0, 2)) == 8 && contribuicao.getDESC_competencia().substring(2, 6).equals(a)) {
                         fr.setAgo(df.formatterToCurrencyBrazilianWithoutSymbol(contribuicao.getVALR_contribuicaoPrevidenciaria()));
-                        continue;
+                        System.out.println(fr.getAgo());
                     }
                     if (Integer.parseInt(contribuicao.getDESC_competencia().substring(0, 2)) == 9 && contribuicao.getDESC_competencia().substring(2, 6).equals(a)) {
                         fr.setSet(df.formatterToCurrencyBrazilianWithoutSymbol(contribuicao.getVALR_contribuicaoPrevidenciaria()));
-                        continue;
+                        System.out.println(fr.getSet());
                     }
                     if (Integer.parseInt(contribuicao.getDESC_competencia().substring(0, 2)) == 10 && contribuicao.getDESC_competencia().substring(2, 6).equals(a)) {
                         fr.setOut(df.formatterToCurrencyBrazilianWithoutSymbol(contribuicao.getVALR_contribuicaoPrevidenciaria()));
-                        continue;
+                        System.out.println(fr.getOut());
                     }
                     if (Integer.parseInt(contribuicao.getDESC_competencia().substring(0, 2)) == 11 && contribuicao.getDESC_competencia().substring(2, 6).equals(a)) {
                         fr.setNov(df.formatterToCurrencyBrazilianWithoutSymbol(contribuicao.getVALR_contribuicaoPrevidenciaria()));
-                        continue;
+                        System.out.println(fr.getNov());
                     }
-                    if (Integer.parseInt(contribuicao.getDESC_competencia().substring(0, 2)) != 12 || !contribuicao.getDESC_competencia().substring(2, 6).equals(a)) continue;
-                    fr.setDez(df.formatterToCurrencyBrazilianWithoutSymbol(contribuicao.getVALR_contribuicaoPrevidenciaria()));
+                    if (Integer.parseInt(contribuicao.getDESC_competencia().substring(0, 2)) != 12 || !contribuicao.getDESC_competencia().substring(2, 6).equals(a)) {
+                    	fr.setDez(df.formatterToCurrencyBrazilianWithoutSymbol(contribuicao.getVALR_contribuicaoPrevidenciaria()));
+                    	System.out.println(fr.getDez());
+                    }	
                 }
+                System.out.println(a);
+                System.out.println("**************************************************************************************");
                 lista.add(fr);
             });
+            
         }
         catch (Exception e) {
             System.out.println("Erro ao gerar RRC");

@@ -21,13 +21,11 @@ public class App {
 	
 	public static void main(String[] args) throws ParseException {
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		LocalDate data = new LocalDate(sdf.parse("10/05/2019"));
-		if(new LocalDate().now().compareTo(data) > 0) {
-			System.out.println("Hoje é maior");
-		}else {
-				System.out.println("menor");
-		}
+		List<ContribuicaoDto> lista =  new RemuneracaoDao().listaRemuneracoesContribuicoes(new GenericPersistence<PessoasFuncionais>(PessoasFuncionais.class).buscarPorId(81851));
+		
+		lista.forEach(r->{
+			System.out.println(r.getVALR_contribuicaoPrevidenciaria());
+		});
 
 	}
 	
