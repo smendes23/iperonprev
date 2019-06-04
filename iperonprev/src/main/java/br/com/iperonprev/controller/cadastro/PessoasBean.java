@@ -464,24 +464,44 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	    }
 
 	    public void novoObjeto() {
-	        this.pessoa = new Pessoas();
-	        this.pessoa.setDESC_sexo(SexoEnum.M);
+	    	dao = new PessoasDao();
+		    pessoa = new Pessoas();
+		    pessoaDependente = new Pessoas();
+		    cpfDependente = new String();
+		    nomeDependente = new String();
+		    dataNascimentoDependente = null;
+		    dependente = new Dependentes();
+		    skip = false;
+		    listaDep = new ArrayList<Dependentes>();
+		    endereco = new Enderecos();
+		    estado = new Estados();
+		    municipio = new Municipios();
+		    estadoCivil = new EstadoCivil();
+		    logradouro = new TipoLogradouro();
+		    censoPrevidenciario = new CensoPrevidenciario();
+//		    public String colorRecadastramento = "green";
+		    sisobi = new Sisobi();
+		    filtroDePessoas = new ArrayList<>();
+		    listaM = new ArrayList<Municipios>();
+		    servidorInativo = false;
+		    listaRecadastramento = new ArrayList<CensoPrevidenciario>();
+		    habilitarRecadastramento = false;
+		    dadosCenso = new DadosCenso();
+		    cpDao = new CensoPrevidenciarioDao();
+		    pessoaRecad = new Pessoas();
+		    habilitaNovoBOtao = false;
+		    res = false;
+		    users = new Users();
+		    listaVidaResidencia = new ArrayList<AtestadosVidaResidencia>();
+		    boolean actionButton = false;
+		    listaP = new ArrayList<Pessoas>();
+		    copyFile = new CopyFile();
+		    recadastramentoOnline = false;
+		    listaDocumentos = new ArrayList<DocumentoPessoal>();
+		    verificaSeCarregouPessoa = false;
+		    this.pessoa.setDESC_sexo(SexoEnum.M);
 	        this.pessoaDependente.setDESC_sexo(SexoEnum.M);
-	        this.endereco = new Enderecos();
-	        this.sisobi = new Sisobi();
-	        this.pessoaDependente = new Pessoas();
-	        this.estadoCivil = this.pessoa.getNUMR_estadoCivil();
-	        actionButton = false;
-	        this.listaDocumentos = new ArrayList<DocumentoPessoal>();
-	        this.servidorInativo = false;
-	        this.users = new Users();
-	        this.censoPrevidenciario = new CensoPrevidenciario();
-	        this.estado = new Estados();
-	        this.municipio = new Municipios();
-	        this.logradouro = new TipoLogradouro();
-	        this.verificaSeCarregouPessoa = false;
-            
-	        this.getListaDeEstados();
+	        this.habilitarRecadastramento = false;
 	    }
 
 	    public void carregaDependente(Dependentes dep) {

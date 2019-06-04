@@ -20,14 +20,14 @@ public class QualificaConcomitanciaDuasAverbacoes {
 					TemposConcomitantesDuasAverbacoes con1 = new ConcomitanciaAdmissaoDemissao();
 					TemposConcomitantesDuasAverbacoes con2 = new ConcomitanciaEntrePeriodosIguais();
 					TemposConcomitantesDuasAverbacoes con3 = new ConcomitanciaDataAdmissao();
-//					TemposConcomitantesDuasAverbacoes con4 = new ConcomitanciaDemissao();
+					TemposConcomitantesDuasAverbacoes con4 = new ConcomitanciaDemissao();
 					/*TemposConcomitantesDuasAverbacoes con5 = new ConcomitanciaAdmissaoIgualDemissaoMenor();*/
 					TemposConcomitantesDuasAverbacoes nulo = new ConcomitanciaNulaDuasAverbacoes();
 					
 					con1.setProximaConcomitancia(con2);
 					con2.setProximaConcomitancia(con3);
-					con3.setProximaConcomitancia(nulo);
-//					con4.setProximaConcomitancia(nulo);
+					con3.setProximaConcomitancia(con4);
+					con4.setProximaConcomitancia(nulo);
 //					con5.setProximaConcomitancia(nulo);
 					
 					return con1.verificaConcomitancia(av1, RetornaTempos.retornaDiasApartirDeDuasDatas(av1.getDATA_admissao(), av1.getDATA_demissao()), av2, RetornaTempos.retornaDiasApartirDeDuasDatas(av2.getDATA_admissao(), av2.getDATA_demissao()));

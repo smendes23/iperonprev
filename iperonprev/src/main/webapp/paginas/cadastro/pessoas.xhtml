@@ -131,7 +131,7 @@
 											value="#{pessoasBean.pessoa.NUMR_cpf}" id="cpf"></p:inputMask>
 										<span class="input-group-btn"> <p:commandButton
 												icon="fa fa-caret-right" styleClass="btn-input"
-												process="cpf @this" update="@form"
+												process="cpf @this" update="@all"
 												action="#{pessoasBean.buscaServidor()}"></p:commandButton>
 										</span>
 									</div>
@@ -177,12 +177,12 @@
 							<div class="ui-grid-row">
 								<div class="col-sm-2" style="color: #000">
 									<p:commandButton value="Salvar" icon="fa fa-save">
-											<p:ajax update="formPessoa" process="formPessoa" listener="#{pessoasBean.salvarObjeto}" resetValues="true"></p:ajax>
+											<p:ajax update="@all" process="formPessoa" listener="#{pessoasBean.salvarObjeto}" resetValues="true"></p:ajax>
 									</p:commandButton>
 								</div>
 								<div class="col-sm-2" style="color: #000">
 									<p:commandButton value="Novo" icon="fa fa-plus">
-										<p:ajax listener="#{pessoasBean.novoObjeto}" update="formPessoa" resetValues="true"/>
+										<p:ajax listener="#{pessoasBean.novoObjeto}" update="@all" resetValues="true"/>
 										
 									</p:commandButton>
 								</div>

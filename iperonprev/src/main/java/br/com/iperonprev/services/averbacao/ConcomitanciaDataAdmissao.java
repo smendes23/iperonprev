@@ -6,6 +6,7 @@ import org.joda.time.LocalDate;
 import br.com.iperonprev.dao.GenericPersistence;
 import br.com.iperonprev.interfaces.TemposConcomitantesDuasAverbacoes;
 import br.com.iperonprev.models.Averbacao;
+import br.com.iperonprev.util.averbacao.RetornaTemposAverbacao;
 import br.com.iperonprev.util.jsf.RetornaTempos;
 
 public class ConcomitanciaDataAdmissao implements TemposConcomitantesDuasAverbacoes{
@@ -41,6 +42,8 @@ public class ConcomitanciaDataAdmissao implements TemposConcomitantesDuasAverbac
 						
 					}
 					
+				
+					
 					new GenericPersistence<Averbacao>(Averbacao.class).salvar(averbacao);
 					return true;
 					
@@ -52,8 +55,6 @@ public class ConcomitanciaDataAdmissao implements TemposConcomitantesDuasAverbac
 						) {
 						
 						a2.setDATA_inicioConcomitancia(new LocalDate(a2.getDATA_fimConcomitancia()).minusDays(RetornaTempos.retornaDiasApartirDeDuasDatas(a2.getDATA_inicioConcomitancia(), a1.getDATA_demissao())).toDate() );
-						System.out.println(a2.getDATA_inicioConcomitancia());
-						System.out.println(a2.getDATA_fimConcomitancia());
 						averbacao = new QualificaTempoDeContribuicao().executa(a2, a2.getNUMR_deducao());
 						
 					}else {
@@ -65,6 +66,8 @@ public class ConcomitanciaDataAdmissao implements TemposConcomitantesDuasAverbac
 						}
 						averbacao = new QualificaTempoDeContribuicao().executa(a1, a1.getNUMR_deducao());
 					}
+					
+					
 					
 					new GenericPersistence<Averbacao>(Averbacao.class).salvar(averbacao);
 					return true;
