@@ -322,6 +322,7 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	                this.endereco = this.pessoa.getNUMR_idDoObjetoEndereco();
 	                this.logradouro = this.endereco.getNUMR_tipoLogradouro();
 	                this.estado =this.endereco.getNUMR_idDoObjetoMunicipio().getNUMR_idDoObjetoEstado();
+	                this.municipio = this.endereco.getNUMR_idDoObjetoMunicipio();
 	                populaMunicipios();
 	                verificaServidorInativo(this.pessoa);
 	               
@@ -361,6 +362,7 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	        	pes = new PessoasDao().devolvePessoa(this.pessoa.getNUMR_cpf());
 	        	
 	            this.endereco.setNUMR_tipoLogradouro(this.logradouro);
+	            this.endereco.setNUMR_idDoObjetoMunicipio(this.municipio);
 	            this.pessoa.setNUMR_idDoObjetoEndereco(this.endereco);
 	            this.pessoa.setNUMR_estadoCivil(this.estadoCivil);
 	            
