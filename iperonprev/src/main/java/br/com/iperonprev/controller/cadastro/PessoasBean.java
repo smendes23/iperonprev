@@ -707,6 +707,7 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	                this.logradouro = this.endereco.getNUMR_tipoLogradouro();
 	                this.estadoCivil = this.pessoa.getNUMR_estadoCivil();
 	                this.estado = this.endereco.getNUMR_idDoObjetoMunicipio().getNUMR_idDoObjetoEstado();
+	                this.municipio = this.endereco.getNUMR_idDoObjetoMunicipio();
 	                this.populaMunicipios();
 	                if (new DependentesDao().existeDependente(this.pessoa.getNUMG_idDoObjeto().intValue())) {
 	                    this.listaDep = new DependentesDao().listaDependentesPensionistas(this.pessoa.getNUMG_idDoObjeto().intValue());
