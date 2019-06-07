@@ -3,8 +3,8 @@ package br.com.iperonprev.constantes;
 public enum TipoBeneficioEnum {
 
 COMPULSORIA("Aposentadoria Compulsoria"),
-ESPECIAL("Aposentadoira Especial de Professor"),
-ESPECIALPOLICIA("Aposentadoira Especial de Policial"),
+ESPECIAL("Aposentadoria Especial de Professor"),
+ESPECIALPOLICIA("Aposentadoria Especial de Policial"),
 IDADE("Aposentadoria Voluntária por Idade"),
 INVALIDEZ("Aposentadoria Voluntária por Invalidez"),
 IDADETEMPO("Aposentadoria Voluntária por Idade e Tempo de Contribuição"),

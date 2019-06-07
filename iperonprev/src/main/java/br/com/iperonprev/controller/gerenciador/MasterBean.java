@@ -141,7 +141,7 @@ public class MasterBean implements Serializable,GenericBean<ModulosPerfil>{
 			this.modulos.setPerfil(perfil);
 			new GenericPersistence<ModulosPerfil>(ModulosPerfil.class).salvar(modulos);
 			Message.addSuccessMessage("Perfil cadastrado com sucesso!");
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/iperonprev/logout");
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/logout");
 			novoObjeto();
 		}catch(Exception e){
 			Message.addErrorMessage("Erro ao cadastrar perfil!");
@@ -195,7 +195,7 @@ public class MasterBean implements Serializable,GenericBean<ModulosPerfil>{
 					new GenericPersistence<Users>(Users.class).salvar(users);
 				this.senha = new String();
 				this.repeteSenha = new String();
-				FacesContext.getCurrentInstance().getExternalContext().redirect("/iperonprev/logout");
+				FacesContext.getCurrentInstance().getExternalContext().redirect("/logout");
 				}
 			}else{
 				Message.addErrorMessage("Senhas não conferem!");
