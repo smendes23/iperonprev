@@ -19,34 +19,58 @@
 				
 					<br />
 				<div class="col-sm-12">
+					<h3 class="fieldalt">Dados do Instituidor</h3>
+					<hr />
+				</div>
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="col-sm-3" style="color: #000">
+							<p:outputLabel value="CPF:*"></p:outputLabel>
+								<div class="input-group">
+									<p:inputMask mask="999.999.999-99" styleClass="form-control"
+											converter="cpfConverter"
+											value="#{pessoasBean.pessoa.NUMR_cpf}" id="cpf"></p:inputMask>
+										<span class="input-group-btn"> <p:commandButton
+												icon="fa fa-caret-right" styleClass="btn-input"
+												process="cpf @this" update="@all"
+												action="#{pessoasBean.buscaServidor()}"></p:commandButton>
+										</span>
+								</div>
+						</div>
+						<div class="col-sm-6">
+							<p:outputLabel value="Nome:"></p:outputLabel>
+							<p:inputText styleClass="form-control" value="#{pensaoBean.funcionais.NUMR_idDoObjetoPessoas.DESC_nome}" disabled="true"></p:inputText>
+						</div>
+						<div class="col-sm-3">
+							<p:outputLabel value="Matrícula:"></p:outputLabel>
+							<p:selectOneMenu style="width:100%" effect="fade" value="#{pensaoBean.atosLegais}"
+								filterMatchMode="startsWith" converter="conversorDeEntidades" >
+								<f:selectItem itemLabel="--Selecione--" itemValue=""
+									noSelectionOption="true" />
+							</p:selectOneMenu>
+						</div>
+					</div>
+				</div>
+				
+				
+				
+				
+				<div class="col-sm-12">
 					<h3 class="fieldalt">Dados do Beneficiário</h3>
 					<hr />
 				</div>
 				<h:inputHidden value="#{pensaoBean.pensao.NUMG_idDoObjeto}" />
 				<div class="ui-grid ui-grid-responsive">
 					<div class="ui-grid-row">
-						<div class="col-sm-3">
-							<p:outputLabel value="CPF:"></p:outputLabel>
-							<p:inputText styleClass="form-control" value="#{pensaoBean.funcionais.NUMR_idDoObjetoPessoas.NUMR_cpf}" disabled="true"></p:inputText>
-						</div>
 						<div class="col-sm-6">
 							<p:outputLabel value="Beneficiário:"></p:outputLabel>
-							<p:inputText styleClass="form-control" value="#{pensaoBean.funcionais.NUMR_idDoObjetoPessoas.DESC_nome}" disabled="true"></p:inputText>
+							<p:selectOneMenu style="width:100%" effect="fade" value="#{pensaoBean.atosLegais}"
+								filterMatchMode="startsWith" converter="conversorDeEntidades" >
+								<f:selectItem itemLabel="--Selecione--" itemValue=""
+									noSelectionOption="true" />
+							</p:selectOneMenu>
 						</div>
-						<div class="col-sm-3">
-							<p:outputLabel value="Matrícula:"></p:outputLabel>
-							<p:inputText styleClass="form-control" value="#{pensaoBean.funcionais.DESC_matricula}" disabled="true"></p:inputText>
-						</div>
-						
-					 </div>
-					<h:inputHidden value="#{pensaoBean.pensao.NUMG_idDoObjeto}"></h:inputHidden>
-					 <div class="ui-grid-row">
-						<div class="col-sm-7 ">
-							<p:outputLabel value="Órgão:"></p:outputLabel>
-							<p:inputText styleClass="form-control" value="#{pensaoBean.funcionais.NUMR_idDoObjetoCargo.NUMR_idDoObjetoOrgaos.DESC_nome}" disabled="true"></p:inputText>
-						</div>
-						
-						<div class="col-sm-5">
+						<div class="col-sm-6">
 							<p:outputLabel value="Ato legal que originou benefício:"></p:outputLabel>
 							<p:selectOneMenu style="width:100%" effect="fade" value="#{pensaoBean.atosLegais}"
 								filterMatchMode="startsWith" converter="conversorDeEntidades" >
@@ -55,7 +79,11 @@
 								<f:selectItems value="#{pensaoBean.listaAtosLegais}" var="atos" itemLabel="#{atos.DESC_tituloEmenta}" itemValue="#{atos}"></f:selectItems>
 							</p:selectOneMenu>
 						</div>
+						
+						
 					 </div>
+					<h:inputHidden value="#{pensaoBean.pensao.NUMG_idDoObjeto}"></h:inputHidden>
+					
 					 <div class="ui-grid-row">
 						<!-- Os tipos de dependências contemplam as regras quanto a periodicidade do beneficio -->
 						<div class="col-sm-4 ">
@@ -304,6 +332,9 @@
 						</div>
 						<div class="col-sm-3">
 							<p:commandButton icon="fa fa-user" value="Representante Legal" onclick="PF('repDialog').show();" ></p:commandButton>
+						</div>
+						<div class="col-lg-3">
+							<p:button icon="fa fa-stethoscope" value="Periciar"></p:button>
 						</div>
 					</div>
 					

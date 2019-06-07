@@ -2066,19 +2066,22 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 		return dataSource;
 	}
 	
+	int diasAfastamento = 0;
 	@SuppressWarnings("static-access")
 	private String devolveTempoLiquidoCargo() {
+		diasAfastamento = 0;
 		List<AfastamentosLicenca> lista = new AfastamentoLicencaDao().devolveListaDeAfastamentosInteresseParticular(this.funcional.getNUMG_idDoObjeto());
 		String res = new String();
-		
-		if(lista.size() == 1) {
-		AfastamentosLicenca al = lista.get(0);
-			res = RetornaTempos.retornaDiaMesAno(this.funcional.getDATA_efetivoExercicio(), new LocalDate().now().minusDays(Days.daysBetween(new LocalDate(al.getDATA_inicioLicenca()), new LocalDate(al.getDATA_fimLicenca())).getDays())
+		if(lista.size() > 0) {
+			
+			lista.forEach(l->{
+				diasAfastamento += Days.daysBetween(new LocalDate(l.getDATA_inicioLicenca()),new LocalDate(l.getDATA_fimLicenca())).getDays();
+			});
+			res = RetornaTempos.retornaDiaMesAno(this.funcional.getDATA_efetivoExercicio(), new LocalDate().now().minusDays(diasAfastamento)
 					.toDate()).toString();
 		}else {
 			res = RetornaTempos.retornaDiaMesAno(this.funcional.getDATA_efetivoExercicio(), new LocalDate().now().toDate()).toString();
 		}
-		System.out.println("Tempo do cargo: "+res);
 		return res;
 	}
 
