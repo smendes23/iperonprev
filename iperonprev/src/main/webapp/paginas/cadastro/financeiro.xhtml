@@ -342,17 +342,7 @@
 										<br />
 									</div>
 								</div>
-								<div class="ui-grid-row">
-									<div class="col-sm-2" style="color: #000">
-									<p:commandButton value="Salvar" icon="fa fa-save"  action="#{financeiroBean.salvaContribuicoes}" update="contribs :formFinanceiro:msgs" process="@this">
-									</p:commandButton>
-								</div>
-								<div class="col-sm-2" style="color: #000">
-									<p:commandButton value="Novo" icon="fa fa-plus">
-										<p:ajax
-											listener="#{funcionalBean.resetaContribuicao()}"/>
-									</p:commandButton>
-								</div>
+								
 								<div class="col-sm-3" style="color: #000">
 									<p:commandButton value="Extrato" icon="fa fa-print"
 										action="#{financeiroBean.geraFichaFinanceira}" immediate="true"

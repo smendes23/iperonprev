@@ -477,10 +477,16 @@ public class FinanceiroBean implements Serializable {
 		this.pf = new GenericPersistence<PessoasFuncionais>(PessoasFuncionais.class).buscarPorId(this.idFuncional);
 		ContribuicaoDto contrib = new ContribuicaoDto();
 		contrib.setDESC_competencia(listaDecontribuicoes.get(event.getRowIndex()).getDESC_competencia());
-
+		
+		System.out.println("Evento: "+event.getColumn().getField());
+		System.out.println(listaDecontribuicoes.get(event.getRowIndex()).getDESC_competencia());
+		
+		
 		switch (event.getColumn().getField()) {
 		case "baseCalculo":
-			
+			Remuneracoes rem = new RemuneracaoDao().devolveRemuneracoesContribuicaoPorCompetencia(this.idFuncional, 7602, listaDecontribuicoes.get(event.getRowIndex()).getDESC_competencia());
+			rem.setVALR_remuneracao((BigDecimal) event.getNewValue());
+			new GenericPersistence<Remuneracoes>(Remuneracoes.class).salvar(rem);
 			contrib.setVALR_contribuicaoPrevidenciaria((BigDecimal) event.getNewValue());
 			contrib = new QualificaCalculoContribuicao().executa(contrib, this.pf.getDATA_efetivoExercicio(),contrib.getVALR_contribuicaoPrevidenciaria(),true);
 			
@@ -624,10 +630,6 @@ public class FinanceiroBean implements Serializable {
 	public void salvaContribuicoes() {
 		try {
 
-			listaDecontribuicoes.forEach(c -> {
-				c.setNUMR_idPessoasFuncionais(this.pf);
-				new GenericPersistence<ContribuicaoDto>(ContribuicaoDto.class).salvar(c);
-			});
 			Message.addSuccessMessage("Contribuicoes salvas com sucesso");
 		} catch (Exception e) {
 			Message.addErrorMessage("Erro ao salvar Contribuições");

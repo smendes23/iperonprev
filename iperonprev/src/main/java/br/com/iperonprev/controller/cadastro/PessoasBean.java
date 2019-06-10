@@ -442,6 +442,7 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	            }else {
 	            	Message.addErrorMessage("Cpf do dependente nulo ou igual ao do servidor!");
 	            }
+	            
 	        }
 	        catch (Exception e) {
 	            Message.addErrorMessage("Erro ao salvar dependentes");
