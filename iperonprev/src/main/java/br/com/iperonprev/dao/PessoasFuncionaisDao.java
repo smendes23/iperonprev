@@ -98,15 +98,24 @@ public class PessoasFuncionaisDao implements GenericDao<PessoasFuncionais>,Seria
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<PessoasFuncionais> devolveListaDeFuncionaisAposentadoPensionista(String cpf)
+	public List<PessoasFuncionais> devolveListaDeFuncionaisAposentadoPensionista(String cpf, int idCenso)
 	  {
 	    List<PessoasFuncionais> lista = new ArrayList<PessoasFuncionais>();
 	    try
 	    {
-	      Query q = getEm().createNativeQuery("select * from PessoasFuncionais pf inner join Pessoas p on p.NUMG_idDoObjeto = pf.NUMR_idDoObjetoPessoas_NUMG_idDoObjeto where p.NUMR_cpf = :cpf and pf.NUMR_situacaoPrevidenciaria_NUMG_idDoObjeto = 2 or p.NUMR_cpf = :cpf and pf.NUMR_situacaoPrevidenciaria_NUMG_idDoObjeto = 4", 
+	      Query q = getEm().createNativeQuery("select pf.* from PessoasFuncionais pf " + 
+	      		"	inner join Pessoas p on p.NUMG_idDoObjeto = pf.NUMR_idDoObjetoPessoas_NUMG_idDoObjeto " + 
+	      		"	where p.NUMR_cpf = :cpf " + 
+	      		"		and pf.NUMR_situacaoPrevidenciaria_NUMG_idDoObjeto = 2 " + 
+	      		"		and pf.NUMG_idDoObjeto not in (Select NUMR_pessoasFuncionais_NUMG_idDoObjeto from CensoPrevidenciario where NUMR_idCenso_NUMG_idDoObjeto = 7) " + 
+	      		"	or " + 
+	      		"	p.NUMR_cpf = :cpf " + 
+	      		"		and pf.NUMR_situacaoPrevidenciaria_NUMG_idDoObjeto = 4 " + 
+	      		"		and pf.NUMG_idDoObjeto not in (Select NUMR_pessoasFuncionais_NUMG_idDoObjeto from CensoPrevidenciario where NUMR_idCenso_NUMG_idDoObjeto = :idCenso)", 
 	      
 	        PessoasFuncionais.class);
 	      q.setParameter("cpf", cpf);
+	      q.setParameter("idCenso", idCenso);
 	      System.out.println(q.getResultList().size());
 	      if (!q.getResultList().isEmpty()) {
 	        lista = q.getResultList();
@@ -114,7 +123,6 @@ public class PessoasFuncionaisDao implements GenericDao<PessoasFuncionais>,Seria
 	    }
 	    catch (Exception e)
 	    {
-	      e.printStackTrace();
 	      System.out.println("Erro ao buscar funcional");
 	    }
 	    return lista;
