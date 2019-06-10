@@ -495,7 +495,7 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 		    res = false;
 		    users = new Users();
 		    listaVidaResidencia = new ArrayList<AtestadosVidaResidencia>();
-		    boolean actionButton = false;
+		    actionButton = false;
 		    listaP = new ArrayList<Pessoas>();
 		    copyFile = new CopyFile();
 		    recadastramentoOnline = false;
@@ -806,7 +806,7 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	            dto.setFLAG_recadastramento(true);
 	            dto.setNUMR_idCenso(censoP.getNUMR_idCenso());
 	            dto.setNUMR_idPessoasFuncionais(censoP.getNUMR_pessoasFuncionais());
-	            System.out.println("Tipo Beneficiário: "+censoP.getTipoBeneficiario());
+	            
 	            dto.setNUMR_tipoBeneficiario(2);
 	            if (censoP.getTipoBeneficiario() == 2) {
 	                dto.setNUMR_tipoBeneficiario(1);
