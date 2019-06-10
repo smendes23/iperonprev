@@ -338,4 +338,26 @@ public class CensoPrevidenciarioDao implements Serializable{
 		return censo;
 	}
 	
+	public boolean existeRecadastramentoFuncionalIdCenso(int idFuncional, int idCenso) {
+		boolean res = false;
+		
+		try {
+			
+				Query q = getEm().createNativeQuery(
+						"select * from CensoPrevidenciario where NUMR_pessoasFuncionais_NUMG_idDoObjeto = :idFuncional and "
+						+ "NUMR_idCenso_NUMG_idDoObjeto = :idCenso",CensoPrevidenciario.class);
+				q.setParameter("idFuncional",idFuncional);
+				q.setParameter("idCenso",idCenso);
+				if(!q.getResultList().isEmpty()){
+					res = true;
+				}
+
+		} catch (Exception e) {
+			System.out.println("Erro ao buscar censo previdenciario. Erro: "+e.getMessage());
+		}finally {
+			getEm().close();
+		}
+		return res;
+	}
+	
 }

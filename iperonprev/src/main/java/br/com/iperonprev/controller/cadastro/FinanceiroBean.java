@@ -478,8 +478,6 @@ public class FinanceiroBean implements Serializable {
 		ContribuicaoDto contrib = new ContribuicaoDto();
 		contrib.setDESC_competencia(listaDecontribuicoes.get(event.getRowIndex()).getDESC_competencia());
 		
-		System.out.println("Evento: "+event.getColumn().getField());
-		System.out.println(listaDecontribuicoes.get(event.getRowIndex()).getDESC_competencia());
 		
 		
 		switch (event.getColumn().getField()) {

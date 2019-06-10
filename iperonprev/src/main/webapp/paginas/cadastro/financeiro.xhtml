@@ -271,7 +271,7 @@
 							 		<div style="text-align: right">
 								            <p:outputLabel value="Ano: "></p:outputLabel>
 								            <p:inputMask mask="9999" value="#{financeiroBean.ano}" id="ano"></p:inputMask>
-								            <p:commandButton value="Enviar" style="margin-left: 5px;" action="#{financeiroBean.processaLista}" process="ano @this" update="contribs"></p:commandButton>
+								            <p:commandButton icon="fa fa-search" value="Pesquisar" style="margin-left: 5px;" action="#{financeiroBean.processaLista}" process="ano @this" update="contribs"></p:commandButton>
 							 		</div>
 							        </f:facet>
 							        <p:ajax event="cellEdit" listener="#{financeiroBean.onCellEdit}" oncomplete="onEdit()" />
@@ -342,7 +342,8 @@
 										<br />
 									</div>
 								</div>
-								
+								<div class="ui-grid-row">
+									
 								<div class="col-sm-3" style="color: #000">
 									<p:commandButton value="Extrato" icon="fa fa-print"
 										action="#{financeiroBean.geraFichaFinanceira}" immediate="true"

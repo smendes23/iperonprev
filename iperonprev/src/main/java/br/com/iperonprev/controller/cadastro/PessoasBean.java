@@ -619,7 +619,15 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	                if (new AtestadoVidaResidenciaDao().verificaExistenciaDeAtesdatos(this.censoPrevidenciario.getNUMG_idDoObjeto())) {
 	                    this.censoPrevidenciario.setFLAG_pendente(false);
 	                }
-	                new GenericPersistence<CensoPrevidenciario>(CensoPrevidenciario.class).salvar(this.censoPrevidenciario);
+	                if(new CensoPrevidenciarioDao().existeRecadastramentoFuncionalIdCenso(idInfucional, this.dadosCenso.getNUMG_idDoObjeto()) == false) {
+	                	new GenericPersistence<CensoPrevidenciario>(CensoPrevidenciario.class).salvar(this.censoPrevidenciario);
+	                	
+	                }else {
+	                  
+	                	CensoPrevidenciario cp = new CensoPrevidenciarioDao().getCensoIdFuncional(idInfucional, this.dadosCenso.getNUMG_idDoObjeto());
+	                	this.censoPrevidenciario.setNUMG_idDoObjeto(cp.getNUMG_idDoObjeto());
+	                	new GenericPersistence<CensoPrevidenciario>(CensoPrevidenciario.class).salvar(this.censoPrevidenciario);
+	                }
 	            } else if (!new PessoasFuncionaisDao().devolveListaDeFuncionaisAposentadoPensionista(this.pessoaRecad.getNUMR_cpf()).isEmpty()) {
 	                listaDeFuncionaisAposentadosPensionistas = new PessoasFuncionaisDao().devolveListaDeFuncionaisAposentadoPensionista(this.pessoaRecad.getNUMR_cpf());
 	                listaDeFuncionaisAposentadosPensionistas.forEach(f -> {
