@@ -484,11 +484,11 @@ public class FinanceiroBean implements Serializable {
 		
 		switch (event.getColumn().getField()) {
 		case "baseCalculo":
+			contrib.setVALR_contribuicaoPrevidenciaria((BigDecimal) event.getNewValue());
+			contrib = new QualificaCalculoContribuicao().executa(contrib, this.pf.getDATA_efetivoExercicio(),contrib.getVALR_contribuicaoPrevidenciaria(),true);
 			Remuneracoes rem = new RemuneracaoDao().devolveRemuneracoesContribuicaoPorCompetencia(this.idFuncional, 7602, listaDecontribuicoes.get(event.getRowIndex()).getDESC_competencia());
 			rem.setVALR_remuneracao((BigDecimal) event.getNewValue());
 			new GenericPersistence<Remuneracoes>(Remuneracoes.class).salvar(rem);
-			contrib.setVALR_contribuicaoPrevidenciaria((BigDecimal) event.getNewValue());
-			contrib = new QualificaCalculoContribuicao().executa(contrib, this.pf.getDATA_efetivoExercicio(),contrib.getVALR_contribuicaoPrevidenciaria(),true);
 			
 			break;
 		case "aliquotaSegurado":
