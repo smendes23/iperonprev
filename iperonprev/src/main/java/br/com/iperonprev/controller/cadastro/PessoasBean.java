@@ -607,6 +607,7 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	            System.out.println("Não possui funcional");
 	        }
 	        try {
+	        	System.out.println("Id Censo: "+this.censoPrevidenciario.getNUMR_idCenso().getNUMG_idDoObjeto());
 	            if (aut.getPrincipal() instanceof Users && !aut.equals(null)) {
 	                this.users = (Users)aut.getPrincipal();
 	            }
@@ -619,18 +620,17 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	                if (new AtestadoVidaResidenciaDao().verificaExistenciaDeAtesdatos(this.censoPrevidenciario.getNUMG_idDoObjeto())) {
 	                    this.censoPrevidenciario.setFLAG_pendente(false);
 	                }
-	                System.out.println("Id Censo: "+this.dadosCenso.getNUMG_idDoObjeto());
-	                if(new CensoPrevidenciarioDao().existeRecadastramentoFuncionalIdCenso(idInfucional, this.dadosCenso.getNUMG_idDoObjeto()) == false) {
+	                if(new CensoPrevidenciarioDao().existeRecadastramentoFuncionalIdCenso(idInfucional, this.censoPrevidenciario.getNUMR_idCenso().getNUMG_idDoObjeto()) == false) {
 	                	new GenericPersistence<CensoPrevidenciario>(CensoPrevidenciario.class).salvar(this.censoPrevidenciario);
 	                	
 	                }else {
 	                  
-	                	CensoPrevidenciario cp = new CensoPrevidenciarioDao().getCensoIdFuncional(idInfucional, this.dadosCenso.getNUMG_idDoObjeto());
+	                	CensoPrevidenciario cp = new CensoPrevidenciarioDao().getCensoIdFuncional(idInfucional, this.censoPrevidenciario.getNUMR_idCenso().getNUMG_idDoObjeto());
 	                	this.censoPrevidenciario.setNUMG_idDoObjeto(cp.getNUMG_idDoObjeto());
 	                	new GenericPersistence<CensoPrevidenciario>(CensoPrevidenciario.class).salvar(this.censoPrevidenciario);
 	                }
-	            } else if (!new PessoasFuncionaisDao().devolveListaDeFuncionaisAposentadoPensionista(this.pessoaRecad.getNUMR_cpf(),this.dadosCenso.getNUMG_idDoObjeto()).isEmpty()) {
-	                listaDeFuncionaisAposentadosPensionistas = new PessoasFuncionaisDao().devolveListaDeFuncionaisAposentadoPensionista(this.pessoaRecad.getNUMR_cpf(),this.dadosCenso.getNUMG_idDoObjeto());
+	            } else if (!new PessoasFuncionaisDao().devolveListaDeFuncionaisAposentadoPensionista(this.pessoaRecad.getNUMR_cpf(),this.censoPrevidenciario.getNUMR_idCenso().getNUMG_idDoObjeto()).isEmpty()) {
+	                listaDeFuncionaisAposentadosPensionistas = new PessoasFuncionaisDao().devolveListaDeFuncionaisAposentadoPensionista(this.pessoaRecad.getNUMR_cpf(),this.censoPrevidenciario.getNUMR_idCenso().getNUMG_idDoObjeto());
 	                listaDeFuncionaisAposentadosPensionistas.forEach(f -> {
 	                    CensoPrevidenciario cp = new CensoPrevidenciario();
 	                    cp.setNUMR_pessoasFuncionais(f);
