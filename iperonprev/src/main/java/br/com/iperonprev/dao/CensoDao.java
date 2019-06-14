@@ -56,11 +56,12 @@ public class CensoDao implements Serializable {
 	@SuppressWarnings("unchecked")
 	public List<DadosCenso> devolveListaCensoPendente(String cpf)
 	  {
+		System.out.println(cpf);
 	    List<DadosCenso> lista = new ArrayList<DadosCenso>();
 	    try
 	    {
 	      Query q = getEm().createNativeQuery(
-	        "select * from DadosCenso where NUMG_idDoObjeto not in  (select dc.NUMG_idDoObjeto from DadosCenso dc \tinner join CensoPrevidenciario cp on dc.NUMG_idDoObjeto = cp.NUMR_idCenso_NUMG_idDoObjeto \tinner join PessoasFuncionais pf on pf.NUMG_idDoObjeto = cp.NUMR_pessoasFuncionais_NUMG_idDoObjeto \tinner join Pessoas p on p.NUMG_idDoObjeto = pf.NUMR_idDoObjetoPessoas_NUMG_idDoObjeto \twhere p.NUMR_cpf = :cpf)", 
+	        "select * from DadosCenso where NUMG_idDoObjeto not in  (select dc.NUMG_idDoObjeto from DadosCenso dc inner join CensoPrevidenciario cp on dc.NUMG_idDoObjeto = cp.NUMR_idCenso_NUMG_idDoObjeto inner join PessoasFuncionais pf on pf.NUMG_idDoObjeto = cp.NUMR_pessoasFuncionais_NUMG_idDoObjeto inner join Pessoas p on p.NUMG_idDoObjeto = pf.NUMR_idDoObjetoPessoas_NUMG_idDoObjeto where p.NUMR_cpf = :cpf)", 
 	        
 	        DadosCenso.class);
 	      q.setParameter("cpf", cpf);

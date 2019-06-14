@@ -579,7 +579,6 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 			crbh.addComponent(j);
 		}
 		
-		System.out.println(count);
 		return crbh;
 	}
 

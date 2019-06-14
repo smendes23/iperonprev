@@ -29,17 +29,17 @@
 								<div class="input-group">
 									<p:inputMask mask="999.999.999-99" styleClass="form-control"
 											converter="cpfConverter"
-											value="#{pessoasBean.pessoa.NUMR_cpf}" id="cpf"></p:inputMask>
+											value="#{pensaoBean.instituidor.NUMR_cpf}" id="cpf"></p:inputMask>
 										<span class="input-group-btn"> <p:commandButton
 												icon="fa fa-caret-right" styleClass="btn-input"
 												process="cpf @this" update="@all"
-												action="#{pessoasBean.buscaServidor()}"></p:commandButton>
+												action="#{pensaoBean.buscarInstituidor()}"></p:commandButton>
 										</span>
 								</div>
 						</div>
 						<div class="col-sm-6">
 							<p:outputLabel value="Nome:"></p:outputLabel>
-							<p:inputText styleClass="form-control" value="#{pensaoBean.funcionais.NUMR_idDoObjetoPessoas.DESC_nome}" disabled="true"></p:inputText>
+							<p:inputText styleClass="form-control" value="#{pensaoBean.instituidor.DESC_nome}" disabled="true"></p:inputText>
 						</div>
 						<div class="col-sm-3">
 							<p:outputLabel value="Matrícula:"></p:outputLabel>

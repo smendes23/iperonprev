@@ -28,6 +28,7 @@ import br.com.iperonprev.constantes.DecisaoEnum;
 import br.com.iperonprev.constantes.TipoBeneficioEnum;
 import br.com.iperonprev.constantes.TipoPensaoEnum;
 import br.com.iperonprev.dao.CheckListDao;
+import br.com.iperonprev.dao.DependentesDao;
 import br.com.iperonprev.dao.GenericPersistence;
 import br.com.iperonprev.dao.PensaoDao;
 import br.com.iperonprev.dao.PessoasDao;
@@ -61,6 +62,7 @@ public class PensaoBean implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	Pensao pensao = new Pensao();
+	Pessoas instituidor = new Pessoas();
 	Dependentes dependentes = new Dependentes();
 	private boolean maioridade;
 	private HtmlInputText atualizacaoDocumento;
@@ -79,6 +81,14 @@ public class PensaoBean implements Serializable{
 	TipoRepresentanteLegal tipoRepresentante = new TipoRepresentanteLegal();
 
 	
+	public Pessoas getInstituidor() {
+		return instituidor;
+	}
+
+	public void setInstituidor(Pessoas instituidor) {
+		this.instituidor = instituidor;
+	}
+
 	public TipoRepresentanteLegal getTipoRepresentante() {
 		return tipoRepresentante;
 	}
@@ -204,6 +214,9 @@ public class PensaoBean implements Serializable{
 			System.out.println("Não existe funcional");
 		}
 	}
+	
+	
+	
 	
 
 	public void salvarObjeto() {
@@ -538,7 +551,7 @@ public class PensaoBean implements Serializable{
 		}
 	}
 	
-	public void buscaServidor(){
+	public void buscarInstituidor(){
 		try {
 			this.pessoaRepresentante = new PessoasDao().devolvePessoa(this.cpfServidor);
 			if(new RepresentanteDao().devolveRepresentanteLegal(this.pessoaRepresentante.getNUMG_idDoObjeto()).isEmpty()){

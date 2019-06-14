@@ -445,7 +445,7 @@
 								<div class="ui-grid-row">
 									<div class="col-lg-7" style="color: #000">
 										<p:outputLabel value="Rúbrica:"></p:outputLabel>
-										<p:selectOneMenu effect="fade" filter="true"
+										<p:selectOneMenu effect="fade" filter="true" required="true" requiredMessage="Competência é obrigatória"
 											filterMatchMode="startsWith" style="width:100%"
 											value="#{funcionalBean.rubrica}"
 											converter="conversorDeEntidades">

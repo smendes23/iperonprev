@@ -488,7 +488,6 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 		    listaM = new ArrayList<Municipios>();
 		    servidorInativo = false;
 		    listaRecadastramento = new ArrayList<CensoPrevidenciario>();
-		    habilitarRecadastramento = false;
 		    dadosCenso = new DadosCenso();
 		    cpDao = new CensoPrevidenciarioDao();
 		    pessoaRecad = new Pessoas();
@@ -550,9 +549,10 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	            this.listaRecadastramento = this.cpDao.devolveListaRecadastramento(this.pessoa.getNUMR_cpf());
 	            this.habilitarRecadastramento = false;
 	            this.habilitaNovoRecadastramento();
-	            if (!this.listaRecadastramento.isEmpty() || !new PessoasFuncionaisDao().devolveListaDeFuncionaisAposentadoPensionista(this.pessoa.getNUMR_cpf(),this.dadosCenso.getNUMG_idDoObjeto()).isEmpty()) {
+	           /* if (!this.listaRecadastramento.isEmpty() || 
+	              !new PessoasFuncionaisDao().devolveListaDeFuncionaisAposentadoPensionista(this.pessoa.getNUMR_cpf(),this.dadosCenso.getNUMG_idDoObjeto()).isEmpty()) {
 	                this.habilitarRecadastramento = true;
-	            }
+	            }*/
 	            this.pessoaRecad = this.pessoa;
 	        }
 	        catch (Exception e) {
@@ -571,11 +571,13 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	    public void habilitaNovoRecadastramento() {
 	        if (!new CensoDao().devolveListaCensoPendente(this.pessoa.getNUMR_cpf()).isEmpty()) {
 	            new org.joda.time.LocalDate();
-	            if (new LocalDate((Object)this.pessoa.getDATA_nascimento()).getMonthOfYear() <= LocalDate.now().getMonthOfYear() || this.verificaRecadastramentoAtrasado()) {
+	            if (new LocalDate(this.pessoa.getDATA_nascimento()).getMonthOfYear() <= LocalDate.now().getMonthOfYear() || this.verificaRecadastramentoAtrasado()) {
 	                this.habilitaNovoBOtao = true;
+	                this.habilitarRecadastramento = true;
 	            }
 	        } else {
 	            this.habilitaNovoBOtao = false;
+	            this.habilitarRecadastramento = false;
 	        }
 	    }
 
@@ -584,7 +586,7 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	        try {
 	            new CensoDao().devolveListaCensoPendente(this.pessoa.getNUMR_cpf()).forEach(c -> {
 	                new org.joda.time.LocalDate();
-	                if (LocalDate.now().getYear() > new LocalDate((Object)c.getDATA_inicio()).getYear()) {
+	                if (LocalDate.now().getYear() > new LocalDate(c.getDATA_inicio()).getYear()) {
 	                    this.res = true;
 	                }
 	            });
@@ -607,7 +609,7 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	            System.out.println("Não possui funcional");
 	        }
 	        try {
-	        	System.out.println("Id Censo: "+this.censoPrevidenciario.getNUMR_idCenso().getNUMG_idDoObjeto());
+	        	
 	            if (aut.getPrincipal() instanceof Users && !aut.equals(null)) {
 	                this.users = (Users)aut.getPrincipal();
 	            }
@@ -620,15 +622,9 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	                if (new AtestadoVidaResidenciaDao().verificaExistenciaDeAtesdatos(this.censoPrevidenciario.getNUMG_idDoObjeto())) {
 	                    this.censoPrevidenciario.setFLAG_pendente(false);
 	                }
-	                if(new CensoPrevidenciarioDao().existeRecadastramentoFuncionalIdCenso(idInfucional, this.censoPrevidenciario.getNUMR_idCenso().getNUMG_idDoObjeto()) == false) {
-	                	new GenericPersistence<CensoPrevidenciario>(CensoPrevidenciario.class).salvar(this.censoPrevidenciario);
-	                	
-	                }else {
-	                  
-	                	CensoPrevidenciario cp = new CensoPrevidenciarioDao().getCensoIdFuncional(idInfucional, this.censoPrevidenciario.getNUMR_idCenso().getNUMG_idDoObjeto());
-	                	this.censoPrevidenciario.setNUMG_idDoObjeto(cp.getNUMG_idDoObjeto());
-	                	new GenericPersistence<CensoPrevidenciario>(CensoPrevidenciario.class).salvar(this.censoPrevidenciario);
-	                }
+	                
+	                new GenericPersistence<CensoPrevidenciario>(CensoPrevidenciario.class).salvar(this.censoPrevidenciario);
+	                
 	            } else if (!new PessoasFuncionaisDao().devolveListaDeFuncionaisAposentadoPensionista(this.pessoaRecad.getNUMR_cpf(),this.censoPrevidenciario.getNUMR_idCenso().getNUMG_idDoObjeto()).isEmpty()) {
 	                listaDeFuncionaisAposentadosPensionistas = new PessoasFuncionaisDao().devolveListaDeFuncionaisAposentadoPensionista(this.pessoaRecad.getNUMR_cpf(),this.censoPrevidenciario.getNUMR_idCenso().getNUMG_idDoObjeto());
 	                listaDeFuncionaisAposentadosPensionistas.forEach(f -> {
