@@ -17,14 +17,12 @@ public class ConcomitanciaDataExoneracaoIgualDataPosse implements TemposConcomit
 			Averbacao av = new GenericPersistence<Averbacao>(Averbacao.class).buscarPorId(a1.getNUMG_idDoObjeto());
 			if(av.getNUMR_pessoasFuncionais().getDATA_efetivoExercicio().compareTo(av.getDATA_demissao()) == 0 ){
 				
-				av.setDATA_inicioConcomitancia(new LocalDate(av.getDATA_demissao()).minusDays(1).toDate());
-				av.setDATA_fimConcomitancia(av.getDATA_demissao());
 				
 				if(av.isFLAG_concomitado() == true && av.getDATA_fimConcomitancia().compareTo(av.getNUMR_pessoasFuncionais().getDATA_efetivoExercicio()) != 0) {
-					 av.setDATA_fimConcomitancia(new LocalDate(av.getDATA_fimConcomitancia())
-								.plusDays(RetornaTempos.retornaDiasApartirDeDuasDatas(av.getNUMR_pessoasFuncionais().getDATA_efetivoExercicio(), av.getDATA_demissao())).toDate());
+					 av.setDATA_fimConcomitancia(new LocalDate(av.getDATA_fimConcomitancia()).plusDays(1).toDate());
 				}else if(av.isFLAG_concomitado() == false) {
-					av.setFLAG_concomitado(true);
+					av.setDATA_inicioConcomitancia(new LocalDate(av.getDATA_demissao()).minusDays(1).toDate());
+					av.setDATA_fimConcomitancia(av.getDATA_demissao());
 				}
 				
 				Averbacao averbacao = new QualificaTempoDeContribuicao().executa(av, av.getNUMR_deducao());

@@ -21,10 +21,11 @@ public class ConcomitanciaDataAdmissao implements TemposConcomitantesDuasAverbac
 			if(a1.getDATA_admissao().compareTo(a2.getDATA_admissao()) < 0 && 
 			          a1.getDATA_demissao().compareTo(a2.getDATA_admissao()) > 0) {
 				System.out.println("Data admissão: "+a1.getDATA_admissao());
+				System.out.println("Data admissão 2: "+a2.getDATA_admissao());
 				System.out.println("****************************************");
 				
 				if(a1.isFLAG_concomitado() == false && a2.isFLAG_concomitado() == false) {
-					
+					System.out.println("Não concomitou: "+a2.getDATA_admissao());
 					if(Days.daysBetween(new LocalDate(a1.getDATA_admissao()), new LocalDate(a1.getDATA_demissao())).getDays() > 
 					Days.daysBetween(new LocalDate(a2.getDATA_admissao()), new LocalDate(a2.getDATA_demissao())).getDays()) {
 						
@@ -47,7 +48,14 @@ public class ConcomitanciaDataAdmissao implements TemposConcomitantesDuasAverbac
 					new GenericPersistence<Averbacao>(Averbacao.class).salvar(averbacao);
 					return true;
 					
-				}else {
+				}/*else {
+					System.out.println("concomitou: "+a1.isFLAG_concomitado()+a2.isFLAG_concomitado());
+					System.out.println(a1.getDATA_inicioConcomitancia());
+					System.out.println(a1.getDATA_fimConcomitancia());
+					System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++");
+					System.out.println(a2.getDATA_admissao());
+					System.out.println(a2.getDATA_demissao());
+					System.out.println("**************************************************");
 					if(Days.daysBetween(new LocalDate(a1.getDATA_admissao()), new LocalDate(a1.getDATA_demissao())).getDays() > 
 					Days.daysBetween(new LocalDate(a2.getDATA_admissao()), new LocalDate(a2.getDATA_demissao())).getDays() && 
 						Days.daysBetween(new LocalDate(a2.getDATA_admissao()), new LocalDate(a2.getDATA_demissao())).getDays() > 
@@ -71,7 +79,7 @@ public class ConcomitanciaDataAdmissao implements TemposConcomitantesDuasAverbac
 					
 					new GenericPersistence<Averbacao>(Averbacao.class).salvar(averbacao);
 					return true;
-				}
+				}*/
 				
 				
 			}
