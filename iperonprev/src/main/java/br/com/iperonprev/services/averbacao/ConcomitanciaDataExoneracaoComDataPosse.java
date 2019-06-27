@@ -23,6 +23,8 @@ public class ConcomitanciaDataExoneracaoComDataPosse implements TemposConcomitan
 					 
 					 av.setDATA_fimConcomitancia(new LocalDate(av.getDATA_fimConcomitancia())
 								.plusDays(RetornaTempos.retornaDiasApartirDeDuasDatas(av.getNUMR_pessoasFuncionais().getDATA_efetivoExercicio(), av.getDATA_demissao())).toDate());
+					 System.out.println("Concomitância: "+ RetornaTempos.retornaDiasApartirDeDuasDatas(av.getDATA_inicioConcomitancia(),av.getDATA_fimConcomitancia()));
+					 System.out.println("Nova: "+RetornaTempos.retornaDiasApartirDeDuasDatas(av.getNUMR_pessoasFuncionais().getDATA_efetivoExercicio(), av.getDATA_demissao()));
 				 }else {
 					 av.setDATA_inicioConcomitancia(av.getNUMR_pessoasFuncionais().getDATA_efetivoExercicio());
 					 av.setDATA_fimConcomitancia(av.getDATA_demissao());

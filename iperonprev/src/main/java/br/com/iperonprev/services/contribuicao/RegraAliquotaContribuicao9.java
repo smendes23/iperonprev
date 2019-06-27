@@ -28,8 +28,9 @@ public class RegraAliquotaContribuicao9 implements CalculaContribuicao{
 					contribuicao.setVALR_contribuicaoPrevidenciaria(contribuicaoPrevidenciaria.divide(new BigDecimal("0.135"),3, RoundingMode.DOWN));
 				}
 				
-				contribuicao.setVALR_contribSegurado(contribuicaoPrevidenciaria.multiply(new BigDecimal(0.135)).setScale(3, BigDecimal.ROUND_DOWN));
-				contribuicao.setVALR_contribPatronal(contribuicaoPrevidenciaria.multiply(new BigDecimal(0.145)).setScale(3, BigDecimal.ROUND_DOWN));
+				contribuicao.setVALR_contribSegurado(contribuicao.getVALR_contribuicaoPrevidenciaria().multiply(new BigDecimal(0.135)).setScale(3, BigDecimal.ROUND_DOWN));
+				contribuicao.setVALR_contribPatronal(contribuicao.getVALR_contribuicaoPrevidenciaria().multiply(new BigDecimal(0.145)).setScale(3, BigDecimal.ROUND_DOWN));
+				
 				return contribuicao;
 			}
 			

@@ -21,11 +21,9 @@ public class App {
 	
 	public static void main(String[] args) throws ParseException {
 		
-		List<ContribuicaoDto> lista =  new RemuneracaoDao().listaRemuneracoesContribuicoes(new GenericPersistence<PessoasFuncionais>(PessoasFuncionais.class).buscarPorId(81851));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
-		lista.forEach(r->{
-			System.out.println(r.getVALR_contribuicaoPrevidenciaria());
-		});
+		System.out.println(Days.daysBetween(new LocalDate(sdf.parse("16/07/2012")), new LocalDate(sdf.parse("16/07/2014"))).getDays());
 
 	}
 	

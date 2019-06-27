@@ -29,10 +29,10 @@
 								<div class="input-group">
 									<p:inputMask mask="999.999.999-99" styleClass="form-control"
 											converter="cpfConverter"
-											value="#{pensaoBean.instituidor.NUMR_cpf}" id="cpf"></p:inputMask>
+											value="#{pensaoBean.cpfServidor}" id="cpf"></p:inputMask>
 										<span class="input-group-btn"> <p:commandButton
 												icon="fa fa-caret-right" styleClass="btn-input"
-												process="cpf @this" update="@all"
+												process="cpf @this" update="@form"
 												action="#{pensaoBean.buscarInstituidor()}"></p:commandButton>
 										</span>
 								</div>
@@ -42,12 +42,8 @@
 							<p:inputText styleClass="form-control" value="#{pensaoBean.instituidor.DESC_nome}" disabled="true"></p:inputText>
 						</div>
 						<div class="col-sm-3">
-							<p:outputLabel value="Matrícula:"></p:outputLabel>
-							<p:selectOneMenu style="width:100%" effect="fade" value="#{pensaoBean.atosLegais}"
-								filterMatchMode="startsWith" converter="conversorDeEntidades" >
-								<f:selectItem itemLabel="--Selecione--" itemValue=""
-									noSelectionOption="true" />
-							</p:selectOneMenu>
+							<p:outputLabel value="Data Óbito:"></p:outputLabel>
+							<p:inputMask mask="99/99/9999" styleClass="form-control" value="#{pensaoBean.instituidor.DATA_obito}" disabled="true"></p:inputMask>
 						</div>
 					</div>
 				</div>
@@ -68,8 +64,15 @@
 								filterMatchMode="startsWith" converter="conversorDeEntidades" >
 								<f:selectItem itemLabel="--Selecione--" itemValue=""
 									noSelectionOption="true" />
+									
 							</p:selectOneMenu>
 						</div>
+						
+						<div class="col-sm-3">
+							<p:outputLabel value="Matrícula:"></p:outputLabel>
+							<p:inputText styleClass="form-control"></p:inputText>
+						</div>
+						
 						<div class="col-sm-6">
 							<p:outputLabel value="Ato legal que originou benefício:"></p:outputLabel>
 							<p:selectOneMenu style="width:100%" effect="fade" value="#{pensaoBean.atosLegais}"

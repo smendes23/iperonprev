@@ -79,8 +79,18 @@ public class PensaoBean implements Serializable{
 	AtosLegais atosLegais = new AtosLegais();
 	RepresentanteLegal representanteLegal = new RepresentanteLegal();
 	TipoRepresentanteLegal tipoRepresentante = new TipoRepresentanteLegal();
+	List<Dependentes> listaDep = new ArrayList<Dependentes>();
+	
 
 	
+	public List<Dependentes> getListaDep() {
+		return listaDep;
+	}
+
+	public void setListaDep(List<Dependentes> listaDep) {
+		this.listaDep = listaDep;
+	}
+
 	public Pessoas getInstituidor() {
 		return instituidor;
 	}
@@ -553,10 +563,15 @@ public class PensaoBean implements Serializable{
 	
 	public void buscarInstituidor(){
 		try {
-			this.pessoaRepresentante = new PessoasDao().devolvePessoa(this.cpfServidor);
+			this.instituidor = new PessoasDao().devolvePessoa(this.cpfServidor);
+			
+			if (new DependentesDao().existeDependente(this.instituidor.getNUMG_idDoObjeto().intValue())) {
+            	this.listaDep = new DependentesDao().listaDependentesPensionistas(this.instituidor.getNUMG_idDoObjeto());
+            }
+			/*this.pessoaRepresentante = new PessoasDao().devolvePessoa(this.cpfServidor);
 			if(new RepresentanteDao().devolveRepresentanteLegal(this.pessoaRepresentante.getNUMG_idDoObjeto()).isEmpty()){
 				this.representanteLegal = new RepresentanteDao().devolveRepresentanteLegal(this.pessoaRepresentante.getNUMG_idDoObjeto()).get(0);
-			}
+			}*/
 		} catch (Exception e) {
 			Message.addErrorMessage("Não foi possível carregar o representante legal.");
 		}
