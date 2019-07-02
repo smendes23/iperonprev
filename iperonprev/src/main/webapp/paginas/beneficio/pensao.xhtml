@@ -60,17 +60,18 @@
 					<div class="ui-grid-row">
 						<div class="col-sm-6">
 							<p:outputLabel value="Beneficiário:"></p:outputLabel>
-							<p:selectOneMenu style="width:100%" effect="fade" value="#{pensaoBean.atosLegais}"
-								filterMatchMode="startsWith" converter="conversorDeEntidades" >
+							<p:selectOneMenu style="width:100%" effect="fade" value="#{pensaoBean.dependente}"
+								filterMatchMode="startsWith" converter="conversorDeEntidades">
+								<p:ajax update="@this"> </p:ajax>
 								<f:selectItem itemLabel="--Selecione--" itemValue=""
 									noSelectionOption="true" />
-									
+								<f:selectItems value="#{pensaoBean.listaDep}" var="dep" itemLabel="#{dep.NUMR_idDoObjetoDependentes.NUMR_cpf} -  #{dep.NUMR_idDoObjetoDependentes.DESC_nome}" itemValue="#{dep.NUMR_idDoObjetoDependentes}"/>
 							</p:selectOneMenu>
 						</div>
 						
 						<div class="col-sm-3">
 							<p:outputLabel value="Matrícula:"></p:outputLabel>
-							<p:inputText styleClass="form-control"></p:inputText>
+							<p:inputText styleClass="form-control" value="#{pensaoBean.funcionalPensionista.DESC_matricula}"></p:inputText>
 						</div>
 						
 						<div class="col-sm-6">
@@ -219,6 +220,32 @@
 								value="#{pensaoBean.pensao.DESC_observacao}" id="observacao"></p:inputTextarea>
 						</div>
 					</div>
+					
+					<div class="ui-grid-row">
+								<p:dataTable  styleClass="col-sm-12" emptyMessage="Registro não encontrado." var="pensionista" value="#{pensaoBean.listaPensao}"  id="tbPensionista">
+									<p:column headerText="Nome">
+										<p:outputLabel value="#{pensionista.REL_pessoasFuncionais.NUMR_idDoObjetoPessoas.DESC_nome}"></p:outputLabel>
+									</p:column>
+									<p:column headerText="CPF" style="width:150px">
+										<p:outputLabel value="#{pensionista.REL_pessoasFuncionais.NUMR_idDoObjetoPessoas.NUMR_cpf}"></p:outputLabel>
+									</p:column>
+									<p:column headerText="Tipo Pensão">
+										<p:outputLabel value="#{pensionista.ENUM_tipoPensao.nome}">
+										</p:outputLabel>
+									</p:column>
+									<p:column headerText="Data Beneficio" >
+										<p:outputLabel value="#{pensionista.DATA_inicioDoBeneficio}">
+											<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Porto_Velho"></f:convertDateTime>
+										</p:outputLabel>
+									</p:column>
+									<p:column headerText="Ação" style="width:95px">
+									<p:commandLink action="#{pensaoBean.carregaPensao(pensionista)}" process="@this" update="@form">
+										<p:graphicImage name="/image/editar.png"></p:graphicImage>
+									</p:commandLink>
+									</p:column>
+								</p:dataTable>
+						</div>
+					
 					<div class="ui-grid-row">
 						<div class="col-sm-12"><p></p></div>
 					</div>

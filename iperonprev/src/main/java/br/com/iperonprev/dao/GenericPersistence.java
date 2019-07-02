@@ -44,6 +44,7 @@ public class GenericPersistence<Obj> implements Serializable {
 			if(em.getTransaction().isActive()){
 				em.getTransaction().rollback();
 			}
+			e.printStackTrace();
 			Message.addErrorMessage("Erro ao salvar dados!");
 		}finally {
 			em.close();

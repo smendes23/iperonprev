@@ -39,16 +39,21 @@ import br.com.iperonprev.models.AtestadosMedicos;
 import br.com.iperonprev.models.AtosLegais;
 import br.com.iperonprev.models.AvaliacaoPensao;
 import br.com.iperonprev.models.Averbacao;
+import br.com.iperonprev.models.Cargos;
 import br.com.iperonprev.models.Cid;
 import br.com.iperonprev.models.Dependentes;
 import br.com.iperonprev.models.DocumentosChecklist;
+import br.com.iperonprev.models.FundoPrevidenciario;
 import br.com.iperonprev.models.Pensao;
 import br.com.iperonprev.models.Pessoas;
 import br.com.iperonprev.models.PessoasFuncionais;
 import br.com.iperonprev.models.RepresentanteLegal;
 import br.com.iperonprev.models.RequisitosBeneficio;
+import br.com.iperonprev.models.SituacaoFuncional;
+import br.com.iperonprev.models.SituacaoPrevidenciaria;
 import br.com.iperonprev.models.TipoRepresentanteLegal;
 import br.com.iperonprev.models.TituloBeneficio;
+import br.com.iperonprev.models.VinculoPrevidenciario;
 import br.com.iperonprev.services.beneficio.QualificaStatus;
 import br.com.iperonprev.util.jsf.CopyFile;
 import br.com.iperonprev.util.jsf.DialogsPrime;
@@ -63,6 +68,7 @@ public class PensaoBean implements Serializable{
 	
 	Pensao pensao = new Pensao();
 	Pessoas instituidor = new Pessoas();
+	Pessoas dependente = new Pessoas();
 	Dependentes dependentes = new Dependentes();
 	private boolean maioridade;
 	private HtmlInputText atualizacaoDocumento;
@@ -80,9 +86,25 @@ public class PensaoBean implements Serializable{
 	RepresentanteLegal representanteLegal = new RepresentanteLegal();
 	TipoRepresentanteLegal tipoRepresentante = new TipoRepresentanteLegal();
 	List<Dependentes> listaDep = new ArrayList<Dependentes>();
-	
+	List<Pensao> listaPensao = new ArrayList<>();
 
 	
+	public List<Pensao> getListaPensao() {
+		return listaPensao;
+	}
+
+	public void setListaPensao(List<Pensao> listaPensao) {
+		this.listaPensao = listaPensao;
+	}
+
+	public Pessoas getDependente() {
+		return dependente;
+	}
+
+	public void setDependente(Pessoas dependente) {
+		this.dependente = dependente;
+	}
+
 	public List<Dependentes> getListaDep() {
 		return listaDep;
 	}
@@ -231,12 +253,30 @@ public class PensaoBean implements Serializable{
 
 	public void salvarObjeto() {
 		try{
-			this.pensao.setREL_pessoasFuncionais(funcionais);
+			
+			/*Funcionais*/
+			
+			System.out.println(this.dependente.getDESC_nome());
+			this.funcionalPensionista.setNUMR_idDoObjetoPessoas(this.dependente);
+			this.funcionalPensionista.setDATA_Beneficio(this.pensao.getDATA_inicioDoBeneficio());
+			this.funcionalPensionista.setDATA_efetivoExercicio(this.pensao.getDATA_inicioDoBeneficio());
+			this.funcionalPensionista.setDATA_posse(this.pensao.getDATA_inicioDoBeneficio());
+			this.funcionalPensionista.setNUMR_fundoPrevidenciario(new GenericPersistence<FundoPrevidenciario>(FundoPrevidenciario.class).buscarPorId(3));
+			this.funcionalPensionista.setNUMR_idDoObjetoCargo(new GenericPersistence<Cargos>(Cargos.class).buscarPorId(4808));
+			this.funcionalPensionista.setNUMR_situacaoFuncional(new GenericPersistence<SituacaoFuncional>(SituacaoFuncional.class).buscarPorId(1));
+			this.funcionalPensionista.setNUMR_situacaoPrevidenciaria(new GenericPersistence<SituacaoPrevidenciaria>(SituacaoPrevidenciaria.class).buscarPorId(4));
+			this.funcionalPensionista.setNUMR_vinculoPrevidenciario(new GenericPersistence<VinculoPrevidenciario>(VinculoPrevidenciario.class).buscarPorId(4));
+//			new GenericPersistence<PessoasFuncionais>(PessoasFuncionais.class).salvar(this.funcionalPensionista);
+			this.pensao.setREL_pessoasFuncionais(this.funcionalPensionista);
+			
 			if(!listaCid.isEmpty()){
 				this.pensao.setNUMR_idDoObjetoCid(listaCid);
 			}
 			this.pensao.setREL_atoLegais(atosLegais);
-			dao.salvaObjeto(this.pensao);
+			new GenericPersistence<Pensao>(Pensao.class).salvar(this.pensao);
+			novoObjeto();
+			carregaListaDePensoes();
+			Message.addSuccessMessage("Pensão salva com sucesso!");
 		}catch(Exception e){
 			e.printStackTrace();
 			Message.addErrorMessage("Erro ao salvar Pensão");
@@ -247,8 +287,14 @@ public class PensaoBean implements Serializable{
 			this.dependentes = new Dependentes();
 			this.funcionalPensionista = new PessoasFuncionais();
 			this.listaCid = new ArrayList<>();
+			this.atosLegais = new AtosLegais();
+			this.dependente = new Pessoas();
 			pensao = new Pensao();
 			parametrosDefault();
+			if(this.instituidor.getNUMG_idDoObjeto() == 0 || this.instituidor.getNUMG_idDoObjeto().equals(null)) {
+				this.listaPensao = new ArrayList<>();
+				
+			}
 	}
 
 	public List<Pensao> listaDeObjetos() {
@@ -563,11 +609,18 @@ public class PensaoBean implements Serializable{
 	
 	public void buscarInstituidor(){
 		try {
-			this.instituidor = new PessoasDao().devolvePessoa(this.cpfServidor);
 			
-			if (new DependentesDao().existeDependente(this.instituidor.getNUMG_idDoObjeto().intValue())) {
-            	this.listaDep = new DependentesDao().listaDependentesPensionistas(this.instituidor.getNUMG_idDoObjeto());
-            }
+			if(new PessoasDao().devolvePessoa(this.cpfServidor).getDATA_obito() != null) {
+				
+				this.instituidor = new PessoasDao().devolvePessoa(this.cpfServidor);
+				
+				if (new DependentesDao().existeDependente(this.instituidor.getNUMG_idDoObjeto())) {
+					this.listaDep = new DependentesDao().listaDependentesPensionistas(this.instituidor.getNUMG_idDoObjeto());
+				}
+				carregaListaDePensoes();
+			}else {
+				Message.addErrorMessage("Servidor está vivo!");
+			}
 			/*this.pessoaRepresentante = new PessoasDao().devolvePessoa(this.cpfServidor);
 			if(new RepresentanteDao().devolveRepresentanteLegal(this.pessoaRepresentante.getNUMG_idDoObjeto()).isEmpty()){
 				this.representanteLegal = new RepresentanteDao().devolveRepresentanteLegal(this.pessoaRepresentante.getNUMG_idDoObjeto()).get(0);
@@ -577,5 +630,25 @@ public class PensaoBean implements Serializable{
 		}
 		
 				
+	}
+	
+	public void carregaPensao(Pensao pensao) {
+		this.pensao = pensao;
+		this.funcionalPensionista = pensao.getREL_pessoasFuncionais();
+		try {
+			this.atosLegais = pensao.getREL_atoLegais();
+		}catch(Exception e) {
+			Message.addErrorMessage("Não foi possível carregar ato legal");
+		}
+		
+		try {
+			this.listaCid = pensao.getNUMR_idDoObjetoCid();
+		}catch(Exception e) {
+			System.out.println("Não foi possivel carregar o CID");
+		}
+	}
+	
+	public void carregaListaDePensoes() {
+		this.listaPensao = new PensaoDao().listaDePensoes(this.instituidor.getNUMR_cpf());
 	}
 }

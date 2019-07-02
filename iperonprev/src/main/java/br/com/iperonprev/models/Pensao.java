@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -31,7 +32,7 @@ public class Pensao implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int NUMG_idDoObjeto;
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	private PessoasFuncionais REL_pessoasFuncionais;
 	private String NUMR_processo;
 	@Enumerated(EnumType.STRING)

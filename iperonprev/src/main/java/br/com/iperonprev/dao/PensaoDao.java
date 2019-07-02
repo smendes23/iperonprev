@@ -1,6 +1,7 @@
 package br.com.iperonprev.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -78,5 +79,25 @@ public class PensaoDao implements GenericDao<Pensao>,Serializable{
 		return res;
 	}
 	
+	public List<Pensao> listaDePensoes(String cpf){
+		List<Pensao> lista = new ArrayList<>();
+		try {
+			Query q  = getEm().createNativeQuery("select * from Pensao pen, PessoasFuncionais pf,Dependentes dep, Pessoas p " + 
+					" where pf.NUMR_idDoObjetoPessoas_NUMG_idDoObjeto = dep.NUMR_idDoObjetoDependentes_NUMG_idDoObjeto " + 
+					"	and " + 
+					"	pen.REL_pessoasFuncionais_NUMG_idDoObjeto = pf.NUMG_idDoObjeto " + 
+					"	and " + 
+					"	p.NUMG_idDoObjeto = dep.NUMR_idDoObjetoPessoas_NUMG_idDoObjeto " + 
+					"	and " + 
+					"	p.NUMR_cpf = :cpf",Pensao.class);
+			q.setParameter("cpf", cpf);
+			if(!q.getResultList().isEmpty()) {
+				lista = q.getResultList();
+			}
+		}catch(Exception e) {
+			System.out.println("Não foi possivel carregar pensões");
+		}
+		return lista;
+	}
 
 }
