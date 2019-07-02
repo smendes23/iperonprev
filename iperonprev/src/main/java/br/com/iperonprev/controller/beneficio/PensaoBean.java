@@ -635,6 +635,7 @@ public class PensaoBean implements Serializable{
 	public void carregaPensao(Pensao pensao) {
 		this.pensao = pensao;
 		this.funcionalPensionista = pensao.getREL_pessoasFuncionais();
+		this.dependente = this.funcionalPensionista.getNUMR_idDoObjetoPessoas();
 		try {
 			this.atosLegais = pensao.getREL_atoLegais();
 		}catch(Exception e) {
