@@ -444,7 +444,7 @@
 								
 									<p:outputLabel value="CPF:*"></p:outputLabel>
 									<div class="input-group">
-										<p:inputMask mask="999.999.999-99" styleClass="form-control" required="true" requiredMessage="CPF obrigatório"
+										<p:inputMask mask="999.999.999-99" styleClass="form-control" 
 											converter="cpfConverter"
 											value="#{pessoasBean.pessoaDependente.NUMR_cpf}" id="cpfDependente"></p:inputMask>
 										<span class="input-group-btn"> <p:commandButton
@@ -456,12 +456,12 @@
 								</div>
 								<div class="col-sm-6" style="color: #000">
 									<p:outputLabel value="Nome:"></p:outputLabel>
-									<p:inputText styleClass="form-control" value="#{pessoasBean.pessoaDependente.DESC_nome}" id="nomeDependente" required="true" requiredMessage="Nome do dependente obrigatório"></p:inputText>
+									<p:inputText styleClass="form-control" value="#{pessoasBean.pessoaDependente.DESC_nome}" id="nomeDependente" ></p:inputText>
 								</div>
 								<div class="col-sm-3" style="color: #000">
 									<p:outputLabel value="Data Nascimento:"></p:outputLabel>
 									<p:inputMask mask="99/99/9999" styleClass="form-control"
-										value="#{pessoasBean.pessoaDependente.DATA_nascimento}" id="nascimentoDependente" required="true" requiredMessage="Data de nascimento do dependente obrigatória"
+										value="#{pessoasBean.pessoaDependente.DATA_nascimento}" id="nascimentoDependente" 
 										converter="dateConverter" />
 								</div>
 								</div>
@@ -471,14 +471,14 @@
 								<div class="col-sm-4" style="color: #000; margin-left: 20px;">
 									<p:outputLabel value="Sexo:*"></p:outputLabel>
 									<p:selectOneRadio styleClass="form-control"
-										value="#{pessoasBean.pessoaDependente.DESC_sexo}" id="sexoDependente" required="true" requiredMessage="Sexo do dependente obrigatório">
+										value="#{pessoasBean.pessoaDependente.DESC_sexo}" id="sexoDependente" >
 										<f:selectItems value="#{pessoasBean.sexoDependenteEnum}" var="sexoDep"
 											itemLabel="#{sexoDep.nome}" itemValue="#{sexoDep}"></f:selectItems>
 									</p:selectOneRadio>
 								</div>
 								<div class="col-sm-8" style="color: #000">
 									<p:outputLabel value="Grau de Parentesco:"></p:outputLabel>
-									<p:selectOneMenu effect="fade" filter="true" id="grauDependente" required="true" requiredMessage="Grau de parentesco obrigatório"
+									<p:selectOneMenu effect="fade" filter="true" id="grauDependente" 
 										converter="conversorDeEntidades" 
 										filterMatchMode="startsWith" style="width:100%"
 										styleClass="selectalt"
