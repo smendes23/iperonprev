@@ -34,6 +34,8 @@ public class Pensao implements Serializable{
 	private int NUMG_idDoObjeto;
 	@OneToOne(cascade=CascadeType.ALL)
 	private PessoasFuncionais REL_pessoasFuncionais;
+	@OneToOne
+	private MotivoFimDependencia NUMR_motivoFimDependencia;
 	private String NUMR_processo;
 	@Enumerated(EnumType.STRING)
 	private DecisaoEnum ENUM_invalido;
@@ -65,6 +67,13 @@ public class Pensao implements Serializable{
 	private StatusBeneficioEnum ENUM_status;
 	@Version
 	private int NUMR_versao;
+	
+	public MotivoFimDependencia getNUMR_motivoFimDependencia() {
+		return NUMR_motivoFimDependencia;
+	}
+	public void setNUMR_motivoFimDependencia(MotivoFimDependencia nUMR_motivoFimDependencia) {
+		NUMR_motivoFimDependencia = nUMR_motivoFimDependencia;
+	}
 	public int getNUMG_idDoObjeto() {
 		return NUMG_idDoObjeto;
 	}

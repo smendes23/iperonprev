@@ -44,6 +44,7 @@ import br.com.iperonprev.models.Cid;
 import br.com.iperonprev.models.Dependentes;
 import br.com.iperonprev.models.DocumentosChecklist;
 import br.com.iperonprev.models.FundoPrevidenciario;
+import br.com.iperonprev.models.MotivoFimDependencia;
 import br.com.iperonprev.models.Pensao;
 import br.com.iperonprev.models.Pessoas;
 import br.com.iperonprev.models.PessoasFuncionais;
@@ -87,8 +88,18 @@ public class PensaoBean implements Serializable{
 	TipoRepresentanteLegal tipoRepresentante = new TipoRepresentanteLegal();
 	List<Dependentes> listaDep = new ArrayList<Dependentes>();
 	List<Pensao> listaPensao = new ArrayList<>();
+	MotivoFimDependencia motivoFim = new MotivoFimDependencia();
+	
 
 	
+	public MotivoFimDependencia getMotivoFim() {
+		return motivoFim;
+	}
+
+	public void setMotivoFim(MotivoFimDependencia motivoFim) {
+		this.motivoFim = motivoFim;
+	}
+
 	public List<Pensao> getListaPensao() {
 		return listaPensao;
 	}
@@ -248,10 +259,18 @@ public class PensaoBean implements Serializable{
 	}
 	
 	
-	
+	public List<MotivoFimDependencia> getListaMotivosFimDependencia() {
+        return new GenericPersistence<MotivoFimDependencia>(MotivoFimDependencia.class).listarTodos("MotivoFimDependencia");
+    }
 	
 
 	public void salvarObjeto() {
+		try {
+			this.pensao.setNUMR_motivoFimDependencia(this.motivoFim);
+		}catch(Exception e) {
+			System.out.println("Não foi possível atribuir motivo fim.");
+		}
+		
 		try{
 			
 			/*Funcionais*/

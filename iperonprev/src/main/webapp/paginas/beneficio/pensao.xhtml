@@ -189,6 +189,20 @@
 								
 							</p:inputMask>
 						</div>
+						<div class="col-sm-4" style="color: #000">
+									<p:outputLabel value="Motivo Fim:"></p:outputLabel>
+									<p:selectOneMenu effect="fade" filter="true" id="motivoFimDependente"
+										converter="conversorDeEntidades" filterMatchMode="startsWith"
+										style="width:100%" styleClass="selectalt"
+										value="#{pensaoBean.motivoFim}">
+										<f:selectItem itemLabel="--Selecione--" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems
+											value="#{pensaoBean.listaMotivosFimDependencia}"
+											var="motivoFim" itemValue="#{motivoFim}"
+											itemLabel="#{motivoFim.DESC_descricao}" />
+									</p:selectOneMenu>
+								</div>
 						<div class="col-sm-3">
 							<p:outputLabel value="Estudante:"></p:outputLabel>
 							<p:selectOneRadio value="#{pensaoBean.pensao.ENUM_estudante}">

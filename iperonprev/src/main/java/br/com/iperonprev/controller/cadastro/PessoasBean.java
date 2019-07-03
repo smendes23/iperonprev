@@ -338,7 +338,10 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	            }
 	        }
 	        catch (Exception e) {
-	            Message.addErrorMessage((String)"Não foi possível carregar os dados pessoais!");
+	        	if(this.pessoa.getNUMG_idDoObjeto() == 0 || this.pessoa.getNUMG_idDoObjeto().equals(null)) {
+	        		novoObjeto();
+	        	}
+	            Message.addErrorMessage("Não foi possível carregar os dados pessoais!");
 	        }
 	    }
 	    

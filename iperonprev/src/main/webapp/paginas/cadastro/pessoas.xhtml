@@ -444,7 +444,7 @@
 								
 									<p:outputLabel value="CPF:*"></p:outputLabel>
 									<div class="input-group">
-										<p:inputMask mask="999.999.999-99" styleClass="form-control"
+										<p:inputMask mask="999.999.999-99" styleClass="form-control" required="true" requiredMessage="CPF obrigatório"
 											converter="cpfConverter"
 											value="#{pessoasBean.pessoaDependente.NUMR_cpf}" id="cpfDependente"></p:inputMask>
 										<span class="input-group-btn"> <p:commandButton
@@ -456,29 +456,29 @@
 								</div>
 								<div class="col-sm-6" style="color: #000">
 									<p:outputLabel value="Nome:"></p:outputLabel>
-									<p:inputText styleClass="form-control" value="#{pessoasBean.pessoaDependente.DESC_nome}" id="nomeDependente"></p:inputText>
+									<p:inputText styleClass="form-control" value="#{pessoasBean.pessoaDependente.DESC_nome}" id="nomeDependente" required="true" requiredMessage="Nome do dependente obrigatório"></p:inputText>
 								</div>
 								<div class="col-sm-3" style="color: #000">
 									<p:outputLabel value="Data Nascimento:"></p:outputLabel>
 									<p:inputMask mask="99/99/9999" styleClass="form-control"
-										value="#{pessoasBean.pessoaDependente.DATA_nascimento}" id="nascimentoDependente"
+										value="#{pessoasBean.pessoaDependente.DATA_nascimento}" id="nascimentoDependente" required="true" requiredMessage="Data de nascimento do dependente obrigatória"
 										converter="dateConverter" />
 								</div>
 								</div>
 								
 								
 								<div class="ui-grid-row">
-								<div class="col-sm-3" style="color: #000; margin-left: 20px;">
+								<div class="col-sm-4" style="color: #000; margin-left: 20px;">
 									<p:outputLabel value="Sexo:*"></p:outputLabel>
 									<p:selectOneRadio styleClass="form-control"
-										value="#{pessoasBean.pessoaDependente.DESC_sexo}" id="sexoDependente">
+										value="#{pessoasBean.pessoaDependente.DESC_sexo}" id="sexoDependente" required="true" requiredMessage="Sexo do dependente obrigatório">
 										<f:selectItems value="#{pessoasBean.sexoDependenteEnum}" var="sexoDep"
 											itemLabel="#{sexoDep.nome}" itemValue="#{sexoDep}"></f:selectItems>
 									</p:selectOneRadio>
 								</div>
-								<div class="col-sm-3" style="color: #000">
+								<div class="col-sm-8" style="color: #000">
 									<p:outputLabel value="Grau de Parentesco:"></p:outputLabel>
-									<p:selectOneMenu effect="fade" filter="true" id="grauDependente"
+									<p:selectOneMenu effect="fade" filter="true" id="grauDependente" required="true" requiredMessage="Grau de parentesco obrigatório"
 										converter="conversorDeEntidades" 
 										filterMatchMode="startsWith" style="width:100%"
 										styleClass="selectalt"
@@ -491,26 +491,7 @@
 											itemLabel="#{parentesco.DESC_nome}" />
 									</p:selectOneMenu>
 								</div>
-								<div class="col-sm-3" style="color: #000">
-									<p:outputLabel value="Motivo Fim:"></p:outputLabel>
-									<p:selectOneMenu effect="fade" filter="true" id="motivoFimDependente"
-										converter="conversorDeEntidades" filterMatchMode="startsWith"
-										style="width:100%" styleClass="selectalt"
-										value="#{pessoasBean.dependente.NUMR_motivoFimDependencia}">
-										<f:selectItem itemLabel="--Selecione--" itemValue=""
-											noSelectionOption="true" />
-										<f:selectItems
-											value="#{pessoasBean.listaMotivosFimDependencia}"
-											var="motivoFim" itemValue="#{motivoFim}"
-											itemLabel="#{motivoFim.DESC_descricao}" />
-									</p:selectOneMenu>
-								</div>
-								<div class="col-sm-3" style="color: #000">
-									<p:outputLabel value="Data Fim:"></p:outputLabel>
-									<p:inputMask mask="99/99/9999" style="width:100%;" id="dataFimDependente"
-										converter="dateConverter" 
-										value="#{pessoasBean.dependente.DATA_fim}" />
-								</div>
+								
 							</div>
 						</div>
 					</h:panelGroup>
@@ -525,8 +506,8 @@
 								<div class="col-sm-2" style="color: #000">
 									<p:commandButton value="Salvar" icon="fa fa-save" disabled="#{pessoasBean.pessoa.NUMG_idDoObjeto eq 0}"
 									>
-										<p:ajax listener="#{pessoasBean.salvarDependente()}" process="cpfDependente nomeDependente nascimentoDependente grauDependente motivoFimDependente dataFimDependente tbDependente @this" 
-										update="cpfDependente nomeDependente nascimentoDependente grauDependente motivoFimDependente dataFimDependente tbDependente msgDependente"></p:ajax>
+										<p:ajax listener="#{pessoasBean.salvarDependente()}" process="cpfDependente nomeDependente nascimentoDependente grauDependente tbDependente @this" 
+										update="cpfDependente nomeDependente nascimentoDependente grauDependente tbDependente msgDependente"></p:ajax>
 									</p:commandButton>
 								</div>
 
