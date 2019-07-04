@@ -1511,7 +1511,7 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
             proventoApurado = valorApurado;
         } else {
             tipoProventos = "Provento Proporcional Apurado";
-            int tempo = RetornaTempos.retornaDiasApartirDeDuasDatas(obj.getDATA_efetivoExercicio(), dataSimulacaoConcessao) + rta.devolveDiasTempoTotalAproveitado() - somaDeducoes;
+            int tempo = (RetornaTempos.retornaDiasApartirDeDuasDatas(obj.getDATA_efetivoExercicio(), dataSimulacaoConcessao) + rta.devolveDiasTempoTotalAproveitado()) - somaDeducoes;
             if (obj.getNUMR_idDoObjetoPessoas().getDESC_sexo() == SexoEnum.F) {
                 if (tempo > 10950) {
                     tempo = 10950;
