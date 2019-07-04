@@ -319,11 +319,7 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	                
 	                this.estadoCivil = this.pessoa.getNUMR_estadoCivil();
 	                
-	                this.endereco = this.pessoa.getNUMR_idDoObjetoEndereco();
-	                this.logradouro = this.endereco.getNUMR_tipoLogradouro();
-	                this.estado =this.endereco.getNUMR_idDoObjetoMunicipio().getNUMR_idDoObjetoEstado();
-	                this.municipio = this.endereco.getNUMR_idDoObjetoMunicipio();
-	                populaMunicipios();
+	               
 	                verificaServidorInativo(this.pessoa);
 	               
 	                if (new DependentesDao().existeDependente(this.pessoa.getNUMG_idDoObjeto().intValue())) {
@@ -338,10 +334,21 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	            }
 	        }
 	        catch (Exception e) {
+	        	
 	        	if(this.pessoa.getNUMG_idDoObjeto() == 0 || this.pessoa.getNUMG_idDoObjeto().equals(null)) {
 	        		novoObjeto();
 	        	}
 	            Message.addErrorMessage("Não foi possível carregar os dados pessoais!");
+	        }
+	        
+	        try {
+	        	 	this.endereco = this.pessoa.getNUMR_idDoObjetoEndereco();
+	                this.logradouro = this.endereco.getNUMR_tipoLogradouro();
+	                this.estado =this.endereco.getNUMR_idDoObjetoMunicipio().getNUMR_idDoObjetoEstado();
+	                this.municipio = this.endereco.getNUMR_idDoObjetoMunicipio();
+	                populaMunicipios();
+	        }catch(Exception e) {
+	        	 System.out.println("Não foi possivel carregar endereço");
 	        }
 	    }
 	    
@@ -413,27 +420,30 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	    }
 
 	    public void salvarDependente() {
+	    	System.out.println("Salvando dependente");
 	        try {
-	            if (pessoaDependente.getNUMG_idDoObjeto() != 0) {
-	            	
-		            Enderecos end = new Enderecos();
-		            end.setDESC_bairro(this.endereco.getDESC_bairro());
-		            end.setDESC_logradouro(this.endereco.getDESC_logradouro());
-		            end.setDESC_numero(this.endereco.getDESC_numero());
-		            end.setNUMR_cep(this.endereco.getNUMR_cep());
-		            end.setNUMR_tipoLogradouro(this.endereco.getNUMR_tipoLogradouro());
-		            end.setNUMR_idDoObjetoMunicipio(this.endereco.getNUMR_idDoObjetoMunicipio());
-		            this.pessoaDependente.setDESC_nacionalidade(this.pessoa.getDESC_nacionalidade());
-		            this.pessoaDependente.setDESC_ufNaturalidade(this.pessoa.getDESC_ufNaturalidade());
-		            this.pessoaDependente.setDESC_naturalidade(this.pessoa.getDESC_naturalidade());
-		            this.pessoaDependente.setNUMR_estadoCivil(this.pessoa.getNUMR_estadoCivil());
-		            this.pessoaDependente.setDESC_pai(this.pessoa.getDESC_pai());
-		            this.pessoaDependente.setDESC_mae(this.pessoa.getDESC_mae());
-		            this.pessoaDependente.setNUMR_pisPasep(this.pessoa.getNUMR_pisPasep());
-		            this.pessoaDependente.setNUMR_instrucao(this.pessoa.getNUMR_instrucao());
-		            this.pessoaDependente.setNUMR_idDoObjetoEndereco(end);
+	            	if(new PessoasDao().verificaExistenciaPessoa(this.pessoaDependente.getNUMR_cpf()) == false
+	            			|| this.pessoaDependente.getNUMG_idDoObjeto() == 0) {
+	            		
+	            		Enderecos end = new Enderecos();
+	            		end.setDESC_bairro(this.endereco.getDESC_bairro());
+	            		end.setDESC_logradouro(this.endereco.getDESC_logradouro());
+	            		end.setDESC_numero(this.endereco.getDESC_numero());
+	            		end.setNUMR_cep(this.endereco.getNUMR_cep());
+	            		end.setNUMR_tipoLogradouro(this.endereco.getNUMR_tipoLogradouro());
+	            		end.setNUMR_idDoObjetoMunicipio(this.endereco.getNUMR_idDoObjetoMunicipio());
+	            		this.pessoaDependente.setNUMR_idDoObjetoEndereco(end);
+	            		this.pessoaDependente.setDESC_nacionalidade(this.pessoa.getDESC_nacionalidade());
+	            		this.pessoaDependente.setDESC_ufNaturalidade(this.pessoa.getDESC_ufNaturalidade());
+	            		this.pessoaDependente.setDESC_naturalidade(this.pessoa.getDESC_naturalidade());
+	            		this.pessoaDependente.setNUMR_estadoCivil(this.pessoa.getNUMR_estadoCivil());
+	            		this.pessoaDependente.setDESC_pai(this.pessoa.getDESC_pai());
+	            		this.pessoaDependente.setDESC_mae(this.pessoa.getDESC_mae());
+	            		this.pessoaDependente.setNUMR_pisPasep(this.pessoa.getNUMR_pisPasep());
+	            		this.pessoaDependente.setNUMR_instrucao(this.pessoa.getNUMR_instrucao());
+	            		new GenericPersistence<Pessoas>(Pessoas.class).salvar(pessoaDependente);
+	            	}
 		            
-	            }
 	            
 	            if(this.salvaDependente(this.pessoa, this.pessoaDependente) == true) {
 	            	this.cpfDependente = new String();
@@ -451,6 +461,8 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	            Message.addErrorMessage("Erro ao salvar dependentes");
 	        }
 	    }
+	    
+	    
 
 	    private boolean salvaDependente(Pessoas pessoa1, Pessoas pessoa2) {
 	    	boolean res = false;
@@ -459,7 +471,7 @@ public class PessoasBean implements Serializable, GenericBean<Pessoas>{
 	        		this.dependente.setNUMR_idDoObjetoPessoas(new PessoasDao().devolvePessoa(pessoa1.getNUMR_cpf()));
 	        		this.dependente.setNUMR_idDoObjetoDependentes(pessoa2);
 	        		new GenericPersistence<Dependentes>(Dependentes.class).salvar(this.dependente);
-	        		Message.addSuccessMessage((String)"Dependente incluido com sucesso!");
+	        		Message.addSuccessMessage("Dependente incluido com sucesso!");
 	        		res = true;
 	        	}
 	        }
