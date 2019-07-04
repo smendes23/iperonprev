@@ -504,9 +504,9 @@
 							</div>
 							<div class="ui-grid-row">
 								<div class="col-sm-2" style="color: #000">
-									<p:commandButton value="Salvar" icon="fa fa-save" disabled="#{pessoasBean.pessoa.NUMG_idDoObjeto eq 0}" action="#{pessoasBean.salvarDependente()}"
+									<p:commandButton value="Salvar" icon="fa fa-save" disabled="#{pessoasBean.pessoa.NUMG_idDoObjeto eq 0}"
 									>
-										<p:ajax process="tabDependente" 
+										<p:ajax process="tabDependente" listener="#{pessoasBean.salvarDependente()}"
 										update="cpfDependente nomeDependente nascimentoDependente grauDependente tbDependente msgDependente"></p:ajax>
 									</p:commandButton>
 								</div>
