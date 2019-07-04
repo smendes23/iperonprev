@@ -11,19 +11,27 @@ import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
 import br.com.iperonprev.controller.dto.ContribuicaoDto;
+import br.com.iperonprev.dao.AfastamentoLicencaDao;
+import br.com.iperonprev.dao.DeducaoDao;
 import br.com.iperonprev.dao.GenericPersistence;
 import br.com.iperonprev.dao.RemuneracaoDao;
 import br.com.iperonprev.helper.ContribuicaoHelper;
+import br.com.iperonprev.models.AfastamentosLicenca;
 import br.com.iperonprev.models.ContribuicoeseAliquotas;
+import br.com.iperonprev.models.Deducao;
 import br.com.iperonprev.models.PessoasFuncionais;
 
 public class App {
-	
+	static int total = 0;
 	public static void main(String[] args) throws ParseException {
+		//72752
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		
-		System.out.println(Days.daysBetween(new LocalDate(sdf.parse("16/07/2012")), new LocalDate(sdf.parse("16/07/2014"))).getDays());
+		List<Deducao> de =  new DeducaoDao().devolveFaltas(72752);
+		de.forEach(d -> {
+			total += Days.daysBetween(new LocalDate(d.getDATA_inicio()),new LocalDate(d.getDATA_fim())).getDays();
+		});
+			
+		System.out.println(total);
 
 	}
 	

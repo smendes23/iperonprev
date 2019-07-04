@@ -1427,6 +1427,7 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 		return field;
 	}
 	
+	int afastamentoInteresseParticular = 0;
 	
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	@SuppressWarnings("unused")
@@ -1462,17 +1463,27 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 		String tipoProventos = null;
 		BigDecimal proventoApurado = BigDecimal.ZERO;
 		
-		int afastamentoInteresseParticular = 0;
-		AfastamentosLicenca al = new AfastamentosLicenca();
+		
 		try {
-			al = new AfastamentoLicencaDao().devolveListaDeAfastamentosInteresseParticular(this.funcional.getNUMG_idDoObjeto()).get(0);
+			afastamentoInteresseParticular = 0;
+			List<AfastamentosLicenca> al =  new AfastamentoLicencaDao().devolveListaDeAfastamentosInteresseParticular(this.funcional.getNUMG_idDoObjeto());
+			al.forEach(a -> {
+				afastamentoInteresseParticular += Days.daysBetween(new LocalDate(a.getDATA_inicioLicenca()),new LocalDate( a.getDATA_fimLicenca())).getDays();
+			});
+			System.out.println("Afastamento: "+afastamentoInteresseParticular);
+			
+			List<Deducao> de =  new DeducaoDao().devolveFaltas(this.funcional.getNUMG_idDoObjeto());
+			de.forEach(d -> {
+				afastamentoInteresseParticular += Days.daysBetween(new LocalDate(d.getDATA_inicio()),new LocalDate(d.getDATA_fim())).getDays();
+			});
+			System.out.println("Faltas: "+afastamentoInteresseParticular);
+			
 		}catch(Exception e) {
 			System.out.println("Erro afastamentos");
 		}
-		afastamentoInteresseParticular = Days.daysBetween(new LocalDate(al.getDATA_inicioLicenca()),new LocalDate( al.getDATA_fimLicenca())).getDays();
 		
 		@SuppressWarnings("static-access")
-		Date dataSimulacaoConcessao = new LocalDate().minusDays(afastamentoInteresseParticular).now().toDate();
+		Date dataSimulacaoConcessao = new Date();
 		List<Averbacao> listaAverbacao = daoAverbacao.listaRelacionamenoDoObjeto("Averbacao", "NUMR_pessoasFuncionais",
 				obj.getNUMG_idDoObjeto());
 
@@ -1481,7 +1492,7 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 		try{
 			
 			if(dataSimulacao != null){
-				dataSimulacaoConcessao = dataSimulacao;
+				dataSimulacaoConcessao = new LocalDate(dataSimulacao).minusDays(afastamentoInteresseParticular).toDate()  ;
 			}
 			
 		}catch(Exception e){
@@ -1496,7 +1507,7 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
         if (StringUtils.containsIgnoreCase(obj.getNUMR_idDoObjetoCargo().getDESC_nome(),"policia")) {
             proporcionalidade = new BigDecimal("100");
             tempoServico = "art. 1º, I LC 144/14";
-            tipoProventos = "Provento Apurado pela Integralidade das M\u00e9dias";
+            tipoProventos = "Provento Apurado pela Integralidade das Médias";
             proventoApurado = valorApurado;
         } else {
             tipoProventos = "Provento Proporcional Apurado";
@@ -1545,7 +1556,7 @@ public class FuncionalBean implements GenericBean<PessoasFuncionais>, Serializab
 					obj.getNUMR_idDoObjetoCargo().getNUMR_idDoObjetoOrgaos().getDESC_nome(), 
 					"Planilha de Cálculo de Proventos",
 					portaria.getDESC_descricao(),
-					sdf.format(dataSimulacaoConcessao),
+					sdf.format(dataSimulacao),
 					String.valueOf(qtdRemuneracao),
 					String.valueOf(qtdOitenta),
 					df.formatterToCurrencyBrazilian(ultimaRemuneracao),
